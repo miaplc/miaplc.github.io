@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manual: build the example projects — MiaPLC</title>
+<meta name="description" content="Step by step in the simulator: motor start / stop with self-holding, traffic light with timers, the relay song.">
+<meta property="og:title" content="Manual: build the example projects — MiaPLC">
+<meta property="og:description" content="Step by step in the simulator: motor start / stop with self-holding, traffic light with timers, the relay song.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/en/guida-esempi.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/guida-esempi.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/guida-esempi.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/guida-esempi.html">
+<link rel="canonical" href="https://www.miaplc.it/en/guida-esempi.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../guida-esempi.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Examples</a><a href="prestazioni.html">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../guida-esempi.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
+<main>
+<section class="hero" style="padding-bottom:10px"><div class="wrap">
+  <div class="sec-h" style="max-width:860px">
+    <span class="kick">Manual</span>
+    <h1>Build the example projects, <span>step by step</span></h1>
+    <p class="lead">Rebuild the website examples from scratch in the simulator: nothing to install and no board needed. By the end you know
+      contacts, coils, parallel branches, timers, symbols, Download and Online. For the real board there is the
+      <a href="guida-hardware.html">hardware manual with MiaConfig</a>.</p>
+  </div>
+</div></section>
+
+<div class="wrap doc">
+<aside>
+  <h4>Motor start / stop</h4>
+  <a href="#prima">Before you start</a>
+  <a href="#p1">1 · New project</a>
+  <a href="#p2">2 · Symbols</a>
+  <a href="#p3">3 · The first contact</a>
+  <a href="#p4">4 · Stop, overload, motor</a>
+  <a href="#p5">5 · Self-holding</a>
+  <a href="#p6">6 · Lamp and alarm</a>
+  <a href="#p7">7 · Download and RUN</a>
+  <a href="#p8">8 · Online and test</a>
+  <a href="#p9">9 · Save</a>
+  <h4>More examples</h4>
+  <a href="#semaforo">Traffic light</a>
+  <a href="#canzoncina">The relay song</a>
+  <h4>Next</h4>
+  <a href="guida-hardware.html">On the real board</a>
+</aside>
+<article>
+
+<h2 id="prima">Before you start</h2>
+<p>We build the first program of every automation course: <b>start / stop of a motor with self-holding</b>.
+Start runs the motor, the motor's own contact keeps it running, Stop or the overload relay stops it. A lamp lights up
+3 seconds after the start and a second lamp shows a tripped overload.</p>
+<table>
+  <tr><th>Address</th><th>Symbol</th><th>What it is</th></tr>
+  <tr><td><code>I0</code></td><td>Start</td><td>start push button (normally open)</td></tr>
+  <tr><td><code>I1</code></td><td>Stop</td><td>stop push button</td></tr>
+  <tr><td><code>I2</code></td><td>Overload</td><td>motor protection</td></tr>
+  <tr><td><code>Q0</code></td><td>Motor</td><td>motor contactor</td></tr>
+  <tr><td><code>Q1</code></td><td>Running_lamp</td><td>motor running</td></tr>
+  <tr><td><code>Q2</code></td><td>Alarm</td><td>overload tripped</td></tr>
+</table>
+<p>All you need is the browser: open the <a href="../provami/editor/index.html?mock" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','en')}catch(e){}">simulator</a> in another tab and keep
+this page next to it. To see the result straight away:
+<a href="../provami/editor/index.html?mock&amp;esempio=motor-start-stop" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','en')}catch(e){}">finished example in the simulator</a>.</p>
+<p class="note">In this example Stop and Overload are normally open contacts: at rest the input is 0, pressed it is 1. That is why the ladder
+uses them with an <b>NC</b> contact, which lets the power flow through when the input is 0. In real plants the stop is wired normally
+closed (a broken wire stops the machine) and in the ladder it becomes an NO contact: see the
+<a href="guida-hardware.html#cablaggio">hardware manual</a>.</p>
+
+<h2 id="p1">1 · New project</h2>
+<p>Press <kbd>🆕 New</kbd>, type the project name and press <kbd>OK</kbd>. The editor creates the <b>Main</b> block with an empty network
+and, from the board's points, the <b>HWDB</b> in the Sys_DB folder.</p>
+<figure class="shot"><img src="../assets/img/guida-01-en.jpg" alt="New project window with the project name" loading="lazy"></figure>
+
+<h2 id="p2">2 · Symbols</h2>
+<p>A symbol is the name of an address: in the ladder you will see <code>"Start"</code> above <code>I0</code>. Press <kbd>🏷 Symbols</kbd>,
+then <kbd>+ Add</kbd> for each row of the table above: operand, name and comment. <kbd>← Back to the ladder</kbd> to go back to the program.</p>
+<figure class="shot"><img src="../assets/img/guida-08-en.jpg" alt="Symbol table with Start, Stop, Overload, Motor, Running and Alarm" loading="lazy">
+  <figcaption>The symbol table. The «Uses» column counts where each address appears: click it for the cross references.</figcaption></figure>
+
+<h2 id="p3">3 · The first contact</h2>
+<p>From <b>Instructions → Contacts</b> drag <b>NO</b> onto the dashed area of the network. The contact appears with a <code>?</code>:
+it has no address yet.</p>
+<figure class="shot"><img src="../assets/img/guida-02-en.jpg" alt="NO contact just dropped into the network, still without an address" loading="lazy"></figure>
+<p>Click the contact: in the <b>Configure contact</b> window choose the area <kbd>I (input)</kbd> and index <code>0</code>, or type
+<code>Start</code> in the Symbol field. <kbd>OK</kbd>.</p>
+<figure class="shot"><img src="../assets/img/guida-03-en.jpg" alt="Configure contact window with area I and index 0" loading="lazy"></figure>
+
+<h2 id="p4">4 · Stop, overload and motor</h2>
+<ol>
+  <li>Drag an <b>NC (negated)</b> contact onto the area right after Start and give it <code>I1</code> (Stop).</li>
+  <li>Another <b>NC</b> after Stop, with <code>I2</code> (Overload).</li>
+  <li>From the <b>Coils</b> section drag a <b>Coil</b> onto the right-hand area, «coil, timer, FC or box», and give it <code>Q0</code> (Motor).</li>
+</ol>
+<figure class="shot"><img src="../assets/img/guida-04-en.jpg" alt="Network with Start, Stop NC, Overload NC and Motor coil" loading="lazy">
+  <figcaption>With network title and comment: click «network title…» and the 💬 bubble to write them.</figcaption></figure>
+<p>Now the motor only runs while you hold Start. It needs self-holding.</p>
+
+<h2 id="p5">5 · Self-holding (parallel branch)</h2>
+<p>The motor contact, in parallel with Start, keeps the motor running when you release the button.</p>
+<ol>
+  <li>Right click on the Start contact → <kbd>⤵ Parallel branch (OR) from here</kbd>.</li>
+</ol>
+<figure class="shot"><img src="../assets/img/guida-05-en.jpg" alt="Right-click menu on Start with the Parallel branch item" loading="lazy"></figure>
+<ol start="2">
+  <li>An open branch appears below Start, with a <code>?</code> placeholder and an arrow.</li>
+  <li>Drag an <b>NO</b> contact onto the <code>?</code> and give it <code>Q0</code> (Motor). With the keyboard: select the <code>?</code> and press <kbd>A</kbd>.</li>
+  <li>Drag the <b>arrow</b> onto the line, right after Start: the branch closes there. Or: right click on the arrow.</li>
+</ol>
+<figure class="shot"><img src="../assets/img/guida-06-en.jpg" alt="Open parallel branch below Start with the placeholder and the arrow" loading="lazy"></figure>
+<figure class="shot"><img src="../assets/img/guida-07-en.jpg" alt="Finished network: Start in parallel with Motor, then Stop and Overload, Motor coil" loading="lazy">
+  <figcaption>Network 1 finished: Start <b>or</b> Motor, <b>and</b> Stop not pressed, <b>and</b> overload not tripped → Motor.</figcaption></figure>
+
+<h2 id="p6">6 · Running lamp and alarm</h2>
+<p>Press <kbd>+ Add network</kbd> below network 1.</p>
+<table>
+  <tr><th>Network</th><th>What to drag</th><th>Addresses</th></tr>
+  <tr><td>2 · «Running» lamp</td><td>NO contact, then a <b>TON</b> from the <b>Timer</b> section, then a coil</td>
+      <td>contact <code>Q0</code>; timer <code>T0</code> with time <code>3s</code>; coil <code>Q1</code></td></tr>
+  <tr><td>3 · Overload alarm</td><td>NO contact and coil</td><td>contact <code>I2</code>; coil <code>Q2</code></td></tr>
+</table>
+<p>The TON (on-delay) closes its output once power has reached it for at least the set time: the lamp lights up
+3 seconds after the motor starts. The other instructions, with pictures, are in the <a href="wiki.html#istruzioni">wiki</a>.</p>
+
+<h2 id="p7">7 · Download and RUN</h2>
+<p>Press <kbd>Download to cpu</kbd>: the editor compiles by itself and shows what it sends. Confirm with <kbd>Download</kbd>, then answer
+<kbd>RUN</kbd> to the next question. If there is an error (a <code>?</code> left, an open branch) the bottom line says which network to fix.</p>
+<figure class="shot"><img src="../assets/img/guida-09-en.jpg" alt="Download window for the full program" loading="lazy"></figure>
+
+<h2 id="p8">8 · Online and test</h2>
+<p>Press <kbd>Online</kbd>: closed contacts and energised coils turn green, the timer shows the time going by.
+In the <b>MOCK PLC</b> box at the bottom right click <code>I0</code> (Start) to press it and again to release it:</p>
+<ul>
+  <li><code>Q0</code> stays on thanks to the self-holding;</li>
+  <li>after 3 s <code>Q1</code> lights up;</li>
+  <li>click <code>I1</code> (Stop) or <code>I2</code> (overload): the motor stops; with <code>I2</code> <code>Q2</code> lights up too.</li>
+</ul>
+<figure class="shot"><img src="../assets/img/guida-10-en.jpg" alt="Editor Online: motor running in self-holding and timer counting" loading="lazy"></figure>
+<p>If you change the program while Online, the changed block leaves Online (<code>≠ PLC</code> appears at the top) until the next Download.</p>
+
+<h2 id="p9">9 · Save</h2>
+<p><kbd>💾 Save</kbd> downloads the project as a <code>.miaplc</code> file: program, symbols and DBs. Open it again with <kbd>📂 Open</kbd>, in the
+simulator or in the board's editor. The editor also keeps a draft in the browser: if you close the page by mistake, it is there when you reopen it.</p>
+
+<h2 id="semaforo">Traffic light</h2>
+<p>Three timers in a chain run the cycle green 5 s, yellow 2 s, red 4 s; with the traffic light off the yellow flashes.
+<a href="../provami/editor/index.html?mock&amp;esempio=traffic-light" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','en')}catch(e){}">Open the finished example</a>.</p>
+<p>Symbols: <code>I0</code> Enable, <code>Q0</code> Green, <code>Q1</code> Yellow, <code>Q2</code> Red. Then six networks:</p>
+<table>
+  <tr><th>Network</th><th>Content</th><th>Why</th></tr>
+  <tr><td>1 · Green time</td><td>NO <code>I0</code> → NC <code>T2</code> → TON <code>T0</code> 5s</td><td>at the end of the red, T2 restarts the whole cycle</td></tr>
+  <tr><td>2 · Yellow time</td><td>NO <code>T0</code> → TON <code>T1</code> 2s</td><td>starts when green is over</td></tr>
+  <tr><td>3 · Red time</td><td>NO <code>T1</code> → TON <code>T2</code> 4s</td><td>starts when yellow is over</td></tr>
+  <tr><td>4 · Green light</td><td>NO <code>I0</code> → NC <code>T0</code> → coil <code>Q0</code></td><td>green until T0 is done</td></tr>
+  <tr><td>5 · Yellow light</td><td>branch 1: NO <code>I0</code>, NO <code>T0</code>, NC <code>T1</code>; branch 2: NC <code>I0</code>, NO <code>SM5</code> → coil <code>Q1</code></td>
+      <td>steady in its phase, flashing at 1 Hz with the traffic light off</td></tr>
+  <tr><td>6 · Red light</td><td>NO <code>I0</code> → NO <code>T1</code> → coil <code>Q2</code></td><td>red from the end of yellow to the end of red</td></tr>
+</table>
+<p>A timer goes into the network like a contact: drag it from the <b>Timer</b> section and click the box to choose its number (T0, T1, T2) and time.
+The contact <code>T0</code> is the output of timer 0. <code>SM5</code> is a system bit that flashes at 1 Hz by itself.</p>
+<figure class="shot"><img src="../assets/img/simulatore-en.jpg" alt="The traffic light Online in the simulator" loading="lazy"></figure>
+
+<h2 id="canzoncina">The relay song</h2>
+<p>An advanced example: a step sequencer that beats a rhythm on <code>Q0</code> and <code>Q1</code>. Rather than rebuilding it from scratch,
+<a href="../provami/editor/index.html?mock&amp;esempio=canzoncina" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','en')}catch(e){}">open it</a> and study it network by network:
+every network has its comment (in Italian).</p>
+<ul>
+  <li><b>Main</b> only calls the function <b>FC10 «Canzoncina»</b>: the real program is there. Click FC10 in the block tree to open it.</li>
+  <li><b>StartUp</b> resets the step after a Download or a RUN, with <b>MOVE</b> boxes.</li>
+  <li><b>DB1 «Merker»</b> holds the working words: step, bar, score.</li>
+  <li>In FC10, self-rearming timers give the time of each part (75, 70 and 95 ms per step); a pulse at every step
+      advances the counter with <b>ADD</b>.</li>
+  <li><b>DIV</b> and <b>MOD</b> compute bar and position; the «score» is a 16-bit word per bar, one bit per step;
+      <b>compares</b> pick the part from the step number.</li>
+  <li>The last two coils switch the relays on for 45 ms at every beat. <code>M30 = 1</code> mutes, <code>I0</code> starts from the top.</li>
+</ul>
+<p class="note">To create an FC: <kbd>+ New function</kbd>; to call it, drag it from the block tree into a network of Main.
+For a DB: <kbd>+ New DB</kbd> and add the fields.</p>
+
+<h2>What next?</h2>
+<p>The same projects run on the real board. The <a href="guida-hardware.html">hardware manual</a> explains how to prepare an ESP32 with
+MiaConfig, wire buttons and LEDs and load the example.</p>
+
+</article>
+</div>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
+    </div>
+    <div><h4>Project</h4><ul>
+      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
+    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
+    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+</div></footer>
+</body>
+</html>

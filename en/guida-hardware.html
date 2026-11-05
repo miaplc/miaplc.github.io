@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manual: the examples' hardware with MiaConfig — MiaPLC</title>
+<meta name="description" content="Prepare an ESP32 firmware with MiaConfig, wire buttons and LEDs and load the examples on the real board.">
+<meta property="og:title" content="Manual: the examples' hardware with MiaConfig — MiaPLC">
+<meta property="og:description" content="Prepare an ESP32 firmware with MiaConfig, wire buttons and LEDs and load the examples on the real board.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/en/guida-hardware.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/guida-hardware.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/guida-hardware.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/guida-hardware.html">
+<link rel="canonical" href="https://www.miaplc.it/en/guida-hardware.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../guida-hardware.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Examples</a><a href="prestazioni.html">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../guida-hardware.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
+<main>
+<section class="hero" style="padding-bottom:10px"><div class="wrap">
+  <div class="sec-h" style="max-width:860px">
+    <span class="kick">Manual</span>
+    <h1>The examples on a real board, <span>with MiaConfig</span></h1>
+    <p class="lead">Prepare the firmware for a cheap ESP32, wire buttons and LEDs on a breadboard and load the same examples as in the
+      simulator. One configuration works for Motor start / stop, Traffic light and the relay song.</p>
+  </div>
+</div></section>
+
+<div class="wrap doc">
+<aside>
+  <h4>Prepare</h4>
+  <a href="#serve">What you need</a>
+  <a href="#h1">1 · Start MiaConfig</a>
+  <a href="#h2">2 · New project</a>
+  <a href="#h3">3 · Inputs</a>
+  <a href="#h4">4 · Outputs</a>
+  <a href="#h5">5 · WiFi</a>
+  <a href="#h6">6 · Check</a>
+  <a href="#h7">7 · Build and load</a>
+  <h4>Connect</h4>
+  <a href="#cablaggio">8 · Wiring</a>
+  <a href="#h9">9 · Open the board's editor</a>
+  <a href="#h10">10 · Load the example</a>
+  <h4>More</h4>
+  <a href="#problemi">If something goes wrong</a>
+  <a href="guida-esempi.html">Building the examples</a>
+</aside>
+<article>
+
+<p class="note">MiaConfig is in Italian for now. In this manual the Italian label comes first, with the English meaning in brackets.</p>
+
+<h2 id="serve">What you need</h2>
+<table>
+  <tr><th>What</th><th>Notes</th></tr>
+  <tr><td>ESP32 DevKit board with the <b>ESP32-WROOM-32E</b> module (or 32D)</td><td>the most common one, a few euros</td></tr>
+  <tr><td>USB <b>data</b> cable</td><td>some cables only charge: with those the PC does not see the board</td></tr>
+  <tr><td>Breadboard and jumper wires</td><td></td></tr>
+  <tr><td>3 push buttons and 3 × 10 kΩ resistors</td><td>Start / Enable, Stop, Overload</td></tr>
+  <tr><td>3 LEDs (green, yellow, red) and 3 × 330 Ω resistors</td><td>Motor / Green, Lamp / Yellow, Alarm / Red</td></tr>
+  <tr><td>Optional: 2-channel relay module with 3.3 V input</td><td>to hear the relay song click</td></tr>
+  <tr><td>Windows, Linux or macOS PC with Python 3.10 or newer</td><td>the first build downloads about 1 GB (ESP-IDF and compilers)</td></tr>
+</table>
+<p>To skip steps 2 to 6, download the ready-made project <a href="../esempi/esp32-devkit-esempi.mia" download>esp32-devkit-esempi.mia</a>
+and open it in MiaConfig with <kbd>Apri progetto</kbd> (open project).</p>
+
+<h2 id="h1">1 · Start MiaConfig</h2>
+<p><!-- da rimettere quando i repo sono pubblici e c'è il pacchetto di MiaConfig: Download MiaConfig from <a href="https://github.com/miaplc" rel="noopener">github.com/miaplc</a> and unpack it into a folder. -->
+<b>MiaConfig downloads will be available soon.</b>
+On Windows double click <code>avvia.bat</code>: the first time it prepares its own Python (internet needed), then opens the window.
+On Linux and macOS follow the README. Nothing is installed in the system: everything stays in its folder.</p>
+
+<h2 id="h2">2 · New project</h2>
+<p>On the <b>Nuovo progetto</b> (new project) page keep <kbd>PLC</kbd>, type a name, choose the family <kbd>ESP32 (classico)</kbd> and the module
+<b>ESP32-WROOM-32E / 32UE</b>. <kbd>Crea</kbd> (create).</p>
+<figure class="shot" style="max-width:480px"><img src="../assets/img/mc-nuovo.jpg" alt="MiaConfig, new project: PLC, ESP32 classic family, WROOM-32E module" loading="lazy"></figure>
+<p>The project already has the serial port for the editor (GPIO 1 and 3), WiFi, digital inputs and outputs. On the left the list of modules,
+in the middle the chip with its pins, on the right the settings of the chosen module.</p>
+
+<h2 id="h3">3 · Digital inputs</h2>
+<p>Click <b>Ingressi digitali</b> (digital inputs) on the left and set <b>Ingressi</b> = <code>3</code>. MiaConfig picks free, suitable pins by itself:
+<code>I0</code> → GPIO34, <code>I1</code> → GPIO35, <code>I2</code> → GPIO36. In the <b>Commento</b> (comment) column write what they are for:
+you will find them in the pinout and in the editor's point table.</p>
+<figure class="shot"><img src="../assets/img/mc-ingressi.jpg" alt="MiaConfig, ESP32 pinout with three digital inputs on GPIO34, 35 and 36" loading="lazy">
+  <figcaption>The PLC inputs are the pins in list order: <code>I0</code> in the ladder is the first one, here GPIO34.</figcaption></figure>
+<p>To change a pin choose another GPIO from the list: unsuitable ones (flash, boot, already used) are flagged.</p>
+
+<h2 id="h4">4 · Digital outputs</h2>
+<p><b>Uscite digitali</b> (digital outputs) → <b>Uscite</b> = <code>3</code>: <code>Q0</code> → GPIO16, <code>Q1</code> → GPIO17, <code>Q2</code> → GPIO18.</p>
+<figure class="shot"><img src="../assets/img/mc-uscite.jpg" alt="MiaConfig, three digital outputs on GPIO16, 17 and 18" loading="lazy"></figure>
+
+<h2 id="h5">5 · WiFi</h2>
+<p>With WiFi the board is an access point: the PC connects straight to it, no router needed. Keep the defaults or change the password.</p>
+<table>
+  <tr><th>Setting</th><th>Default</th></tr>
+  <tr><td>Nome rete (network name)</td><td><code>miaplc-XXXX</code> (the last digits come from the chip)</td></tr>
+  <tr><td>Password</td><td><code>miaplc1234</code></td></tr>
+  <tr><td>PLC IP</td><td><code>10.10.10.1</code></td></tr>
+</table>
+<figure class="shot"><img src="../assets/img/mc-wifi.jpg" alt="MiaConfig, WiFi settings: the PLC access point" loading="lazy"></figure>
+
+<h2 id="h6">6 · Check</h2>
+<p><b>Mappa I/O</b> (I/O map) sums up inputs and outputs with their pins. At the top the counters <b>gravi / avvisi / info</b>
+(errors / warnings / info) must show <b>0 gravi</b>: with an error the firmware does not build, and <b>Controlli</b> (checks) says what to fix.
+<kbd>Salva</kbd> (save) to keep the project (<code>.mia</code>).</p>
+<figure class="shot"><img src="../assets/img/mc-mappa.jpg" alt="MiaConfig, I/O map with three inputs and three outputs" loading="lazy"></figure>
+
+<h2 id="h7">7 · Build and load</h2>
+<p>Connect the board to the PC with the USB cable and open <b>Genera</b> (generate).</p>
+<ol>
+  <li>Press <kbd>↻ Cerca</kbd> (search) and choose the board's port (<code>COMx</code> on Windows, <code>/dev/ttyUSB0</code> on Linux).</li>
+  <li>Press <kbd>Carica</kbd> (load): MiaConfig builds the firmware and writes it to the board. The first time it downloads ESP-IDF, the compilers and the
+      MiaPLC firmware: it takes a while, later only a few minutes.</li>
+</ol>
+<figure class="shot"><img src="../assets/img/mc-genera.jpg" alt="MiaConfig, Genera page with build firmware, port and load" loading="lazy"></figure>
+<p class="note">Loading over USB erases the PLC's program, settings and files: fine on a new board. To update a PLC already in use, pick its
+«rete» (network) entry in the port list: program and settings are kept.<br>
+Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.miaplc.fw</code> package in <code>uscita/</code>, which you load from the editor
+(Connection → Firmware).</p>
+
+<h2 id="cablaggio">8 · Wiring</h2>
+<p><b>Unplug the USB cable before wiring.</b> The ESP32 works at <b>3.3 V</b>: never 5 V on its pins.</p>
+<table>
+  <tr><th>Signal</th><th>Pin</th><th>Connection</th></tr>
+  <tr><td><code>I0</code> Start / Enable</td><td>GPIO34</td><td rowspan="3">button between <b>3V3</b> and the pin; <b>10 kΩ</b> resistor between the pin and <b>GND</b></td></tr>
+  <tr><td><code>I1</code> Stop</td><td>GPIO35</td></tr>
+  <tr><td><code>I2</code> Overload</td><td>GPIO36 (often labelled «VP» or «SVP» on the board)</td></tr>
+  <tr><td><code>Q0</code> Motor / Green</td><td>GPIO16</td><td rowspan="3">pin → <b>330 Ω</b> resistor → LED (long leg) → LED (short leg) → <b>GND</b></td></tr>
+  <tr><td><code>Q1</code> Lamp / Yellow</td><td>GPIO17</td></tr>
+  <tr><td><code>Q2</code> Alarm / Red</td><td>GPIO18</td></tr>
+</table>
+<ul>
+  <li><b>Why the 10 kΩ resistor:</b> GPIO34, 35 and 36 are input-only and have no internal resistor. Without it, with the button open the pin
+      «floats» and the PLC reads random 0s and 1s. With the resistor to GND it reads 0 at rest and 1 when pressed.</li>
+  <li><b>Relays:</b> for the relay song use a relay module with a 3.3 V input on <code>Q0</code> (GPIO16) and <code>Q1</code> (GPIO17), powered as its
+      datasheet says. Never a relay coil straight on a pin. Many modules switch on with the pin at 0 («active low» input): then the relays do the
+      opposite of the LEDs.</li>
+  <li><b>Stop in real plants:</b> here Stop is a normally open button, as in the simulator. On a real machine the stop is wired
+      <b>normally closed</b>, so a broken wire stops the motor, and in the ladder it becomes an NO contact. Remember also that MiaPLC is not a
+      safety device: the real emergency stop goes through safety circuits and components.</li>
+</ul>
+
+<h2 id="h9">9 · Open the board's editor</h2>
+<ol>
+  <li>Plug the USB cable back in (or a USB power supply): the board starts.</li>
+  <li>From the PC connect to the WiFi network <code>miaplc-XXXX</code> with the password <code>miaplc1234</code>.</li>
+  <li>In the browser open <code>http://10.10.10.1</code>: it is the same editor as the simulator, but now it talks to the real board.</li>
+</ol>
+<p>Open <b>🩺 Diagnostics</b> to check everything is fine: PLC status, versions, event log and cycle times.</p>
+<figure class="shot"><img src="../assets/img/diag-en.jpg" alt="PLC diagnostics at Advanced level with RUN status, versions, cycle times and log" loading="lazy"></figure>
+
+<h2 id="h10">10 · Load the example</h2>
+<ol>
+  <li>Download the example file: <a href="../esempi/motor-start-stop.miaplc" download>motor-start-stop</a>,
+      <a href="../esempi/traffic-light.miaplc" download>traffic-light</a> or <a href="../esempi/canzoncina.miaplc" download>canzoncina</a>.
+      Or use the project you built with the <a href="guida-esempi.html">first manual</a> and saved with 💾 Save.</li>
+  <li>In the board's editor: <kbd>📂 Open</kbd> and choose the file.</li>
+  <li><kbd>Download to cpu</kbd>, confirm, then <kbd>RUN</kbd>.</li>
+  <li><kbd>Online</kbd> and test with the real buttons: Start lights the green LED (Q0), after 3 s the yellow one (Q1); Stop switches it off.</li>
+</ol>
+<table>
+  <tr><th>Example</th><th>Inputs used</th><th>Outputs used</th></tr>
+  <tr><td>Motor start / stop</td><td>I0 Start, I1 Stop, I2 Overload</td><td>Q0 Motor, Q1 Lamp, Q2 Alarm</td></tr>
+  <tr><td>Traffic light</td><td>I0 Enable</td><td>Q0 Green, Q1 Yellow, Q2 Red</td></tr>
+  <tr><td>The relay song</td><td>I0 from the top</td><td>Q0 and Q1 (relays)</td></tr>
+</table>
+<p>The program stays in the board's memory: at the next power-up it starts by itself.</p>
+
+<h2 id="problemi">If something goes wrong</h2>
+<table>
+  <tr><th>Problem</th><th>What to check</th></tr>
+  <tr><td>MiaConfig does not see the port</td><td>USB data cable; driver of the board's USB converter (CP210x or CH340); another program keeping the port open</td></tr>
+  <tr><td>Loading does not start</td><td>some boards need the <b>BOOT</b> button held at the start of the load</td></tr>
+  <tr><td>I can't find the <code>miaplc-XXXX</code> network</td><td>is the board powered? After loading press <b>EN</b> (reset) once</td></tr>
+  <tr><td>An input changes by itself</td><td>the 10 kΩ resistor to GND is missing</td></tr>
+  <tr><td>An LED does not light up</td><td>LED the wrong way round (long leg towards the pin) or missing resistor; Online, check whether the coil is green</td></tr>
+  <tr><td>Download says «not connected to any GPIO»</td><td>the program uses an input or output you did not create in MiaConfig: raise the count and load the firmware again</td></tr>
+</table>
+<p>Other questions: <a href="mailto:info@miaplc.it">info@miaplc.it</a>.</p>
+
+</article>
+</div>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
+    </div>
+    <div><h4>Project</h4><ul>
+      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
+    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
+    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+</div></footer>
+</body>
+</html>

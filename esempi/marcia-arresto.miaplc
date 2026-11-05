@@ -1,0 +1,214 @@
+{
+ "format": "espplc-project",
+ "version": 2,
+ "saved": "2026-11-04T10:00:00.000Z",
+ "origin": "editor",
+ "project": {
+  "format": "espplc-ir",
+  "version": 3,
+  "uid": "e5a0marciaarr001",
+  "name": "Marcia e arresto motore",
+  "blocks": [
+   {
+    "id": "main",
+    "type": "main",
+    "number": 0,
+    "name": "Main",
+    "segments": [
+     {
+      "id": 1,
+      "order": 0,
+      "language": "LD",
+      "title": "Marcia / arresto con autoritenuta",
+      "comment": "Start (I0) avvia il motore, il contatto Q0 in parallelo lo tiene acceso. Stop (I1) o il termico (I2) lo fermano.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Parallel",
+           "branches": [
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "I",
+                "idx": 0
+               }
+              }
+             ]
+            },
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "Q",
+                "idx": 0
+               }
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "I",
+            "idx": 1
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "I",
+            "idx": 2
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 0
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 2,
+      "order": 1,
+      "language": "LD",
+      "title": "Spia «a regime»",
+      "comment": "La spia Q1 si accende 3 secondi dopo la partenza del motore (timer TON).",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "Q",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 0
+           },
+           "pt": 3000
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 3,
+      "order": 2,
+      "language": "LD",
+      "title": "Allarme termico",
+      "comment": "Se scatta il termico (I2) si accende la spia di allarme Q2.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 2
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 2
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "dbs": []
+ },
+ "symbols": {
+  "I0": {
+   "name": "Start",
+   "comment": "pulsante di marcia"
+  },
+  "I1": {
+   "name": "Stop",
+   "comment": "pulsante di arresto"
+  },
+  "I2": {
+   "name": "Termico",
+   "comment": "protezione del motore"
+  },
+  "Q0": {
+   "name": "Motore",
+   "comment": "contattore del motore"
+  },
+  "Q1": {
+   "name": "Spia_regime",
+   "comment": "motore a regime"
+  },
+  "Q2": {
+   "name": "Allarme",
+   "comment": "termico scattato"
+  }
+ }
+}

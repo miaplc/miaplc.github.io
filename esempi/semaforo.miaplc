@@ -1,0 +1,331 @@
+{
+ "format": "espplc-project",
+ "version": 2,
+ "saved": "2026-11-04T10:00:00.000Z",
+ "origin": "editor",
+ "project": {
+  "format": "espplc-ir",
+  "version": 3,
+  "uid": "e5a0semaforo0001",
+  "name": "Semaforo",
+  "blocks": [
+   {
+    "id": "main",
+    "type": "main",
+    "number": 0,
+    "name": "Main",
+    "segments": [
+     {
+      "id": 1,
+      "order": 0,
+      "language": "LD",
+      "title": "Tempo del verde",
+      "comment": "Con il semaforo abilitato (I0) il verde dura 5 s. Alla fine del ciclo T2 riavvia tutto.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "T",
+            "idx": 2
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 0
+           },
+           "pt": 5000
+          }
+         ]
+        },
+        "outputs": []
+       }
+      ]
+     },
+     {
+      "id": 2,
+      "order": 1,
+      "language": "LD",
+      "title": "Tempo del giallo",
+      "comment": "Finito il verde, il giallo dura 2 s.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "T",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 1
+           },
+           "pt": 2000
+          }
+         ]
+        },
+        "outputs": []
+       }
+      ]
+     },
+     {
+      "id": 3,
+      "order": 2,
+      "language": "LD",
+      "title": "Tempo del rosso",
+      "comment": "Finito il giallo, il rosso dura 4 s.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "T",
+            "idx": 1
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 2
+           },
+           "pt": 4000
+          }
+         ]
+        },
+        "outputs": []
+       }
+      ]
+     },
+     {
+      "id": 4,
+      "order": 3,
+      "language": "LD",
+      "title": "Luce verde",
+      "comment": "",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "T",
+            "idx": 0
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 0
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 5,
+      "order": 4,
+      "language": "LD",
+      "title": "Luce gialla",
+      "comment": "Fissa nella sua fase; lampeggiante a 1 Hz (bit di sistema SM5) con il semaforo spento.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Parallel",
+           "branches": [
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "I",
+                "idx": 0
+               }
+              },
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "T",
+                "idx": 0
+               }
+              },
+              {
+               "type": "Contact",
+               "negated": true,
+               "op": {
+                "ns": "T",
+                "idx": 1
+               }
+              }
+             ]
+            },
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": true,
+               "op": {
+                "ns": "I",
+                "idx": 0
+               }
+              },
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "SM",
+                "idx": 5
+               }
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 6,
+      "order": 5,
+      "language": "LD",
+      "title": "Luce rossa",
+      "comment": "",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "T",
+            "idx": 1
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 2
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "dbs": []
+ },
+ "symbols": {
+  "I0": {
+   "name": "Abilita",
+   "comment": "semaforo in funzione"
+  },
+  "Q0": {
+   "name": "Verde",
+   "comment": ""
+  },
+  "Q1": {
+   "name": "Giallo",
+   "comment": ""
+  },
+  "Q2": {
+   "name": "Rosso",
+   "comment": ""
+  }
+ }
+}

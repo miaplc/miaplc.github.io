@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MiaPLC — a real PLC, within everyone's reach</title>
+<meta name="description" content="MiaPLC: an ESP32-based PLC programmed in ladder from a web editor, with Online view, diagnostics, data blocks and functions. For schools, students and makers.">
+<meta property="og:title" content="MiaPLC — a real PLC, within everyone's reach">
+<meta property="og:description" content="MiaPLC: an ESP32-based PLC programmed in ladder from a web editor, with Online view, diagnostics, data blocks and functions. For schools, students and makers.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/en/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/">
+<link rel="canonical" href="https://www.miaplc.it/en/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://www.miaplc.it/#org", "name": "MiaPLC", "url": "https://www.miaplc.it/", "logo": "https://www.miaplc.it/assets/img/logo-512.png", "email": "info@miaplc.it", "sameAs": ["https://www.instagram.com/miaplc", "https://www.youtube.com/@MIAplc-eu", "https://www.tiktok.com/@miaplc.eu", "https://github.com/miaplc"]}, {"@type": "WebSite", "@id": "https://www.miaplc.it/#web", "url": "https://www.miaplc.it/", "name": "MiaPLC", "inLanguage": ["it", "en"], "publisher": {"@id": "https://www.miaplc.it/#org"}}, {"@type": "SoftwareApplication", "name": "MiaPLC", "url": "https://www.miaplc.it/en/", "applicationCategory": "DeveloperApplication", "operatingSystem": "ESP32, web browser", "description": "PLC on ESP32 programmed in ladder from a web editor, with a simulator, diagnostics, DBs and functions. Free software (GPL-3.0) for schools, students and makers.", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "publisher": {"@id": "https://www.miaplc.it/#org"}}]}</script>
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html" class="on">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html">Examples</a><a href="prestazioni.html">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../index.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
+<main>
+<section class="hero"><div class="wrap grid">
+  <div>
+    <span class="kick">PLC · ESP32 · Web editor</span>
+    <h1>A real PLC,<br><span>within everyone's reach.</span></h1>
+    <p class="lead">MiaPLC is an ESP32-based PLC programmed in ladder from an editor in your browser,
+      with networks, functions, data blocks, Online view and diagnostics, just like on the factory floor.
+      For a few euros you get a real board on your bench and start learning industrial automation.</p>
+    <div class="btns">
+      <a class="btn pri" href="provami.html">▶ Try it in your browser</a>
+      <a class="btn" href="#perche">Why it exists</a>
+    </div>
+  </div>
+  <img class="logo" src="../assets/img/logo-512.png" alt="MiaPLC logo">
+</div></section>
+
+<section id="perche"><div class="wrap story">
+  <div>
+    <span class="tag-l">Why MiaPLC</span>
+    <h2>When I was at school, a PLC was a mirage.</h2>
+    <p>It cost too much to put one in every student's hands: labs had a few, always the same ones,
+      and we looked at them more than we used them. If you wanted to practise at home, you simply couldn't.</p>
+    <p>Today a microcontroller costing a few euros has power that was unthinkable back then, and modern tools,
+      artificial intelligence included, let a single person build something that truly gets close to the industrial world.</p>
+    <p>I spent my time building this version of a PLC: very similar to the ones you find in real plants,
+      but made on cheap, open hardware.</p>
+  </div>
+  <div>
+    <blockquote>“MiaPLC is not only about cutting costs for schools. It's about starting a path: the concepts you learn here
+      are the same ones you'll find in the development environments of the big automation brands.
+      And in the meantime you can use it for a serious hobby project.”
+      <div class="mut" style="margin-top:12px;font-size:.95rem">— Denys, PLC &amp; Automation Engineer</div></blockquote>
+    <ul class="feat" style="grid-template-columns:1fr">
+      <li>One board per student, not one per lab</li>
+      <li>Programmed from the browser: no licences, nothing to install on school PCs</li>
+      <li>The same ideas as industry: scan cycle, networks, FCs, DBs, Online</li>
+      <li>Free software (GPL-3.0): you can study how it works inside, too</li>
+    </ul>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">What it does</span>
+    <h2>A complete PLC inside an ESP32</h2>
+    <p class="mut">The firmware runs your program in a bytecode virtual machine, scan after scan.
+      The editor is served by the PLC itself: open it in the browser and start programming.</p></div>
+  <div class="cards c3">
+    <div class="card"><div class="ic">🪜</div><h3>Ladder like in the factory</h3>
+      <p>Networks with title and comment, contacts, coils, SET/RESET, edges, comparisons, math and conversion boxes.</p></div>
+    <div class="card"><div class="ic">🌐</div><h3>Editor in the browser</h3>
+      <p>Nothing to install: the editor runs on the PLC. Compile, Download, Run, the way you're used to.</p></div>
+    <div class="card"><div class="ic">🟢</div><h3>Online and diagnostics</h3>
+      <p>Watch power flow through contacts, timers counting, DB values changing. Event log, scan times, RAM.</p></div>
+    <div class="card"><div class="ic">🧩</div><h3>Structured blocks</h3>
+      <p>Main, StartUp, functions (FC) with an interface, retentive DBs, structures, arrays. FCs in ST and C too.</p></div>
+    <div class="card"><div class="ic">⏱️</div><h3>Timers, counters, numbers</h3>
+      <p>TON, TOF, TP, CTU, CTD, CTUD; types from BOOL to REAL and TIME; linear scaling for analog values.</p></div>
+    <div class="card"><div class="ic">🔌</div><h3>Communication</h3>
+      <p>Ethernet and WiFi, Modbus TCP, µLink remote I/O modules, touch HMI panel.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">The editor</span><h2>Program in ladder, watch it work live</h2>
+    <p class="mut">Motor start/stop with self-holding, in Online view: closed contacts and energised coils turn green.</p></div>
+  <figure class="shot" style="margin:0"><img src="../assets/img/editor-online-en.jpg" alt="MiaPLC editor in Online view with a motor start/stop ladder program" loading="lazy">
+    <figcaption>MiaPLC editor, Online view: Start, Stop, overload, self-holding and a “running” timer.</figcaption></figure>
+  <ul class="feat">
+    <li>Symbol table and cross-references</li><li>System bits: first scan, 1/2/10 Hz clocks</li>
+    <li>Multilingual interface</li><li>Firmware update from the editor or over USB</li>
+    <li>RAM and scan time analysis</li><li>PLC backup and restore</li>
+  </ul>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">The other tools</span><h2>Diagnostics, configurator and panel</h2>
+    <p class="mut">Everything you need besides the ladder, with the same idea: simple to start, complete when you need it.</p></div>
+  <div class="gallery">
+    <figure class="shot"><img src="../assets/img/diag-en.jpg" alt="Diagnostics" loading="lazy"><figcaption><b>Diagnostics</b> · PLC status, versions, cycle times, event log. Basic, Advanced and Debug levels.</figcaption></figure>
+    <figure class="shot"><img src="../assets/img/mc-ingressi.jpg" alt="MiaConfig" loading="lazy"><figcaption><b>MiaConfig</b> · Draw the board pin by pin and it builds and loads the firmware.</figcaption></figure>
+    <figure class="shot"><img src="../assets/img/hmi-editor.jpg" alt="HMI editor" loading="lazy"><figcaption><b>HMI editor</b> · Operator panel pages with lamps, buttons, values, alarms and charts.</figcaption></figure>
+  </div>
+  <p style="margin-top:22px"><a class="btn" href="guida-esempi.html">📘 Manual: build the examples</a> <a class="btn" href="guida-hardware.html">🔧 Manual: hardware with MiaConfig</a></p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">Who it's for</span><h2>From the school bench to the garage project</h2></div>
+  <div class="cards">
+    <div class="card"><div class="ic">🏫</div><h3>Schools and technical institutes</h3>
+      <p>Automation labs with one board per student, no software licences, and a cost that pays for itself straight away.</p></div>
+    <div class="card"><div class="ic">🎓</div><h3>Students and self-learners</h3>
+      <p>Practise at home with the same concepts you'll use at work. And with the simulator, even without a board.</p></div>
+    <div class="card"><div class="ic">🛠️</div><h3>Makers and hobbyists</h3>
+      <p>Gates, greenhouses, aquariums, home systems, test benches: proper relay logic instead of a makeshift sketch.</p></div>
+    <div class="card"><div class="ic">⚙️</div><h3>Technicians and prototypes</h3>
+      <p>Quick tests, small automations, in-company training. For safety functions, use a safety PLC.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">The family</span><h2>Four pieces working together</h2></div>
+  <div class="family">
+    <div class="card"><b>MiaPlc</b><h3 style="margin-top:8px">Firmware and editor</h3>
+      <p>The PLC virtual machine, the scan cycle, the modules (network, clock, I/O) and the web editor.</p></div>
+    <div class="card"><b>MiaConfig</b><h3 style="margin-top:8px">Configurator</h3>
+      <p>Draw your board (inputs, outputs, Ethernet, clock) and it builds the firmware. Windows, Linux, macOS.</p></div>
+    <div class="card"><b>µLink</b><h3 style="margin-top:8px">Remote I/O</h3>
+      <p>A wired-Ethernet bus for I/O modules: other ESP32 boards or even an Arduino Uno with a W5100/W5500 shield.</p></div>
+    <div class="card"><b>MiaHmi</b><h3 style="margin-top:8px">Operator panel</h3>
+      <p>A 10.1" touch panel on ESP32-P4 that reads and writes PLC data.</p></div>
+  </div>
+  <h3 style="margin-top:40px">Reference boards</h3>
+  <table class="cmp">
+    <tr><th>Chip</th><th>Example</th><th>Notes</th></tr>
+    <tr><td>ESP32</td><td>Olimex ESP32-EVB</td><td>on-board Ethernet, relays, optional DS3231 clock</td></tr>
+    <tr><td>ESP32-C3</td><td>small modules + W5100 / W5500</td><td>the cheapest option, also as a µLink I/O module</td></tr>
+    <tr><td>ESP32-S3</td><td>ESP32-S3-DevKitC-1</td><td>more memory for large programs</td></tr>
+    <tr><td>ESP32-P4</td><td>boards with Ethernet</td><td>the most powerful; also the base of the HMI panel</td></tr>
+  </table>
+</div></section>
+
+<section id="prossimi-passi"><div class="wrap">
+  <div class="sec-h"><span class="tag">Next steps</span><h2>Where MiaPLC is heading</h2>
+    <p class="mut">The project moves forward one step at a time. Tests are done within the limits of what I can buy and design,
+      so the timing is not a promise: this is the road, and the last points are dreams for now.</p></div>
+  <ol class="road">
+    <li class="now"><span class="st">in progress</span><h3>The first official board</h3>
+      <p>The first PLC designed specifically for MiaPLC, using Espressif modules already certified for the radio part.</p></li>
+    <li class="part"><span class="st">partly done</span><h3>Testing every chip in the configurator</h3>
+      <p>MiaConfig already lists many chips and boards. Some are tested because they're on my bench; the others have to be bought and tested one by one.</p></li>
+    <li><span class="st">planned</span><h3>Basic µLink modules</h3>
+      <p>I/O modules based on the P4 and KSZ multiport switches, with protection against downstream wiring mistakes
+        and connectors designed to plug easily into boards designed by users themselves.</p></li>
+    <li><span class="st">planned</span><h3>Physical tests with 50, 100 and 500 boards</h3>
+      <p>The simulator and tests with a few modules say a lot, but the bus has to be tested for real, at ever larger numbers.</p></li>
+    <li class="dream"><span class="st">being evaluated</span><h3>Beyond the P4: more powerful chips</h3>
+      <p>I'm evaluating the Allwinner T113 and T156 processors. For powerful chips the question mark is always the same:
+        cost and bringing up the DDR memory.</p></li>
+    <li><span class="st">planned</span><h3>Cybersecurity and EU rules</h3>
+      <p>Before certification, the firmware has to meet the cybersecurity rules: requirements of the RED directive
+        (EN 18031 standard), the Cyber Resilience Act, mandatory passwords never left at factory defaults, protected critical commands (RUN/STOP, Download, forcing),
+        signed updates and a process to report and fix vulnerabilities.</p></li>
+    <li class="dream"><span class="st">the dream</span><h3>Boards certified for industry</h3>
+      <p>Getting the boards certified and ready for integration in industrial plants, on the more powerful platforms (T156, Zynq and the like).</p></li>
+  </ol>
+  <p class="small mut">Want to help with tests, hardware or ideas? <a href="#contatti">Write to me</a>.</p>
+</div></section>
+
+<section id="sostieni" class="alt"><div class="wrap">
+  <div class="cta-band support">
+    <span class="tag-l" style="text-align:center">Support the project</span>
+    <h2>Donations go to the MiaPLC project</h2>
+    <p>MiaPLC is an open source project by <b>Denys</b>, developed in his spare time and unpaid.
+      Donations help it grow and reach schools. Or, if you prefer, you can buy me a coffee.</p>
+    <div class="btns"><a class="btn pri" href="sostieni.html">♥ Support the project</a>
+      <a class="btn" href="sostieni.html">☕ Buy me a coffee</a></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="cta-band">
+    <h2>Try it now, no board needed</h2>
+    <p>The editor runs in your browser with a simulated PLC: load an example, press Download and Run, switch the inputs on and watch the ladder work.</p>
+    <div class="btns"><a class="btn pri" href="provami.html">▶ Open the simulator</a><a class="btn" href="esempi.html">See the examples</a></div>
+  </div>
+</div></section>
+
+<section id="contatti"><div class="wrap story">
+  <div>
+    <span class="tag-l">Contact</span>
+    <h2>Let's talk</h2>
+    <p>Are you a teacher who'd like to try MiaPLC in the lab? Do you have a project and want to know if it fits?
+      Want to help out, report a problem or suggest an idea? Write to me.</p>
+    <div class="btns"><a class="btn pri" href="mailto:info@miaplc.it">✉ info@miaplc.it</a>
+      <a class="btn" href="https://github.com/miaplc" rel="noopener">GitHub</a>
+      <a class="btn" href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a>
+      <a class="btn" href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a>
+      <a class="btn" href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></div>
+  </div>
+  <div class="cards" style="grid-template-columns:1fr">
+    <div class="card"><h3>Schools</h3><p>Available for teaching pilots and to help prepare exercises that match the course syllabus.</p></div>
+    <div class="card"><h3>Source code</h3><p>Firmware, editor and configurator are free software (GPL-3.0), under the <a href="https://github.com/miaplc" rel="noopener">miaplc</a> organisation on GitHub.
+      Current status: <strong>private repositories, release in progress</strong>. Downloads will be available soon.</p></div>
+  </div>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
+    </div>
+    <div><h4>Project</h4><ul>
+      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
+    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
+    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+</div></footer>
+</body>
+</html>

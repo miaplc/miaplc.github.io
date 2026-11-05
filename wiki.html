@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wiki — MiaPLC</title>
+<meta name="description" content="Guida di MiaPLC: primi passi, aree di memoria, istruzioni ladder, Online, µLink, HMI e domande frequenti.">
+<meta property="og:title" content="Wiki — MiaPLC">
+<meta property="og:description" content="Guida di MiaPLC: primi passi, aree di memoria, istruzioni ladder, Online, µLink, HMI e domande frequenti.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/wiki.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/wiki.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/wiki.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/wiki.html">
+<link rel="canonical" href="https://www.miaplc.it/wiki.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/wiki.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html" class="on">Wiki</a><a href="esempi.html">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/wiki.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
+<main>
+<div class="wrap doc">
+<aside>
+  <h4>Iniziare</h4>
+  <a href="#intro">Cos'è MiaPLC</a>
+  <a href="#primi-passi">Primi passi</a>
+  <a href="#simulatore">Il simulatore</a>
+  <h4>Programmare</h4>
+  <a href="#scansione">Il ciclo di scansione</a>
+  <a href="#blocchi">Blocchi: Main, FC, DB</a>
+  <a href="#aree">Aree e indirizzi</a>
+  <a href="#tipi">Tipi di dato</a>
+  <a href="#istruzioni">Istruzioni ladder</a>
+  <a href="#testo">FC in ST e in C</a>
+  <a href="#online">Online e diagnostica</a>
+  <h4>Hardware e rete</h4>
+  <a href="#schede">Schede e MiaConfig</a>
+  <a href="#ulink">µLink: I/O remoti</a>
+  <a href="#hmi">Pannello HMI</a>
+  <h4>Manuali</h4>
+  <a href="guida-esempi.html">Creare gli esempi</a>
+  <a href="guida-hardware.html">Hardware con MiaConfig</a>
+  <h4>Altro</h4>
+  <a href="#faq">Domande frequenti</a>
+</aside>
+<article>
+<h1 class="sr-only">Wiki di MiaPLC</h1>
+
+<h2 id="intro">Cos'è MiaPLC</h2>
+<p>MiaPLC (<em>Micro Integrated Automation Programmable Logic Controller</em>) è un PLC costruito su microcontrollori ESP32.
+Tre pezzi lavorano insieme:</p>
+<ul>
+  <li><b>la scheda</b>: un ESP32 con ingressi, uscite e di solito Ethernet;</li>
+  <li><b>il firmware</b>: esegue il programma in una macchina virtuale a bytecode, ciclo dopo ciclo, e gestisce rete, I/O, orologio e diagnostica;</li>
+  <li><b>l'editor web</b>: sta dentro il PLC. Lo apri dal browser con l'indirizzo IP della scheda e programmi in ladder.</li>
+</ul>
+<p>Il modo di lavorare è quello dei PLC industriali: scrivi il programma, <kbd>Compile</kbd>, <kbd>Download to cpu</kbd>, <kbd>Run</kbd>, poi <kbd>Online</kbd> per vederlo lavorare.</p>
+
+<h2 id="primi-passi">Primi passi</h2>
+<ol>
+  <li><b>Scegli la scheda.</b> Per cominciare va bene una scheda di riferimento (vedi <a href="#schede">Schede</a>).</li>
+  <li><b>Prepara il firmware con MiaConfig.</b> Disegni la scheda (ingressi, uscite, Ethernet, orologio), poi <em>Genera → Compila firmware</em>.
+    La prima volta scarica gli strumenti di compilazione (serve internet e circa 1 GB di disco), poi compila e basta.</li>
+  <li><b>Carica il firmware.</b> Per la prima installazione usi il file <code>&lt;scheda&gt;-completo.bin</code> con gli strumenti Espressif (un solo file all'indirizzo 0x0).
+    Gli aggiornamenti successivi si fanno dall'editor con il pacchetto <code>.miaplc.fw</code>.</li>
+  <li><b>Apri l'editor.</b> Collega il PLC alla rete e apri nel browser il suo indirizzo IP.</li>
+  <li><b>Scrivi il primo network</b>, poi <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
+</ol>
+<p class="note">Non hai ancora una scheda? Parti dal <a href="provami.html">simulatore</a>: è lo stesso editor, con un PLC simulato nel browser.</p>
+
+<h2 id="simulatore">Il simulatore</h2>
+<p>Il simulatore è l'editor vero con un PLC simulato al posto della scheda. La macchina virtuale è la stessa logica del firmware, riscritta in JavaScript con gli stessi limiti,
+quindi un programma che funziona nel simulatore funziona anche sulla scheda.</p>
+<ul>
+  <li>Nel riquadro <b>MOCK PLC</b> fai clic sugli ingressi <code>I0…I5</code> per accenderli e spegnerli; le uscite <code>Q0…Q3</code> si colorano quando sono attive.</li>
+  <li><b>RUN / STOP / Reboot</b> fanno come il selettore e il riavvio della scheda; <b>Errore</b> e <b>Offline</b> simulano un guasto e la perdita di collegamento.</li>
+  <li>Il tempo di esecuzione mostrato è una stima: quello vero si misura sul PLC.</li>
+  <li>Programma e stato restano salvati nel browser; <b>Reset mock</b> cancella tutto.</li>
+</ul>
+
+<h2 id="scansione">Il ciclo di scansione</h2>
+<p>Come ogni PLC, MiaPLC ripete sempre lo stesso giro:</p>
+<ol><li>legge gli ingressi;</li><li>esegue il programma dall'inizio alla fine (Main e le FC che chiama);</li><li>scrive le uscite.</li></ol>
+<p>Il programma quindi non “aspetta”: ogni network viene rivalutato a ogni giro. I timer contano il tempo tra un giro e l'altro, i fronti ricordano lo stato del giro prima.
+Il tempo di scansione e il carico della CPU si leggono nella Diagnostica e nel DB di sistema.</p>
+
+<h2 id="blocchi">Blocchi: Main, StartUp, FC, DB</h2>
+<table>
+  <tr><th>Blocco</th><th>A cosa serve</th></tr>
+  <tr><td><b>Main</b></td><td>Il programma principale, eseguito a ogni scansione.</td></tr>
+  <tr><td><b>StartUp</b></td><td>Eseguito una volta all'avvio o dopo un Download: valori iniziali, azzeramenti.</td></tr>
+  <tr><td><b>FC</b> (funzione)</td><td>Un pezzo di programma riutilizzabile con la sua interfaccia (ingressi, uscite, variabili locali). Si chiama dal Main o da altre FC.</td></tr>
+  <tr><td><b>DB</b> (blocco dati)</td><td>Variabili con nome e tipo, anche strutture e array. Un DB può essere <em>ritentivo</em>: mantiene i valori allo spegnimento.</td></tr>
+  <tr><td><b>DB di sistema</b></td><td>Creati dal PLC: dati della scheda e valori di sistema (tempo di scansione, RAM libera, stato di rete, primo giro…), in sola lettura.</td></tr>
+</table>
+<p>Ogni blocco è diviso in <b>network</b>, ognuno con titolo e commento. I blocchi si possono raccogliere in cartelle.</p>
+
+<h2 id="aree">Aree e indirizzi</h2>
+<table>
+  <tr><th>Area</th><th>Indirizzi</th><th>Cosa contiene</th></tr>
+  <tr><td><code>I</code></td><td>I0 … I1023</td><td>Ingressi digitali (sola lettura)</td></tr>
+  <tr><td><code>Q</code></td><td>Q0 … Q1023</td><td>Uscite digitali</td></tr>
+  <tr><td><code>M</code></td><td>M0 … M1023</td><td>Merker: bit di memoria interni</td></tr>
+  <tr><td><code>T</code></td><td>T0 … T255</td><td>Timer: il contatto <code>T5</code> è l'uscita del timer 5</td></tr>
+  <tr><td><code>SM</code></td><td>SM0 … SM5</td><td>Bit di sistema (sola lettura, vedi sotto)</td></tr>
+  <tr><td><code>MB / MW / MD</code></td><td>es. MW3, MW3.5</td><td>Byte, parole e doppie parole di memoria; <code>MW3.5</code> è il bit 5 della parola 3</td></tr>
+  <tr><td><code>DB</code></td><td>es. <code>"Impianto".livello</code></td><td>Variabili dei blocchi dati, per nome</td></tr>
+</table>
+<h3>Bit di sistema</h3>
+<table>
+  <tr><th>Bit</th><th>Significato</th></tr>
+  <tr><td>SM0</td><td>1 solo al primo ciclo</td></tr><tr><td>SM1</td><td>sempre 1</td></tr><tr><td>SM2</td><td>sempre 0</td></tr>
+  <tr><td>SM3</td><td>clock 10 Hz</td></tr><tr><td>SM4</td><td>clock 2 Hz</td></tr><tr><td>SM5</td><td>clock 1 Hz</td></tr>
+</table>
+<p>A ogni indirizzo puoi dare un <b>simbolo</b> (nome e commento) nella tabella dei simboli: nel ladder vedrai <code>"Start"</code> sopra <code>I0</code>.</p>
+
+<h2 id="tipi">Tipi di dato</h2>
+<table>
+  <tr><th>Tipo</th><th>Campo</th></tr>
+  <tr><td>BOOL</td><td>0 / 1</td></tr>
+  <tr><td>BYTE · USINT</td><td>0 … 255</td></tr><tr><td>SINT</td><td>−128 … 127</td></tr>
+  <tr><td>WORD · UINT</td><td>0 … 65535</td></tr><tr><td>INT</td><td>−32768 … 32767</td></tr>
+  <tr><td>DINT</td><td>32 bit con segno</td></tr><tr><td>UDINT</td><td>32 bit senza segno</td></tr>
+  <tr><td>REAL</td><td>virgola mobile 32 bit</td></tr>
+  <tr><td>TIME</td><td>tempo in ms, si scrive <code>T#5s</code>, <code>T#1m30s</code>, <code>T#250ms</code></td></tr>
+  <tr><td>TIMER</td><td>un timer con lo stato in una variabile di un DB (non usa i T0…T255)</td></tr>
+</table>
+<p>Nei DB e nelle interfacce delle FC puoi usare anche <b>array</b> e <b>strutture</b> (es. <code>"Dati".motore.velocita</code>).</p>
+
+<h2 id="istruzioni">Istruzioni ladder</h2>
+<table>
+  <tr><th>Gruppo</th><th>Istruzioni</th></tr>
+  <tr><td>Contatti</td><td>NO, NC, fronte P / N di un operando, fronte della corrente P_TRIG / N_TRIG, NOT, confronto (== &lt;&gt; &lt; &gt; &lt;= &gt;=)</td></tr>
+  <tr><td>Bobine</td><td>bobina, bobina negata, SET, RESET, fine FC (RET)</td></tr>
+  <tr><td>Timer</td><td>TON ritardo all'eccitazione, TOF ritardo alla diseccitazione, TP impulso</td></tr>
+  <tr><td>Contatori</td><td>CTU avanti, CTD indietro, CTUD avanti e indietro</td></tr>
+  <tr><td>Numeri</td><td>MOVE, ADD, SUB, MUL, DIV, MOD, NEG, ABS, MIN, MAX, LIMIT, CONV, SQRT, SQR, SCALE (es. 0…27648 → 0…100 %)</td></tr>
+  <tr><td>Parole</td><td>AND, OR, XOR, INV, SHL, SHR, ROL, ROR, SWAP</td></tr>
+  <tr><td>Funzioni</td><td>chiamata di una FC, con i suoi parametri</td></tr>
+</table>
+<p>I box numerici hanno EN / ENO: un overflow o una divisione per zero non fermano il PLC, ma mettono ENO a 0.</p>
+
+<h3>Come appaiono nel ladder</h3>
+<div class="istr">
+  <figure class="shot"><img src="assets/img/istr-contatti-it.jpg" alt="Contatti NO, NC e fronte P in un network ladder" loading="lazy"><figcaption><b>Contatti</b>: NO passa con 1, NC (negato) passa con 0, fronte P passa per un ciclo solo quando l'operando va da 0 a 1.</figcaption></figure>
+  <figure class="shot"><img src="assets/img/istr-bobine-it.jpg" alt="Bobina, SET e RESET in un network ladder" loading="lazy"><figcaption><b>Bobine</b>: la bobina copia la corrente sull'uscita; SET la accende e la lascia accesa, RESET la spegne. Più uscite nello stesso network.</figcaption></figure>
+  <figure class="shot"><img src="assets/img/istr-timer-it.jpg" alt="Timer TON T0 da 5 s in un network ladder" loading="lazy"><figcaption><b>TON</b>: l'uscita del timer T0 si chiude 5 s dopo che arriva la corrente e si apre appena manca. In Online mostra trascorso / impostato.</figcaption></figure>
+  <figure class="shot"><img src="assets/img/istr-contatore-it.jpg" alt="Contatore CTU con ingressi CU, R, PV e uscite Q, CV" loading="lazy"><figcaption><b>CTU</b>: CV + 1 a ogni fronte di salita su CU; Q = 1 quando CV ≥ PV; R azzera.</figcaption></figure>
+  <figure class="shot"><img src="assets/img/istr-confronto-it.jpg" alt="Confronto Conteggio maggiore o uguale a 5" loading="lazy"><figcaption><b>Confronto</b>: lascia passare la corrente se la condizione è vera, qui Conteggio ≥ 5.</figcaption></figure>
+  <figure class="shot"><img src="assets/img/istr-somma-it.jpg" alt="Box ADD con EN, IN1, IN2, OUT ed ENO" loading="lazy"><figcaption><b>ADD</b> con EN / ENO: OUT = IN1 + IN2 in ogni ciclo in cui arriva la corrente. Per contare una volta sola metti un fronte P davanti.</figcaption></figure>
+  <figure class="shot"><img src="assets/img/istr-move-it.jpg" alt="Box MOVE che azzera il conteggio" loading="lazy"><figcaption><b>MOVE</b>: copia IN in OUT, qui azzera il conteggio.</figcaption></figure>
+</div>
+<p class="mut small">Le immagini vengono dall'editor. Le parole di memoria <code>MW</code> si vedono come campi della DB «Merker» (es. <code>"Merker".MW4</code>). Passo per passo: <a href="guida-esempi.html">crea i progetti di esempio</a>.</p>
+
+<h2 id="testo">FC in ST e in C</h2>
+<p>Una funzione si può scrivere anche in testo: <b>ST</b> (Structured Text) o <b>C</b>. Ci sono IF, CASE / switch, FOR, WHILE, REPEAT / do-while, EXIT / break, CONTINUE, RETURN,
+con il completamento automatico dei nomi delle variabili, dei campi dei DB e dei simboli. Utile per calcoli e ricette, mentre la logica a contatti resta in ladder.</p>
+<pre>IF #avvio AND NOT #stop THEN
+    #output := TRUE;
+ELSIF #stop THEN
+    #output := FALSE;
+END_IF;</pre>
+
+<h2 id="online">Online e diagnostica</h2>
+<ul>
+  <li><b>Online</b>: i contatti chiusi e le bobine eccitate diventano verdi, i timer mostrano tempo trascorso / preimpostato, i box mostrano i valori.</li>
+  <li><b>Diagnostica</b>: stato del PLC, versioni, log degli eventi, tempi di scansione, carico della CPU, analisi della RAM, controlli all'avvio.</li>
+  <li>Un errore di un modulo non blocca la scheda: diventa un avviso nella diagnostica e il PLC continua.</li>
+</ul>
+
+<figure class="shot"><img src="assets/img/diag-it.jpg" alt="Diagnostica del PLC in livello Avanzato" loading="lazy"><figcaption>Diagnostica, livello Avanzato: stato, versioni, tempi del ciclo e log. In alto Base / Avanzato / Debug.</figcaption></figure>
+
+<h2 id="schede">Schede e MiaConfig</h2>
+<p>MiaConfig è il configuratore: descrivi la scheda (ingressi, uscite, Ethernet, WiFi, orologio, dispositivi I2C/SPI) e lui sceglie i moduli del firmware e lo compila.
+Funziona su Windows, Linux e macOS e non installa nulla nel sistema: tutto resta nella sua cartella.</p>
+<table>
+  <tr><th>Chip</th><th>Configurazioni di esempio</th></tr>
+  <tr><td>ESP32</td><td>Olimex ESP32-EVB (con o senza orologio DS3231)</td></tr>
+  <tr><td>ESP32-C3</td><td>con Ethernet W5100 o W5500, con o senza DS3231</td></tr>
+  <tr><td>ESP32-S3</td><td>ESP32-S3-DevKitC-1</td></tr>
+  <tr><td>ESP32-P4</td><td>PLC e pannello HMI</td></tr>
+</table>
+<p>Chip Ethernet supportati dal firmware: W5100, W5500, LAN8720, IP101.</p>
+
+<figure class="shot"><img src="assets/img/mc-ingressi.jpg" alt="MiaConfig, pinout dell'ESP32 con ingressi e uscite" loading="lazy"><figcaption>MiaConfig: il pinout del chip, i moduli a sinistra e le impostazioni a destra.</figcaption></figure>
+<p>Manuale: <a href="guida-hardware.html">configurare l'hardware degli esempi con MiaConfig</a>, dal progetto al cablaggio.</p>
+
+<h2 id="ulink">µLink: I/O remoti</h2>
+<p>µLink collega al PLC dei moduli di ingressi e uscite su Ethernet cablata. Lavora direttamente sui frame Ethernet, senza indirizzi IP:
+il PLC cerca i moduli («Cerca dispositivi»), li associa e li comanda come se fossero I/O suoi.</p>
+<ul>
+  <li>Un modulo può essere un altro ESP32 con il firmware MiaPLC in ruolo di modulo I/O.</li>
+  <li>Oppure un <b>Arduino Uno</b> con shield Ethernet W5100 o W5500, con la libreria MiauLink.</li>
+  <li>I moduli possono avere anche ingressi e uscite analogici.</li>
+</ul>
+
+<h2 id="hmi">Pannello HMI</h2>
+<p>MiaHmi è il firmware per un pannello touch da 10,1" su ESP32-P4: legge e scrive i dati del PLC e mostra grafici veloci.
+Si prepara con MiaConfig (progetto HMI) come il PLC.</p>
+
+<figure class="shot"><img src="assets/img/hmi-editor.jpg" alt="Editor del pannello HMI con una pagina, lampade, pulsanti e una barra" loading="lazy"><figcaption>L'editor del pannello HMI: pagine, variabili, allarmi, registrazioni e testi in più lingue.</figcaption></figure>
+
+<h2 id="faq">Domande frequenti</h2>
+<h3>È un PLC certificato?</h3>
+<p>No. MiaPLC è pensato per didattica, prototipi e progetti hobbistici. <b>Non usarlo per funzioni di sicurezza</b> (arresti di emergenza, ripari, protezione delle persone):
+lì servono componenti di sicurezza certificati.</p>
+<h3>Serve internet?</h3>
+<p>No. Il PLC e il suo editor funzionano nella rete locale. Internet serve solo a MiaConfig la prima volta, per scaricare gli strumenti di compilazione.</p>
+<h3>Quanto costa?</h3>
+<p>Il software è libero. L'hardware è quello di una scheda ESP32: si parte da pochi euro per un modulo C3 fino alle schede con Ethernet e relè già montati.</p>
+<h3>Che licenza ha?</h3>
+<p>Firmware, editor e strumenti sono software libero con licenza GPL-3.0; la libreria µLink (MiauLink) ha la licenza LGPL-3.0, così si può usare anche in firmware con un'altra licenza. Stato attuale: <strong>repository privati, in fase di rilascio</strong>.</p>
+<h3>Quello che imparo qui vale anche per i PLC industriali?</h3>
+<p>Sì, nei concetti: scansione, ladder, network, funzioni con interfaccia, blocchi dati, tipi IEC, Online. Ogni marca ha poi il suo ambiente e i suoi dettagli,
+ma chi ha capito queste basi ci si orienta in fretta.</p>
+</article>
+</div>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
+    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+</body>
+</html>

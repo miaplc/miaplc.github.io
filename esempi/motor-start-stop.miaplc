@@ -1,0 +1,214 @@
+{
+ "format": "espplc-project",
+ "version": 2,
+ "saved": "2026-11-04T10:00:00.000Z",
+ "origin": "editor",
+ "project": {
+  "format": "espplc-ir",
+  "version": 3,
+  "uid": "e5a0motorstst001",
+  "name": "Motor start / stop",
+  "blocks": [
+   {
+    "id": "main",
+    "type": "main",
+    "number": 0,
+    "name": "Main",
+    "segments": [
+     {
+      "id": 1,
+      "order": 0,
+      "language": "LD",
+      "title": "Start / stop with self-holding",
+      "comment": "Start (I0) starts the motor, the Q0 contact in parallel keeps it on. Stop (I1) or the thermal overload (I2) stop it.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Parallel",
+           "branches": [
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "I",
+                "idx": 0
+               }
+              }
+             ]
+            },
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "Q",
+                "idx": 0
+               }
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "I",
+            "idx": 1
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "I",
+            "idx": 2
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 0
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 2,
+      "order": 1,
+      "language": "LD",
+      "title": "«Running» lamp",
+      "comment": "Lamp Q1 lights up 3 seconds after the motor starts (TON timer).",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "Q",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 0
+           },
+           "pt": 3000
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 3,
+      "order": 2,
+      "language": "LD",
+      "title": "Thermal alarm",
+      "comment": "If the thermal overload trips (I2) the alarm lamp Q2 lights up.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 2
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 2
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "dbs": []
+ },
+ "symbols": {
+  "I0": {
+   "name": "Start",
+   "comment": "start push button"
+  },
+  "I1": {
+   "name": "Stop",
+   "comment": "stop push button"
+  },
+  "I2": {
+   "name": "Overload",
+   "comment": "motor protection"
+  },
+  "Q0": {
+   "name": "Motor",
+   "comment": "motor contactor"
+  },
+  "Q1": {
+   "name": "Running_lamp",
+   "comment": "motor running"
+  },
+  "Q2": {
+   "name": "Alarm",
+   "comment": "overload tripped"
+  }
+ }
+}

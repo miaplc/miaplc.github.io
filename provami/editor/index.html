@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <script>
+    // L'editor non si apre mai dentro la finestra della Diagnostica (un link rimasto in una pagina vecchia
+    // ne apriva uno, poi un altro dentro quello): chiede all'editor di sopra di chiudere la finestra e si ferma.
+    (function () { var p = window.parent; if (p === window) return; var ed = false;
+      try { ed = !!p.document.getElementById("btn-diag"); } catch (e) { ed = true; }
+      if (!ed) return; try { window.stop(); } catch (e) {}
+      p.postMessage({ espplc: "close" }, "*"); })();
+  </script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MIA Editor</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,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">
+  <link rel="stylesheet" href="app.css">
+  <script src="theme.js"></script>
+</head>
+<body>
+  <div id="offline-banner" class="banner hidden">ESP32 non raggiungibile</div>
+
+  <header>
+    <h1>MiaPLC <span class="muted">—</span> <span id="proj-name" class="proj-name" translate="no" title="Clic per rinominare il progetto">Progetto</span>
+      <span class="muted">/ <span id="block-title">Main</span></span></h1>
+    <div id="dev-tabs" class="dev-tabs hidden" translate="no"></div>
+    <div class="proj-tools">
+      <button id="btn-new" title="Nuovo progetto (nuovo ID)">🆕 Nuovo</button>
+      <label class="btn-label" for="file-open" title="Apri un progetto (.miaplc o .json) o un backup (.json / .bin)">📂 Apri<input type="file" id="file-open" accept=".miaplc,.json,.bin,application/json,application/octet-stream" hidden></label>
+      <button id="btn-save" title="Salva il progetto dell'editor su file, con i simboli (anche se non compila)">💾 Salva</button>
+      <span class="sep"></span>
+      <button id="btn-undo" class="icon-lg" title="Annulla (Ctrl+Z)" disabled>↶</button>
+      <button id="btn-redo" class="icon-lg" title="Ripeti (Ctrl+Y)" disabled>↷</button>
+    </div>
+    <div class="badges">
+      <button id="btn-xref" class="xref-btn" title="Riferimenti incrociati: dove è usato un operando o una funzione">🔍 Cerca</button>
+      <button id="btn-syms" class="xref-btn" title="Tabella dei simboli: nome e commento di ogni operando">🏷 Simboli</button>
+      <label class="btn-label xref-btn" for="file-syms" title="Importa simboli da CSV (foglio di calcolo) o JSON">⭳ Importa<input type="file" id="file-syms" accept=".csv,.txt,.json,text/csv,application/json" hidden></label>
+      <button id="btn-syms-export" class="xref-btn" title="Esporta i simboli in CSV (si apre con un foglio di calcolo)">⭱ Esporta</button>
+      <select id="lbl-mode" title="Cosa mostrare sopra contatti e bobine">
+        <option value="both">Simbolo + indirizzo</option>
+        <option value="both+c">Simbolo + indirizzo + commento flottante</option>
+        <option value="sym">Solo simbolo</option>
+        <option value="addr+c">Indirizzo + commento flottante</option>
+        <option value="addr">Solo indirizzo</option>
+      </select>
+      <span id="badge-sym" class="badge sym hidden"></span>
+      <span id="lang-slot"></span>
+      <a id="btn-diag" class="btn-label" href="#" title="Impostazioni e diagnostica: log del PLC, stato, dimensione del log">🩺 Diagnostica</a>
+      <a id="btn-ram" class="btn-label by-miaconfig" href="#" title="Analisi della RAM del PLC: adesso, ultimi 10 s, ultimo minuto, stack di ogni task">RAM</a>
+      <span id="badge-sync" class="badge sync hidden"></span>
+      <span id="badge-state" class="badge state-unknown">…</span>
+      <span id="badge-fault" class="badge fault hidden"></span>
+      <span id="badge-sf" class="badge sf hidden" title="Errore di sistema: clic per vedere la causa">● SF</span>
+      <span id="badge-recovered" class="badge warn hidden" title="Programma ricostruito dal bytecode (nessun sorgente sul PLC)">⚠ ricostruito</span>
+    </div>
+  </header>
+
+  <main>
+    <div id="palette-resizer" title="Trascina per allargare o stringere la colonna (doppio clic: larghezza di partenza)"></div>
+    <aside id="palette">
+      <div id="block-tree" class="block-tree"></div>
+      <button id="btn-add-fc" class="ghost add-fc" title="Crea una funzione (FC) con i suoi network">+ Nuova funzione</button>
+      <button id="btn-add-db" class="ghost add-fc" title="Crea un blocco dati (DB): variabili globali con nome, tipo e valore iniziale">+ Nuovo DB</button>
+      <button id="btn-add-su" class="ghost add-fc" title="Blocco StartUp: eseguito una volta all'avvio e a ogni STOP→RUN, prima del primo ciclo del Main. Può leggere gli ingressi, scrivere le uscite e chiamare funzioni.">+ StartUp</button>
+
+      <details class="pal-root" id="pal-root" data-group="istruzioni" open title="Tasto destro: espandi o comprimi tutti i gruppi">
+      <summary>Istruzioni</summary>
+      <details class="pal-group" data-group="contatti" open>
+        <summary>Contatti</summary>
+        <div class="pal-item" draggable="true" data-elt="contact-no">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="20" y2="15"/><line x1="20" y1="5" x2="20" y2="25"/><line x1="40" y1="5" x2="40" y2="25"/><line x1="40" y1="15" x2="60" y2="15"/></svg>
+          <span>NO</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="contact-nc">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="20" y2="15"/><line x1="20" y1="5" x2="20" y2="25"/><line x1="40" y1="5" x2="40" y2="25"/><line x1="40" y1="15" x2="60" y2="15"/><line x1="20" y1="25" x2="40" y2="5"/></svg>
+          <span>NC (negato)</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="contact-p" title="Fronte di salita dell'operando: vero per una scansione quando passa da 0 a 1">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="20" y2="15"/><line x1="20" y1="5" x2="20" y2="25"/><line x1="40" y1="5" x2="40" y2="25"/><line x1="40" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">P</text></svg>
+          <span>Fronte P</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="contact-n" title="Fronte di discesa dell'operando: vero per una scansione quando passa da 1 a 0">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="20" y2="15"/><line x1="20" y1="5" x2="20" y2="25"/><line x1="40" y1="5" x2="40" y2="25"/><line x1="40" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">N</text></svg>
+          <span>Fronte N</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="trig-p" title="Fronte di salita della corrente (P_TRIG): vero per una scansione quando la corrente che arriva passa da 0 a 1">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">P_TRIG</text></svg>
+          <span>Fronte corrente P</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="trig-n" title="Fronte di discesa della corrente (N_TRIG)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">N_TRIG</text></svg>
+          <span>Fronte corrente N</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="cmp" title="Confronto tra due valori (== <> < > <= >=): come un contatto">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">CMP</text></svg>
+          <span>Confronto</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="not" title="NOT: inverte la corrente che arriva (1 → 0, 0 → 1)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">NOT</text></svg>
+          <span>Inverte la corrente</span>
+        </div>
+      </details>
+      <details class="pal-group" data-group="bobine" open>
+        <summary>Bobine</summary>
+        <div class="pal-item" draggable="true" data-elt="coil">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="22" y2="15"/><path d="M22 5 A 10 10 0 0 0 22 25" fill="none"/><path d="M38 5 A 10 10 0 0 1 38 25" fill="none"/><line x1="38" y1="15" x2="60" y2="15"/></svg>
+          <span>Bobina</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="coil-set">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="22" y2="15"/><path d="M22 5 A 10 10 0 0 0 22 25" fill="none"/><path d="M38 5 A 10 10 0 0 1 38 25" fill="none"/><line x1="38" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">S</text></svg>
+          <span>SET</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="coil-reset">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="22" y2="15"/><path d="M22 5 A 10 10 0 0 0 22 25" fill="none"/><path d="M38 5 A 10 10 0 0 1 38 25" fill="none"/><line x1="38" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">R</text></svg>
+          <span>RESET</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="coil-neg" title="Scrive nel bit la corrente invertita">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="22" y2="15"/><path d="M22 5 A 10 10 0 0 0 22 25" fill="none"/><path d="M38 5 A 10 10 0 0 1 38 25" fill="none"/><line x1="38" y1="15" x2="60" y2="15"/><line x1="25" y1="24" x2="35" y2="6"/></svg>
+          <span>Bobina negata</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="coil-ret" title="Con corrente: esce dalla funzione (nel Main o nello StartUp finisce la scansione)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="22" y2="15"/><path d="M22 5 A 10 10 0 0 0 22 25" fill="none"/><path d="M38 5 A 10 10 0 0 1 38 25" fill="none"/><line x1="38" y1="15" x2="60" y2="15"/><text x="30" y="18" text-anchor="middle" font-size="9">RET</text></svg>
+          <span>Fine (RET)</span>
+        </div>
+      </details>
+      <details class="pal-group" data-group="funzioni-sistema" open>
+        <summary>Funzioni di sistema</summary>
+        <span class="muted pal-empty">nessuna per ora (le tue FC si trascinano dall'albero dei blocchi)</span>
+      </details>
+      <details class="pal-group" data-group="timer" open>
+        <summary>Timer</summary>
+        <div class="pal-item" draggable="true" data-elt="timer-TON" title="Ritardo all'eccitazione: Q=1 dopo che IN è 1 da PT">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="12" y2="15"/><rect x="12" y="3" width="36" height="24" rx="3"/><line x1="48" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">TON</text></svg>
+          <span>Ritardo ON</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="timer-TOF" title="Ritardo alla diseccitazione: Q resta 1 per PT dopo che IN va a 0">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="12" y2="15"/><rect x="12" y="3" width="36" height="24" rx="3"/><line x1="48" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">TOF</text></svg>
+          <span>Ritardo OFF</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="timer-TP" title="Impulso: sul fronte di IN, Q=1 per PT">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="12" y2="15"/><rect x="12" y="3" width="36" height="24" rx="3"/><line x1="48" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">TP</text></svg>
+          <span>Impulso</span>
+        </div>
+      </details>
+
+      <details class="pal-group" data-group="contatori" open>
+        <summary>Contatori</summary>
+        <div class="pal-item" draggable="true" data-elt="box-CTU" title="Conta avanti i fronti di salita della corrente; R azzera; Q = CV ≥ PV">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="12" y2="15"/><rect x="12" y="3" width="36" height="24" rx="3"/><line x1="48" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">CTU</text></svg>
+          <span>Contatore avanti</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-CTD" title="Conta indietro i fronti di salita della corrente; LD carica PV; Q = CV ≤ 0">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="12" y2="15"/><rect x="12" y="3" width="36" height="24" rx="3"/><line x1="48" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">CTD</text></svg>
+          <span>Contatore indietro</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-CTUD" title="Corrente avanti, CD indietro; R azzera, LD carica PV; QU = CV ≥ PV">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="12" y2="15"/><rect x="12" y="3" width="36" height="24" rx="3"/><line x1="48" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">CTUD</text></svg>
+          <span>Contatore avanti e indietro</span>
+        </div>
+      </details>
+
+      <details class="pal-group" data-group="numeri" open>
+        <summary>Numeri (EN / ENO)</summary>
+        <div class="pal-item" draggable="true" data-elt="box-MOVE" title="Copia IN in OUT (con EN = 1)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">MOVE</text></svg>
+          <span>Copia</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-ADD" title="OUT = IN1 + IN2">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">ADD</text></svg>
+          <span>Somma</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-SUB" title="OUT = IN1 − IN2">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">SUB</text></svg>
+          <span>Sottrazione</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-MUL" title="OUT = IN1 × IN2">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">MUL</text></svg>
+          <span>Moltiplicazione</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-DIV" title="OUT = IN1 / IN2 (interi: verso lo zero)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">DIV</text></svg>
+          <span>Divisione</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-MOD" title="OUT = resto di IN1 / IN2 (solo interi)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">MOD</text></svg>
+          <span>Resto</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-NEG" title="OUT = −IN">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">NEG</text></svg>
+          <span>Cambio segno</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-ABS" title="OUT = |IN|">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">ABS</text></svg>
+          <span>Valore assoluto</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-CONV" title="Converte IN nel tipo di OUT (es. DINT → REAL, REAL → INT arrotondando)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">CONV</text></svg>
+          <span>Conversione</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-MIN" title="OUT = il minore tra IN1 e IN2">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">MIN</text></svg>
+          <span>Il minore</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-MAX" title="OUT = il maggiore tra IN1 e IN2">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">MAX</text></svg>
+          <span>Il maggiore</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-LIMIT" title="OUT = IN tenuto tra MN e MX">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">LIMIT</text></svg>
+          <span>Limite</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-SQRT" title="OUT = √IN (solo REAL)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">SQRT</text></svg>
+          <span>Radice quadrata</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-SQR" title="OUT = IN² (solo REAL)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">SQR</text></svg>
+          <span>Quadrato</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-SCALE" title="Porta IN da IN_MIN..IN_MAX a OUT_MIN..OUT_MAX (es. 0..27648 → 0..100 %)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">SCALE</text></svg>
+          <span>Scala lineare</span>
+        </div>
+      </details>
+      <details class="pal-group" data-group="parole" open>
+        <summary>Parole (bit a bit)</summary>
+        <div class="pal-item" draggable="true" data-elt="box-AND" title="OUT = IN1 AND IN2 bit per bit (interi)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">AND</text></svg>
+          <span>AND</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-OR" title="OUT = IN1 OR IN2 bit per bit">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">OR</text></svg>
+          <span>OR</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-XOR" title="OUT = IN1 XOR IN2 bit per bit">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">XOR</text></svg>
+          <span>XOR</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-INV" title="OUT = bit di IN invertiti">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">INV</text></svg>
+          <span>Inverti bit</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-SHL" title="OUT = IN spostato a sinistra di N bit">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">SHL</text></svg>
+          <span>Scorri a sinistra</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-SHR" title="OUT = IN spostato a destra di N bit (INT e DINT: col segno)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">SHR</text></svg>
+          <span>Scorri a destra</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-ROL" title="OUT = IN ruotato a sinistra di N bit">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">ROL</text></svg>
+          <span>Ruota a sinistra</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-ROR" title="OUT = IN ruotato a destra di N bit">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">ROR</text></svg>
+          <span>Ruota a destra</span>
+        </div>
+        <div class="pal-item" draggable="true" data-elt="box-SWAP" title="OUT = byte di IN in ordine rovesciato (WORD ab → ba, DWORD abcd → dcba)">
+          <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="10" y2="15"/><rect x="10" y="4" width="40" height="22" rx="3"/><line x1="50" y1="15" x2="60" y2="15"/><text x="30" y="19" text-anchor="middle">SWAP</text></svg>
+          <span>Scambia byte</span>
+        </div>
+      </details>
+      </details>
+
+      <details class="pal-root hidden" id="pal-text" data-group="istruzioni-testo" open>
+      <summary>Istruzioni</summary>
+      <div class="pal-text-items"></div>
+      </details>
+
+      <details class="pal-root" id="pal-struct" data-group="strutture" open title="Tipi fatti di più campi, da usare nei DB e nelle FC: clic = apri, tasto destro = rinomina, elimina">
+      <summary>Strutture</summary>
+      <div id="struct-list" class="struct-list"></div>
+      <button id="btn-add-struct" class="ghost add-fc" title="Nuova struttura: il nome, poi i campi nella sua pagina, come un DB">＋ Nuova struttura</button>
+      </details>
+
+      <details class="pal-root" id="pal-mod" data-group="moduli" open>
+      <summary>Moduli</summary>
+      <button id="mod-data" class="ghost add-fc" title="Valori del PLC letti e scritti da un programma esterno in rete (GET / POST /api/data/exposure)">⇄ Esposizione dati</button>
+      <button id="mod-hmi" class="ghost add-fc" title="Valori del PLC per il pannello operatore: file di configurazione e collegamento TCP 5050">▣ Dati HMI</button>
+      <button id="mod-io" class="ghost add-fc" title="Ingressi e uscite della scheda (configuratore) collegati ai campi della HWDB">⚙ Tabelle I/O</button>
+      <button id="mod-modbus" class="ghost add-fc" title="Reti Modbus TCP e RTU: richieste del master (letture e scritture) e registri dello slave, nella DB Modbus">⇆ Modbus</button>
+      <button id="mod-pplc" class="ghost add-fc" title="Programma del modulo I/O quando manca il PLC: quando parte, uscite al passaggio, quando torna al PLC">◉ picoPlc</button>
+      </details>
+
+      <h3>Memoria</h3>
+      <div class="bars">
+        <div class="bar" id="bar-work-row" title="Memoria di lavoro (RAM): il codice dei blocchi"><label>Lavoro</label>
+          <div class="bar-track"><div id="bar-storage" class="bar-fill"></div></div>
+          <span id="lbl-storage">— / —</span>
+        </div>
+        <div class="bar" id="bar-load-row" title="Memoria di caricamento (flash): codice e sorgente (nomi, commenti)"><label>Caricamento</label>
+          <div class="bar-track"><div id="bar-source" class="bar-fill"></div></div>
+          <span id="lbl-source">— / —</span>
+        </div>
+        <div class="bar" id="bar-sym-row" title="Tabella dei simboli (nomi e commenti), compressa: spazio del PLC meno 444 KB per il sistema"><label>Simboli</label>
+          <div class="bar-track"><div id="bar-sym" class="bar-fill"></div></div>
+          <span id="lbl-sym">— / —</span>
+        </div>
+      </div>
+      <div id="mem-dbg" class="mem-dbg muted small hidden"></div>
+
+      <button id="btn-view" class="view-btn" title="Impostazioni grafiche">⚙ Grafica</button>
+    </aside>
+
+    <section id="canvas-wrap">
+      <div id="remote-note" class="exec-note remote-note hidden"><span></span><button class="icon" title="Chiudi">✕</button></div>
+      <div id="exec-note" class="exec-note hidden"></div>
+      <div id="iface" class="iface hidden"></div>
+      <div id="text-fc" class="text-fc hidden"></div>
+      <div id="sys-fc-note" class="exec-note hidden"></div>
+      <div id="networks"></div>
+      <button id="btn-add-net" class="add-net">+ Aggiungi network</button>
+      <div id="mod-page" class="sym-page">
+        <div class="sym-head">
+          <h2 id="mod-title">Esposizione dati</h2>
+          <span id="mod-info" class="muted"></span>
+          <button id="mod-back" class="primary" title="Torna al blocco aperto">← Torna al ladder</button>
+        </div>
+        <div class="sym-tools">
+          <button class="mod-tab" data-tab="tx" title="Valori letti da fuori">TX · lettura</button>
+          <button class="mod-tab" data-tab="rx" title="Valori scritti da fuori">RX · scrittura</button>
+          <span id="io-devs" class="hidden"></span>
+          <button id="mod-cat" class="hidden" title="Rilegge dal PLC i punti della scheda (catalogo dal file della scheda)">⟳ Punti dal PLC</button>
+          <span class="spacer"></span>
+          <button id="mod-onoff" title="Accesso da fuori attivo o disattivato: vale dopo il Download">● Attivo</button>
+          <label id="mod-per-l" class="hidden" title="Ogni quanto il PLC manda i valori al pannello (250 ms – 1 s): vale dopo il Download">Aggiornamento <input id="mod-per" type="number" min="250" max="1000" step="50"> ms</label>
+          <button id="mod-edit" title="Sblocca le tabelle per cambiarle">✎ Modifica</button>
+          <button id="mod-ok" class="primary hidden" title="Controlla e conferma: nuova versione di tx.json e rx.json">✓ Conferma</button>
+          <button id="mod-cancel" class="hidden" title="Torna alle tabelle di prima">Annulla</button>
+          <button id="mod-add">+ Valore</button>
+          <button id="mod-dl-tx" title="Scarica dal PLC la descrizione dei valori in lettura">⭳ plctx.json</button>
+          <button id="mod-dl-rx" title="Scarica dal PLC la descrizione dei valori in scrittura">⭳ plcrx.json</button>
+          <button id="mod-dl-hmi" class="hidden" title="Scarica dal PLC il file di configurazione del pannello">⭳ config.bin</button>
+        </div>
+        <p id="mod-ver" class="muted"></p>
+        <p id="mod-hint" class="muted"></p>
+        <table id="mod-table">
+          <thead><tr><th>Nome nel JSON</th><th>Operando</th><th>Tipo</th><th>Commento</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div id="mb-map"></div>
+      </div>
+      <div id="db-page" class="sym-page">
+        <div class="sym-head">
+          <h2 id="db-title">DB</h2>
+          <span id="db-info" class="muted"></span>
+          <span id="db-sync" class="muted"></span>
+          <button id="db-back" class="primary" title="Torna al blocco aperto">← Torna al ladder</button>
+        </div>
+        <div class="sym-tools">
+          <label>Nome <input type="text" id="db-name" maxlength="24" translate="no" style="width:180px"></label>
+          <label class="db-only">Numero <input type="number" id="db-num" min="1" max="999" style="width:80px"></label>
+          <label class="db-only" title="Tutto il DB si salva con la ritentiva (mancanza tensione, riavvio, STOP) e torna all'accensione"><input type="checkbox" id="db-retain"> Ritentivo</label>
+          <span class="spacer"></span>
+          <button id="db-add">+ Campo</button>
+          <button id="db-zero" class="db-only" title="Tutti i valori iniziali a 0 (nell'editor)">Azzera valori iniziali</button>
+          <button id="db-get" class="db-only" title="Legge i valori attuali dal PLC e li mette come valori iniziali">Carica attuali in iniziali</button>
+          <button id="db-put" class="db-only" title="Scrive subito nel PLC i valori iniziali">Carica iniziali in attuali</button>
+        </div>
+        <div id="db-msg" class="sym-msg hidden"></div>
+        <table id="db-table">
+          <thead><tr><th>Nome</th><th>Tipo</th><th>Valore iniziale</th><th>Valore attuale</th><th>Offset</th><th class="f-comh">Commento</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="db-foot"><button id="db-add2">+ Campo</button></div>
+      </div>
+      <div id="sym-page" class="sym-page">
+        <div class="sym-head">
+          <h2>Tabella dei simboli</h2>
+          <span id="sym-count" class="muted"></span>
+          <span id="sym-sync" class="muted"></span>
+          <button id="sym-back" class="primary" title="Torna al blocco aperto">← Torna al ladder</button>
+        </div>
+        <div class="sym-tools">
+          <input type="text" id="sym-filter" placeholder="Filtra: operando, nome o commento">
+          <select id="sym-view" title="Quali operandi mostrare">
+            <option value="named">Con nome o usati nel programma</option>
+            <option value="all">Tutti gli operandi dell'area</option>
+            <option value="free">Solo liberi (né nome né usati)</option>
+          </select>
+          <select id="sym-area">
+            <option value="">Tutte le aree</option><option value="I">I ingressi</option>
+            <option value="Q">Q uscite</option><option value="M">M merker</option><option value="T">T timer</option>
+          </select>
+          <select id="sym-type" title="Tipo di dato">
+            <option value="">Tutti i tipi</option><option value="BOOL">BOOL</option><option value="TIMER">TIMER</option>
+            <option value="BYTE">BYTE</option><option value="WORD">WORD</option><option value="INT">INT</option><option value="UDINT">UDINT</option>
+            <option value="DINT">DINT</option><option value="REAL">REAL</option>
+          </select>
+          <span class="spacer"></span>
+          <button id="sym-add">+ Aggiungi</button>
+          <button id="sym-clear" class="danger" title="Elimina tutti i simboli">Svuota</button>
+        </div>
+        <div id="sym-msg" class="sym-msg hidden"></div>
+        <table id="sym-table">
+          <thead><tr><th>Operando</th><th>Tipo</th><th>Nome</th><th>Commento</th><th>Usi</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="ctrls">
+      <button id="btn-compile">Compile</button>
+      <button id="btn-download" title="Compila e scarica sul PLC">Download to cpu</button>
+      <button id="btn-upload">Upload from cpu</button>
+      <button id="btn-online" title="Monitor live: colora contatti e bobine con lo stato del PLC">Online</button>
+    </div>
+    <span id="status" class="muted">ready</span>
+    <div class="ctrls right">
+      <button id="btn-run" title="POST /api/plc/run — avvia lo scan (azzera un fault)">Run</button>
+      <button id="btn-stop" title="POST /api/plc/stop — ferma lo scan, uscite in stato sicuro">Stop</button>
+    </div>
+  </footer>
+
+  <!-- Operand picker -->
+  <div id="picker" class="modal hidden">
+    <div class="modal-box pk-box">
+      <h3 id="picker-title">Configura operando</h3>
+      <div class="row" id="row-ctype">
+        <label>Contatto:</label>
+        <div class="pk-opts">
+          <label class="ctype"><input type="radio" name="ctype" value="no">
+            <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="20" y2="15"/><line x1="20" y1="5" x2="20" y2="25"/><line x1="40" y1="5" x2="40" y2="25"/><line x1="40" y1="15" x2="60" y2="15"/></svg>
+            NO (normale)</label>
+          <label class="ctype"><input type="radio" name="ctype" value="nc">
+            <svg viewBox="0 0 60 30"><line x1="0" y1="15" x2="20" y2="15"/><line x1="20" y1="5" x2="20" y2="25"/><line x1="40" y1="5" x2="40" y2="25"/><line x1="40" y1="15" x2="60" y2="15"/><line x1="20" y1="25" x2="40" y2="5"/></svg>
+            NC (negato)</label>
+          <label class="ctype" title="Vero per una scansione quando l'operando passa da 0 a 1"><input type="radio" name="ctype" value="p"> <b class="sym">P</b> fronte salita</label>
+          <label class="ctype" title="Vero per una scansione quando l'operando passa da 1 a 0"><input type="radio" name="ctype" value="n"> <b class="sym">N</b> fronte discesa</label>
+        </div>
+      </div>
+      <div class="row hidden" id="row-emem">
+        <label>Memoria fronte:</label>
+        <div class="pk-opts">
+          <label class="chip" title="Un bit nascosto scelto dall'editor: non consuma merker"><input type="radio" name="emem" value="E"> automatica</label>
+          <label class="chip" title="Un merker scelto da te, se ti serve anche altrove"><input type="radio" name="emem" value="M"> merker M</label>
+          <input type="number" id="emem-idx" min="0" max="255" style="width:70px">
+          <span id="emem-hint" class="muted"></span>
+        </div>
+      </div>
+      <div class="row hidden" id="row-tkind">
+        <label>Timer:</label>
+        <div class="pk-opts">
+          <label class="ctype" title="Ritardo all'eccitazione"><input type="radio" name="tkind" value="TON"> <b class="sym">TON</b> ritardo ON</label>
+          <label class="ctype" title="Ritardo alla diseccitazione"><input type="radio" name="tkind" value="TOF"> <b class="sym">TOF</b> ritardo OFF</label>
+          <label class="ctype" title="Impulso"><input type="radio" name="tkind" value="TP"> <b class="sym">TP</b> impulso</label>
+        </div>
+      </div>
+      <div class="row hidden" id="row-ckind">
+        <label>Bobina:</label>
+        <div class="pk-opts">
+          <label class="ctype"><input type="radio" name="ckind" value="coil"> <b class="sym">( )</b> normale</label>
+          <label class="ctype"><input type="radio" name="ckind" value="set"> <b class="sym">(S)</b> SET</label>
+          <label class="ctype"><input type="radio" name="ckind" value="reset"> <b class="sym">(R)</b> RESET</label>
+          <label class="ctype"><input type="radio" name="ckind" value="ncoil"> <b class="sym">(/)</b> negata</label>
+        </div>
+      </div>
+      <div class="row hidden" id="row-call">
+        <label>Funzione:</label>
+        <div class="pk-opts">
+          <select id="call-fc"></select>
+        </div>
+      </div>
+      <div class="row" id="row-ns">
+        <label>Area:</label>
+        <div class="pk-opts">
+          <label class="chip"><input type="radio" name="ns" value="I"> I (ingresso)</label>
+          <label class="chip"><input type="radio" name="ns" value="Q"> Q (uscita)</label>
+          <label class="chip"><input type="radio" name="ns" value="M"> M (merker)</label>
+          <label class="chip"><input type="radio" name="ns" value="T"> T (timer)</label>
+          <label class="chip" title="Bit di sistema, solo lettura: 0 primo ciclo, 1 sempre 1, 2 sempre 0, 3 clock 10 Hz, 4 clock 2 Hz, 5 clock 1 Hz"><input type="radio" name="ns" value="SM"> SM (sistema)</label>
+          <label class="chip" title="Campo BOOL di un DB o un bit di un campo numerico"><input type="radio" name="ns" value="DB"> DB</label>
+          <label class="chip" title="Variabile BOOL dell'interfaccia della FC"><input type="radio" name="ns" value="L"> # (FC)</label>
+        </div>
+      </div>
+      <div class="row" id="row-sym">
+        <label>Simbolo:</label>
+        <div class="pk-opts">
+          <input type="text" id="sym-name" list="sym-list" placeholder="nome, Dati.Campo o #variabile — scrivi per cercare" autocomplete="off" style="flex:1 1 auto">
+          <datalist id="sym-list" translate="no"></datalist>
+        </div>
+      </div>
+      <div class="row" id="row-sym-hint"><span></span><span id="sym-hint" class="muted"></span></div>
+      <div class="row hidden" id="row-mem">
+        <label id="pk-db-lab">DB:</label>
+        <div class="pk-opts">
+          <select id="pk-db"></select>
+          <label>Campo:</label><select id="pk-f" translate="no"></select>
+          <span id="pk-bit-w"><label>Bit:</label> <input type="number" id="pk-bit" min="0" max="31" style="width:60px"></span>
+          <span id="pk-hint" class="muted"></span>
+        </div>
+      </div>
+      <div class="row" id="row-idx">
+        <label>Indice:</label>
+        <div class="pk-opts">
+          <input type="text" id="idx" inputmode="decimal" autocomplete="off" style="width:90px" value="">
+          <span id="idx-range" class="muted"></span>
+        </div>
+      </div>
+      <div class="row hidden" id="row-pt">
+        <label>Tempo PT:</label>
+        <div class="pk-opts">
+          <input type="text" id="pt" placeholder="es. 2s, 500ms, 1m30s, T#2s500ms" style="flex:1 1 auto">
+          <span id="pt-preview" class="muted"></span>
+        </div>
+      </div>
+      <div class="row right">
+        <button id="picker-cancel">Annulla</button>
+        <button id="picker-ok" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- v3.1: confronti, box numerici, fronte sulla corrente -->
+  <div id="numpicker" class="modal hidden">
+    <div class="modal-box">
+      <h3 id="np-title">Istruzione</h3>
+      <div class="row" id="np-row-op">
+        <label id="np-op-label">Istruzione:</label>
+        <select id="np-op"></select>
+        <span id="np-op-hint" class="muted"></span>
+      </div>
+      <div class="row" id="np-row-a"><label id="np-a-label">IN1:</label><input type="text" id="np-a" list="np-sym" autocomplete="off" style="flex:1 1 auto" placeholder="es. Dati.Vel, #vel, 100, 2.5"><span id="np-a-hint" class="muted np-hint"></span></div>
+      <div class="row" id="np-row-b"><label id="np-b-label">IN2:</label><input type="text" id="np-b" list="np-sym" autocomplete="off" style="flex:1 1 auto"><span id="np-b-hint" class="muted np-hint"></span></div>
+      <div class="row" id="np-row-c"><label id="np-c-label">IN3:</label><input type="text" id="np-c" list="np-sym" autocomplete="off" style="flex:1 1 auto"><span id="np-c-hint" class="muted np-hint"></span></div>
+      <div class="row" id="np-row-d"><label id="np-d-label">IN4:</label><input type="text" id="np-d" list="np-sym" autocomplete="off" style="flex:1 1 auto"><span id="np-d-hint" class="muted np-hint"></span></div>
+      <div class="row" id="np-row-e"><label id="np-e-label">IN5:</label><input type="text" id="np-e" list="np-sym" autocomplete="off" style="flex:1 1 auto"><span id="np-e-hint" class="muted np-hint"></span></div>
+      <div class="row" id="np-row-out"><label id="np-out-label">OUT:</label><input type="text" id="np-out" list="np-sym" autocomplete="off" style="flex:1 1 auto" placeholder="es. Dati.Vel o #vel"><span id="np-out-hint" class="muted np-hint"></span></div>
+      <div class="row hidden" id="np-row-cd"><label>CD:</label><input type="text" id="np-cd" autocomplete="off" style="flex:1 1 auto" placeholder="bit che conta all'indietro (fronte di salita)"><span id="np-cd-hint" class="muted np-hint"></span></div>
+      <div class="row hidden" id="np-row-r"><label>R:</label><input type="text" id="np-r" autocomplete="off" style="flex:1 1 auto" placeholder="bit che azzera CV (vuoto = nessuno)"><span id="np-r-hint" class="muted np-hint"></span></div>
+      <div class="row hidden" id="np-row-ld"><label>LD:</label><input type="text" id="np-ld" autocomplete="off" style="flex:1 1 auto" placeholder="bit che carica CV = PV (vuoto = nessuno)"><span id="np-ld-hint" class="muted np-hint"></span></div>
+      <div class="row" id="np-row-trunc"><label>REAL → intero:</label>
+        <label><input type="radio" name="np-trunc" value="0"> arrotonda (2,5 → 3)</label>
+        <label><input type="radio" name="np-trunc" value="1"> tronca (2,7 → 2)</label></div>
+      <div class="row" id="np-row-mem">
+        <label>Memoria fronte:</label>
+        <label><input type="radio" name="np-mem" value="E"> automatica</label>
+        <label><input type="radio" name="np-mem" value="M"> merker M</label>
+        <input type="number" id="np-mem-idx" min="0" max="255" style="width:70px">
+      </div>
+      <datalist id="np-sym" translate="no"></datalist>
+      <div class="row"><span id="np-msg" class="muted"></span></div>
+      <div class="row right">
+        <button id="np-cancel">Annulla</button>
+        <button id="np-ok" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+  <!-- Commento flottante (Etichette "… + commento flottante") -->
+  <div id="call-modal" class="modal hidden">
+    <div class="modal-box">
+      <h3>Chiamata funzione</h3>
+      <div class="row"><label>Funzione:</label><select id="cd-fc"></select></div>
+      <div id="cd-rows"></div>
+      <datalist id="cd-dl-bool" translate="no"></datalist>
+      <datalist id="cd-dl-num" translate="no"></datalist>
+      <div class="row right">
+        <button id="cd-cancel">Annulla</button>
+        <button id="cd-ok" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="optip" class="optip hidden"></div>
+
+  <!-- Riferimenti incrociati -->
+  <div id="xref-modal" class="modal hidden">
+    <div class="modal-box xref-box">
+      <h3>Riferimenti incrociati</h3>
+      <div class="row">
+        <input type="text" id="xref-q" placeholder="es. M5, I0, FC1, DB1, M (tutti i merker), nastro — vuoto = tutto" style="flex:1 1 auto">
+        <span id="xref-count" class="muted"></span>
+      </div>
+      <div class="xref-list">
+        <table id="xref-table"><thead><tr><th>Operando</th><th>Blocco</th><th>Network</th><th>Uso</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="row right">
+        <button id="xref-close" class="primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inserimento testo (nome funzione) -->
+  <div id="input-modal" class="modal hidden">
+    <div class="modal-box">
+      <h3 id="input-title">Nome</h3>
+      <div class="row">
+        <label id="input-label" for="input-text">Nome:</label>
+        <input type="text" id="input-text" maxlength="24" style="flex:1 1 auto">
+      </div>
+      <p id="input-hint" class="muted"></p>
+      <div class="row right">
+        <button id="input-cancel">Annulla</button>
+        <button id="input-ok" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm modal (2 o 3 pulsanti) -->
+  <!-- Download: blocchi, invio (%), installazione, esito. Mentre è aperto l'editor parla col PLC solo per il Download -->
+  <div id="dl-modal" class="modal hidden">
+    <div class="modal-box dl-box">
+      <h3 id="dl-title">Download</h3>
+      <div id="dl-what" class="dl-what"></div>
+      <ol class="dl-steps">
+        <li id="dl-s1"><span class="dl-ico"></span>Invio al PLC <span id="dl-bytes" class="muted"></span></li>
+        <li id="dl-s2"><span class="dl-ico"></span>Installazione nel PLC e scrittura in flash <span id="dl-time" class="muted"></span></li>
+        <li id="dl-s3"><span class="dl-ico"></span><span id="dl-result">Esito</span></li>
+      </ol>
+      <div class="dl-progress"><div class="bar-track"><div id="dl-bar" class="bar-fill"></div></div><span id="dl-pct" class="muted">0 %</span></div>
+      <div id="dl-dbg" class="dl-dbg muted small hidden"></div>
+      <div class="row right"><button id="dl-close" class="primary" disabled>Chiudi</button></div>
+    </div>
+  </div>
+
+  <!-- Impostazioni e diagnostica: finestra grande sopra l'editor (diag.js), con ogni collegamento -->
+  <div id="diag-overlay" class="modal hidden">
+    <div class="diag-ov-box diag-root">
+      <div class="diag-head">
+        <h1>MiaPLC <span class="muted">— Impostazioni e diagnostica</span></h1>
+        <div class="badges">
+          <span id="d-state" class="badge state-unknown">—</span>
+          <button id="d-close" title="Chiudi la Diagnostica e torna all'editor">✕ Chiudi</button>
+        </div>
+      </div>
+      <div id="d-offline" class="banner hidden">ESP32 non raggiungibile</div>
+      <div class="diag-main">
+        <div class="diag-col" id="col-l">
+          <section class="card" id="card-state">
+            <h2>Stato del PLC</h2>
+            <div id="b-sf" class="b-sf hidden"></div>
+            <dl class="kv" id="d-kv"></dl>
+            <h3>Versioni</h3>
+            <dl class="kv" id="d-ver"></dl>
+            <table id="d-cyc">
+              <thead><tr><th></th><th>min</th><th>ultimo</th><th>max</th><th>max 1 h</th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <div data-layer="adv"><button type="button" id="d-ram-btn">Analisi RAM</button></div>
+            <div id="d-res" class="small muted hidden"></div>
+            <table id="d-tasks" class="hidden">
+              <thead><tr><th>Task</th><th>CPU</th><th>priorità</th><th>stack libero</th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <div id="d-clock-row" class="clock-row muted small hidden"><span id="d-clock"></span>
+              <button id="d-clock-set" title="Data e ora del PC al PLC (e all'orologio DS3231, se c'è)">🕑 Imposta dal PC</button></div>
+          </section>
+
+          <section class="card" id="card-boot">
+            <h2>Avvio del PLC <span id="b-info" class="muted small"></span></h2>
+            <ol class="boot-phases" id="b-phases"></ol>
+            <div class="log-wrap">
+              <table id="b-checks">
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card" id="card-set">
+            <h2>Log</h2>
+            <div class="set-row">
+              <label for="d-logsize">Dimensione del log</label>
+              <select id="d-logsize">
+                <option value="512">512 byte — 32 voci</option>
+                <option value="1024">1 KB — 64 voci</option>
+                <option value="2048">2 KB — 128 voci (default)</option>
+                <option value="4096">4 KB — 256 voci</option>
+                <option value="8192">8 KB — 512 voci</option>
+                <option value="16384">16 KB — 1024 voci</option>
+                <option value="32768">32 KB — 2048 voci (massimo)</option>
+              </select>
+              <button id="d-logsize-apply">Applica</button>
+            </div>
+            <div class="set-row p-sep"><label for="p-ser">Diagnostica avanzata</label><select id="p-ser" class="sel2">
+                <option value="editor" title="la seriale serve solo all'editor in USB">Spenta</option>
+                <option value="log" title="testo sulla seriale e log avanzato su file, poi si spegne da sola">Accesa per 1 ora</option></select></div>
+            <div class="set-row"><span id="p-adv" class="muted small"></span></div>
+            <div class="set-row"><button id="p-adv-get" title="Scarica il log avanzato (file di testo)">Scarica log avanzato</button>
+              <button id="p-adv-del" class="danger" title="Cancella il log avanzato dal PLC">Cancella</button></div>
+          </section>
+        </div>
+        <div class="diag-col" id="col-r">
+          <section class="card" id="card-err">
+            <h2>Errori del programma <span id="d-err-info" class="muted"></span></h2>
+            <div class="log-wrap">
+              <table id="d-err">
+                <thead><tr><th>Stato</th><th>Errore</th><th>Dove</th><th>Istruzione</th><th>Volte</th><th>Prima</th><th>Ultima</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card" id="card-log">
+            <h2>Log <span id="d-log-info" class="muted"></span></h2>
+            <div class="tools">
+              <select id="d-level" title="Quali voci mostrare">
+                <option value="0">Tutte</option>
+                <option value="1">Avvertimenti ed errori</option>
+                <option value="2">Solo errori</option>
+              </select>
+              <input type="text" id="d-filter" placeholder="Filtra (testo, IP, CRC…)">
+              <label title="Legge le voci nuove appena il PLC ne scrive una"><input type="checkbox" id="d-auto" checked> aggiorna</label>
+              <span class="spacer"></span>
+              <button id="d-refresh">Aggiorna</button>
+              <button id="d-export" title="Salva il log in CSV (foglio di calcolo)">⭱ Esporta CSV</button>
+            </div>
+            <div class="log-wrap">
+              <table id="d-log">
+                <thead><tr><th>#</th><th>Quando</th><th>Cod.</th><th></th><th>Categoria</th><th>Evento</th><th>Dettaglio</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="card" id="card-plc">
+            <h2>Impostazioni del PLC <span id="p-board" class="muted"></span></h2>
+            <div id="p-reboot" class="p-reboot hidden">
+              <span>⚠ Ci sono impostazioni salvate che valgono dal prossimo riavvio del PLC.</span>
+              <button id="p-reboot-btn" class="primary">Riavvia il PLC</button>
+            </div>
+            <div class="p-grid">
+              <div class="p-box">
+                <div id="p-role-box">
+                <h3>Ruolo della scheda</h3>
+                <div class="set-row"><select id="p-role" class="sel2">
+                    <option value="plc" title="esegue il programma">PLC</option>
+                    <option value="io" title="ingressi e uscite comandati da un PLC sul bus">Modulo I/O remoto</option></select></div>
+                <div class="set-row"><span id="p-role-note" class="muted small"></span></div>
+                <div id="p-pplc-row" class="set-row p-kv hidden"><label for="p-pplc">picoPlc</label><select id="p-pplc" class="sel2">
+                    <option value="0" title="senza il PLC sul bus le uscite seguono la tenuta del modulo">Spento</option>
+                    <option value="1" title="senza il PLC sul bus per il tempo impostato nel programma pPlc il modulo esegue il suo programma (memoria di lavoro 4 KB); col PLC di nuovo in RUN torna al PLC. Dal riavvio">Acceso</option></select></div>
+                </div>
+                <div id="p-hw-box" class="p-sep hidden by-miaconfig">
+                <h3>File della scheda</h3>
+                <div class="set-row"><span id="p-hw-info" class="small"></span></div>
+                <div class="set-row"><label class="btn-label" for="p-hw-file" title="Progetto della scheda dal configuratore (.mia): ingressi, uscite, dispositivi I2C/SPI, comunicazioni">Carica file della scheda<input type="file" id="p-hw-file" accept=".mia,.hwplc,.json,application/json" hidden></label>
+                  <span id="p-hw-msg" class="muted small"></span></div>
+                <ul id="p-hw-dev" class="muted small"></ul>
+                </div>
+              </div>
+              <div class="p-box by-miaconfig">
+                <div class="p-tabs" role="tablist">
+                  <button type="button" class="p-tab active" data-ptab="in" role="tab"><span id="p-in-t">Ingressi</span></button>
+                  <button type="button" class="p-tab" data-ptab="out" role="tab"><span id="p-out-t">Uscite</span></button>
+                </div>
+                <div class="p-pane" data-pane="in">
+                  <div class="set-row"><label for="p-nin">Quanti</label><input type="number" id="p-nin" min="0" max="32" class="p-n"></div>
+                  <div class="p-io" id="p-in"></div>
+                </div>
+                <div class="p-pane hidden" data-pane="out">
+                  <div class="set-row"><label for="p-nout">Quante</label><input type="number" id="p-nout" min="0" max="32" class="p-n"></div>
+                  <div class="p-io" id="p-out"></div>
+                </div>
+              </div>
+              <div class="p-box">
+                <h3>Ciclo del PLC</h3>
+                <div class="set-row p-kv"><label for="p-boot">Al riavvio</label><select id="p-boot" class="sel2">
+                    <option value="last" title="se era in STOP resta in STOP">Ultimo stato</option>
+                    <option value="run" title="anche se prima del riavvio era in STOP">Sempre RUN</option></select></div>
+                <div class="set-row p-kv"><label for="p-inwd">Controllo del ciclo</label><span><input type="number" id="p-inwd" min="10" max="1000" class="p-n"> ms
+                  <span class="muted small">da 10 a 1000 ms, di fabbrica 150</span></span></div>
+                <div id="p-ulink" class="p-sep">
+                <h3>uLink</h3>
+                <div class="set-row p-kv"><label for="p-ulm">Modulo perso</label><select id="p-ulm" class="sel2">
+                    <option value="auto" title="il modulo che torna riparte da solo, il PLC resta in RUN, solo log">Riarmo automatico</option>
+                    <option value="manual" title="il PLC resta in RUN, il modulo che torna aspetta Riarma; nel log">Riarmo manuale</option>
+                    <option value="stop_missing" title="finché manca un modulo il PLC non va in RUN, neanche dall'editor; all'avvio parte quando ci sono tutti">STOP se manca un modulo</option>
+                    <option value="stop_new" title="il PLC parte con i moduli che ci sono; un modulo che si perde lo manda in STOP per errore">STOP su guasto nuovo</option></select></div>
+                </div>
+                <div id="p-vm" class="p-sep hidden">
+                <h3>Esecuzione del programma</h3>
+                <div class="set-row p-kv by-miaconfig"><label for="p-vm-iram">Interprete</label><select id="p-vm-iram" class="sel2">
+                    <option value="0" title="programma solo nella RAM: velocità di sempre">VM standard</option>
+                    <option value="2" title="le serie di istruzioni semplici (contatti, bobine, confronti, MOVE, ADD/SUB/MUL su DB e costanti) tradotte in elenchi eseguiti con gli accumulatori nei registri: più veloce; le altre istruzioni come prima. Elenchi nella IRAM libera o nella RAM che il codice non usa. Dal riavvio">VM accu</option>
+                    <option value="3" title="come VM accu, ma ogni serie di istruzioni semplici diventa codice macchina dell'ESP32 nella IRAM: ancora più veloce. Le serie che non stanno nella IRAM restano elenchi. Dal riavvio">VM codice macchina</option></select></div>
+                <div class="set-row by-miaconfig"><span id="p-vm-note" class="muted small"></span></div>
+                <div class="set-row p-kv by-miaconfig"><label for="p-vm-stop">In STOP</label><select id="p-vm-stop" class="sel2">
+                    <option value="0" title="il programma resta nella RAM anche in STOP">Prog in RAM</option>
+                    <option value="1" title="in STOP il codice del programma esce dalla RAM (resta in flash) e torna al RUN. Il WiFi non c'entra: lo decidono le impostazioni di rete. Un Download in STOP va solo in flash. Dal riavvio">Libera RAM</option></select></div>
+                <div class="set-row p-kv"><label for="p-dbg">Debug</label><select id="p-dbg" class="sel2">
+                    <option value="0">Spento</option>
+                    <option value="1" title="nella finestra del Download la RAM, il blocco più grande e la IRAM minimi per fase; sotto le barre della memoria RAM e IRAM libere. Solo in questo browser, subito">Acceso</option></select></div>
+                </div>
+              </div>
+            </div>
+            <div class="set-row p-actions">
+              <button id="p-save" class="primary">Salva le impostazioni</button>
+              <button id="p-undo">Annulla modifiche</button>
+              <span id="p-msg" class="muted"></span>
+            </div>
+          </section>
+        </div>
+
+
+        <section class="card" id="card-net">
+          <h2>Rete del PLC <span id="n-info" class="muted"></span></h2>
+          <div id="n-reboot" class="p-reboot hidden">
+            <span>⚠ Impostazioni di rete salvate: valgono dal prossimo riavvio del PLC.</span>
+            <button id="n-reboot-btn" class="primary">Riavvia il PLC</button>
+          </div>
+          <dl class="kv n-status" id="n-status"></dl>
+          <div class="p-grid">
+            <div class="p-box">
+              <h3><label><input type="checkbox" id="n-wifi-on"> WiFi</label> <span class="muted">(access point del PLC e WiFi verso il router)</span></h3>
+              <div class="set-row"><label for="n-name">Nome del PLC</label><input type="text" id="n-name" maxlength="24" class="n-txt" autocomplete="off"></div>
+              <p class="muted small" id="n-names"></p>
+              <div class="set-row"><label for="n-ap-ssid">Rete (SSID)</label><input type="text" id="n-ap-ssid" maxlength="32" class="n-txt" autocomplete="off"></div>
+              <div class="set-row"><label for="n-ap-pass">Password</label><input type="password" id="n-ap-pass" maxlength="63" class="n-txt" autocomplete="new-password"></div>
+              <p class="small n-warn hidden" id="n-ap-warn">⚠ Password di fabbrica (miaplc1234): chiunque la conosca entra nella rete del PLC. Cambiala.</p>
+              <div class="set-row"><label for="n-ap-ip">IP del PLC</label><input type="text" id="n-ap-ip" class="n-ip" autocomplete="off">
+                <label for="n-ap-ch">canale</label><select id="n-ap-ch"></select></div>
+              <div class="set-row"><label title="Con il router collegato e stabile (1 minuto, nessuno sull'access point) l'access point si spegne e libera memoria; se il router manca da 20 s si riaccende"><input type="checkbox" id="n-ap-auto"> spegni l'access point quando il router è collegato</label></div>
+            </div>
+            <div class="p-box">
+              <h3><label><input type="checkbox" id="n-sta-on"> WiFi verso il router</label></h3>
+              <div class="set-row"><label for="n-sta-ssid">Rete (SSID)</label><input type="text" id="n-sta-ssid" maxlength="32" class="n-txt" autocomplete="off"></div>
+              <div class="set-row"><label for="n-sta-pass">Password</label><input type="password" id="n-sta-pass" maxlength="63" class="n-txt" autocomplete="new-password">
+                <label><input type="checkbox" id="n-sta-open"> rete aperta</label></div>
+              <div id="n-sta-f"></div>
+            </div>
+            <div class="p-box">
+              <h3><label><input type="checkbox" id="n-eth-on"> Ethernet</label></h3>
+              <div id="n-eth-f"></div>
+            </div>
+          </div>
+          <div class="p-box p-netplc by-miaconfig" id="p-netplc">
+            <h3>PLC</h3>
+            <div class="set-row p-kv"><label for="p-net">Rete usata dal programma</label><select id="p-net" class="sel2">
+                <option value="none" title="il PLC non aspetta la rete">Nessuna</option>
+                <option value="eth" title="Modbus TCP, EtherNet/IP…">Ethernet</option>
+                <option value="wifi" title="il PLC usa la rete del router">WiFi verso il router</option>
+                <option value="any" title="basta una delle due">Ethernet o WiFi</option></select></div>
+            <div class="set-row p-kv"><label for="p-net-wait">Tempo concesso all'avvio</label><span><input type="number" id="p-net-wait" min="1" max="600" class="p-n"> s</span></div>
+            <div class="set-row p-kv p-sep"><label for="p-pf">Mancanza tensione</label><span><select id="p-pf"></select>
+                <select id="p-pf-lvl"><option value="1">attivo a 0 (tensione mancante = 0)</option><option value="0">attivo a 1</option></select></span></div>
+            <div class="set-row p-kv p-sep"><label for="p-ug">Protezione reset USB</label><span><select id="p-ug"></select>
+                <label for="p-ug-lvl">isola con</label><select id="p-ug-lvl"><option value="1">livello alto</option><option value="0">livello basso</option></select></span></div>
+            <p class="muted small">Si salvano con «Salva le impostazioni di rete»; valgono dal riavvio.</p>
+          </div>
+          <div class="set-row by-miaconfig"><label for="n-editor">Editor dalla rete</label><select id="n-editor">
+              <option value="all">su tutte le interfacce</option><option value="eth">solo Ethernet</option><option value="wifi">solo WiFi</option></select>
+            <span class="muted small">esposizione dati e USB sempre</span></div>
+          <div class="set-row p-actions">
+            <button id="n-save" class="primary">Salva le impostazioni di rete</button>
+            <button id="n-undo">Annulla modifiche</button>
+            <span id="n-msg" class="muted"></span>
+          </div>
+        </section>
+
+        <section class="card hidden" id="card-bus">
+          <h2>Moduli I/O <span id="bus-info" class="muted small"></span></h2>
+          <div class="prog-actions">
+            <button id="bus-new" title="Nuovo modulo con il primo id libero: poi la sua tabella dei punti e il dispositivo abbinato">+ Nuovo modulo</button>
+            <button id="bus-find" title="Chiede in rete (Ethernet) quali dispositivi ci sono: moduli I/O e PLC">🔍 Cerca dispositivi</button>
+            <button id="bus-rearm" title="Riarma tutti i moduli bloccati: le uscite ripartono dopo alcuni cicli buoni">Riarma</button>
+            <label>periodo <input type="number" id="bus-period" min="2" max="100" style="width:60px"> ms</label>
+            <label>tenuta <input type="number" id="bus-hold" min="6" max="2000" style="width:70px"> ms</label>
+            <button id="bus-undo">Annulla modifiche</button>
+            <button id="bus-save" class="primary">Salva</button>
+            <span id="bus-msg" class="muted small"></span>
+          </div>
+          <table id="bus-mods" class="bus-table">
+            <thead><tr><th>Id</th><th>Modulo</th><th>Dispositivo</th><th data-col="stato">Stato</th><th data-col="pplc" title="programma del modulo quando manca il PLC (impostazione del modulo)">pPlc</th><th data-col="rtt">Andata e ritorno</th><th data-col="persi">Persi</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <table id="bus-found" class="bus-table hidden">
+            <thead><tr><th>Trovati in rete</th><th>MAC</th><th>Chip</th><th>Ruolo</th><th>Versione</th><th data-col="io">I/O</th><th>Abbinato a</th><th></th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <p class="muted small">Gli I/O di ogni modulo li manda il modulo (il suo file della scheda) all'abbinamento; nel programma si usano dalle Tabelle I/O con il nome del modulo (es. vasca.Livello), i valori si vedono Online nel suo DB. Identifica: il LED del dispositivo lampeggia finché il pulsante è acceso e si spegne chiudendo la Diagnostica.</p>
+        </section>
+
+        <section class="card hidden" id="card-iomod">
+          <h2>Modulo I/O <span id="bus-info-io" class="muted small"></span></h2>
+          <dl class="kv" id="bus-io"></dl>
+          <table id="iom-table" class="bus-table">
+            <thead><tr><th>Punto</th><th>Nome</th><th>Sul bus</th><th>Stato</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <p class="muted small">Gli I/O del modulo vengono dal suo file della scheda (configuratore). Il PLC li legge all'abbinamento e controlla il CRC a ogni scambio.</p>
+        </section>
+
+        <section class="card" id="card-prog">
+          <h2>Programma sul PLC</h2>
+          <div class="prog-actions">
+            <button id="p-backup" title="Immagine del PLC in un file .miaplc.bkp: firmware, editor, impostazioni, simboli, programma e valori dei DB">Backup PLC</button>
+            <label class="btn-label" for="p-restore" title="Backup .miaplc.bkp: si carica come un aggiornamento del firmware. Programma (.json o il vecchio .bin): si apre nell'editor, poi Download">Restore<input type="file" id="p-restore" accept=".bkp,.bkesplc,.miaplc,.json,.bin,application/json,application/octet-stream" hidden></label>
+            <button id="p-delete" class="danger" title="Cancella il programma da RAM e flash">Cancella programma</button>
+            <span id="p-prog-st" class="muted small"></span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="ram-modal" class="modal hidden">
+    <div class="modal-box ram-box">
+      <h3>Analisi RAM</h3>
+      <table id="ram-heap"><thead><tr><th></th><th>adesso</th><th>10 s min</th><th>10 s media</th><th>10 s max</th>
+        <th>1 min min</th><th>1 min media</th><th>1 min max</th><th>minimo dall'avvio</th><th>totale</th></tr></thead><tbody></tbody></table>
+      <p id="ram-info" class="muted small"></p>
+      <table id="ram-tasks"><thead><tr><th>Task</th><th>CPU</th><th>priorità</th><th>stack</th><th>picco usato</th><th>uso</th><th>libero minimo</th><th>carico CPU</th><th>RAM dinamica</th></tr></thead><tbody></tbody></table>
+      <div class="row right"><span id="ram-when" class="muted small"></span><button id="ram-close" class="primary">Chiudi</button></div>
+      <p class="muted small">Si aggiorna ogni secondo. Stack: «libero minimo» è il punto più basso da quando il task è partito (non risale). Rosso sotto 512 B o sopra il 90 %. Totale = stack di tutti i task + RAM libera.</p>
+    </div>
+  </div>
+  <div id="confirm-modal" class="modal hidden">
+    <div class="modal-box">
+      <h3 id="confirm-title">Conferma</h3>
+      <p id="confirm-body" class="muted">…</p>
+      <div class="row right">
+        <button id="confirm-cancel">Annulla</button>
+        <button id="confirm-alt" class="hidden">…</button>
+        <button id="confirm-ok" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- picoPlc del modulo I/O: parametri del passaggio (modulo 4) -->
+  <div id="pplc-modal" class="modal hidden">
+    <div class="modal-box">
+      <h3>picoPlc del modulo I/O</h3>
+      <p class="muted small">Il programma di questo progetto gira sul modulo I/O quando manca il PLC (impostazione «picoPlc» del modulo). Solo contatti, bobine, confronti, matematica e timer; niente FC.</p>
+      <div class="set-row p-kv"><label for="pp-on">Programma pPlc</label><select id="pp-on"><option value="1">Sì</option><option value="0">No</option></select></div>
+      <div class="set-row p-kv"><label for="pp-lost">Parte dopo (ms senza PLC)</label><input id="pp-lost" type="number" min="100" max="60000" step="100"></div>
+      <div class="set-row p-kv"><label for="pp-keep">Uscite al passaggio</label><select id="pp-keep"><option value="1">Come le ha lasciate il PLC</option><option value="0">Spente</option></select></div>
+      <div class="set-row p-kv"><label for="pp-back">Torna al PLC dopo (ms di PLC in RUN)</label><input id="pp-back" type="number" min="0" max="60000" step="100"></div>
+      <div id="pp-send-row" class="set-row p-kv hidden"><label for="pp-mod">Invia al modulo</label><select id="pp-mod"></select>
+        <button id="pp-send" title="Compila questo progetto e lo manda al modulo I/O scelto passando dal PLC (bus): il modulo lo installa col pPlc fermo">Invia</button></div>
+      <div class="set-row"><span id="pp-msg" class="muted small"></span></div>
+      <div class="row right">
+        <button id="pp-cancel">Annulla</button>
+        <button id="pp-ok" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu contestuale (contenuto creato da app.js) -->
+  <div id="ctxmenu" class="ctxmenu hidden"></div>
+
+  <!-- Menu Online: comanda un merker M -->
+  <div id="forcemenu" class="ctxmenu forcemenu hidden"></div>
+
+  <!-- Solo test su PC: sul device questi due file non esistono (404 innocuo) -->
+  <script src="dev/mock-config.js"></script>
+  <script src="dev/mock-plc.js"></script>
+
+  <script src="lang.js"></script>
+  <script src="i18n.js"></script>
+  <script src="usb.js"></script>
+  <script src="firmware.js"></script>
+  <script src="view.js"></script>
+  <script src="ir.js"></script>
+  <script src="testo.js"></script>
+  <script src="compiler.js"></script>
+  <script src="decompiler.js"></script>
+  <script src="symbols.js"></script>
+  <script src="app.js"></script>
+  <script src="log-texts.js"></script>
+  <script src="diag.js"></script>
+<script src="sito-esempi.js"></script>
+</body>
+</html>

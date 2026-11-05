@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Progetti di esempio — MiaPLC</title>
+<meta name="description" content="Progetti ladder di esempio per MiaPLC da aprire nel simulatore: marcia e arresto motore, semaforo, musica sui relè.">
+<meta property="og:title" content="Progetti di esempio — MiaPLC">
+<meta property="og:description" content="Progetti ladder di esempio per MiaPLC da aprire nel simulatore: marcia e arresto motore, semaforo, musica sui relè.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/esempi.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/esempi.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/esempi.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/esempi.html">
+<link rel="canonical" href="https://www.miaplc.it/esempi.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/esempi.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/esempi.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
+<main>
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Esempi</span><h1>Progetti di esempio</h1>
+    <p class="mut">Apri un progetto direttamente nel simulatore e guardalo lavorare. Nel simulatore li trovi anche sotto <b>📂 Apri</b>; per il tuo PLC scarica il file <code>.miaplc</code>.</p></div>
+
+  <p class="note" style="margin-bottom:28px">📘 Vuoi rifarli da zero? <a href="guida-esempi.html">Manuale: crea i progetti di esempio passo per passo</a>.
+    🔧 Sulla scheda vera: <a href="guida-hardware.html">manuale dell'hardware con MiaConfig</a>.</p>
+
+  <h3>Come aprire un esempio nel simulatore</h3>
+  <ol class="steps">
+    <li><b>Apri</b>premi <kbd>▶ Apri nel simulatore</kbd> sotto l'esempio (o <kbd>📂 Apri</kbd> dentro il simulatore).</li>
+    <li><b>Conferma</b>se l'editor chiede di sostituire il progetto, rispondi <kbd>Sì, apri</kbd>.</li>
+    <li><b>Download e Run</b><kbd>Download to cpu</kbd>, conferma, poi <kbd>Run</kbd>.</li>
+    <li><b>Online</b>premi <kbd>Online</kbd> e accendi gli ingressi nel riquadro MOCK PLC.</li>
+  </ol>
+
+  <div class="ex" style="margin-top:36px">
+    <div class="card">
+      <div class="meta">Base · 3 network</div>
+      <h3>Marcia e arresto motore</h3>
+      <p>Il primo programma di ogni corso di automazione: il circuito di autoritenuta. Start avvia il motore, il suo stesso contatto lo tiene acceso,
+        Stop o il termico lo fermano. Una spia si accende 3 secondi dopo la partenza.</p>
+      <ol><li>Clic su <code>I0</code> (Start) e di nuovo per rilasciarlo: <code>Q0</code> resta acceso.</li>
+        <li>Dopo 3 s si accende <code>Q1</code>.</li>
+        <li>Clic su <code>I1</code> (Stop) o <code>I2</code> (termico): il motore si ferma.</li></ol>
+      <div class="btns"><a class="btn pri" href="provami/editor/index.html?mock&amp;esempio=marcia-arresto" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">▶ Apri nel simulatore</a><a class="btn" href="esempi/marcia-arresto.miaplc" download>⭳ Scarica</a></div>
+    </div>
+    <div class="card">
+      <div class="meta">Timer · 6 network</div>
+      <h3>Semaforo</h3>
+      <p>Tre timer in cascata fanno il ciclo verde 5 s, giallo 2 s, rosso 4 s. Con il semaforo spento il giallo lampeggia usando il bit di sistema SM5 (clock 1 Hz).</p>
+      <ol><li>Senza toccare nulla: <code>Q1</code> lampeggia.</li>
+        <li>Clic su <code>I0</code> (Abilita): parte il ciclo su <code>Q0</code>, <code>Q1</code>, <code>Q2</code>.</li>
+        <li>In Online guarda i timer contare dentro i box TON.</li></ol>
+      <div class="btns"><a class="btn pri" href="provami/editor/index.html?mock&amp;esempio=semaforo" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">▶ Apri nel simulatore</a><a class="btn" href="esempi/semaforo.miaplc" download>⭳ Scarica</a></div>
+    </div>
+    <div class="card">
+      <div class="meta">Avanzato · FC, DB, confronti</div>
+      <h3>La canzoncina dei relè</h3>
+      <p>I relè non suonano note, ma il ritmo sì: la Quinta di Beethoven, Jingle Bells e «Shave and a haircut» battute su <code>Q0</code> e <code>Q1</code>.
+        Un sequencer a passi fatto con una FC, timer e confronti. Sulla scheda vera si sente il clic dei relè.</p>
+      <ol><li>Dopo Run la musica parte da sola.</li>
+        <li><code>I0</code>: ricomincia da capo.</li>
+        <li>Apri la FC10 per vedere come è fatto il sequencer.</li></ol>
+      <div class="btns"><a class="btn pri" href="provami/editor/index.html?mock&amp;esempio=canzoncina" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">▶ Apri nel simulatore</a><a class="btn" href="esempi/canzoncina.miaplc" download>⭳ Scarica</a></div>
+    </div>
+    <div class="card" style="border-style:dashed">
+      <div class="meta">In arrivo</div>
+      <h3>Altri esempi</h3>
+      <p>Contapezzi con CTU, serbatoio con livello analogico e SCALE, ricetta in un DB ritentivo, FC in Structured Text, modulo I/O µLink con Arduino.</p>
+      <p class="mut" style="margin-top:10px">Hai un esempio da proporre? <a href="mailto:info@miaplc.it">Scrivimi</a>.</p>
+    </div>
+  </div>
+
+  <figure class="shot" style="margin:48px 0 0"><img src="assets/img/simulatore.jpg" alt="Il semaforo in Online nel simulatore MiaPLC" loading="lazy">
+    <figcaption>Il semaforo in Online nel simulatore: fase gialla, il timer del giallo sta contando.</figcaption></figure>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
+    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+</body>
+</html>

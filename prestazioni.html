@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prestazioni — MiaPLC</title>
+<meta name="description" content="Quanto corre MiaPLC: tempi misurati della VM su ESP32 e P4, µLink con 3 moduli, memoria, e quante stanze d'hotel o ettari di irrigazione gestisce.">
+<meta property="og:title" content="Prestazioni — MiaPLC">
+<meta property="og:description" content="Quanto corre MiaPLC: tempi misurati della VM su ESP32 e P4, µLink con 3 moduli, memoria, e quante stanze d'hotel o ettari di irrigazione gestisce.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/prestazioni.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/prestazioni.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/prestazioni.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/prestazioni.html">
+<link rel="canonical" href="https://www.miaplc.it/prestazioni.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/prestazioni.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html">Esempi</a><a href="prestazioni.html" class="on">Prestazioni</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/prestazioni.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
+<main>
+<section class="hero" style="padding-bottom:30px"><div class="wrap">
+  <div class="sec-h" style="max-width:860px">
+    <span class="kick">Prestazioni</span>
+    <h1>Quanto corre <span>un PLC da pochi euro?</span></h1>
+    <p class="lead">Niente promesse: tempi misurati sulle schede vere, e da lì i conti per due impianti concreti, un hotel e un campo irrigato.
+      Dove un numero è una stima lo trovi scritto.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><em class="m">misurato</em><b>0,79 µs</b><span>un network ladder «contatto → bobina» su ESP32</span></div>
+    <div class="stat"><em class="m">misurato</em><b>0,92 ms</b><span>1000 network ladder, un giro completo</span></div>
+    <div class="stat"><em class="m">misurato</em><b>5,4×</b><span>più veloce sul P4 col codice macchina, su un programma grande</span></div>
+    <div class="stat"><em class="m">misurato</em><b>0,3–0,5 ms</b><span>andata e ritorno di un modulo I/O µLink</span></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">La macchina virtuale</span><h2>Quanto ci mette, funzione per funzione</h2>
+    <p class="mut">Il programma ladder diventa <b>bytecode</b>, che la VM esegue a ogni ciclo. Il P4 è un processore più potente e in più
+      può trasformare le parti semplici in <b>codice macchina</b>, che la CPU esegue direttamente. Tempi più bassi = più veloce.</p></div>
+  <div class="tblwrap"><table class="cmp perf">
+    <thead><tr><th>Funzione</th><th>ESP32-WROOM</th><th>ESP32-P4</th></tr></thead>
+    <tbody>
+      <tr><td>Un network contatto → bobina</td><td>0,79 µs</td><td>≈ 0,4–0,5 µs</td></tr>
+      <tr><td>Un network con una somma (ADD)</td><td>1,4 µs</td><td>≈ 0,7–0,9 µs</td></tr>
+      <tr><td>Macchina semplice, ~300 istruzioni</td><td>0,25 ms</td><td>≈ 0,15 ms</td></tr>
+      <tr><td>1000 network contatto → bobina</td><td>0,92 ms</td><td>≈ 0,5 ms</td></tr>
+      <tr><td>Programma con 101 funzioni (14,8 KB)</td><td>1,44 ms <small>solo senza WiFi</small></td><td>≈ 0,7–1 ms</td></tr>
+      <tr class="big"><td>Impianto grande: 129 blocchi, 4,3 MB</td><td class="no">non ci sta</td><td><b class="win">38,9 ms</b> <small>col codice macchina<br>209,7 ms con la sola VM</small></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small mut">Valori senza «≈»: misurati sulla scheda. Con «≈»: stimati, il P4 da 1,5 a 2,2 volte l'ESP32 con la stessa VM.
+    Il codice macchina conviene sui programmi grandi; su un programma piccolo pieno di cicli e salti è più lento della VM (168 µs contro 136 µs, misurato):
+    per questo sul P4 è una scelta, non un obbligo.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Grandezza del programma</span><h2>Quanto programma ci sta</h2>
+    <p class="mut">Tutti i valori di memoria e di spazio in questa pagina sono quelli <b>della scheda PLC</b>: il programma, i DB e i dati stanno lì.
+      I moduli I/O non tengono il programma e il PC serve solo per scriverlo.
+      La memoria di lavoro è la RAM della scheda dove gira il bytecode; sull'ESP32 la divide con la rete, e il WiFi da solo si prende parecchio.</p></div>
+  <div class="cards">
+    <div class="card"><h3>Scheda PLC ESP32</h3>
+      <ul class="kvlist">
+        <li><span>memoria di lavoro, WiFi + Ethernet</span><b>11,4 KB</b></li>
+        <li><span>memoria di lavoro, solo Ethernet</span><b>~50 KB</b></li>
+        <li><span>area dei DB</span><b>8 KB</b></li>
+        <li><span>memoria di caricamento (flash)</span><b>256 KB</b></li>
+      </ul>
+      <p class="small">In pratica: <b>11 KB</b> sono circa 1000 network ladder semplici, già un impianto vero. Con 50 KB ci sta un programma da 100 funzioni.</p></div>
+    <div class="card"><h3>Scheda PLC ESP32-P4</h3>
+      <ul class="kvlist">
+        <li><span>memoria di lavoro (con la PSRAM)</span><b>~7,6 MB</b></li>
+        <li><span>codice del programma, al massimo</span><b>8 MB</b></li>
+        <li><span>area dei DB</span><b>2 MB</b></li>
+      </ul>
+      <p class="small"><b>Quanto è grande 4 MB?</b> Un network semplice occupa una decina di byte; uno di un impianto vero, con confronti e box, 30–60 byte.
+        Una macchina automatica ha qualche centinaio di network; una linea di produzione completa qualche migliaio.
+        I 4,3 MB della prova corrispondono a <b>decine di migliaia di network</b>: l'ordine di grandezza di un reparto intero, non di una macchina.
+        Per un programma scritto a mano la memoria del P4 non finisce: il limite diventano gli ingressi e le uscite.</p></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">Comunicazione</span><h2>Un PLC e tre moduli I/O</h2>
+    <p class="mut">Prova vera: un PLC ESP32-P4 e tre moduli ESP32 su µLink, con l'editor Online e Download in corso per stressarlo.
+      A ogni giro il PLC manda a ogni modulo lo stato di tutte le uscite e riceve tutti gli ingressi.</p></div>
+  <div class="ulink">
+    <div class="ul-io"><b>Modulo I/O 1</b><small>ESP32</small></div>
+    <div class="ul-arrow"><span>309 µs</span><i><em></em></i><small>andata e ritorno</small></div>
+    <div class="ul-io"><b>Modulo I/O 2</b><small>ESP32</small></div>
+    <div class="ul-arrow"><span>495 µs</span><i><em></em></i><small>andata e ritorno</small></div>
+    <div class="ul-io"><b>Modulo I/O 3</b><small>ESP32</small></div>
+    <div class="ul-arrow"><span>359 µs</span><i><em></em></i><small>andata e ritorno</small></div>
+    <div class="ul-plc"><b>PLC</b><small>ESP32-P4</small></div>
+  </div>
+  <p class="small mut" style="text-align:center;margin-top:6px">Andata e ritorno medio misurato per ogni modulo, scambio ogni 5 ms, con l'editor Online e un Download in corso.</p>
+  <div class="stats" style="margin-top:26px">
+    <div class="stat"><em class="m">misurato</em><b>0,31–0,50 ms</b><span>andata e ritorno medio, per modulo</span></div>
+    <div class="stat"><em class="m">misurato</em><b>200 al secondo</b><span>scambi per modulo: 64 uscite e 64 ingressi ogni volta</span></div>
+    <div class="stat"><em class="m">misurato</em><b>22.608</b><span>scambi per modulo durante la prova, tutti validi</span></div>
+    <div class="stat"><em class="m">misurato</em><b>&lt; 0,5 %</b><span>risposte arrivate in ritardo, sotto stress</span></div>
+  </div>
+  <p class="small mut" style="margin-top:14px">Un frame perso non fa danni: ogni frame porta lo stato completo, il giro dopo rimette tutto a posto.
+    Il punto peggiore misurato, durante un Download pesante, è stato di 12–15 ms.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">In pratica · 1</span><h2>L'hotel: quante stanze?</h2>
+    <p class="mut">Ogni stanza: <b>10 pulsanti, 10 luci, clima</b> con sonda di temperatura, valvola e ventilatore. Una funzione «Stanza» scritta una volta
+      e chiamata per ogni camera; un modulo µLink da 64 I/O nel quadro di piano serve 5 stanze.</p></div>
+  <div class="calc" id="calc-hotel">
+    <div class="calc-in">
+      <label>Stanze: <b class="n">40</b></label>
+      <input type="range" min="5" max="5000" step="5" value="40" aria-label="Numero di stanze">
+      <label class="chk"><input type="checkbox"> WiFi acceso sul PLC</label>
+    </div>
+    <div class="calc-out">
+      <div><h4>ESP32</h4><div data-b="esp32"></div></div>
+      <div><h4>ESP32-P4</h4><div data-b="p4"></div></div>
+    </div>
+  </div>
+  <p class="small mut">Un battito di ciglia dura 100–400 ms: sotto i 100 ms dal pulsante alla luce nessun ospite si accorge di niente.
+    Il P4 nella configurazione estesa (in sviluppo) arriva a 1000 schede I/O, 128 kbit di I/O e un'area REAL da 128k valori: è la parte alta del cursore. Con le luci sotto i 100 ms ci stanno circa 1300 stanze; oltre conviene dividere su più bus o più PLC.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">In pratica · 2</span><h2>Irrigazione: quanti ettari prima di finire la RAM?</h2>
+    <p class="mut">Ogni ettaro: <b>2 settori</b> con valvola, tempo di irrigazione e soglia di umidità del terreno, più una sonda.
+      In più una stazione fissa: pompe, pressione, dosatori, stabilizzazione dei fanghi, agitatori, sonde chimiche.</p></div>
+  <div class="calc" id="calc-campo">
+    <div class="calc-in">
+      <label>Ettari: <b class="n">50</b></label>
+      <input type="range" min="5" max="10000" step="5" value="50" aria-label="Ettari">
+      <label class="chk"><input type="checkbox" checked> WiFi acceso sul PLC</label>
+    </div>
+    <div class="calc-out">
+      <div><h4>ESP32</h4><div data-b="esp32"></div></div>
+      <div><h4>ESP32-P4</h4><div data-b="p4"></div></div>
+    </div>
+  </div>
+  <p class="small mut">Un campo non ha fretta: anche un ciclo da mezzo secondo va benissimo. Qui il limite vero sono la memoria e i punti di I/O,
+    non la velocità. Sul P4 le sonde non sono un problema: l'area REAL da 128k valori basta per oltre 100.000 sonde, quindi il tetto resta l'area dei DB. Le sonde analogiche servono moduli con ingressi analogici o sensori in Modbus.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">In pratica · 3</span><h2>Nastri trasportatori per bagagli</h2>
+    <p class="mut">Ogni nastro: <b>4 fotocellule, motore, inseguimento delle valigie</b> (dove si trova ogni collo), intasamenti e deviatori.
+      Qui conta la velocità: a 2 m/s una valigia percorre 4 cm in 20 ms, quindi vogliamo tutti i nastri aggiornati almeno ogni 20 ms.
+      Un modulo µLink da 64 I/O serve 15 nastri.</p></div>
+  <div class="calc" id="calc-nastri">
+    <div class="calc-in">
+      <label>Nastri: <b class="n">200</b></label>
+      <input type="range" min="5" max="3000" step="5" value="200" aria-label="Numero di nastri">
+      <label class="chk"><input type="checkbox" checked> P4 con codice macchina</label>
+    </div>
+    <div class="calc-out">
+      <div><h4>ESP32</h4><div data-b="esp32"></div></div>
+      <div><h4>ESP32-P4</h4><div data-b="p4"></div></div>
+    </div>
+  </div>
+  <p class="small mut">Un grande aeroporto non usa un PLC solo: l'impianto è diviso in zone, ognuna col suo PLC. Un ESP32 regge una zona piccola,
+    un P4 una zona di centinaia di nastri, oltre 2000 col codice macchina. Stime: un impianto bagagli vero va progettato e provato sul campo.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Riassunto</span><h2>Una riga per scheda</h2></div>
+  <div class="tblwrap"><table class="cmp" id="tab-limiti">
+    <thead><tr><th>Scheda</th><th>Hotel oggi (8 moduli)</th><th>Hotel al limite</th><th>Irrigazione: ettari prima che finisca la RAM</th><th>Nastri bagagli, aggiornati ogni 20 ms</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="small mut" style="margin-top:10px">«Al limite»: ESP32 con 15 moduli (tutti gli I/O del programma); P4 nella configurazione estesa, in sviluppo: 1000 schede I/O, 128 kbit di I/O, 128k REAL. Il tempo è quello in cui tutte le stanze vengono aggiornate.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <details class="geek">
+    <summary>🤓 Per i più curiosi: i numeri grezzi e come abbiamo fatto i conti</summary>
+    <div class="doc" style="display:block;padding:0"><article>
+    <h3>Misure (schede vere, firmware 0.3.39–0.3.71, novembre 2026)</h3>
+    <table>
+      <tr><th>Cosa</th><th>Valore</th><th>Dove</th></tr>
+      <tr><td>Network LD → ST (3 istruzioni VM)</td><td>788 ns</td><td>ESP32-WROOM 240 MHz</td></tr>
+      <tr><td>Network con ADD DINT su DB</td><td>1.364–1.460 ns</td><td>ESP32</td></tr>
+      <tr><td>Scansione vuota (I/O, SDB, controlli)</td><td>~0,13 ms</td><td>ESP32</td></tr>
+      <tr><td>carico-100fc: Main + 101 FC, 14,8 KB</td><td>1,44 ms</td><td>ESP32</td></tr>
+      <tr><td>4,3 MB di codice macchina, 129 blocchi: VM / misto</td><td>209,7 / 38,9 ms</td><td>ESP32-P4, 60 confronti con l'interprete uguali</td></tr>
+      <tr><td>Programma piccolo con cicli: VM / codice macchina</td><td>136 / 168 µs</td><td>ESP32-P4</td></tr>
+      <tr><td>Memoria di lavoro libera, WiFi + Ethernet</td><td>11.702 byte</td><td>ESP32</td></tr>
+      <tr><td>Memoria di lavoro libera</td><td>7.989.150 byte</td><td>ESP32-P4 con PSRAM</td></tr>
+      <tr><td>µLink, andata e ritorno medio (3 moduli ESP32)</td><td>309–495 µs</td><td>PLC P4, periodo 5 ms</td></tr>
+      <tr><td>µLink, risposte in ritardo sotto stress</td><td>0,06–0,42 %</td><td>22.608 scambi per modulo</td></tr>
+      <tr><td>µLink, modulo ESP32-C3 + W5100 (SPI)</td><td>4,7–7,3 ms</td><td>il chip SPI è il collo di bottiglia</td></tr>
+      <tr><td>µLink, 8 moduli</td><td>~1,3 ms di bus ogni 5 ms</td><td>documentazione µLink</td></tr>
+      <tr><td>µLink, 192 moduli (prova)</td><td>16 ms per inviare tutto</td><td>ESP32-P4</td></tr>
+      <tr><td>Download di 127 KB via USB (cavo seriale, compresi STOP e scrittura in flash)</td><td>~28 s</td><td>ESP32-P4, misura automatica di MiaConfig</td></tr>
+      <tr><td>Editor via Ethernet / USB</td><td>0,7–1,3 s / 33,5 s</td><td>370 KB, 18 file</td></tr>
+      <tr><td>Richiesta di stato via Ethernet, PLC in RUN</td><td>31–40 ms</td><td>ESP32 e P4</td></tr>
+    </table>
+    <h3>Stime (da confermare)</h3>
+    <ul>
+      <li><b>P4 con la VM interprete</b>: almeno 1,5× l'ESP32 (CPU RISC-V 360–400 MHz; la stima va da 1,5 a 2,2×). Nei calcoli usiamo 1,5×.</li>
+      <li><b>Chiamata di una FC</b>: ~0,3 µs, più ~0,25 µs per parametro.</li>
+      <li><b>Stanza</b>: 23 network di bit, 3 box (scala e confronti del clima), 26 parametri → ~29 µs su ESP32, ~19 µs sul P4;
+        107 byte di chiamata + 24 byte di DB; la FC «Stanza» 600 byte, una volta sola. 12 uscite per stanza: 5 stanze per modulo da 63 uscite utili.</li>
+      <li><b>Ettaro</b>: 2 settori × (5 network, 4 box con il timer, 12 parametri) → ~26 µs su ESP32; 102 byte di chiamate, 56 byte di DB
+        (due TIMER da 16 byte, tempi, soglie, sonda). Stazione fissa: 4 KB di codice, 1 KB di DB, 0,4 ms.</li>
+      <li><b>Nastro</b>: 20 network di bit, 10 box (inseguimento, tempi, confronti), 15 parametri → ~34 µs su ESP32, ~23 µs sul P4 con la VM;
+        col codice macchina del P4 5,4× più veloce (il valore misurato sul programma grande). 63 byte di chiamata, 64 byte di DB (coda delle valigie, timer);
+        4 ingressi per nastro: 15 nastri per modulo. Obiettivo: tutto aggiornato entro 20 ms.</li>
+      <li><b>Bus</b>: periodo = almeno 5 ms, con il bus occupato al massimo al 60 %; sul P4 0,083 ms per modulo (192 moduli in 16 ms). Reazione al peggio = 2 periodi + 1 ciclo.</li>
+      <li><b>P4, configurazione estesa</b> (in sviluppo): 1000 schede I/O, aree I/O da 128 kbit, area REAL da 131.072 valori (128k). Una sonda REAL per stanza e per ettaro.</li>
+    </ul>
+    <h3>Le formule</h3>
+    <pre>ciclo   = 0,13 ms + N × (network × 0,79 + box × 1,4 + 0,3 + parametri × 0,25) µs ÷ velocità
+memoria = codice fisso + N × byte di chiamata      ≤ memoria di lavoro
+dati    = dati fissi  + N × byte di DB             ≤ area dei DB
+periodo = max(5 ms, moduli × tempo per modulo ÷ 0,6)</pre>
+    <p class="small mut">Il calcolatore è nel file <code>assets/js/prestazioni.js</code> del sito: tutti i numeri di partenza sono in cima, con la loro fonte.</p>
+    </article></div>
+  </details>
+</div></section>
+
+<script src="assets/js/prestazioni.js?v=56a08fc7"></script>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
+    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+</body>
+</html>

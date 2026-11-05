@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manuale: crea i progetti di esempio — MiaPLC</title>
+<meta name="description" content="Passo per passo nel simulatore: marcia e arresto con autoritenuta, semaforo con i timer, la canzoncina dei relè.">
+<meta property="og:title" content="Manuale: crea i progetti di esempio — MiaPLC">
+<meta property="og:description" content="Passo per passo nel simulatore: marcia e arresto con autoritenuta, semaforo con i timer, la canzoncina dei relè.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/guida-esempi.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/guida-esempi.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/guida-esempi.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/guida-esempi.html">
+<link rel="canonical" href="https://www.miaplc.it/guida-esempi.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/guida-esempi.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/guida-esempi.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
+<main>
+<section class="hero" style="padding-bottom:10px"><div class="wrap">
+  <div class="sec-h" style="max-width:860px">
+    <span class="kick">Manuale</span>
+    <h1>Crea i progetti di esempio, <span>passo per passo</span></h1>
+    <p class="lead">Rifai da zero gli esempi del sito nel simulatore: niente da installare e nessuna scheda. Alla fine sai usare
+      contatti, bobine, rami paralleli, timer, simboli, Download e Online. Per la scheda vera c'è il
+      <a href="guida-hardware.html">manuale dell'hardware con MiaConfig</a>.</p>
+  </div>
+</div></section>
+
+<div class="wrap doc">
+<aside>
+  <h4>Marcia e arresto</h4>
+  <a href="#prima">Prima di iniziare</a>
+  <a href="#p1">1 · Nuovo progetto</a>
+  <a href="#p2">2 · I simboli</a>
+  <a href="#p3">3 · Il primo contatto</a>
+  <a href="#p4">4 · Stop, termico e motore</a>
+  <a href="#p5">5 · L'autoritenuta</a>
+  <a href="#p6">6 · Spia e allarme</a>
+  <a href="#p7">7 · Download e RUN</a>
+  <a href="#p8">8 · Online e prova</a>
+  <a href="#p9">9 · Salva</a>
+  <h4>Altri esempi</h4>
+  <a href="#semaforo">Semaforo</a>
+  <a href="#canzoncina">La canzoncina dei relè</a>
+  <h4>Poi</h4>
+  <a href="guida-hardware.html">Sulla scheda vera</a>
+</aside>
+<article>
+
+<h2 id="prima">Prima di iniziare</h2>
+<p>Costruiamo il primo programma di ogni corso di automazione: <b>marcia e arresto di un motore con autoritenuta</b>.
+Start avvia il motore, il contatto del motore stesso lo tiene acceso, Stop o il termico lo fermano. Una spia si accende
+3 secondi dopo la partenza e una seconda spia segnala il termico scattato.</p>
+<table>
+  <tr><th>Indirizzo</th><th>Simbolo</th><th>Cosa è</th></tr>
+  <tr><td><code>I0</code></td><td>Start</td><td>pulsante di marcia (normalmente aperto)</td></tr>
+  <tr><td><code>I1</code></td><td>Stop</td><td>pulsante di arresto</td></tr>
+  <tr><td><code>I2</code></td><td>Termico</td><td>protezione del motore</td></tr>
+  <tr><td><code>Q0</code></td><td>Motore</td><td>contattore del motore</td></tr>
+  <tr><td><code>Q1</code></td><td>Spia_regime</td><td>motore a regime</td></tr>
+  <tr><td><code>Q2</code></td><td>Allarme</td><td>termico scattato</td></tr>
+</table>
+<p>Ti serve solo il browser: apri il <a href="provami/editor/index.html?mock" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">simulatore</a> in un'altra scheda e tieni
+questa pagina accanto. Se vuoi vedere subito il risultato:
+<a href="provami/editor/index.html?mock&amp;esempio=marcia-arresto" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">esempio finito nel simulatore</a>.</p>
+<p class="note">In questo esempio Stop e Termico sono contatti normalmente aperti: a riposo l'ingresso vale 0, premuto vale 1. Per questo nel ladder
+li usiamo con un contatto <b>NC</b>, che lascia passare la corrente quando l'ingresso è 0. Negli impianti veri l'arresto si cabla normalmente
+chiuso (un filo rotto ferma la macchina) e nel ladder diventa un contatto NO: ne parliamo nel
+<a href="guida-hardware.html#cablaggio">manuale dell'hardware</a>.</p>
+
+<h2 id="p1">1 · Nuovo progetto</h2>
+<p>Premi <kbd>🆕 Nuovo</kbd>, scrivi il nome del progetto e premi <kbd>OK</kbd>. L'editor crea il blocco <b>Main</b> con un network vuoto
+e, dai punti della scheda, la <b>HWDB</b> nella cartella Sys_DB.</p>
+<figure class="shot"><img src="assets/img/guida-01-it.jpg" alt="Finestra Nuovo progetto con il nome Marcia e arresto" loading="lazy"></figure>
+
+<h2 id="p2">2 · I simboli</h2>
+<p>Un simbolo è il nome di un indirizzo: nel ladder vedrai <code>"Start"</code> sopra <code>I0</code>. Premi <kbd>🏷 Simboli</kbd>,
+poi <kbd>+ Aggiungi</kbd> per ogni riga della tabella qui sopra: operando, nome e commento. <kbd>← Torna al ladder</kbd> per tornare al programma.</p>
+<figure class="shot"><img src="assets/img/guida-08-it.jpg" alt="Tabella dei simboli con Start, Stop, Termico, Motore, Spia_regime e Allarme" loading="lazy">
+  <figcaption>La tabella dei simboli. La colonna «Usi» conta dove compare ogni indirizzo: cliccala per i riferimenti incrociati.</figcaption></figure>
+
+<h2 id="p3">3 · Il primo contatto</h2>
+<p>Dalla colonna <b>Istruzioni → Contatti</b> trascina <b>NO</b> sulla zona tratteggiata del network. Il contatto compare con un <code>?</code>:
+non ha ancora un indirizzo.</p>
+<figure class="shot"><img src="assets/img/guida-02-it.jpg" alt="Contatto NO appena trascinato nel network, ancora senza indirizzo" loading="lazy"></figure>
+<p>Clicca il contatto: nella finestra <b>Configura contatto</b> scegli l'area <kbd>I (ingresso)</kbd> e l'indice <code>0</code>, oppure scrivi
+<code>Start</code> nel campo Simbolo. <kbd>OK</kbd>.</p>
+<figure class="shot"><img src="assets/img/guida-03-it.jpg" alt="Finestra Configura contatto con area I e indice 0" loading="lazy"></figure>
+
+<h2 id="p4">4 · Stop, termico e motore</h2>
+<ol>
+  <li>Trascina un contatto <b>NC (negato)</b> sulla zona subito a destra di Start e dagli <code>I1</code> (Stop).</li>
+  <li>Un altro <b>NC</b> dopo Stop, con <code>I2</code> (Termico).</li>
+  <li>Dalla sezione <b>Bobine</b> trascina <b>Bobina</b> nella zona a destra, «bobina, timer, FC o box», e dagli <code>Q0</code> (Motore).</li>
+</ol>
+<figure class="shot"><img src="assets/img/guida-04-it.jpg" alt="Network con Start, Stop NC, Termico NC e bobina Motore" loading="lazy">
+  <figcaption>Con titolo e commento del network: clicca «titolo del network…» e il fumetto 💬 per scriverli.</figcaption></figure>
+<p>Così il motore resta acceso solo finché tieni premuto Start. Serve l'autoritenuta.</p>
+
+<h2 id="p5">5 · L'autoritenuta (ramo parallelo)</h2>
+<p>Il contatto del motore, in parallelo a Start, tiene acceso il motore quando lasci il pulsante.</p>
+<ol>
+  <li>Tasto destro sul contatto Start → <kbd>⤵ Ramo parallelo (OR) da qui</kbd>.</li>
+</ol>
+<figure class="shot"><img src="assets/img/guida-05-it.jpg" alt="Menu del tasto destro su Start con la voce Ramo parallelo" loading="lazy"></figure>
+<ol start="2">
+  <li>Sotto Start compare un ramo aperto con un segnaposto <code>?</code> e una freccia.</li>
+  <li>Trascina un contatto <b>NO</b> sul <code>?</code> e dagli <code>Q0</code> (Motore). Dalla tastiera: seleziona il <code>?</code> e premi <kbd>A</kbd>.</li>
+  <li>Trascina la <b>freccia</b> sulla linea, subito dopo Start: il ramo si chiude lì. In alternativa: tasto destro sulla freccia.</li>
+</ol>
+<figure class="shot"><img src="assets/img/guida-06-it.jpg" alt="Ramo parallelo aperto sotto Start con il segnaposto e la freccia" loading="lazy"></figure>
+<figure class="shot"><img src="assets/img/guida-07-it.jpg" alt="Network finito: Start in parallelo con Motore, poi Stop e Termico, bobina Motore" loading="lazy">
+  <figcaption>Il network 1 finito: Start <b>oppure</b> Motore, <b>e</b> Stop non premuto, <b>e</b> termico non scattato → Motore.</figcaption></figure>
+
+<h2 id="p6">6 · Spia a regime e allarme</h2>
+<p>Premi <kbd>+ Aggiungi network</kbd> sotto il network 1.</p>
+<table>
+  <tr><th>Network</th><th>Cosa trascinare</th><th>Indirizzi</th></tr>
+  <tr><td>2 · Spia «a regime»</td><td>contatto NO, poi dalla sezione <b>Timer</b> un <b>TON</b>, poi una bobina</td>
+      <td>contatto <code>Q0</code>; timer <code>T0</code> con tempo <code>3s</code>; bobina <code>Q1</code></td></tr>
+  <tr><td>3 · Allarme termico</td><td>contatto NO e bobina</td><td>contatto <code>I2</code>; bobina <code>Q2</code></td></tr>
+</table>
+<p>Il TON (ritardo all'eccitazione) chiude la sua uscita quando la corrente gli arriva da almeno il tempo impostato:
+3 secondi dopo la partenza del motore si accende la spia. Le altre istruzioni con le immagini sono nella
+<a href="wiki.html#istruzioni">wiki</a>.</p>
+
+<h2 id="p7">7 · Download e RUN</h2>
+<p>Premi <kbd>Download to cpu</kbd>: l'editor compila da solo e mostra cosa manda. Conferma con <kbd>Download</kbd>, poi alla domanda
+successiva rispondi <kbd>RUN</kbd>. Se c'è un errore (un <code>?</code> rimasto, un ramo aperto) la riga in basso dice quale network correggere.</p>
+<figure class="shot"><img src="assets/img/guida-09-it.jpg" alt="Finestra Download del programma completo" loading="lazy"></figure>
+
+<h2 id="p8">8 · Online e prova</h2>
+<p>Premi <kbd>Online</kbd>: i contatti chiusi e le bobine eccitate diventano verdi, il timer mostra il tempo che passa.
+Nel riquadro <b>MOCK PLC</b> in basso a destra clicca <code>I0</code> (Start) per premerlo e di nuovo per rilasciarlo:</p>
+<ul>
+  <li><code>Q0</code> resta acceso grazie all'autoritenuta;</li>
+  <li>dopo 3 s si accende <code>Q1</code>;</li>
+  <li>clicca <code>I1</code> (Stop) o <code>I2</code> (termico): il motore si ferma; con <code>I2</code> si accende anche <code>Q2</code>.</li>
+</ul>
+<figure class="shot"><img src="assets/img/guida-10-it.jpg" alt="Editor in Online: motore acceso in autoritenuta e timer che conta" loading="lazy"></figure>
+<p>Se modifichi il programma mentre sei Online, il blocco modificato esce da Online (in alto compare <code>≠ PLC</code>) finché non fai di nuovo il Download.</p>
+
+<h2 id="p9">9 · Salva</h2>
+<p><kbd>💾 Salva</kbd> scarica il progetto come file <code>.miaplc</code>: programma, simboli e DB. Lo riapri con <kbd>📂 Apri</kbd>, nel simulatore
+o nell'editor della scheda. L'editor tiene anche una bozza nel browser: se chiudi la pagina per sbaglio, la ritrovi alla riapertura.</p>
+
+<h2 id="semaforo">Semaforo</h2>
+<p>Tre timer in cascata fanno il ciclo verde 5 s, giallo 2 s, rosso 4 s; a semaforo spento il giallo lampeggia.
+<a href="provami/editor/index.html?mock&amp;esempio=semaforo" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">Apri l'esempio finito</a>.</p>
+<p>Simboli: <code>I0</code> Abilita, <code>Q0</code> Verde, <code>Q1</code> Giallo, <code>Q2</code> Rosso. Poi sei network:</p>
+<table>
+  <tr><th>Network</th><th>Contenuto</th><th>Perché</th></tr>
+  <tr><td>1 · Tempo del verde</td><td>NO <code>I0</code> → NC <code>T2</code> → TON <code>T0</code> 5s</td><td>alla fine del rosso, T2 riavvia tutto il ciclo</td></tr>
+  <tr><td>2 · Tempo del giallo</td><td>NO <code>T0</code> → TON <code>T1</code> 2s</td><td>parte quando il verde è finito</td></tr>
+  <tr><td>3 · Tempo del rosso</td><td>NO <code>T1</code> → TON <code>T2</code> 4s</td><td>parte quando il giallo è finito</td></tr>
+  <tr><td>4 · Luce verde</td><td>NO <code>I0</code> → NC <code>T0</code> → bobina <code>Q0</code></td><td>verde finché T0 non ha finito</td></tr>
+  <tr><td>5 · Luce gialla</td><td>ramo 1: NO <code>I0</code>, NO <code>T0</code>, NC <code>T1</code>; ramo 2: NC <code>I0</code>, NO <code>SM5</code> → bobina <code>Q1</code></td>
+      <td>fissa nella sua fase, lampeggiante a 1 Hz con il semaforo spento</td></tr>
+  <tr><td>6 · Luce rossa</td><td>NO <code>I0</code> → NO <code>T1</code> → bobina <code>Q2</code></td><td>rossa da fine giallo a fine rosso</td></tr>
+</table>
+<p>Il timer va nel network come un contatto: trascinalo dalla sezione <b>Timer</b> e clicca il box per scegliere il numero (T0, T1, T2) e il tempo.
+Il contatto <code>T0</code> è l'uscita del timer 0. <code>SM5</code> è un bit di sistema che lampeggia a 1 Hz da solo.</p>
+<figure class="shot"><img src="assets/img/simulatore.jpg" alt="Il semaforo in Online nel simulatore" loading="lazy"></figure>
+
+<h2 id="canzoncina">La canzoncina dei relè</h2>
+<p>Un esempio avanzato: un sequencer a passi che batte un ritmo su <code>Q0</code> e <code>Q1</code>. Più che rifarlo da zero conviene
+<a href="provami/editor/index.html?mock&amp;esempio=canzoncina" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">aprirlo</a> e studiarlo network per network:
+ogni network ha il suo commento.</p>
+<ul>
+  <li><b>Main</b> chiama solo la funzione <b>FC10 «Canzoncina»</b>: il programma vero sta lì. Nell'albero dei blocchi clicca FC10 per aprirla.</li>
+  <li><b>StartUp</b> rimette a zero il passo dopo un Download o un RUN, con dei box <b>MOVE</b>.</li>
+  <li>La <b>DB1 «Merker»</b> contiene le parole di lavoro: passo, battuta, spartito.</li>
+  <li>Nella FC10, timer che si riarmano da soli danno il tempo di ogni parte (75, 70 e 95 ms per passo); un impulso a ogni passo
+      fa avanzare il contatore con <b>ADD</b>.</li>
+  <li><b>DIV</b> e <b>MOD</b> calcolano battuta e posizione; lo «spartito» è una parola di 16 bit per battuta, un bit per passo;
+      i <b>confronti</b> scelgono la parte in base al numero del passo.</li>
+  <li>Le ultime due bobine accendono i relè per 45 ms a ogni colpo. <code>M30 = 1</code> fa silenzio, <code>I0</code> ricomincia da capo.</li>
+</ul>
+<p class="note">Per creare una FC: <kbd>+ Nuova funzione</kbd>; per chiamarla, trascinala dall'albero dei blocchi in un network del Main.
+Per una DB: <kbd>+ Nuovo DB</kbd> e aggiungi i campi.</p>
+
+<h2>E adesso?</h2>
+<p>Gli stessi progetti girano sulla scheda vera. Il <a href="guida-hardware.html">manuale dell'hardware</a> spiega come preparare un ESP32 con
+MiaConfig, collegare pulsanti e LED e caricare l'esempio.</p>
+
+</article>
+</div>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
+    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manuale: hardware degli esempi con MiaConfig — MiaPLC</title>
+<meta name="description" content="Prepara il firmware di un ESP32 con MiaConfig, collega pulsanti e LED e carica gli esempi sulla scheda vera.">
+<meta property="og:title" content="Manuale: hardware degli esempi con MiaConfig — MiaPLC">
+<meta property="og:description" content="Prepara il firmware di un ESP32 con MiaConfig, collega pulsanti e LED e carica gli esempi sulla scheda vera.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/guida-hardware.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/guida-hardware.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/guida-hardware.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/guida-hardware.html">
+<link rel="canonical" href="https://www.miaplc.it/guida-hardware.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/guida-hardware.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/guida-hardware.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
+<main>
+<section class="hero" style="padding-bottom:10px"><div class="wrap">
+  <div class="sec-h" style="max-width:860px">
+    <span class="kick">Manuale</span>
+    <h1>Gli esempi sulla scheda vera, <span>con MiaConfig</span></h1>
+    <p class="lead">Prepari il firmware per un ESP32 da pochi euro, colleghi pulsanti e LED su una breadboard e carichi gli stessi esempi del
+      simulatore. Una configurazione sola va bene per Marcia e arresto, Semaforo e la canzoncina dei relè.</p>
+  </div>
+</div></section>
+
+<div class="wrap doc">
+<aside>
+  <h4>Preparare</h4>
+  <a href="#serve">Cosa serve</a>
+  <a href="#h1">1 · Avvia MiaConfig</a>
+  <a href="#h2">2 · Nuovo progetto</a>
+  <a href="#h3">3 · Ingressi</a>
+  <a href="#h4">4 · Uscite</a>
+  <a href="#h5">5 · WiFi</a>
+  <a href="#h6">6 · Controlla</a>
+  <a href="#h7">7 · Compila e carica</a>
+  <h4>Collegare</h4>
+  <a href="#cablaggio">8 · Cablaggio</a>
+  <a href="#h9">9 · Apri l'editor della scheda</a>
+  <a href="#h10">10 · Carica l'esempio</a>
+  <h4>Altro</h4>
+  <a href="#problemi">Se qualcosa non va</a>
+  <a href="guida-esempi.html">Creare gli esempi</a>
+</aside>
+<article>
+
+<h2 id="serve">Cosa serve</h2>
+<table>
+  <tr><th>Cosa</th><th>Note</th></tr>
+  <tr><td>Scheda ESP32 DevKit con modulo <b>ESP32-WROOM-32E</b> (o 32D)</td><td>la più comune, si trova a pochi euro</td></tr>
+  <tr><td>Cavo USB <b>dati</b></td><td>alcuni cavi caricano soltanto: con quelli il PC non vede la scheda</td></tr>
+  <tr><td>Breadboard e cavetti</td><td></td></tr>
+  <tr><td>3 pulsanti e 3 resistenze da 10 kΩ</td><td>Start / Abilita, Stop, Termico</td></tr>
+  <tr><td>3 LED (verde, giallo, rosso) e 3 resistenze da 330 Ω</td><td>Motore / Verde, Spia / Giallo, Allarme / Rosso</td></tr>
+  <tr><td>Facoltativo: modulo relè a 2 canali, comando a 3,3 V</td><td>per sentire il clic della canzoncina</td></tr>
+  <tr><td>PC Windows, Linux o macOS con Python 3.10 o più recente</td><td>la prima compilazione scarica circa 1 GB (ESP-IDF e compilatori)</td></tr>
+</table>
+<p>Se vuoi saltare i passi da 2 a 6, scarica il progetto già pronto <a href="esempi/esp32-devkit-esempi.mia" download>esp32-devkit-esempi.mia</a>
+e aprilo in MiaConfig con <kbd>Apri progetto</kbd>.</p>
+
+<h2 id="h1">1 · Avvia MiaConfig</h2>
+<p><!-- da rimettere quando i repo sono pubblici e c'è il pacchetto di MiaConfig: Scarica MiaConfig da <a href="https://github.com/miaplc" rel="noopener">github.com/miaplc</a> e scompattalo in una cartella. -->
+<b>I download di MiaConfig saranno disponibili a breve.</b>
+Su Windows fai doppio clic su <code>avvia.bat</code>: la prima volta prepara da solo il suo Python (serve internet), poi apre la finestra.
+Su Linux e macOS segui il README. Non installa niente nel sistema: tutto resta nella sua cartella.</p>
+
+<h2 id="h2">2 · Nuovo progetto</h2>
+<p>Nella pagina <b>Nuovo progetto</b> lascia <kbd>PLC</kbd>, scrivi un nome, scegli la famiglia <kbd>ESP32 (classico)</kbd> e il modulo
+<b>ESP32-WROOM-32E / 32UE</b>. <kbd>Crea</kbd>.</p>
+<figure class="shot" style="max-width:480px"><img src="assets/img/mc-nuovo.jpg" alt="MiaConfig, Nuovo progetto: PLC, famiglia ESP32 classico, modulo WROOM-32E" loading="lazy"></figure>
+<p>Il progetto parte già con la seriale per l'editor (GPIO 1 e 3), il WiFi, gli ingressi e le uscite digitali. A sinistra c'è l'elenco dei moduli,
+al centro il chip con i suoi pin, a destra le impostazioni del modulo scelto.</p>
+
+<h2 id="h3">3 · Ingressi digitali</h2>
+<p>Clicca <b>Ingressi digitali</b> a sinistra e metti <b>Ingressi</b> = <code>3</code>. MiaConfig sceglie da solo pin liberi e adatti:
+<code>I0</code> → GPIO34, <code>I1</code> → GPIO35, <code>I2</code> → GPIO36. Nella colonna Commento scrivi a cosa servono:
+li ritrovi nel pinout e nella tabella dei punti dell'editor.</p>
+<figure class="shot"><img src="assets/img/mc-ingressi.jpg" alt="MiaConfig, pinout dell'ESP32 con tre ingressi digitali su GPIO34, 35 e 36" loading="lazy">
+  <figcaption>Gli ingressi del PLC sono i pin nell'ordine della lista: <code>I0</code> nel ladder è il primo, qui GPIO34.</figcaption></figure>
+<p>Per cambiare un pin scegli un altro GPIO dalla lista: quelli non adatti (flash, avvio, già usati) sono segnalati.</p>
+
+<h2 id="h4">4 · Uscite digitali</h2>
+<p><b>Uscite digitali</b> → <b>Uscite</b> = <code>3</code>: <code>Q0</code> → GPIO16, <code>Q1</code> → GPIO17, <code>Q2</code> → GPIO18.</p>
+<figure class="shot"><img src="assets/img/mc-uscite.jpg" alt="MiaConfig, tre uscite digitali su GPIO16, 17 e 18" loading="lazy"></figure>
+
+<h2 id="h5">5 · WiFi</h2>
+<p>Con il WiFi la scheda fa da access point: il PC si collega direttamente a lei, senza router. Lascia i valori di default oppure cambia la password.</p>
+<table>
+  <tr><th>Impostazione</th><th>Default</th></tr>
+  <tr><td>Nome rete</td><td><code>miaplc-XXXX</code> (le ultime cifre vengono dal chip)</td></tr>
+  <tr><td>Password</td><td><code>miaplc1234</code></td></tr>
+  <tr><td>IP del PLC</td><td><code>10.10.10.1</code></td></tr>
+</table>
+<figure class="shot"><img src="assets/img/mc-wifi.jpg" alt="MiaConfig, impostazioni del WiFi: access point del PLC" loading="lazy"></figure>
+
+<h2 id="h6">6 · Controlla</h2>
+<p><b>Mappa I/O</b> riassume ingressi e uscite con i loro pin. In alto i contatori <b>gravi / avvisi / info</b> devono avere <b>0 gravi</b>:
+con un errore grave il firmware non si compila, e <b>Controlli</b> dice cosa sistemare. <kbd>Salva</kbd> per tenere il progetto (<code>.mia</code>).</p>
+<figure class="shot"><img src="assets/img/mc-mappa.jpg" alt="MiaConfig, mappa I/O con tre ingressi e tre uscite" loading="lazy"></figure>
+
+<h2 id="h7">7 · Compila e carica</h2>
+<p>Collega la scheda al PC con il cavo USB e apri <b>Genera</b>.</p>
+<ol>
+  <li>Premi <kbd>↻ Cerca</kbd> e scegli la porta della scheda (su Windows <code>COMx</code>, su Linux <code>/dev/ttyUSB0</code>).</li>
+  <li>Premi <kbd>Carica</kbd>: MiaConfig compila il firmware e lo scrive sulla scheda. La prima volta scarica ESP-IDF, i compilatori e il
+      firmware MiaPLC: ci vuole un po', le volte dopo solo pochi minuti.</li>
+</ol>
+<figure class="shot"><img src="assets/img/mc-genera.jpg" alt="MiaConfig, pagina Genera con Compila firmware, porta e Carica" loading="lazy"></figure>
+<p class="note">Il caricamento da USB cancella programma, impostazioni e file del PLC: va bene su una scheda nuova. Per aggiornare un PLC
+già in uso scegli la sua voce «rete» nella lista delle porte: programma e impostazioni restano.<br>
+In alternativa: <kbd>Compila firmware</kbd> crea il pacchetto <code>.miaplc.fw</code> in <code>uscita/</code>, che si carica dall'editor
+(Collegamento → Firmware).</p>
+
+<h2 id="cablaggio">8 · Cablaggio</h2>
+<p><b>Prima di collegare, stacca il cavo USB.</b> L'ESP32 lavora a <b>3,3 V</b>: niente 5 V sui pin.</p>
+<table>
+  <tr><th>Segnale</th><th>Pin</th><th>Collegamento</th></tr>
+  <tr><td><code>I0</code> Start / Abilita</td><td>GPIO34</td><td rowspan="3">pulsante tra <b>3V3</b> e il pin; resistenza da <b>10 kΩ</b> tra il pin e <b>GND</b></td></tr>
+  <tr><td><code>I1</code> Stop</td><td>GPIO35</td></tr>
+  <tr><td><code>I2</code> Termico</td><td>GPIO36 (sulla scheda spesso «VP» o «SVP»)</td></tr>
+  <tr><td><code>Q0</code> Motore / Verde</td><td>GPIO16</td><td rowspan="3">pin → resistenza da <b>330 Ω</b> → LED (gamba lunga) → LED (gamba corta) → <b>GND</b></td></tr>
+  <tr><td><code>Q1</code> Spia / Giallo</td><td>GPIO17</td></tr>
+  <tr><td><code>Q2</code> Allarme / Rosso</td><td>GPIO18</td></tr>
+</table>
+<ul>
+  <li><b>Perché la resistenza da 10 kΩ:</b> GPIO34, 35 e 36 sono solo ingressi e non hanno la resistenza interna. Senza, il pin con il pulsante
+      aperto «galleggia» e il PLC legge 0 e 1 a caso. Con la resistenza verso GND, a riposo legge 0 e premuto legge 1.</li>
+  <li><b>Relè:</b> per la canzoncina usa un modulo relè con il comando a 3,3 V su <code>Q0</code> (GPIO16) e <code>Q1</code> (GPIO17), alimentato
+      come dice il suo foglio. Mai la bobina di un relè direttamente su un pin. Molti moduli si accendono con il pin a 0
+      (comando «attivo basso»): in quel caso i relè fanno il contrario dei LED.</li>
+  <li><b>Arresto negli impianti veri:</b> qui Stop è un pulsante normalmente aperto, come nel simulatore. Su una macchina vera l'arresto si cabla
+      <b>normalmente chiuso</b>, così un filo rotto ferma il motore, e nel ladder diventa un contatto NO. Ricorda anche che MiaPLC non è un
+      dispositivo di sicurezza: l'emergenza vera passa da circuiti e componenti di sicurezza.</li>
+</ul>
+
+<h2 id="h9">9 · Apri l'editor della scheda</h2>
+<ol>
+  <li>Ricollega il cavo USB (o un alimentatore USB): la scheda parte.</li>
+  <li>Dal PC collegati alla rete WiFi <code>miaplc-XXXX</code> con la password <code>miaplc1234</code>.</li>
+  <li>Nel browser apri <code>http://10.10.10.1</code>: è lo stesso editor del simulatore, ma ora parla con la scheda vera.</li>
+</ol>
+<p>Apri la <b>🩺 Diagnostica</b> per controllare che tutto sia a posto: stato del PLC, versioni, log degli eventi e tempi del ciclo.</p>
+<figure class="shot"><img src="assets/img/diag-it.jpg" alt="Diagnostica del PLC in livello Avanzato con stato RUN, versioni, tempi di ciclo e log" loading="lazy"></figure>
+
+<h2 id="h10">10 · Carica l'esempio</h2>
+<ol>
+  <li>Scarica il file dell'esempio: <a href="esempi/marcia-arresto.miaplc" download>marcia-arresto</a>,
+      <a href="esempi/semaforo.miaplc" download>semaforo</a> o <a href="esempi/canzoncina.miaplc" download>canzoncina</a>.
+      Oppure usa il progetto che hai creato con il <a href="guida-esempi.html">primo manuale</a> e salvato con 💾 Salva.</li>
+  <li>Nell'editor della scheda: <kbd>📂 Apri</kbd> e scegli il file.</li>
+  <li><kbd>Download to cpu</kbd>, conferma, poi <kbd>RUN</kbd>.</li>
+  <li><kbd>Online</kbd> e prova con i pulsanti veri: Start accende il LED verde (Q0), dopo 3 s il giallo (Q1); Stop lo spegne.</li>
+</ol>
+<table>
+  <tr><th>Esempio</th><th>Ingressi usati</th><th>Uscite usate</th></tr>
+  <tr><td>Marcia e arresto</td><td>I0 Start, I1 Stop, I2 Termico</td><td>Q0 Motore, Q1 Spia, Q2 Allarme</td></tr>
+  <tr><td>Semaforo</td><td>I0 Abilita</td><td>Q0 Verde, Q1 Giallo, Q2 Rosso</td></tr>
+  <tr><td>La canzoncina dei relè</td><td>I0 da capo</td><td>Q0 e Q1 (relè)</td></tr>
+</table>
+<p>Il programma resta nella memoria della scheda: alla prossima accensione riparte da solo.</p>
+
+<h2 id="problemi">Se qualcosa non va</h2>
+<table>
+  <tr><th>Problema</th><th>Cosa controllare</th></tr>
+  <tr><td>MiaConfig non vede la porta</td><td>cavo USB dati; driver del convertitore USB della scheda (CP210x o CH340); un altro programma che tiene aperta la porta</td></tr>
+  <tr><td>Il caricamento non parte</td><td>alcune schede vogliono il tasto <b>BOOT</b> premuto all'inizio del caricamento</td></tr>
+  <tr><td>Non trovo la rete <code>miaplc-XXXX</code></td><td>la scheda è alimentata? Dopo il caricamento premi <b>EN</b> (reset) una volta</td></tr>
+  <tr><td>Un ingresso cambia da solo</td><td>manca la resistenza da 10 kΩ verso GND</td></tr>
+  <tr><td>Un LED non si accende</td><td>LED al contrario (gamba lunga verso il pin) o resistenza mancante; in Online guarda se la bobina è verde</td></tr>
+  <tr><td>Il Download dice «non collegati a nessun GPIO»</td><td>il programma usa un ingresso o un'uscita che in MiaConfig non hai creato: aumenta il numero e ricarica il firmware</td></tr>
+</table>
+<p>Altre domande: <a href="mailto:info@miaplc.it">info@miaplc.it</a>.</p>
+
+</article>
+</div>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
+    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+</body>
+</html>

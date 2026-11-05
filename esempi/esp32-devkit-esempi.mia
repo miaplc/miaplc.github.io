@@ -1,0 +1,73 @@
+{
+ "format": "espplc-hw",
+ "version": 1,
+ "name": "Esempi MiaPLC",
+ "id": "esempi-miaplc",
+ "family": "esp32",
+ "module": "wroom-32e",
+ "items": [
+  {
+   "uid": "mmw1qg6i51",
+   "type": "console",
+   "params": {},
+   "pins": {
+    "TX": 1,
+    "RX": 3
+   }
+  },
+  {
+   "uid": "mmw1qg6i52",
+   "type": "wifi",
+   "params": {
+    "on": "auto",
+    "uso": "both",
+    "ap_ssid": "",
+    "ap_pass": "miaplc1234",
+    "ap_ip": "10.10.10.1",
+    "ap_channel": 6,
+    "ap_auto": "1",
+    "sta_on": "0"
+   },
+   "pins": {}
+  },
+  {
+   "uid": "mmw1qg6i53",
+   "type": "din",
+   "params": {
+    "n": 3
+   },
+   "pins": {
+    "I0": 34,
+    "I1": 35,
+    "I2": 36
+   },
+   "notes": {
+    "I0": "Start / Abilita",
+    "I1": "Stop",
+    "I2": "Termico"
+   }
+  },
+  {
+   "uid": "mmw1qg6i54",
+   "type": "dout",
+   "params": {
+    "n": 3
+   },
+   "pins": {
+    "O0": 16,
+    "O1": 17,
+    "O2": 18
+   },
+   "notes": {
+    "O0": "Motore / Verde",
+    "O1": "Spia / Giallo",
+    "O2": "Allarme / Rosso"
+   }
+  }
+ ],
+ "cycle": {
+  "boot": "last",
+  "wd": 150
+ },
+ "serial": "editor"
+}

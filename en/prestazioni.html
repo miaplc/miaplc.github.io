@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Performance — MiaPLC</title>
+<meta name="description" content="How fast MiaPLC is: measured VM timings on ESP32 and P4, µLink with 3 modules, memory, and how many hotel rooms or irrigated hectares it can handle.">
+<meta property="og:title" content="Performance — MiaPLC">
+<meta property="og:description" content="How fast MiaPLC is: measured VM timings on ESP32 and P4, µLink with 3 modules, memory, and how many hotel rooms or irrigated hectares it can handle.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/en/prestazioni.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/prestazioni.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/prestazioni.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/prestazioni.html">
+<link rel="canonical" href="https://www.miaplc.it/en/prestazioni.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../prestazioni.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/style.css?v=bd059794">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html">Examples</a><a href="prestazioni.html" class="on">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../prestazioni.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
+<main>
+<section class="hero" style="padding-bottom:30px"><div class="wrap">
+  <div class="sec-h" style="max-width:860px">
+    <span class="kick">Performance</span>
+    <h1>How fast is <span>a PLC that costs a few euros?</span></h1>
+    <p class="lead">No promises: timings measured on real boards, and from there the maths for two concrete plants, a hotel and an irrigated field.
+      Where a number is an estimate, it says so.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><em class="m">measured</em><b>0.79 µs</b><span>one ladder network “contact → coil” on ESP32</span></div>
+    <div class="stat"><em class="m">measured</em><b>0.92 ms</b><span>1000 ladder networks, one full scan</span></div>
+    <div class="stat"><em class="m">measured</em><b>5.4×</b><span>faster on the P4 with machine code, on a large program</span></div>
+    <div class="stat"><em class="m">measured</em><b>0.3–0.5 ms</b><span>round trip of a µLink I/O module</span></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">The virtual machine</span><h2>How long it takes, function by function</h2>
+    <p class="mut">The ladder program becomes <b>bytecode</b>, which the VM runs every scan. The P4 is a more powerful processor and can also
+      turn the simple parts into <b>machine code</b>, which the CPU runs directly. Lower times = faster.</p></div>
+  <div class="tblwrap"><table class="cmp perf">
+    <thead><tr><th>Function</th><th>ESP32-WROOM</th><th>ESP32-P4</th></tr></thead>
+    <tbody>
+      <tr><td>One contact → coil network</td><td>0.79 µs</td><td>≈ 0.4–0.5 µs</td></tr>
+      <tr><td>One network with an addition (ADD)</td><td>1.4 µs</td><td>≈ 0.7–0.9 µs</td></tr>
+      <tr><td>Simple machine, ~300 instructions</td><td>0.25 ms</td><td>≈ 0.15 ms</td></tr>
+      <tr><td>1000 contact → coil networks</td><td>0.92 ms</td><td>≈ 0.5 ms</td></tr>
+      <tr><td>Program with 101 functions (14.8 KB)</td><td>1.44 ms <small>WiFi off only</small></td><td>≈ 0.7–1 ms</td></tr>
+      <tr class="big"><td>Large plant: 129 blocks, 4.3 MB</td><td class="no">doesn't fit</td><td><b class="win">38.9 ms</b> <small>with machine code<br>209.7 ms with the VM only</small></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small mut">Values without “≈”: measured on the board. With “≈”: estimated, the P4 1.5 to 2.2 times the ESP32 with the same VM.
+    Machine code pays off on large programs; on a small program full of loops and jumps it's slower than the VM (168 µs vs 136 µs, measured):
+    that's why on the P4 it's a choice, not a must.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Program size</span><h2>How much program fits</h2>
+    <p class="mut">All memory and space values on this page are those <b>of the PLC board</b>: the program, DBs and data live there.
+      I/O modules don't hold the program and the PC is only used to write it.
+      Work memory is the board's RAM where the bytecode runs; on the ESP32 it shares it with the network, and WiFi alone takes a lot.</p></div>
+  <div class="cards">
+    <div class="card"><h3>ESP32 PLC board</h3>
+      <ul class="kvlist">
+        <li><span>work memory, WiFi + Ethernet</span><b>11.4 KB</b></li>
+        <li><span>work memory, Ethernet only</span><b>~50 KB</b></li>
+        <li><span>DB area</span><b>8 KB</b></li>
+        <li><span>load memory (flash)</span><b>256 KB</b></li>
+      </ul>
+      <p class="small">In practice: <b>11 KB</b> is about 1000 simple ladder networks, already a real plant. 50 KB holds a 100-function program.</p></div>
+    <div class="card"><h3>ESP32-P4 PLC board</h3>
+      <ul class="kvlist">
+        <li><span>work memory (with PSRAM)</span><b>~7.6 MB</b></li>
+        <li><span>program code, at most</span><b>8 MB</b></li>
+        <li><span>DB area</span><b>2 MB</b></li>
+      </ul>
+      <p class="small"><b>How big is 4 MB?</b> A simple network takes about ten bytes; one from a real plant, with comparisons and boxes, 30–60 bytes.
+        An automatic machine has a few hundred networks; a complete production line a few thousand.
+        The test's 4.3 MB correspond to <b>tens of thousands of networks</b>: the size of a whole department, not of one machine.
+        For a hand-written program the P4's memory never runs out: the limit becomes inputs and outputs.</p></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">Communication</span><h2>One PLC and three I/O modules</h2>
+    <p class="mut">A real test: an ESP32-P4 PLC and three ESP32 modules on µLink, with the editor Online and a Download running to stress it.
+      Every round the PLC sends each module the state of all its outputs and gets back all its inputs.</p></div>
+  <div class="ulink">
+    <div class="ul-io"><b>I/O module 1</b><small>ESP32</small></div>
+    <div class="ul-arrow"><span>309 µs</span><i><em></em></i><small>round trip</small></div>
+    <div class="ul-io"><b>I/O module 2</b><small>ESP32</small></div>
+    <div class="ul-arrow"><span>495 µs</span><i><em></em></i><small>round trip</small></div>
+    <div class="ul-io"><b>I/O module 3</b><small>ESP32</small></div>
+    <div class="ul-arrow"><span>359 µs</span><i><em></em></i><small>round trip</small></div>
+    <div class="ul-plc"><b>PLC</b><small>ESP32-P4</small></div>
+  </div>
+  <p class="small mut" style="text-align:center;margin-top:6px">Average round trip measured for each module, exchange every 5 ms, with the editor Online and a Download running.</p>
+  <div class="stats" style="margin-top:26px">
+    <div class="stat"><em class="m">measured</em><b>0.31–0.50 ms</b><span>average round trip, per module</span></div>
+    <div class="stat"><em class="m">measured</em><b>200 per second</b><span>exchanges per module: 64 outputs and 64 inputs each time</span></div>
+    <div class="stat"><em class="m">measured</em><b>22,608</b><span>exchanges per module during the test, all valid</span></div>
+    <div class="stat"><em class="m">measured</em><b>&lt; 0.5 %</b><span>replies arriving late, under stress</span></div>
+  </div>
+  <p class="small mut" style="margin-top:14px">A lost frame does no harm: every frame carries the full state, and the next round puts everything right.
+    The worst point measured, during a heavy Download, was 12–15 ms.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">In practice · 1</span><h2>The hotel: how many rooms?</h2>
+    <p class="mut">Each room: <b>10 buttons, 10 lights, climate</b> with temperature probe, valve and fan. A “Room” function written once
+      and called for every room; one 64-I/O µLink module in the floor cabinet serves 5 rooms.</p></div>
+  <div class="calc" id="calc-hotel">
+    <div class="calc-in">
+      <label>Rooms: <b class="n">40</b></label>
+      <input type="range" min="5" max="5000" step="5" value="40" aria-label="Number of rooms">
+      <label class="chk"><input type="checkbox"> WiFi on the PLC</label>
+    </div>
+    <div class="calc-out">
+      <div><h4>ESP32</h4><div data-b="esp32"></div></div>
+      <div><h4>ESP32-P4</h4><div data-b="p4"></div></div>
+    </div>
+  </div>
+  <p class="small mut">A blink lasts 100–400 ms: under 100 ms from button to light no guest notices anything.
+    The P4 in its extended configuration (in development) reaches 1000 I/O boards, 128 kbit of I/O and a 128k-value REAL area: that's the top of the slider. Keeping lights under 100 ms, about 1300 rooms fit; beyond that, split over more buses or PLCs.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">In practice · 2</span><h2>Irrigation: how many hectares before RAM runs out?</h2>
+    <p class="mut">Each hectare: <b>2 sectors</b> with valve, watering time and soil-moisture threshold, plus one probe.
+      Plus a fixed station: pumps, pressure, dosers, sludge treatment, mixers, chemical probes.</p></div>
+  <div class="calc" id="calc-campo">
+    <div class="calc-in">
+      <label>Hectares: <b class="n">50</b></label>
+      <input type="range" min="5" max="10000" step="5" value="50" aria-label="Hectares">
+      <label class="chk"><input type="checkbox" checked> WiFi on the PLC</label>
+    </div>
+    <div class="calc-out">
+      <div><h4>ESP32</h4><div data-b="esp32"></div></div>
+      <div><h4>ESP32-P4</h4><div data-b="p4"></div></div>
+    </div>
+  </div>
+  <p class="small mut">A field is in no hurry: even a half-second scan is fine. Here the real limits are memory and I/O points,
+    not speed. On the P4 probes are not a problem: the 128k-value REAL area is enough for over 100,000 probes, so the ceiling stays the DB area. Analog probes need modules with analog inputs or Modbus sensors.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">In practice · 3</span><h2>Baggage conveyors</h2>
+    <p class="mut">Each conveyor: <b>4 photocells, motor, bag tracking</b> (where every item is), jams and diverters.
+      Here speed matters: at 2 m/s a bag travels 4 cm in 20 ms, so we want every conveyor refreshed at least every 20 ms.
+      One 64-I/O µLink module serves 15 conveyors.</p></div>
+  <div class="calc" id="calc-nastri">
+    <div class="calc-in">
+      <label>Conveyors: <b class="n">200</b></label>
+      <input type="range" min="5" max="3000" step="5" value="200" aria-label="Number of conveyors">
+      <label class="chk"><input type="checkbox" checked> P4 with machine code</label>
+    </div>
+    <div class="calc-out">
+      <div><h4>ESP32</h4><div data-b="esp32"></div></div>
+      <div><h4>ESP32-P4</h4><div data-b="p4"></div></div>
+    </div>
+  </div>
+  <p class="small mut">A large airport doesn't use one PLC: the system is split into zones, each with its own PLC. An ESP32 handles a small zone,
+    a P4 a zone of hundreds of conveyors, over 2000 with machine code. Estimates: a real baggage system must be engineered and tested on site.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Summary</span><h2>One row per board</h2></div>
+  <div class="tblwrap"><table class="cmp" id="tab-limiti">
+    <thead><tr><th>Board</th><th>Hotel today (8 modules)</th><th>Hotel at the limit</th><th>Irrigation: hectares before RAM runs out</th><th>Baggage conveyors, refreshed every 20 ms</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="small mut" style="margin-top:10px">“At the limit”: ESP32 with 15 modules (all the program's I/O); P4 in its extended configuration, in development: 1000 I/O boards, 128 kbit of I/O, 128k REAL. The time is how often all rooms are refreshed.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <details class="geek">
+    <summary>🤓 For the curious: raw numbers and how we did the maths</summary>
+    <div class="doc" style="display:block;padding:0"><article>
+    <h3>Measurements (real boards, firmware 0.3.39–0.3.71, November 2026)</h3>
+    <table>
+      <tr><th>What</th><th>Value</th><th>Where</th></tr>
+      <tr><td>LD → ST network (3 VM instructions)</td><td>788 ns</td><td>ESP32-WROOM 240 MHz</td></tr>
+      <tr><td>Network with ADD DINT on DB</td><td>1,364–1,460 ns</td><td>ESP32</td></tr>
+      <tr><td>Empty scan (I/O, system DB, checks)</td><td>~0.13 ms</td><td>ESP32</td></tr>
+      <tr><td>carico-100fc: Main + 101 FCs, 14.8 KB</td><td>1.44 ms</td><td>ESP32</td></tr>
+      <tr><td>4.3 MB of machine code, 129 blocks: VM / mixed</td><td>209.7 / 38.9 ms</td><td>ESP32-P4, 60 comparisons with the interpreter identical</td></tr>
+      <tr><td>Small program with loops: VM / machine code</td><td>136 / 168 µs</td><td>ESP32-P4</td></tr>
+      <tr><td>Free work memory, WiFi + Ethernet</td><td>11,702 bytes</td><td>ESP32</td></tr>
+      <tr><td>Free work memory</td><td>7,989,150 bytes</td><td>ESP32-P4 with PSRAM</td></tr>
+      <tr><td>µLink, average round trip (3 ESP32 modules)</td><td>309–495 µs</td><td>P4 PLC, 5 ms period</td></tr>
+      <tr><td>µLink, late replies under stress</td><td>0.06–0.42 %</td><td>22,608 exchanges per module</td></tr>
+      <tr><td>µLink, ESP32-C3 + W5100 (SPI) module</td><td>4.7–7.3 ms</td><td>the SPI chip is the bottleneck</td></tr>
+      <tr><td>µLink, 8 modules</td><td>~1.3 ms of bus every 5 ms</td><td>µLink documentation</td></tr>
+      <tr><td>µLink, 192 modules (test)</td><td>16 ms to send everything</td><td>ESP32-P4</td></tr>
+      <tr><td>Download of 127 KB over USB (serial cable, including STOP and flash write)</td><td>~28 s</td><td>ESP32-P4, MiaConfig automatic measurement</td></tr>
+      <tr><td>Editor over Ethernet / USB</td><td>0.7–1.3 s / 33.5 s</td><td>370 KB, 18 files</td></tr>
+      <tr><td>Status request over Ethernet, PLC in RUN</td><td>31–40 ms</td><td>ESP32 and P4</td></tr>
+    </table>
+    <h3>Estimates (to be confirmed)</h3>
+    <ul>
+      <li><b>P4 with the interpreter VM</b>: at least 1.5× the ESP32 (RISC-V CPU at 360–400 MHz; the estimate ranges 1.5–2.2×). We use 1.5× in the maths.</li>
+      <li><b>FC call</b>: ~0.3 µs, plus ~0.25 µs per parameter.</li>
+      <li><b>Room</b>: 23 bit networks, 3 boxes (climate scaling and comparisons), 26 parameters → ~29 µs on ESP32, ~19 µs on P4;
+        107 bytes of call + 24 bytes of DB; the “Room” FC 600 bytes, once. 12 outputs per room: 5 rooms per module with 63 usable outputs.</li>
+      <li><b>Hectare</b>: 2 sectors × (5 networks, 4 boxes including the timer, 12 parameters) → ~26 µs on ESP32; 102 bytes of calls, 56 bytes of DB
+        (two 16-byte TIMERs, times, thresholds, probe). Fixed station: 4 KB of code, 1 KB of DB, 0.4 ms.</li>
+      <li><b>Conveyor</b>: 20 bit networks, 10 boxes (tracking, timers, comparisons), 15 parameters → ~34 µs on ESP32, ~23 µs on P4 with the VM;
+        with the P4's machine code 5.4× faster (the value measured on the large program). 63 bytes of call, 64 bytes of DB (bag queue, timers);
+        4 inputs per conveyor: 15 conveyors per module. Target: everything refreshed within 20 ms.</li>
+      <li><b>Bus</b>: period = at least 5 ms, with the bus busy at most 60 %; on the P4 0.083 ms per module (192 modules in 16 ms). Worst-case reaction = 2 periods + 1 scan.</li>
+      <li><b>P4 extended configuration</b> (in development): 1000 I/O boards, 128-kbit I/O areas, a REAL area of 131,072 values (128k). One REAL probe per room and per hectare.</li>
+    </ul>
+    <h3>The formulas</h3>
+    <pre>scan    = 0.13 ms + N × (networks × 0.79 + boxes × 1.4 + 0.3 + params × 0.25) µs ÷ speed
+memory  = fixed code + N × call bytes          ≤ work memory
+data    = fixed data + N × DB bytes            ≤ DB area
+period  = max(5 ms, modules × time per module ÷ 0.6)</pre>
+    <p class="small mut">The calculator is in the site file <code>assets/js/prestazioni.js</code>: all starting numbers are at the top, with their source.</p>
+    </article></div>
+  </details>
+</div></section>
+
+<script src="../assets/js/prestazioni.js?v=56a08fc7"></script>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
+    </div>
+    <div><h4>Project</h4><ul>
+      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
+    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
+    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+</div></footer>
+</body>
+</html>

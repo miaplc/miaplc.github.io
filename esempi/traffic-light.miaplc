@@ -1,0 +1,331 @@
+{
+ "format": "espplc-project",
+ "version": 2,
+ "saved": "2026-11-04T10:00:00.000Z",
+ "origin": "editor",
+ "project": {
+  "format": "espplc-ir",
+  "version": 3,
+  "uid": "e5a0traffic00001",
+  "name": "Traffic light",
+  "blocks": [
+   {
+    "id": "main",
+    "type": "main",
+    "number": 0,
+    "name": "Main",
+    "segments": [
+     {
+      "id": 1,
+      "order": 0,
+      "language": "LD",
+      "title": "Green time",
+      "comment": "With the traffic light enabled (I0) green lasts 5 s. At the end of the cycle T2 restarts everything.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "T",
+            "idx": 2
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 0
+           },
+           "pt": 5000
+          }
+         ]
+        },
+        "outputs": []
+       }
+      ]
+     },
+     {
+      "id": 2,
+      "order": 1,
+      "language": "LD",
+      "title": "Yellow time",
+      "comment": "After green, yellow lasts 2 s.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "T",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 1
+           },
+           "pt": 2000
+          }
+         ]
+        },
+        "outputs": []
+       }
+      ]
+     },
+     {
+      "id": 3,
+      "order": 2,
+      "language": "LD",
+      "title": "Red time",
+      "comment": "After yellow, red lasts 4 s.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "T",
+            "idx": 1
+           }
+          },
+          {
+           "type": "Timer",
+           "kind": "TON",
+           "op": {
+            "ns": "T",
+            "idx": 2
+           },
+           "pt": 4000
+          }
+         ]
+        },
+        "outputs": []
+       }
+      ]
+     },
+     {
+      "id": 4,
+      "order": 3,
+      "language": "LD",
+      "title": "Green light",
+      "comment": "",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": true,
+           "op": {
+            "ns": "T",
+            "idx": 0
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 0
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 5,
+      "order": 4,
+      "language": "LD",
+      "title": "Yellow light",
+      "comment": "Steady in its phase; flashing at 1 Hz (system bit SM5) when the traffic light is off.",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Parallel",
+           "branches": [
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "I",
+                "idx": 0
+               }
+              },
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "T",
+                "idx": 0
+               }
+              },
+              {
+               "type": "Contact",
+               "negated": true,
+               "op": {
+                "ns": "T",
+                "idx": 1
+               }
+              }
+             ]
+            },
+            {
+             "type": "Series",
+             "items": [
+              {
+               "type": "Contact",
+               "negated": true,
+               "op": {
+                "ns": "I",
+                "idx": 0
+               }
+              },
+              {
+               "type": "Contact",
+               "negated": false,
+               "op": {
+                "ns": "SM",
+                "idx": 5
+               }
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": 6,
+      "order": 5,
+      "language": "LD",
+      "title": "Red light",
+      "comment": "",
+      "rungs": [
+       {
+        "series": {
+         "type": "Series",
+         "items": [
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "I",
+            "idx": 0
+           }
+          },
+          {
+           "type": "Contact",
+           "negated": false,
+           "op": {
+            "ns": "T",
+            "idx": 1
+           }
+          }
+         ]
+        },
+        "outputs": [
+         {
+          "series": {
+           "type": "Series",
+           "items": []
+          },
+          "coil": {
+           "kind": "coil",
+           "op": {
+            "ns": "Q",
+            "idx": 2
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "dbs": []
+ },
+ "symbols": {
+  "I0": {
+   "name": "Enable",
+   "comment": "traffic light running"
+  },
+  "Q0": {
+   "name": "Green",
+   "comment": ""
+  },
+  "Q1": {
+   "name": "Yellow",
+   "comment": ""
+  },
+  "Q2": {
+   "name": "Red",
+   "comment": ""
+  }
+ }
+}
