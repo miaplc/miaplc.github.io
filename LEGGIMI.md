@@ -6,7 +6,7 @@ Sito statico (HTML + CSS, nessun framework), in italiano e inglese (`/en/`).
 index.html  wiki.html  esempi.html  provami.html      pagine in italiano
 en/                                                 le stesse pagine in inglese
 assets/css/style.css   assets/img/                  stile e immagini
-esempi/*.espplc.json                                progetti di esempio (IT ed EN)
+esempi/                                            progetti di esempio (IT ed EN): copia di MiaExamples
 provami/editor/                                     copia dell'editor con il PLC simulato (dev/mock-*.js)
 CNAME  robots.txt  sitemap.xml  favicon.png
 ```
@@ -28,7 +28,17 @@ Dalla cartella Miaplc:
 
 Copia l'editor in `provami/editor/` e aggiunge `sito-esempi.js` (solo sul sito): «📂 Apri» mostra gli esempi
 del sito e li apre direttamente; `?esempio=<nome>` nell'indirizzo apre subito un esempio (link della pagina Esempi).
-Per aggiungere un esempio: metti il file in `esempi/` e il nome nella lista `EX` di `sito-build/editor-sito/sito-esempi.js`.
+Per aggiungere un esempio: mettilo in `MiaExamples/example_project/base` (`it/`, `en/`) e il nome nella lista `EX` di
+`sito-build/editor-sito/sito-esempi.js`.
+
+## Esempi e immagini
+
+Vengono da MiaExamples: le schermate si rifanno con gli script (`tools/screens.py`, `tools/screens_mc.py`), una
+cartella per lingua (`screen/it`, `screen/en`); poi, dalla cartella MiaExamples:
+
+    python tools/to_site.py ../sito
+
+copia gli esempi in `esempi/` e le immagini in `assets/img/<nome>-<it|en>.jpg`: ogni pagina mostra quella della sua lingua.
 Il simulatore parte solo con `?mock` nell'indirizzo (già nei link del sito).
 
 ## Pubblicare con GitHub Pages (gratis, con miaplc.it)

@@ -85,7 +85,7 @@ On Linux and macOS follow the README. Nothing is installed in the system: everyt
 <h2 id="h2">2 · New project</h2>
 <p>On the <b>Nuovo progetto</b> (new project) page keep <kbd>PLC</kbd>, type a name, choose the family <kbd>ESP32 (classico)</kbd> and the module
 <b>ESP32-WROOM-32E / 32UE</b>. <kbd>Crea</kbd> (create).</p>
-<figure class="shot" style="max-width:480px"><img src="../assets/img/mc-nuovo.jpg" alt="MiaConfig, new project: PLC, ESP32 classic family, WROOM-32E module" loading="lazy"></figure>
+<figure class="shot" style="max-width:480px"><img src="../assets/img/mc-nuovo-en.jpg" alt="MiaConfig, new project: PLC, ESP32 classic family, WROOM-32E module" loading="lazy"></figure>
 <p>The project already has the serial port for the editor (GPIO 1 and 3), WiFi, digital inputs and outputs. On the left the list of modules,
 in the middle the chip with its pins, on the right the settings of the chosen module.</p>
 
@@ -93,13 +93,13 @@ in the middle the chip with its pins, on the right the settings of the chosen mo
 <p>Click <b>Ingressi digitali</b> (digital inputs) on the left and set <b>Ingressi</b> = <code>3</code>. MiaConfig picks free, suitable pins by itself:
 <code>I0</code> → GPIO34, <code>I1</code> → GPIO35, <code>I2</code> → GPIO36. In the <b>Commento</b> (comment) column write what they are for:
 you will find them in the pinout and in the editor's point table.</p>
-<figure class="shot"><img src="../assets/img/mc-ingressi.jpg" alt="MiaConfig, ESP32 pinout with three digital inputs on GPIO34, 35 and 36" loading="lazy">
+<figure class="shot"><img src="../assets/img/mc-ingressi-en.jpg" alt="MiaConfig, ESP32 pinout with three digital inputs on GPIO34, 35 and 36" loading="lazy">
   <figcaption>The PLC inputs are the pins in list order: <code>I0</code> in the ladder is the first one, here GPIO34.</figcaption></figure>
 <p>To change a pin choose another GPIO from the list: unsuitable ones (flash, boot, already used) are flagged.</p>
 
 <h2 id="h4">4 · Digital outputs</h2>
 <p><b>Uscite digitali</b> (digital outputs) → <b>Uscite</b> = <code>3</code>: <code>Q0</code> → GPIO16, <code>Q1</code> → GPIO17, <code>Q2</code> → GPIO18.</p>
-<figure class="shot"><img src="../assets/img/mc-uscite.jpg" alt="MiaConfig, three digital outputs on GPIO16, 17 and 18" loading="lazy"></figure>
+<figure class="shot"><img src="../assets/img/mc-uscite-en.jpg" alt="MiaConfig, three digital outputs on GPIO16, 17 and 18" loading="lazy"></figure>
 
 <h2 id="h5">5 · WiFi</h2>
 <p>With WiFi the board is an access point: the PC connects straight to it, no router needed. Keep the defaults or change the password.</p>
@@ -109,13 +109,13 @@ you will find them in the pinout and in the editor's point table.</p>
   <tr><td>Password</td><td><code>miaplc1234</code></td></tr>
   <tr><td>PLC IP</td><td><code>10.10.10.1</code></td></tr>
 </table>
-<figure class="shot"><img src="../assets/img/mc-wifi.jpg" alt="MiaConfig, WiFi settings: the PLC access point" loading="lazy"></figure>
+<figure class="shot"><img src="../assets/img/mc-wifi-en.jpg" alt="MiaConfig, WiFi settings: the PLC access point" loading="lazy"></figure>
 
 <h2 id="h6">6 · Check</h2>
 <p><b>Mappa I/O</b> (I/O map) sums up inputs and outputs with their pins. At the top the counters <b>gravi / avvisi / info</b>
 (errors / warnings / info) must show <b>0 gravi</b>: with an error the firmware does not build, and <b>Controlli</b> (checks) says what to fix.
 <kbd>Salva</kbd> (save) to keep the project (<code>.mia</code>).</p>
-<figure class="shot"><img src="../assets/img/mc-mappa.jpg" alt="MiaConfig, I/O map with three inputs and three outputs" loading="lazy"></figure>
+<figure class="shot"><img src="../assets/img/mc-mappa-en.jpg" alt="MiaConfig, I/O map with three inputs and three outputs" loading="lazy"></figure>
 
 <h2 id="h7">7 · Build and load</h2>
 <p>Connect the board to the PC with the USB cable and open <b>Genera</b> (generate).</p>
@@ -124,7 +124,7 @@ you will find them in the pinout and in the editor's point table.</p>
   <li>Press <kbd>Carica</kbd> (load): MiaConfig builds the firmware and writes it to the board. The first time it downloads ESP-IDF, the compilers and the
       MiaPLC firmware: it takes a while, later only a few minutes.</li>
 </ol>
-<figure class="shot"><img src="../assets/img/mc-genera.jpg" alt="MiaConfig, Genera page with build firmware, port and load" loading="lazy"></figure>
+<figure class="shot"><img src="../assets/img/mc-genera-en.jpg" alt="MiaConfig, Genera page with build firmware, port and load" loading="lazy"></figure>
 <p class="note">Loading over USB erases the PLC's program, settings and files: fine on a new board. To update a PLC already in use, pick its
 «rete» (network) entry in the port list: program and settings are kept.<br>
 Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.miaplc.fw</code> package in <code>uscita/</code>, which you load from the editor

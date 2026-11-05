@@ -83,7 +83,7 @@ Su Linux e macOS segui il README. Non installa niente nel sistema: tutto resta n
 <h2 id="h2">2 · Nuovo progetto</h2>
 <p>Nella pagina <b>Nuovo progetto</b> lascia <kbd>PLC</kbd>, scrivi un nome, scegli la famiglia <kbd>ESP32 (classico)</kbd> e il modulo
 <b>ESP32-WROOM-32E / 32UE</b>. <kbd>Crea</kbd>.</p>
-<figure class="shot" style="max-width:480px"><img src="assets/img/mc-nuovo.jpg" alt="MiaConfig, Nuovo progetto: PLC, famiglia ESP32 classico, modulo WROOM-32E" loading="lazy"></figure>
+<figure class="shot" style="max-width:480px"><img src="assets/img/mc-nuovo-it.jpg" alt="MiaConfig, Nuovo progetto: PLC, famiglia ESP32 classico, modulo WROOM-32E" loading="lazy"></figure>
 <p>Il progetto parte già con la seriale per l'editor (GPIO 1 e 3), il WiFi, gli ingressi e le uscite digitali. A sinistra c'è l'elenco dei moduli,
 al centro il chip con i suoi pin, a destra le impostazioni del modulo scelto.</p>
 
@@ -91,13 +91,13 @@ al centro il chip con i suoi pin, a destra le impostazioni del modulo scelto.</p
 <p>Clicca <b>Ingressi digitali</b> a sinistra e metti <b>Ingressi</b> = <code>3</code>. MiaConfig sceglie da solo pin liberi e adatti:
 <code>I0</code> → GPIO34, <code>I1</code> → GPIO35, <code>I2</code> → GPIO36. Nella colonna Commento scrivi a cosa servono:
 li ritrovi nel pinout e nella tabella dei punti dell'editor.</p>
-<figure class="shot"><img src="assets/img/mc-ingressi.jpg" alt="MiaConfig, pinout dell'ESP32 con tre ingressi digitali su GPIO34, 35 e 36" loading="lazy">
+<figure class="shot"><img src="assets/img/mc-ingressi-it.jpg" alt="MiaConfig, pinout dell'ESP32 con tre ingressi digitali su GPIO34, 35 e 36" loading="lazy">
   <figcaption>Gli ingressi del PLC sono i pin nell'ordine della lista: <code>I0</code> nel ladder è il primo, qui GPIO34.</figcaption></figure>
 <p>Per cambiare un pin scegli un altro GPIO dalla lista: quelli non adatti (flash, avvio, già usati) sono segnalati.</p>
 
 <h2 id="h4">4 · Uscite digitali</h2>
 <p><b>Uscite digitali</b> → <b>Uscite</b> = <code>3</code>: <code>Q0</code> → GPIO16, <code>Q1</code> → GPIO17, <code>Q2</code> → GPIO18.</p>
-<figure class="shot"><img src="assets/img/mc-uscite.jpg" alt="MiaConfig, tre uscite digitali su GPIO16, 17 e 18" loading="lazy"></figure>
+<figure class="shot"><img src="assets/img/mc-uscite-it.jpg" alt="MiaConfig, tre uscite digitali su GPIO16, 17 e 18" loading="lazy"></figure>
 
 <h2 id="h5">5 · WiFi</h2>
 <p>Con il WiFi la scheda fa da access point: il PC si collega direttamente a lei, senza router. Lascia i valori di default oppure cambia la password.</p>
@@ -107,12 +107,12 @@ li ritrovi nel pinout e nella tabella dei punti dell'editor.</p>
   <tr><td>Password</td><td><code>miaplc1234</code></td></tr>
   <tr><td>IP del PLC</td><td><code>10.10.10.1</code></td></tr>
 </table>
-<figure class="shot"><img src="assets/img/mc-wifi.jpg" alt="MiaConfig, impostazioni del WiFi: access point del PLC" loading="lazy"></figure>
+<figure class="shot"><img src="assets/img/mc-wifi-it.jpg" alt="MiaConfig, impostazioni del WiFi: access point del PLC" loading="lazy"></figure>
 
 <h2 id="h6">6 · Controlla</h2>
 <p><b>Mappa I/O</b> riassume ingressi e uscite con i loro pin. In alto i contatori <b>gravi / avvisi / info</b> devono avere <b>0 gravi</b>:
 con un errore grave il firmware non si compila, e <b>Controlli</b> dice cosa sistemare. <kbd>Salva</kbd> per tenere il progetto (<code>.mia</code>).</p>
-<figure class="shot"><img src="assets/img/mc-mappa.jpg" alt="MiaConfig, mappa I/O con tre ingressi e tre uscite" loading="lazy"></figure>
+<figure class="shot"><img src="assets/img/mc-mappa-it.jpg" alt="MiaConfig, mappa I/O con tre ingressi e tre uscite" loading="lazy"></figure>
 
 <h2 id="h7">7 · Compila e carica</h2>
 <p>Collega la scheda al PC con il cavo USB e apri <b>Genera</b>.</p>
@@ -121,7 +121,7 @@ con un errore grave il firmware non si compila, e <b>Controlli</b> dice cosa sis
   <li>Premi <kbd>Carica</kbd>: MiaConfig compila il firmware e lo scrive sulla scheda. La prima volta scarica ESP-IDF, i compilatori e il
       firmware MiaPLC: ci vuole un po', le volte dopo solo pochi minuti.</li>
 </ol>
-<figure class="shot"><img src="assets/img/mc-genera.jpg" alt="MiaConfig, pagina Genera con Compila firmware, porta e Carica" loading="lazy"></figure>
+<figure class="shot"><img src="assets/img/mc-genera-it.jpg" alt="MiaConfig, pagina Genera con Compila firmware, porta e Carica" loading="lazy"></figure>
 <p class="note">Il caricamento da USB cancella programma, impostazioni e file del PLC: va bene su una scheda nuova. Per aggiornare un PLC
 già in uso scegli la sua voce «rete» nella lista delle porte: programma e impostazioni restano.<br>
 In alternativa: <kbd>Compila firmware</kbd> crea il pacchetto <code>.miaplc.fw</code> in <code>uscita/</code>, che si carica dall'editor
