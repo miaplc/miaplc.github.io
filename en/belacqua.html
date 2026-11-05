@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Belacqua: 100 sturgeons in 20 tanks — MiaPLC example</title>
+<meta name="description" content="A complete MiaPLC example: a beluga sturgeon farm with 20 tanks, PLC, two µLink I/O modules and an industrial-style HMI panel; projects and manual.">
+<meta property="og:title" content="Belacqua: 100 sturgeons in 20 tanks — MiaPLC example">
+<meta property="og:description" content="A complete MiaPLC example: a beluga sturgeon farm with 20 tanks, PLC, two µLink I/O modules and an industrial-style HMI panel; projects and manual.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/en/belacqua.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/belacqua.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/belacqua.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/belacqua.html">
+<link rel="canonical" href="https://www.miaplc.it/en/belacqua.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../belacqua.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/style.css?v=4282c476">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Examples</a><a href="prestazioni.html">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../belacqua.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
+<main>
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Complete example</span><h1>Belacqua: 100 sturgeons in 20 tanks</h1>
+    <p class="mut">A real plant, not two lamps: a recirculating farm for beluga sturgeons run by a MiaPLC PLC, two µLink I/O modules on
+      the tank lines and a 10.1" touch panel. Projects, program, panel and manual are free to download.</p></div>
+
+  <div class="stats">
+    <div class="stat"><b>20 tanks</b><span>100 beluga sturgeons, 1 t of fish, 60 m³ of recirculating water</span></div>
+    <div class="stat"><b>4 devices</b><span>PLC, 2 µLink I/O modules and HMI panel on one Ethernet network</span></div>
+    <div class="stat"><b>369 networks</b><span>ladder in 13 functions, 30 KB of program</span></div>
+    <div class="stat"><b>146 · 46</b><span>alarms and recorded values on the panel</span></div>
+  </div>
+
+  <div class="btns" style="margin:30px 0 8px">
+    <a class="btn pri" href="../esempi/belacqua/index.html">📘 Full manual</a>
+    <a class="btn" href="../esempi/belacqua/belacqua-manual.pdf" download>⭳ Manual PDF</a>
+    <a class="btn" href="../esempi/belacqua/belacqua-projects.zip" download>⭳ Projects (.zip)</a>
+  </div>
+  <p class="note" style="margin-top:14px">A design example, not yet tested on a real plant: the wiring diagrams must be adapted to the real plant and its rules.</p>
+
+  <figure class="shot" style="margin:40px 0 0"><img src="../esempi/belacqua/img/hmi-overview.png" alt="Belacqua panel: overview of the 20 tanks" loading="lazy">
+    <figcaption>The panel: the 20 tanks where they are in the hall, with oxygen and temperature. Grey means all is well, amber a warning,
+      red an alarm (blinking when critical). On the right the technical room.</figcaption></figure>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>The plant</h2>
+  <p>Beluga sturgeons need cool, clean, well oxygenated water: 16–20 °C, oxygen above 7 mg/l, pH between 7 and 8. The 20 tanks of 3 m³
+    share one loop: the water leaves the tanks, goes through the drum filter, the biofilter and the sump, is pumped back, sterilised by UV,
+    heated or cooled and returns to the tanks. Every tank has its own oxygen and temperature probe, oxygen valve, automatic feeder and
+    overflow and low-level floats.</p>
+  <ul class="feat">
+    <li>Recirculation with 2 VFD pumps, duty and standby, swapped every 24 h and at once on a fault</li>
+    <li>Pump speed following the flow: the lowest that is enough (power grows with the cube of the speed)</li>
+    <li>Oxygen controlled tank by tank, emergency aerator per line</li>
+    <li>pH correction in pulses, heating and cooling with a wider band in the peak tariff hours</li>
+    <li>8 meals a day, a fasting day, portion from fish × weight; meal skipped when the water is not good</li>
+    <li>Lights, night backwash, lower flow at night: energy saving</li>
+    <li>Every actuator in Auto, Manual ON or Manual OFF; 26 plant alarms and 6 per tank</li>
+    <li>Running hours, meals, feed and estimated pump energy of the day</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap">
+  <h2>The panel, designed like industrial ones</h2>
+  <p>The panel project follows ISA-101 for high-performance HMIs: grey background, colour only when something is wrong, values as
+    pointers on a scale with the normal band, machines filled when running and hollow when stopped. Three levels of pages: the hall
+    overview, the process pages and one page for every tank.</p>
+  <div class="cards c3" style="margin-top:22px">
+    <figure class="shot" style="margin:0"><img src="../esempi/belacqua/img/hmi-tank.png" alt="Page of a tank" loading="lazy">
+      <figcaption>A tank: the alarm in words, the drawing, oxygen and temperature, 6-hour trend.</figcaption></figure>
+    <figure class="shot" style="margin:0"><img src="../esempi/belacqua/img/hmi-process.png" alt="Water treatment" loading="lazy">
+      <figcaption>Water treatment: the loop drawn, values and the modes of the machines.</figcaption></figure>
+    <figure class="shot" style="margin:0"><img src="../esempi/belacqua/img/hmi-quality.png" alt="Water quality" loading="lazy">
+      <figcaption>Water quality: the oxygen of all tanks on the normal band.</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>How it is made</h2>
+  <div class="cards c3">
+    <div class="card"><div class="ic">🧠</div><h3>PLC</h3><p>ESP32-EVB with 32 inputs and 32 outputs on shift registers, 4 analog 4-20 mA inputs,
+      PWM to the VFDs. µLink master, HMI data for the panel, data exposure in JSON for other programs.</p></div>
+    <div class="card"><div class="ic">🔌</div><h3>µLink I/O modules</h3><p>One per line, in a box in the middle of the 10 tanks: 20 analog channels
+      (4 internal + 4 ADS1115) for oxygen and temperature, inputs and outputs on shift registers. One Ethernet cable back to the panel.</p></div>
+    <div class="card"><div class="ic">🖥️</div><h3>HMI panel</h3><p>ESP32-P4 with a 10.1" touch screen: 29 pages, 146 alarms, 46 recorded values
+      (oxygen and temperature of every tank), export to a USB stick.</p></div>
+  </div>
+  <div class="cards" style="margin-top:22px;grid-template-columns:1fr 1fr">
+    <figure class="shot" style="margin:0"><img src="../esempi/belacqua/img/plc-editor-oxygen.png" alt="Ladder of the oxygen control" loading="lazy">
+      <figcaption>The program in the MiaPLC editor: the oxygen ladder of every tank.</figcaption></figure>
+    <figure class="shot" style="margin:0"><img src="../esempi/belacqua/img/hmi-editor.png" alt="Panel editor with the Belacqua project" loading="lazy">
+      <figcaption>The project in the panel editor: the 29 pages, the overview, the objects.</figcaption></figure>
+  </div>
+  <p style="margin-top:26px">The manual has the hall layout with the network run, the panel and the modules, the network with its addresses,
+    the single-line diagram of the control panel, the wiring of inputs, outputs, 4-20 mA and VFDs, the I/O lists, the program, the alarms,
+    the settings and the commissioning step by step.</p>
+  <div class="btns" style="margin-top:14px"><a class="btn pri" href="../esempi/belacqua/index.html">📘 Open the manual</a>
+    <a class="btn" href="esempi.html">All examples</a></div>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
+    </div>
+    <div><h4>Project</h4><ul>
+      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a> (code public at the end of 2026)</li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
+    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
+    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+</div></footer>
+</body>
+</html>

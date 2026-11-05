@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Belacqua: 100 storioni in 20 vasche — esempio MiaPLC</title>
+<meta name="description" content="Un esempio completo di MiaPLC: allevamento di storioni beluga con 20 vasche, PLC, due moduli I/O µLink e pannello HMI in stile industriale; progetti e manuale.">
+<meta property="og:title" content="Belacqua: 100 storioni in 20 vasche — esempio MiaPLC">
+<meta property="og:description" content="Un esempio completo di MiaPLC: allevamento di storioni beluga con 20 vasche, PLC, due moduli I/O µLink e pannello HMI in stile industriale; progetti e manuale.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/belacqua.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/belacqua.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/belacqua.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/belacqua.html">
+<link rel="canonical" href="https://www.miaplc.it/belacqua.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/belacqua.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=4282c476">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/belacqua.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
+<main>
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Esempio completo</span><h1>Belacqua: 100 storioni in 20 vasche</h1>
+    <p class="mut">Un impianto vero, non due lampadine: un allevamento di storioni beluga a ricircolo d'acqua, comandato da un PLC MiaPLC,
+      due moduli I/O µLink sulle linee delle vasche e un pannello touch da 10,1". Progetti, programma, pannello e manuale sono scaricabili e liberi.</p></div>
+
+  <div class="stats">
+    <div class="stat"><b>20 vasche</b><span>100 storioni beluga, 1 t di pesce, 60 m³ d'acqua in ricircolo</span></div>
+    <div class="stat"><b>4 dispositivi</b><span>PLC, 2 moduli I/O µLink e pannello HMI su una sola rete Ethernet</span></div>
+    <div class="stat"><b>369 network</b><span>ladder in 13 funzioni, 30 KB di programma</span></div>
+    <div class="stat"><b>146 · 46</b><span>allarmi e grandezze registrate sul pannello</span></div>
+  </div>
+
+  <div class="btns" style="margin:30px 0 8px">
+    <a class="btn pri" href="esempi/belacqua/index.html">📘 Manuale completo (inglese)</a>
+    <a class="btn" href="esempi/belacqua/belacqua-manual.pdf" download>⭳ Manuale PDF</a>
+    <a class="btn" href="esempi/belacqua/belacqua-projects.zip" download>⭳ Progetti (.zip)</a>
+  </div>
+  <p class="note" style="margin-top:14px">Esempio di progettazione, non ancora provato su un impianto vero: gli schemi elettrici vanno adattati all'impianto reale e alle sue norme.</p>
+
+  <figure class="shot" style="margin:40px 0 0"><img src="esempi/belacqua/img/hmi-overview.png" alt="Pannello Belacqua: panoramica delle 20 vasche" loading="lazy">
+    <figcaption>Il pannello: le 20 vasche dove sono nel capannone, con ossigeno e temperatura. In grigio va tutto bene, in ambra un avviso,
+      in rosso un allarme (lampeggia se critico). A destra la sala tecnica.</figcaption></figure>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>L'impianto</h2>
+  <p>Gli storioni beluga vogliono acqua fresca, pulita e ricca di ossigeno: 16–20 °C, ossigeno oltre 7 mg/l, pH tra 7 e 8. Le 20 vasche da 3 m³
+    condividono un solo circuito: l'acqua esce dalle vasche, passa nel filtro a tamburo, nel biofiltro e nel pozzetto, viene ripompata,
+    sterilizzata con gli UV, scaldata o raffreddata e torna alle vasche. Ogni vasca ha la sua sonda di ossigeno e di temperatura,
+    la valvola dell'ossigeno, l'alimentatore automatico e i galleggianti di troppo pieno e di livello basso.</p>
+  <ul class="feat">
+    <li>Ricircolo con 2 pompe a inverter, una di riserva all'altra, scambio ogni 24 h e subito in caso di guasto</li>
+    <li>Velocità delle pompe che segue la portata: la più bassa che basta (la potenza cresce col cubo della velocità)</li>
+    <li>Ossigeno regolato vasca per vasca, aeratore d'emergenza per linea</li>
+    <li>Correzione del pH a impulsi, riscaldamento e raffreddamento con fascia più larga nelle ore di punta</li>
+    <li>8 pasti al giorno, giorno di digiuno, porzione calcolata da pesci × peso; pasto saltato se l'acqua non va bene</li>
+    <li>Luci, controlavaggio notturno, portata ridotta di notte: risparmio energetico</li>
+    <li>Ogni attuatore in Auto, Manuale ON o Manuale OFF; 26 allarmi d'impianto e 6 per vasca</li>
+    <li>Ore di lavoro, pasti, mangime e consumo stimato delle pompe del giorno</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Il pannello, pensato come quelli industriali</h2>
+  <p>Il progetto del pannello segue la ISA-101 sulle interfacce ad alte prestazioni: sfondo grigio, colore solo quando qualcosa non va,
+    valori come lancette su una scala con la fascia normale, macchine piene quando sono in marcia e vuote quando sono ferme.
+    Tre livelli di pagine: la panoramica del capannone, le pagine di processo e una pagina per ogni vasca.</p>
+  <div class="cards c3" style="margin-top:22px">
+    <figure class="shot" style="margin:0"><img src="esempi/belacqua/img/hmi-tank.png" alt="Pagina di una vasca" loading="lazy">
+      <figcaption>Una vasca: allarme per esteso, disegno, ossigeno e temperatura, andamento di 6 ore.</figcaption></figure>
+    <figure class="shot" style="margin:0"><img src="esempi/belacqua/img/hmi-process.png" alt="Trattamento acqua" loading="lazy">
+      <figcaption>Trattamento acqua: il circuito disegnato, i valori e i modi delle macchine.</figcaption></figure>
+    <figure class="shot" style="margin:0"><img src="esempi/belacqua/img/hmi-quality.png" alt="Qualità dell'acqua" loading="lazy">
+      <figcaption>Qualità dell'acqua: l'ossigeno di tutte le vasche sulla fascia normale.</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>Come è fatto</h2>
+  <div class="cards c3">
+    <div class="card"><div class="ic">🧠</div><h3>PLC</h3><p>ESP32-EVB con 32 ingressi e 32 uscite su registri a scorrimento, 4 ingressi analogici 4-20 mA,
+      PWM verso gli inverter. Master µLink, Dati HMI per il pannello, esposizione dati in JSON per altri programmi.</p></div>
+    <div class="card"><div class="ic">🔌</div><h3>Moduli I/O µLink</h3><p>Uno per linea, in una cassetta a metà delle 10 vasche: 20 canali analogici
+      (4 interni + 4 ADS1115) per ossigeno e temperatura, ingressi e uscite su registri. Un solo cavo Ethernet torna al quadro.</p></div>
+    <div class="card"><div class="ic">🖥️</div><h3>Pannello HMI</h3><p>ESP32-P4 con schermo touch da 10,1": 29 pagine, 146 allarmi, 46 grandezze registrate
+      (ossigeno e temperatura di ogni vasca), esportazione su chiavetta USB.</p></div>
+  </div>
+  <div class="cards" style="margin-top:22px;grid-template-columns:1fr 1fr">
+    <figure class="shot" style="margin:0"><img src="esempi/belacqua/img/plc-editor-oxygen.png" alt="Ladder del controllo dell'ossigeno" loading="lazy">
+      <figcaption>Il programma nell'editor MiaPLC: il ladder dell'ossigeno di ogni vasca.</figcaption></figure>
+    <figure class="shot" style="margin:0"><img src="esempi/belacqua/img/hmi-editor.png" alt="Editor del pannello con il progetto Belacqua" loading="lazy">
+      <figcaption>Il progetto nell'editor del pannello: le 29 pagine, la panoramica, gli oggetti.</figcaption></figure>
+  </div>
+  <p style="margin-top:26px">Il manuale (in inglese) ha la pianta del capannone con il percorso della rete, il pannello e i moduli, la rete con gli indirizzi,
+    lo schema unifilare del quadro, i collegamenti di ingressi, uscite, 4-20 mA e inverter, gli elenchi degli I/O, il programma, gli allarmi,
+    le impostazioni e la messa in servizio passo per passo.</p>
+  <div class="btns" style="margin-top:14px"><a class="btn pri" href="esempi/belacqua/index.html">📘 Apri il manuale</a>
+    <a class="btn" href="esempi.html">Tutti gli esempi</a></div>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a> (codice pubblico a fine 2026)</li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
+    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+</body>
+</html>
