@@ -353,4 +353,14 @@ table.agg tr:first-child td{background:rgba(34,211,238,.04)}
 .card.feature.key .files{font-size:.86rem;color:var(--mut);margin:6px 0 0}
 .card.feature.key code{font-size:.85em}
 .card.feature.key .feat{grid-template-columns:1fr;gap:6px}
-.card.feature.key a img{cursor:zoom-in}
+/* immagini a grandezza piena sopra la pagina (assets/js/lightbox.js) */
+.lb-zoom{cursor:zoom-in}
+html.lb-open{overflow:hidden}
+.lb{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 14px 18px;background:rgba(3,8,20,.93);cursor:zoom-out;animation:lbIn .15s ease-out}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+.lb-img{max-width:100%;max-height:calc(100% - 46px);object-fit:contain;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.6);cursor:default}
+.lb-cap{margin:12px 0 0;max-width:900px;text-align:center;color:#b9c9e6;font-size:.92rem;cursor:default}
+.lb-x{position:fixed;top:12px;right:14px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:#0d1a33;color:#fff;font-size:1.15rem;line-height:1;cursor:pointer}
+.lb-x:hover,.lb-x:focus-visible{background:var(--cy);color:#04111f;outline:none}
