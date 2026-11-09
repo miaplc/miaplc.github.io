@@ -1,0 +1,9 @@
+# a capo LF in tutti i file di testo, anche su Windows (build.py scrive LF: niente avvisi "LF will be replaced by CRLF")
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
