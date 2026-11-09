@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../wiki.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=d119fced">
+<link rel="stylesheet" href="../assets/css/style.css?v=9f84e21e">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -69,15 +69,36 @@ Three pieces work together:</p>
 <p>The workflow is the one of industrial PLCs: write the program, <kbd>Compile</kbd>, <kbd>Download to cpu</kbd>, <kbd>Run</kbd>, then <kbd>Online</kbd> to watch it work.</p>
 
 <h2 id="primi-passi">First steps</h2>
-<ol>
-  <li><b>Choose a board.</b> A reference board is a good start (see <a href="#schede">Boards</a>).</li>
-  <li><b>Build the firmware with MiaConfig.</b> Draw the board (inputs, outputs, Ethernet, clock), then <em>Generate → Build firmware</em>.
-    The first time it downloads the build tools (internet and about 1 GB of disk needed); after that it just builds.</li>
-  <li><b>Flash the firmware.</b> For the first install use <code>&lt;board&gt;-completo.bin</code> with the Espressif tools (a single file at address 0x0).
-    Later updates are done from the editor with the <code>.miaplc.fw</code> package.</li>
-  <li><b>Open the editor.</b> Connect the PLC to the network and open its IP address in the browser.</li>
-  <li><b>Write your first network</b>, then <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
-</ol>
+<p>There are two ways. With a board that already has the MiaPLC firmware you start right away: power it, open the editor and program.
+<b>MiaConfig is only for the advanced way</b>: custom electronic boards and advanced projects, when you build your own tailored firmware.</p>
+<div class="paths">
+  <div class="path">
+    <span class="key-n">Basic</span>
+    <h3>Ready board, firmware already loaded</h3>
+    <ol>
+      <li><b>Power the board.</b> The firmware is already inside: inputs, outputs and network are ready.</li>
+      <li><b>Connect.</b> From your PC or tablet to the board's WiFi, <code>miaplc-XXXX</code> (the last digits come from the chip),
+        or with an Ethernet cable to your network.</li>
+      <li><b>Open the editor.</b> In the browser open <code>http://10.10.10.1</code> (board WiFi) or the IP address it has on your network.
+        The editor lives inside the PLC: nothing to install.</li>
+      <li><b>Write your first network</b>, then <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
+    </ol>
+    <p class="small mut">No MiaConfig needed. Firmware updates are done from the editor, with the <code>.miaplc.fw</code> package.</p>
+  </div>
+  <div class="path adv">
+    <span class="key-n">Advanced</span>
+    <h3>Configure the board yourself with MiaConfig</h3>
+    <p>For custom electronic boards and advanced projects: you choose chip, pins, modules and communications, and build a firmware tailored to your needs.</p>
+    <ol>
+      <li><b>Choose a board.</b> One of the reference boards or your own (see <a href="#schede">Boards and MiaConfig</a>).</li>
+      <li><b>Build the firmware with MiaConfig.</b> Draw the board (inputs, outputs, Ethernet, clock, µLink, panel), then <em>Generate → Build firmware</em>.
+        The first time it downloads the build tools (internet and about 1 GB of disk needed); after that it just builds.</li>
+      <li><b>Flash the firmware.</b> The first time over USB, then from the editor with the <code>.miaplc.fw</code> package.</li>
+      <li><b>Program</b> as in the basic way: editor in the browser, Compile, Download, Run, Online.</li>
+    </ol>
+    <p class="small"><a href="guida-hardware.html">Manual: hardware with MiaConfig, step by step</a></p>
+  </div>
+</div>
 <p class="note">No board yet? Start with the <a href="provami.html">simulator</a>: it's the same editor, with a simulated PLC in your browser.</p>
 
 <h2 id="simulatore">The simulator</h2>
@@ -183,6 +204,7 @@ END_IF;</pre>
 <figure class="shot"><img src="../assets/img/diag-en.jpg" alt="PLC diagnostics at Advanced level" loading="lazy"><figcaption>Diagnostics, Advanced level: status, versions, cycle times and log. At the top Basic / Advanced / Debug.</figcaption></figure>
 
 <h2 id="schede">Boards and MiaConfig</h2>
+<p class="note"><b>MiaConfig is for custom boards and advanced projects.</b> With a board that already has the MiaPLC firmware you don't need it: see the basic way in <a href="#primi-passi">First steps</a>.</p>
 <p>MiaConfig is the configurator: describe the board (inputs, outputs, Ethernet, WiFi, clock, I2C/SPI devices) and it picks the firmware modules and builds it.
 It runs on Windows, Linux and macOS and installs nothing on the system: everything stays in its folder.</p>
 <table>

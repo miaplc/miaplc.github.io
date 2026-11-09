@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/wiki.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=d119fced">
+<link rel="stylesheet" href="assets/css/style.css?v=9f84e21e">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -68,15 +68,36 @@ Tre pezzi lavorano insieme:</p>
 <p>Il modo di lavorare è quello dei PLC industriali: scrivi il programma, <kbd>Compile</kbd>, <kbd>Download to cpu</kbd>, <kbd>Run</kbd>, poi <kbd>Online</kbd> per vederlo lavorare.</p>
 
 <h2 id="primi-passi">Primi passi</h2>
-<ol>
-  <li><b>Scegli la scheda.</b> Per cominciare va bene una scheda di riferimento (vedi <a href="#schede">Schede</a>).</li>
-  <li><b>Prepara il firmware con MiaConfig.</b> Disegni la scheda (ingressi, uscite, Ethernet, orologio), poi <em>Genera → Compila firmware</em>.
-    La prima volta scarica gli strumenti di compilazione (serve internet e circa 1 GB di disco), poi compila e basta.</li>
-  <li><b>Carica il firmware.</b> Per la prima installazione usi il file <code>&lt;scheda&gt;-completo.bin</code> con gli strumenti Espressif (un solo file all'indirizzo 0x0).
-    Gli aggiornamenti successivi si fanno dall'editor con il pacchetto <code>.miaplc.fw</code>.</li>
-  <li><b>Apri l'editor.</b> Collega il PLC alla rete e apri nel browser il suo indirizzo IP.</li>
-  <li><b>Scrivi il primo network</b>, poi <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
-</ol>
+<p>Ci sono due strade. Con una scheda che ha già il firmware MiaPLC parti subito: accendi, apri l'editor e programmi.
+<b>MiaConfig serve solo nella strada avanzata</b>: schede elettroniche custom e progetti avanzati, quando ti prepari da solo un firmware su misura.</p>
+<div class="paths">
+  <div class="path">
+    <span class="key-n">Base</span>
+    <h3>Scheda pronta, firmware già caricato</h3>
+    <ol>
+      <li><b>Accendi la scheda.</b> Il firmware è già dentro: ingressi, uscite e rete sono pronti.</li>
+      <li><b>Collegati.</b> Dal PC o dal tablet alla rete WiFi della scheda, <code>miaplc-XXXX</code> (le ultime cifre vengono dal chip),
+        oppure con il cavo Ethernet alla tua rete.</li>
+      <li><b>Apri l'editor.</b> Nel browser apri <code>http://10.10.10.1</code> (WiFi della scheda) o l'indirizzo IP che ha sulla tua rete.
+        L'editor sta dentro il PLC: niente da installare.</li>
+      <li><b>Scrivi il primo network</b>, poi <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
+    </ol>
+    <p class="small mut">Non serve MiaConfig. Gli aggiornamenti del firmware si fanno dall'editor, con il pacchetto <code>.miaplc.fw</code>.</p>
+  </div>
+  <div class="path adv">
+    <span class="key-n">Avanzato</span>
+    <h3>Configuri tu la scheda con MiaConfig</h3>
+    <p>Per schede elettroniche custom e progetti avanzati: scegli tu chip, pin, moduli e comunicazioni, e compili un firmware su misura per le tue esigenze.</p>
+    <ol>
+      <li><b>Scegli la scheda.</b> Una delle schede di riferimento o la tua (vedi <a href="#schede">Schede e MiaConfig</a>).</li>
+      <li><b>Prepara il firmware con MiaConfig.</b> Disegni la scheda (ingressi, uscite, Ethernet, orologio, µLink, pannello), poi <em>Genera → Compila firmware</em>.
+        La prima volta scarica gli strumenti di compilazione (serve internet e circa 1 GB di disco), poi compila e basta.</li>
+      <li><b>Carica il firmware.</b> La prima volta da USB, dopo dall'editor con il pacchetto <code>.miaplc.fw</code>.</li>
+      <li><b>Programma</b> come nella strada base: editor nel browser, Compile, Download, Run, Online.</li>
+    </ol>
+    <p class="small"><a href="guida-hardware.html">Manuale: hardware con MiaConfig, passo per passo</a></p>
+  </div>
+</div>
 <p class="note">Non hai ancora una scheda? Parti dal <a href="provami.html">simulatore</a>: è lo stesso editor, con un PLC simulato nel browser.</p>
 
 <h2 id="simulatore">Il simulatore</h2>
@@ -182,6 +203,7 @@ END_IF;</pre>
 <figure class="shot"><img src="assets/img/diag-it.jpg" alt="Diagnostica del PLC in livello Avanzato" loading="lazy"><figcaption>Diagnostica, livello Avanzato: stato, versioni, tempi del ciclo e log. In alto Base / Avanzato / Debug.</figcaption></figure>
 
 <h2 id="schede">Schede e MiaConfig</h2>
+<p class="note"><b>MiaConfig è per le schede custom e i progetti avanzati.</b> Con una scheda che ha già il firmware MiaPLC non serve: vedi la strada base nei <a href="#primi-passi">Primi passi</a>.</p>
 <p>MiaConfig è il configuratore: descrivi la scheda (ingressi, uscite, Ethernet, WiFi, orologio, dispositivi I2C/SPI) e lui sceglie i moduli del firmware e lo compila.
 Funziona su Windows, Linux e macOS e non installa nulla nel sistema: tutto resta nella sua cartella.</p>
 <table>

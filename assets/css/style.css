@@ -364,3 +364,12 @@ html.lb-open{overflow:hidden}
 .lb-x{position:fixed;top:12px;right:14px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
   background:#0d1a33;color:#fff;font-size:1.15rem;line-height:1;cursor:pointer}
 .lb-x:hover,.lb-x:focus-visible{background:var(--cy);color:#04111f;outline:none}
+/* wiki, Primi passi: due strade (base: scheda pronta; avanzato: MiaConfig) */
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0 18px}
+.path{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
+.path.adv{border-color:rgba(250,204,21,.45)}
+.path.adv .key-n{background:#facc15;color:#1a1408}
+.path h3{color:#fff;margin:10px 0 8px}
+.path ol{margin:10px 0 10px 18px;padding:0}
+.path li{margin:0 0 8px}
+@media(max-width:860px){.paths{grid-template-columns:1fr}}
