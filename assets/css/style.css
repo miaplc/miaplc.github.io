@@ -335,3 +335,13 @@ details.geek .needs{margin:0 0 8px;max-width:none}
 .win-body{padding:20px 24px 24px}
 .card.art p{text-shadow:0 1px 3px rgba(5,12,28,.9)}
 @media (max-width:700px){.card.art-fc::before,.card.art-ton::before{width:150px;height:115px}.card.art-cat::before{width:185px;height:124px}}
+/* Ultimo aggiornamento dei componenti (home) */
+table.agg{width:100%;border-collapse:collapse;font-size:.95rem}
+table.agg th{text-align:left;font-weight:600;color:#fff;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(34,211,238,.06)}
+table.agg th small{font-weight:400;color:var(--mut)}
+table.agg td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#b9c9e6}
+table.agg td b{color:#fff;white-space:nowrap}
+table.agg td small{display:block;color:var(--mut);font-size:.8rem}
+table.agg td.v{font-family:var(--mono);color:var(--cy);white-space:nowrap}
+table.agg td.d{white-space:nowrap}
+table.agg tr:first-child td{background:rgba(34,211,238,.04)}

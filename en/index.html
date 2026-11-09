@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=3a9a6053">
+<link rel="stylesheet" href="../assets/css/style.css?v=d7d7b9e6">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -208,6 +208,20 @@
   </div>
 </div></section>
 
+<section id="aggiornamenti" class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">Versions</span><h2>Latest updates</h2>
+    <p class="mut">The latest change in each part of MiaPLC, updated automatically at every release.</p></div>
+  <div class="tblwrap"><table class="agg"><thead><tr><th>Component</th><th>Version</th><th>Date</th><th>What changed <small>(notes in Italian)</small></th></tr></thead><tbody>
+<tr><td><b>MiaPLC editor</b><small>PLC web editor (ladder, FCs, Online, diagnostics)</small></td><td class="v">4.9.39</td><td class="d">9 Nov 2026</td><td lang="it">Moduli I/O, colonna Persi: anche «di fila al massimo», i giri persi uno dopo l&#x27;altro, il più lungo dall&#x27;avvio del PLC (E01: miss_max, il…</td></tr>
+<tr><td><b>MiaPLC firmware</b><small>PLC firmware (ESP-IDF)</small></td><td class="v">0.3.84</td><td class="d">9 Nov 2026</td><td lang="it">Password di recupero: la cambia solo l&#x27;amministratore</td></tr>
+<tr><td><b>MiaHMI firmware</b><small>touch HMI panel firmware</small></td><td class="v">0.1.24.0</td><td class="d">9 Nov 2026</td><td lang="it">Password di recupero del pannello: la cambia solo l&#x27;amministratore (nucleo dell&#x27;accesso comune col PLC, MiaPlc-idf 0.3.84)</td></tr>
+<tr><td><b>MiaConfig</b><small>configurator and firmware builder</small></td><td class="v">0.1.131</td><td class="d">9 Nov 2026</td><td lang="it">Credenziali delle schede in access.miapwd (prima accesso.miaplc, che si confondeva coi programmi .miaplc): all&#x27;apertura della…</td></tr>
+<tr><td><b>µLink</b><small>remote I/O modules</small></td><td class="v">0.4.2</td><td class="d">9 Nov 2026</td><td lang="it">Arduino: il numero casuale delle connessioni (nm) dal rumore di un ingresso analogico libero (l&#x27;ultimo non usato dallo sketch), dal tempo…</td></tr>
+<tr><td><b>MiaExamples</b><small>example projects (Belacqua…)</small></td><td class="v">0.3.3.3</td><td class="d">9 Nov 2026</td><td lang="it">Belacqua: .gitignore anche per access.miapwd (e .bak, .tmp), il nuovo nome delle credenziali (MiaConfig 0.1.131)</td></tr>
+<tr><td><b>MiaComponents</b><small>shared components</small></td><td class="v">0.1.0.3</td><td class="d">5 Nov 2026</td><td lang="it">README: sezione «Disclaimer» in fondo (non è un controllore di sicurezza, schede da sviluppo, responsabilità di chi progetta e installa…</td></tr>
+</tbody></table></div>
+</div></section>
+
 <section id="contatti"><div class="wrap story">
   <div>
     <span class="tag-l">Contact</span>
@@ -236,7 +250,7 @@
     </div>
     <div><h4>Project</h4><ul>
       <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
     <div><h4>Contact</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (code public at the end of 2026)</li>
