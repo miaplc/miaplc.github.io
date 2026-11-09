@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../belacqua.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=d7d7b9e6">
+<link rel="stylesheet" href="../assets/css/style.css?v=ed4acbc7">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -88,25 +88,71 @@
 </div></section>
 
 <section class="alt"><div class="wrap">
-  <h2>How it is made</h2>
-  <div class="cards c3">
-    <div class="card"><div class="ic">🧠</div><h3>PLC</h3><p>ESP32-EVB with 32 inputs and 32 outputs on shift registers, 4 analog 4-20 mA inputs,
-      PWM to the VFDs. µLink master, HMI data for the panel, data exposure in JSON for other programs.</p></div>
-    <div class="card"><div class="ic">🔌</div><h3>µLink I/O modules</h3><p>One per line, in a box in the middle of the 10 tanks: 20 analog channels
-      (4 internal + 4 ADS1115) for oxygen and temperature, inputs and outputs on shift registers. One Ethernet cable back to the panel.</p></div>
-    <div class="card"><div class="ic">🖥️</div><h3>HMI panel</h3><p>ESP32-P4 with a 10.1" touch screen: 29 pages, 146 alarms, 46 recorded values
-      (oxygen and temperature of every tank), export to a USB stick.</p></div>
+  <div class="sec-h"><span class="tag">How it is made</span><h2>Three programs, one plant</h2>
+    <p class="mut">Belacqua is built with the three MiaPLC programs, and each has its own file in the projects zip:
+      <b>MiaConfig</b> puts the plant and the hardware together, the <b>MiaPLC editor</b> writes the PLC program,
+      the <b>MiaHMI editor</b> draws the panel.</p></div>
+
+  <div class="card feature key">
+    <div><span class="key-n">1 · MiaConfig</span>
+      <h3>The plant and the hardware</h3>
+      <p>Open <code>belacqua.mia</code> («Apri configurazione…»): on the left the four devices, the PLC with the two µLink modules
+        and the panel under it, each with its board and IP address. For every board you choose what is on its pins and which modules it uses.</p>
+      <ul class="feat">
+        <li>Shift registers (32 inputs, 32 outputs), 4-20 mA, PWM to the VFDs</li>
+        <li>Ethernet, µLink with the 2 modules, HMI data for the panel, data exposure</li>
+        <li>Builds the firmware of every board</li>
+        <li>«Carica tutto…»: firmware, program and panel on all the boards</li>
+      </ul>
+      <p class="files">Files: <code>belacqua.mia</code> and one <code>.mia</code> in every device folder (MiaConfig is in Italian)</p></div>
+    <a href="../assets/img/mc-belacqua-en.jpg" target="_blank" rel="noopener"><img src="../assets/img/mc-belacqua-en.jpg" alt="MiaConfig with the Belacqua configuration: PLC, two µLink modules and panel" loading="lazy"></a>
   </div>
-  <div class="cards" style="margin-top:22px;grid-template-columns:1fr 1fr">
-    <figure class="shot" style="margin:0"><img src="../esempi/belacqua/img/plc-editor-oxygen.png" alt="Ladder of the oxygen control" loading="lazy">
-      <figcaption>The program in the MiaPLC editor: the oxygen ladder of every tank.</figcaption></figure>
-    <figure class="shot" style="margin:0"><img src="../esempi/belacqua/img/hmi-editor.png" alt="Panel editor with the Belacqua project" loading="lazy">
-      <figcaption>The project in the panel editor: the 29 pages, the overview, the objects.</figcaption></figure>
+
+  <div class="card feature key">
+    <div><span class="key-n">2 · MiaPLC editor</span>
+      <h3>The PLC program</h3>
+      <p>Open <code>belacqua_plc_001.miaplc</code> in the MiaPLC editor: 369 ladder networks in 13 functions, one per part of the plant,
+        with the tank DBs and readable symbols. You can also try it without boards, in the simulator.</p>
+      <ul class="feat">
+        <li>Clock and schedules, water level, recirculation with the VFD pumps</li>
+        <li>Drum filter, biofilter and UV, oxygen tank by tank, pH, temperature</li>
+        <li>Feeding, tank and plant alarms, tank settings, statistics of the day</li>
+        <li>Every actuator in Auto, Manual ON or Manual OFF</li>
+      </ul>
+      <p class="files">File: <code>belacqua_plc_001/belacqua_plc_001.miaplc</code></p></div>
+    <a href="../esempi/belacqua/img/plc-editor-oxygen.png" target="_blank" rel="noopener"><img src="../esempi/belacqua/img/plc-editor-oxygen.png" alt="MiaPLC editor: the oxygen ladder of the tanks" loading="lazy"></a>
+  </div>
+
+  <div class="card feature key">
+    <div><span class="key-n">3 · MiaHMI editor</span>
+      <h3>The operator panel</h3>
+      <p>Open <code>belacqua_hmi_010.miahmi</code> in the panel editor (Import): 29 pages, 146 alarms and 46 recorded values.
+        The variables come from the PLC through the HMI data, with the same names as in the program.</p>
+      <ul class="feat">
+        <li>Hall overview, process pages, one page per tank</li>
+        <li>Alarms with acknowledge, 24-hour trends, export to a USB stick</li>
+        <li>ISA-101 style: grey when all is well, colour only when something is wrong</li>
+      </ul>
+      <p class="files">File: <code>belacqua_hmi_010/belacqua_hmi_010.miahmi</code></p></div>
+    <a href="../esempi/belacqua/img/hmi-editor.png" target="_blank" rel="noopener"><img src="../esempi/belacqua/img/hmi-editor.png" alt="MiaHMI editor with the Belacqua project" loading="lazy"></a>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>The hardware</h2>
+  <div class="cards c3">
+    <div class="card"><h3>PLC</h3><p>ESP32-EVB with 32 inputs and 32 outputs on shift registers, 4 analog 4-20 mA inputs,
+      PWM to the VFDs. µLink master, HMI data for the panel, data exposure in JSON for other programs.</p></div>
+    <div class="card"><h3>µLink I/O modules</h3><p>One per line, in a box in the middle of the 10 tanks: 20 analog channels
+      (4 internal + 4 ADS1115) for oxygen and temperature, inputs and outputs on shift registers. One Ethernet cable back to the panel.</p></div>
+    <div class="card"><h3>HMI panel</h3><p>ESP32-P4 with a 10.1" touch screen: 29 pages, 146 alarms, 46 recorded values
+      (oxygen and temperature of every tank), export to a USB stick.</p></div>
   </div>
   <p style="margin-top:26px">The manual has the hall layout with the network run, the panel and the modules, the network with its addresses,
     the single-line diagram of the control panel, the wiring of inputs, outputs, 4-20 mA and VFDs, the I/O lists, the program, the alarms,
     the settings and the commissioning step by step.</p>
-  <div class="btns" style="margin-top:14px"><a class="btn pri" href="../esempi/belacqua/index.html">📘 Open the manual</a>
+  <div class="btns" style="margin-top:14px"><a class="btn pri" href="../esempi/belacqua/index.html">Open the manual</a>
+    <a class="btn" href="../esempi/belacqua/belacqua-projects.zip" download>Download the projects (.zip)</a>
     <a class="btn" href="esempi.html">All examples</a></div>
 </div></section>
 

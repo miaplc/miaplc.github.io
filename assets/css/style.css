@@ -345,3 +345,12 @@ table.agg td small{display:block;color:var(--mut);font-size:.8rem}
 table.agg td.v{font-family:var(--mono);color:var(--cy);white-space:nowrap}
 table.agg td.d{white-space:nowrap}
 table.agg tr:first-child td{background:rgba(34,211,238,.04)}
+/* Belacqua: una sezione per programma (MiaConfig, editor MiaPLC, editor MiaHMI) */
+.card.feature.key{align-items:start}
+.card.feature.key h3{font-size:1.3rem;margin:10px 0 8px}
+.card.feature.key .feat{margin:12px 0}
+.key-n{display:inline-block;font:600 .74rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:5px 10px;border-radius:99px;color:#04111f;background:var(--cy)}
+.card.feature.key .files{font-size:.86rem;color:var(--mut);margin:6px 0 0}
+.card.feature.key code{font-size:.85em}
+.card.feature.key .feat{grid-template-columns:1fr;gap:6px}
+.card.feature.key a img{cursor:zoom-in}

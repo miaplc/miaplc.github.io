@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/belacqua.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=d7d7b9e6">
+<link rel="stylesheet" href="assets/css/style.css?v=ed4acbc7">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -88,25 +88,71 @@
 </div></section>
 
 <section class="alt"><div class="wrap">
-  <h2>Come è fatto</h2>
-  <div class="cards c3">
-    <div class="card"><div class="ic">🧠</div><h3>PLC</h3><p>ESP32-EVB con 32 ingressi e 32 uscite su registri a scorrimento, 4 ingressi analogici 4-20 mA,
-      PWM verso gli inverter. Master µLink, Dati HMI per il pannello, esposizione dati in JSON per altri programmi.</p></div>
-    <div class="card"><div class="ic">🔌</div><h3>Moduli I/O µLink</h3><p>Uno per linea, in una cassetta a metà delle 10 vasche: 20 canali analogici
-      (4 interni + 4 ADS1115) per ossigeno e temperatura, ingressi e uscite su registri. Un solo cavo Ethernet torna al quadro.</p></div>
-    <div class="card"><div class="ic">🖥️</div><h3>Pannello HMI</h3><p>ESP32-P4 con schermo touch da 10,1": 29 pagine, 146 allarmi, 46 grandezze registrate
-      (ossigeno e temperatura di ogni vasca), esportazione su chiavetta USB.</p></div>
+  <div class="sec-h"><span class="tag">Come è fatto</span><h2>Tre programmi, un impianto</h2>
+    <p class="mut">Belacqua si costruisce con i tre programmi di MiaPLC, e ognuno ha il suo file nello zip dei progetti:
+      <b>MiaConfig</b> mette insieme l'impianto e l'hardware, l'<b>editor MiaPLC</b> scrive il programma del PLC,
+      l'<b>editor MiaHMI</b> disegna il pannello.</p></div>
+
+  <div class="card feature key">
+    <div><span class="key-n">1 · MiaConfig</span>
+      <h3>L'impianto e l'hardware</h3>
+      <p>Si apre <code>belacqua.mia</code> («Apri configurazione…»): a sinistra i quattro dispositivi, il PLC e sotto di lui i due moduli µLink
+        e il pannello, ognuno con la sua scheda e il suo indirizzo IP. Per ogni scheda si sceglie cosa c'è sui pin e quali moduli usa.</p>
+      <ul class="feat">
+        <li>Registri a scorrimento (32 ingressi, 32 uscite), 4-20 mA, PWM verso gli inverter</li>
+        <li>Ethernet, µLink con i 2 moduli, Dati HMI per il pannello, esposizione dati</li>
+        <li>Genera il firmware di ogni scheda</li>
+        <li>«Carica tutto…»: firmware, programma e pannello su tutte le schede</li>
+      </ul>
+      <p class="files">File: <code>belacqua.mia</code> e un <code>.mia</code> nella cartella di ogni dispositivo</p></div>
+    <a href="assets/img/mc-belacqua-it.jpg" target="_blank" rel="noopener"><img src="assets/img/mc-belacqua-it.jpg" alt="MiaConfig con la configurazione Belacqua: PLC, due moduli µLink e pannello" loading="lazy"></a>
   </div>
-  <div class="cards" style="margin-top:22px;grid-template-columns:1fr 1fr">
-    <figure class="shot" style="margin:0"><img src="esempi/belacqua/img/plc-editor-oxygen.png" alt="Ladder del controllo dell'ossigeno" loading="lazy">
-      <figcaption>Il programma nell'editor MiaPLC: il ladder dell'ossigeno di ogni vasca.</figcaption></figure>
-    <figure class="shot" style="margin:0"><img src="esempi/belacqua/img/hmi-editor.png" alt="Editor del pannello con il progetto Belacqua" loading="lazy">
-      <figcaption>Il progetto nell'editor del pannello: le 29 pagine, la panoramica, gli oggetti.</figcaption></figure>
+
+  <div class="card feature key">
+    <div><span class="key-n">2 · Editor MiaPLC</span>
+      <h3>Il programma del PLC</h3>
+      <p>Si apre <code>belacqua_plc_001.miaplc</code> nell'editor MiaPLC: 369 network ladder in 13 funzioni, una per parte dell'impianto,
+        con i DB delle vasche e i simboli in chiaro. Si prova anche senza schede, nel simulatore.</p>
+      <ul class="feat">
+        <li>Orologio e fasce orarie, livello dell'acqua, ricircolo con le pompe a inverter</li>
+        <li>Filtro a tamburo, biofiltro e UV, ossigeno vasca per vasca, pH, temperatura</li>
+        <li>Pasti, allarmi di vasca e d'impianto, impostazioni delle vasche, statistiche del giorno</li>
+        <li>Ogni attuatore in Auto, Manuale ON o Manuale OFF</li>
+      </ul>
+      <p class="files">File: <code>belacqua_plc_001/belacqua_plc_001.miaplc</code></p></div>
+    <a href="esempi/belacqua/img/plc-editor-oxygen.png" target="_blank" rel="noopener"><img src="esempi/belacqua/img/plc-editor-oxygen.png" alt="Editor MiaPLC: il ladder dell'ossigeno delle vasche" loading="lazy"></a>
+  </div>
+
+  <div class="card feature key">
+    <div><span class="key-n">3 · Editor MiaHMI</span>
+      <h3>Il pannello operatore</h3>
+      <p>Si apre <code>belacqua_hmi_010.miahmi</code> nell'editor del pannello (Importa): 29 pagine, 146 allarmi e 46 grandezze registrate.
+        Le variabili arrivano dal PLC con i Dati HMI, con gli stessi nomi del programma.</p>
+      <ul class="feat">
+        <li>Panoramica del capannone, pagine di processo, una pagina per vasca</li>
+        <li>Allarmi con riconoscimento, andamenti di 24 ore, esportazione su chiavetta USB</li>
+        <li>Stile ISA-101: grigio quando va tutto bene, colore solo quando qualcosa non va</li>
+      </ul>
+      <p class="files">File: <code>belacqua_hmi_010/belacqua_hmi_010.miahmi</code></p></div>
+    <a href="esempi/belacqua/img/hmi-editor.png" target="_blank" rel="noopener"><img src="esempi/belacqua/img/hmi-editor.png" alt="Editor MiaHMI con il progetto Belacqua" loading="lazy"></a>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>L'hardware</h2>
+  <div class="cards c3">
+    <div class="card"><h3>PLC</h3><p>ESP32-EVB con 32 ingressi e 32 uscite su registri a scorrimento, 4 ingressi analogici 4-20 mA,
+      PWM verso gli inverter. Master µLink, Dati HMI per il pannello, esposizione dati in JSON per altri programmi.</p></div>
+    <div class="card"><h3>Moduli I/O µLink</h3><p>Uno per linea, in una cassetta a metà delle 10 vasche: 20 canali analogici
+      (4 interni + 4 ADS1115) per ossigeno e temperatura, ingressi e uscite su registri. Un solo cavo Ethernet torna al quadro.</p></div>
+    <div class="card"><h3>Pannello HMI</h3><p>ESP32-P4 con schermo touch da 10,1": 29 pagine, 146 allarmi, 46 grandezze registrate
+      (ossigeno e temperatura di ogni vasca), esportazione su chiavetta USB.</p></div>
   </div>
   <p style="margin-top:26px">Il manuale (in inglese) ha la pianta del capannone con il percorso della rete, il pannello e i moduli, la rete con gli indirizzi,
     lo schema unifilare del quadro, i collegamenti di ingressi, uscite, 4-20 mA e inverter, gli elenchi degli I/O, il programma, gli allarmi,
     le impostazioni e la messa in servizio passo per passo.</p>
-  <div class="btns" style="margin-top:14px"><a class="btn pri" href="esempi/belacqua/index.html">📘 Apri il manuale</a>
+  <div class="btns" style="margin-top:14px"><a class="btn pri" href="esempi/belacqua/index.html">Apri il manuale</a>
+    <a class="btn" href="esempi/belacqua/belacqua-projects.zip" download>Scarica i progetti (.zip)</a>
     <a class="btn" href="esempi.html">Tutti gli esempi</a></div>
 </div></section>
 
