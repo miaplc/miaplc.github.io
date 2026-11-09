@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/sostieni.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=4282c476">
+<link rel="stylesheet" href="assets/css/style.css?v=6f578e50">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -40,20 +40,27 @@
 </div></section>
 
 <section style="padding-top:10px"><div class="wrap">
+  <div class="wip-box">
+    <img src="assets/img/cantiere.svg" alt="" width="200" height="106">
+    <div><span class="st-wip">🚧 in costruzione</span>
+      <b>Le donazioni non sono ancora attive</b>
+      <p>Sto preparando il conto dedicato al progetto e il modo per donare online. I pulsanti qui sotto si accendono appena è tutto pronto.
+        Nel frattempo, se vuoi dare una mano, scrivimi a <a href="mailto:info@miaplc.it">info@miaplc.it</a>.</p></div>
+  </div>
   <div class="choices">
     <div class="choice proj">
       <div class="ic">♥</div>
       <h2>Sostieni il progetto</h2>
       <p>La donazione va a MiaPLC: chip, schede, prototipi, strumenti di test.
         E, quando si potranno far fabbricare, <b>schede da dare alle scuole</b>, il motivo per cui il progetto è nato.</p>
-      <a class="btn pri" href="mailto:info@miaplc.it?subject=Donazione%20al%20progetto%20MiaPLC">♥ Dona al progetto</a>
+      <span class="btn pri wip" aria-disabled="true" title="In costruzione: non ancora attivo">♥ Dona al progetto <small>🚧 presto</small></span>
     </div>
     <div class="choice coffee">
       <div class="ic">☕</div>
       <h2>Offrimi un caffè</h2>
       <p>Un network ladder gira in 0,79 µs. Io, dopo mezzanotte, molto meno.
         Un caffè mi tiene in <b>RUN</b> invece che in <b>STOP</b>, e il watchdog resta tranquillo.</p>
-      <a class="btn" href="mailto:info@miaplc.it?subject=Un%20caff%C3%A8%20per%20Denys">☕ Offri un caffè</a>
+      <span class="btn wip" aria-disabled="true" title="In costruzione: non ancora attivo">☕ Offri un caffè <small>🚧 presto</small></span>
     </div>
   </div>
 
@@ -107,7 +114,7 @@
     <p>Prova il <a href="provami.html">simulatore</a>, segnala errori, proponi esempi, presta hardware
       o fai conoscere MiaPLC a una scuola.</p>
     <div class="soon">
-      <span class="st-prog">in sviluppo</span>
+      <span class="st-wip">🚧 in costruzione</span>
       <b>Diagnosi anonima dall'editor</b>
       <p>Presto, dalla diagnostica avanzata dell'editor, potrai inviarci le statistiche della tua scheda:
         configurazione hardware, tempi ciclo, uso di RAM e stack, memoria occupata, moduli attivi, tempi per FC.
@@ -132,7 +139,7 @@
       <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
     <div><h4>Contatti</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
-      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a> (codice pubblico a fine 2026)</li>
+      <li>🚧 GitHub (codice pubblico a fine 2026)</li>
       <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
       <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>

@@ -280,6 +280,18 @@ details.geek .needs{margin:0 0 8px;max-width:none}
 .soon b{display:block;color:#fff;font-size:1.05rem;margin:8px 0 6px}
 .soon p{margin:0 0 8px}
 .st-prog{display:inline-block;font:600 .7rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:4px 8px;border-radius:99px;color:var(--cy);border:1px solid rgba(34,211,238,.5)}
+/* 🚧 in costruzione: riquadro col disegno del cantiere, etichetta gialla, pulsanti spenti a strisce */
+.st-wip{display:inline-block;font:600 .7rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:4px 8px;border-radius:99px;color:#facc15;border:1px solid rgba(250,204,21,.6);background:rgba(250,204,21,.08)}
+.wip-box{display:flex;gap:20px;align-items:center;margin:0 0 24px;padding:16px 20px;border:1px dashed rgba(250,204,21,.6);border-radius:14px;
+  background:repeating-linear-gradient(-45deg,rgba(250,204,21,.06) 0 14px,transparent 14px 28px)}
+.wip-box img{width:200px;height:auto;flex:none}
+.wip-box b{display:block;color:#fff;font-size:1.05rem;margin:8px 0 6px}
+.wip-box p{margin:0}
+@media (max-width:640px){.wip-box{flex-direction:column;text-align:center}.wip-box img{width:170px}}
+.btn.wip,.choice .btn.wip,.btn.pri.wip{cursor:not-allowed;border:1px dashed #facc15;color:#facc15;
+  background:repeating-linear-gradient(-45deg,rgba(250,204,21,.14) 0 8px,transparent 8px 16px)}
+.btn.wip:hover,.choice .btn.wip:hover,.btn.pri.wip:hover{border-color:#facc15;color:#facc15;background:repeating-linear-gradient(-45deg,rgba(250,204,21,.14) 0 8px,transparent 8px 16px)}
+.btn.wip small{font:700 .62rem/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:3px 6px;border-radius:99px;background:#facc15;color:#1a1408}
 .soon .warn-note{color:#fca5a5;font-size:.93rem;border-left:3px solid #ef4444;padding-left:10px}
 
 /* wiki: immagini delle istruzioni; home: galleria; manuali */

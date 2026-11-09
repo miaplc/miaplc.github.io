@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/prestazioni.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=4282c476">
+<link rel="stylesheet" href="assets/css/style.css?v=6f578e50">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -132,7 +132,7 @@
     </div>
   </div>
   <p class="small mut">Un battito di ciglia dura 100–400 ms: sotto i 100 ms dal pulsante alla luce nessun ospite si accorge di niente.
-    Il P4 nella configurazione estesa (in sviluppo) arriva a 1000 schede I/O, 128 kbit di I/O e un'area REAL da 128k valori: è la parte alta del cursore. Con le luci sotto i 100 ms ci stanno circa 1300 stanze; oltre conviene dividere su più bus o più PLC.</p>
+    Il P4 nella configurazione estesa (🚧 in sviluppo) arriva a 1000 schede I/O, 128 kbit di I/O e un'area REAL da 128k valori: è la parte alta del cursore. Con le luci sotto i 100 ms ci stanno circa 1300 stanze; oltre conviene dividere su più bus o più PLC.</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -180,7 +180,7 @@
     <thead><tr><th>Scheda</th><th>Hotel oggi (8 moduli)</th><th>Hotel al limite</th><th>Irrigazione: ettari prima che finisca la RAM</th><th>Nastri bagagli, aggiornati ogni 20 ms</th></tr></thead>
     <tbody></tbody>
   </table></div>
-  <p class="small mut" style="margin-top:10px">«Al limite»: ESP32 con 15 moduli (tutti gli I/O del programma); P4 nella configurazione estesa, in sviluppo: 1000 schede I/O, 128 kbit di I/O, 128k REAL. Il tempo è quello in cui tutte le stanze vengono aggiornate.</p>
+  <p class="small mut" style="margin-top:10px">«Al limite»: ESP32 con 15 moduli (tutti gli I/O del programma); P4 nella configurazione estesa, 🚧 in sviluppo: 1000 schede I/O, 128 kbit di I/O, 128k REAL. Il tempo è quello in cui tutte le stanze vengono aggiornate.</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -219,7 +219,7 @@
         col codice macchina del P4 5,4× più veloce (il valore misurato sul programma grande). 63 byte di chiamata, 64 byte di DB (coda delle valigie, timer);
         4 ingressi per nastro: 15 nastri per modulo. Obiettivo: tutto aggiornato entro 20 ms.</li>
       <li><b>Bus</b>: periodo = almeno 5 ms, con il bus occupato al massimo al 60 %; sul P4 0,083 ms per modulo (192 moduli in 16 ms). Reazione al peggio = 2 periodi + 1 ciclo.</li>
-      <li><b>P4, configurazione estesa</b> (in sviluppo): 1000 schede I/O, aree I/O da 128 kbit, area REAL da 131.072 valori (128k). Una sonda REAL per stanza e per ettaro.</li>
+      <li><b>P4, configurazione estesa</b> (🚧 in sviluppo): 1000 schede I/O, aree I/O da 128 kbit, area REAL da 131.072 valori (128k). Una sonda REAL per stanza e per ettaro.</li>
     </ul>
     <h3>Le formule</h3>
     <pre>ciclo   = 0,13 ms + N × (network × 0,79 + box × 1,4 + 0,3 + parametri × 0,25) µs ÷ velocità
@@ -245,7 +245,7 @@ periodo = max(5 ms, moduli × tempo per modulo ÷ 0,6)</pre>
       <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
     <div><h4>Contatti</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
-      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a> (codice pubblico a fine 2026)</li>
+      <li>🚧 GitHub (codice pubblico a fine 2026)</li>
       <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
       <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>

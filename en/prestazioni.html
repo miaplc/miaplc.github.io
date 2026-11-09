@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../prestazioni.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=4282c476">
+<link rel="stylesheet" href="../assets/css/style.css?v=6f578e50">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -132,7 +132,7 @@
     </div>
   </div>
   <p class="small mut">A blink lasts 100–400 ms: under 100 ms from button to light no guest notices anything.
-    The P4 in its extended configuration (in development) reaches 1000 I/O boards, 128 kbit of I/O and a 128k-value REAL area: that's the top of the slider. Keeping lights under 100 ms, about 1300 rooms fit; beyond that, split over more buses or PLCs.</p>
+    The P4 in its extended configuration (🚧 in development) reaches 1000 I/O boards, 128 kbit of I/O and a 128k-value REAL area: that's the top of the slider. Keeping lights under 100 ms, about 1300 rooms fit; beyond that, split over more buses or PLCs.</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -180,7 +180,7 @@
     <thead><tr><th>Board</th><th>Hotel today (8 modules)</th><th>Hotel at the limit</th><th>Irrigation: hectares before RAM runs out</th><th>Baggage conveyors, refreshed every 20 ms</th></tr></thead>
     <tbody></tbody>
   </table></div>
-  <p class="small mut" style="margin-top:10px">“At the limit”: ESP32 with 15 modules (all the program's I/O); P4 in its extended configuration, in development: 1000 I/O boards, 128 kbit of I/O, 128k REAL. The time is how often all rooms are refreshed.</p>
+  <p class="small mut" style="margin-top:10px">“At the limit”: ESP32 with 15 modules (all the program's I/O); P4 in its extended configuration, 🚧 in development: 1000 I/O boards, 128 kbit of I/O, 128k REAL. The time is how often all rooms are refreshed.</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -219,7 +219,7 @@
         with the P4's machine code 5.4× faster (the value measured on the large program). 63 bytes of call, 64 bytes of DB (bag queue, timers);
         4 inputs per conveyor: 15 conveyors per module. Target: everything refreshed within 20 ms.</li>
       <li><b>Bus</b>: period = at least 5 ms, with the bus busy at most 60 %; on the P4 0.083 ms per module (192 modules in 16 ms). Worst-case reaction = 2 periods + 1 scan.</li>
-      <li><b>P4 extended configuration</b> (in development): 1000 I/O boards, 128-kbit I/O areas, a REAL area of 131,072 values (128k). One REAL probe per room and per hectare.</li>
+      <li><b>P4 extended configuration</b> (🚧 in development): 1000 I/O boards, 128-kbit I/O areas, a REAL area of 131,072 values (128k). One REAL probe per room and per hectare.</li>
     </ul>
     <h3>The formulas</h3>
     <pre>scan    = 0.13 ms + N × (networks × 0.79 + boxes × 1.4 + 0.3 + params × 0.25) µs ÷ speed
@@ -245,7 +245,7 @@ period  = max(5 ms, modules × time per module ÷ 0.6)</pre>
       <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
     <div><h4>Contact</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
-      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a> (code public at the end of 2026)</li>
+      <li>🚧 GitHub (code public at the end of 2026)</li>
       <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
       <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>

@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../sostieni.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=4282c476">
+<link rel="stylesheet" href="../assets/css/style.css?v=6f578e50">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -40,20 +40,27 @@
 </div></section>
 
 <section style="padding-top:10px"><div class="wrap">
+  <div class="wip-box">
+    <img src="assets/img/cantiere.svg" alt="" width="200" height="106">
+    <div><span class="st-wip">🚧 under construction</span>
+      <b>Donations are not active yet</b>
+      <p>I'm setting up the project's own account and a way to donate online. The buttons below light up as soon as everything is ready.
+        Meanwhile, if you'd like to help, write to <a href="mailto:info@miaplc.it">info@miaplc.it</a>.</p></div>
+  </div>
   <div class="choices">
     <div class="choice proj">
       <div class="ic">♥</div>
       <h2>Support the project</h2>
       <p>The donation goes to MiaPLC: chips, boards, prototypes, test tools.
         And, once they can be manufactured, <b>boards for schools</b>, the reason the project started.</p>
-      <a class="btn pri" href="mailto:info@miaplc.it?subject=Donation%20to%20the%20MiaPLC%20project">♥ Donate to the project</a>
+      <span class="btn pri wip" aria-disabled="true" title="Under construction: not active yet">♥ Donate to the project <small>🚧 soon</small></span>
     </div>
     <div class="choice coffee">
       <div class="ic">☕</div>
       <h2>Buy me a coffee</h2>
       <p>A ladder network runs in 0.79 µs. After midnight, I run a lot slower.
         A coffee keeps me in <b>RUN</b> instead of <b>STOP</b>, and the watchdog stays calm.</p>
-      <a class="btn" href="mailto:info@miaplc.it?subject=A%20coffee%20for%20Denys">☕ Buy a coffee</a>
+      <span class="btn wip" aria-disabled="true" title="Under construction: not active yet">☕ Buy a coffee <small>🚧 soon</small></span>
     </div>
   </div>
 
@@ -107,7 +114,7 @@
     <p>Try the <a href="provami.html">simulator</a>, report bugs, suggest examples, lend hardware
       or introduce MiaPLC to a school.</p>
     <div class="soon">
-      <span class="st-prog">in development</span>
+      <span class="st-wip">🚧 under construction</span>
       <b>Anonymous diagnostics from the editor</b>
       <p>Soon, from the editor's advanced diagnostics, you will be able to send us your board's statistics:
         hardware configuration, cycle times, RAM and stack usage, memory used, active modules, timings per FC.
@@ -132,7 +139,7 @@
       <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
     <div><h4>Contact</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
-      <li><a href="https://github.com/miaplc" rel="noopener">GitHub</a> (code public at the end of 2026)</li>
+      <li>🚧 GitHub (code public at the end of 2026)</li>
       <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
       <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
