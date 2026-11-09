@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=6f578e50">
+<link rel="stylesheet" href="../assets/css/style.css?v=3a9a6053">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -77,17 +77,18 @@
     <p class="mut">The firmware runs your program in a bytecode virtual machine, scan after scan.
       The editor is served by the PLC itself: open it in the browser and start programming.</p></div>
   <div class="cards c3">
-    <div class="card"><div class="ic">🪜</div><h3>Ladder like in the factory</h3>
+    <div class="card art art-ladder"><h3>Ladder like in the factory</h3>
       <p>Networks with title and comment, contacts, coils, SET/RESET, edges, comparisons, math and conversion boxes.</p></div>
-    <div class="card"><div class="ic">🌐</div><h3>Editor in the browser</h3>
-      <p>Nothing to install: the editor runs on the PLC. Compile, Download, Run, the way you're used to.</p></div>
-    <div class="card"><div class="ic">🟢</div><h3>Online and diagnostics</h3>
+    <div class="card win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>http://192.168.4.1</span></div>
+      <div class="win-body"><h3>Editor in the browser</h3>
+      <p>Nothing to install: the editor runs on the PLC. Compile, Download, Run, the way you're used to.</p></div></div>
+    <div class="card art art-online"><h3>Online and diagnostics</h3>
       <p>Watch power flow through contacts, timers counting, DB values changing. Event log, scan times, RAM.</p></div>
-    <div class="card"><div class="ic">🧩</div><h3>Structured blocks</h3>
+    <div class="card art art-fc"><h3>Structured blocks</h3>
       <p>Main, StartUp, functions (FC) with an interface, retentive DBs, structures, arrays. FCs in ST and C too.</p></div>
-    <div class="card"><div class="ic">⏱️</div><h3>Timers, counters, numbers</h3>
+    <div class="card art art-ton"><h3>Timers, counters, numbers</h3>
       <p>TON, TOF, TP, CTU, CTD, CTUD; types from BOOL to REAL and TIME; linear scaling for analog values.</p></div>
-    <div class="card"><div class="ic">🔌</div><h3>Communication</h3>
+    <div class="card art art-cat"><h3>Communication</h3>
       <p>Ethernet and WiFi, Modbus TCP, µLink remote I/O modules, touch HMI panel.</p></div>
   </div>
 </div></section>

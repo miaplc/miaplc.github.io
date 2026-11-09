@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=6f578e50">
+<link rel="stylesheet" href="assets/css/style.css?v=3a9a6053">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -78,17 +78,18 @@
     <p class="mut">Il firmware esegue il programma in una macchina virtuale a bytecode, ciclo dopo ciclo.
       L'editor è servito dal PLC stesso: lo apri dal browser e programmi.</p></div>
   <div class="cards c3">
-    <div class="card"><div class="ic">🪜</div><h3>Ladder come in fabbrica</h3>
+    <div class="card art art-ladder"><h3>Ladder come in fabbrica</h3>
       <p>Network con titolo e commento, contatti, bobine, SET/RESET, fronti, confronti, box matematici e di conversione.</p></div>
-    <div class="card"><div class="ic">🌐</div><h3>Editor nel browser</h3>
-      <p>Nessun programma da installare: l'editor gira nel PLC. Compile, Download, Run, come sei abituato.</p></div>
-    <div class="card"><div class="ic">🟢</div><h3>Online e diagnostica</h3>
+    <div class="card win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>http://192.168.4.1</span></div>
+      <div class="win-body"><h3>Editor nel browser</h3>
+      <p>Nessun programma da installare: l'editor gira nel PLC. Compile, Download, Run, come sei abituato.</p></div></div>
+    <div class="card art art-online"><h3>Online e diagnostica</h3>
       <p>Vedi la corrente scorrere nei contatti, i timer contare, i valori dei DB. Log, tempi di scansione, RAM.</p></div>
-    <div class="card"><div class="ic">🧩</div><h3>Blocchi strutturati</h3>
+    <div class="card art art-fc"><h3>Blocchi strutturati</h3>
       <p>Main, StartUp, funzioni (FC) con interfaccia, DB ritentivi, strutture, array. FC anche in ST e in C.</p></div>
-    <div class="card"><div class="ic">⏱️</div><h3>Timer, contatori, numeri</h3>
+    <div class="card art art-ton"><h3>Timer, contatori, numeri</h3>
       <p>TON, TOF, TP, CTU, CTD, CTUD; tipi da BOOL a REAL e TIME; scala lineare per gli analogici.</p></div>
-    <div class="card"><div class="ic">🔌</div><h3>Comunicazione</h3>
+    <div class="card art art-cat"><h3>Comunicazione</h3>
       <p>Ethernet e WiFi, Modbus TCP, moduli I/O remoti µLink, pannello HMI touch.</p></div>
   </div>
 </div></section>

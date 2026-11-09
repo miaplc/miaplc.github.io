@@ -313,3 +313,25 @@ details.geek .needs{margin:0 0 8px;max-width:none}
 .card.feature{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:center;padding:22px;margin:0 0 30px;border-color:var(--cy)}
 .card.feature img{width:100%;border-radius:10px;border:1px solid var(--line)}
 @media(max-width:760px){.card.feature{grid-template-columns:1fr}}
+/* schede «Cosa fa»: disegni nello stile dell'editor al posto delle emoji */
+.card.art{position:relative;overflow:hidden;isolation:isolate}
+.card.art::before{content:"";position:absolute;z-index:-1;pointer-events:none;background-repeat:no-repeat;background-size:contain;background-position:right bottom}
+.card.art-ladder,.card.art-online{padding-bottom:124px}
+.card.art-ladder::before{left:20px;right:20px;bottom:18px;height:88px;background-image:url(../img/card-ladder.svg);background-position:left bottom}
+.card.art-online::before{left:20px;right:20px;bottom:14px;height:104px;background-image:url(../img/card-online.svg);background-position:left bottom}
+.card.art-fc::before,.card.art-ton::before{right:-18px;bottom:-14px;width:210px;height:160px;opacity:.3}
+.card.art-fc::before{background-image:url(../img/card-fc.svg)}
+.card.art-ton::before{background-image:url(../img/card-ton.svg)}
+.card.art-cat::before{right:-18px;bottom:-22px;width:240px;height:160px;opacity:.4;background-image:url(../img/card-comunicazione.webp)}
+.card.art h3,.card.art p{position:relative}
+/* «Editor nel browser»: la scheda è una finestra del browser */
+.card.win{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.win-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#081329;border-bottom:1px solid var(--line)}
+.win-bar i{width:10px;height:10px;border-radius:50%;background:#ef4444;flex:none}
+.win-bar i:nth-child(2){background:#facc15}.win-bar i:nth-child(3){background:#22c55e}
+.win-bar span{flex:1;margin-left:8px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--line);
+  font:500 .74rem/1.2 var(--mono);color:#8fb0d8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-bar span b{color:#22c55e;font-weight:600}
+.win-body{padding:20px 24px 24px}
+.card.art p{text-shadow:0 1px 3px rgba(5,12,28,.9)}
+@media (max-width:700px){.card.art-fc::before,.card.art-ton::before{width:150px;height:115px}.card.art-cat::before{width:185px;height:124px}}
