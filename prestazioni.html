@@ -74,11 +74,11 @@
     <div class="card"><h3>Scheda PLC ESP32</h3>
       <ul class="kvlist">
         <li><span>memoria di lavoro, WiFi + Ethernet</span><b>11,4 KB</b></li>
-        <li><span>memoria di lavoro, solo Ethernet</span><b>~50 KB</b></li>
+        <li><span>memoria di lavoro, solo Ethernet</span><b>~39 KB</b></li>
         <li><span>area dei DB</span><b>8 KB</b></li>
         <li><span>memoria di caricamento (flash)</span><b>256 KB</b></li>
       </ul>
-      <p class="small">In pratica: <b>11 KB</b> sono circa 1000 network ladder semplici, già un impianto vero. Con 50 KB ci sta un programma da 100 funzioni.</p></div>
+      <p class="small">In pratica: <b>11 KB</b> sono circa 1000 network ladder semplici, già un impianto vero. Con 39 KB (il massimo sull'ESP32) ci sta un programma con più di 100 funzioni: la prova con Main e 101 FC occupa 14,8 KB.</p></div>
     <div class="card"><h3>Scheda PLC ESP32-P4</h3>
       <ul class="kvlist">
         <li><span>memoria di lavoro (con la PSRAM)</span><b>~7,6 MB</b></li>
@@ -207,6 +207,20 @@
       <tr><td>Editor via Ethernet / USB</td><td>0,7–1,3 s / 33,5 s</td><td>370 KB, 18 file</td></tr>
       <tr><td>Richiesta di stato via Ethernet, PLC in RUN</td><td>31–40 ms</td><td>ESP32 e P4</td></tr>
     </table>
+    <p class="small mut">Le misure di µLink sono di prima della firma dei messaggi (protocollo 2, firmware 0.3.81): sono da rifare.</p>
+    <h3>Quanto costa la sicurezza (misure del 9 novembre 2026)</h3>
+    <table>
+      <tr><th>Cosa</th><th>Valore</th><th>Dove</th></tr>
+      <tr><td>HTTPS (TLS 1.2, certificato ECDSA P-256): RAM di una connessione, nel momento peggiore</td><td>35–40 KB</td><td>ESP32 senza PSRAM</td></tr>
+      <tr><td>HTTPS: stretta di mano di una connessione nuova</td><td>~0,7 s (0,85–0,92 s col PLC in RUN)</td><td>ESP32</td></tr>
+      <tr><td>HTTPS: firmware più grande</td><td>+119 KB</td><td>ESP32</td></tr>
+      <tr><td>Ciclo del PLC durante 10 strette di mano HTTPS</td><td>+4 µs di media, nessun superamento</td><td>ESP32, programma di Belacqua in RUN</td></tr>
+      <tr><td>Firma di un messaggio µLink (CMAC), in uscita / in entrata</td><td>~27 / ~34 µs</td><td>ESP32-P4 del pannello; sui PLC da misurare</td></tr>
+    </table>
+    <p class="small mut">La TLS gira sull'altro core e non rallenta il ciclo: il limite è la RAM. Sull'ESP32 senza PSRAM, in RUN, restano circa 72 KB:
+      una connessione HTTPS ne lascerebbe 16–20, e il browser ne apre più di una. Per questo le schede senza PSRAM usano HTTP con
+      login e richieste firmate (integrità, senza cifratura) e vanno tenute in una rete isolata; HTTPS è sulle schede con PSRAM:
+      già sul pannello P4, in preparazione sul PLC P4.</p>
     <h3>Stime (da confermare)</h3>
     <ul>
       <li><b>P4 con la VM interprete</b>: almeno 1,5× l'ESP32 (CPU RISC-V 360–400 MHz; la stima va da 1,5 a 2,2×). Nei calcoli usiamo 1,5×.</li>
@@ -231,7 +245,7 @@ periodo = max(5 ms, moduli × tempo per modulo ÷ 0,6)</pre>
   </details>
 </div></section>
 
-<script src="assets/js/prestazioni.js?v=56a08fc7"></script>
+<script src="assets/js/prestazioni.js?v=59db08d6"></script>
 
 </main>
 <footer><div class="wrap">

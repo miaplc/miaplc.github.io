@@ -13,7 +13,7 @@
       par: 0.25,          // µs per parametro della FC (stima)
       fisso: 130,         // µs, parte fissa del ciclo (misurata: «scansione vuota»)
       lavoroWifi: 11702,  // byte, memoria di lavoro con WiFi + Ethernet (misurata)
-      lavoroEth: 51200,   // byte, memoria di lavoro senza WiFi (circa 50 KB)
+      lavoroEth: 40000,   // byte, memoria di lavoro senza WiFi: il massimo sull'ESP32 (PLC_WORK_MAX, MiaPlc-idf 0.3.24)
       db: 8192,           // byte, area DB
       busMod: 0.16,       // ms di bus per modulo µLink (8 moduli ≈ 1,3 ms)
       modOggi: 8,         // moduli µLink nel firmware normale
