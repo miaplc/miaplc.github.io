@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compliance and cybersecurity — MiaPLC</title>
+<meta name="description" content="How MiaPLC prepares for the Cyber Resilience Act and the RED: which boards are products, what the firmware protects, how to report a vulnerability.">
+<meta property="og:title" content="Compliance and cybersecurity — MiaPLC">
+<meta property="og:description" content="How MiaPLC prepares for the Cyber Resilience Act and the RED: which boards are products, what the firmware protects, how to report a vulnerability.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/en/conformita.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/conformita.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/conformita.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/conformita.html">
+<link rel="canonical" href="https://www.miaplc.it/en/conformita.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../conformita.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/style.css?v=dc035142">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html">Examples</a><a href="prestazioni.html">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../conformita.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
+<main>
+<section><div class="wrap" style="max-width:860px">
+  <div class="sec-h"><span class="tag">Compliance</span><h1>Compliance and cybersecurity</h1>
+    <p class="mut">How MiaPLC is getting ready for the European rules on connected products. Last updated: 10 November 2026.</p></div>
+<div class="doc" style="display:block;padding:0">
+<article>
+<p class="note">🚧 <b>Draft.</b> No MiaPLC board is on sale yet and no EU declaration of conformity has been issued.
+This page says which rules apply to which boards and where we stand; it will be updated at every step.</p>
+
+<h2>In short</h2>
+<ul>
+  <li><b>MiaPLC-branded products will be ESP32-P4 boards</b>: the PLC and the HMI panel. The first ones will have no WiFi; WiFi will be an option.</li>
+  <li><b>Other boards</b> (ESP32, C3, S2, development boards, Arduino with µLink) stay for <b>development, testing and hobby use</b>: the free firmware runs on them, but they will not become MiaPLC products.</li>
+  <li><b>MiaPLC is not a safety device</b>: do not use it for safety functions of machines or plants (emergency stops, light curtains, protection of people).</li>
+</ul>
+
+<h2>The rules that apply</h2>
+<table>
+  <tr><th>Rule</th><th>For what</th><th>Since</th></tr>
+  <tr><td>Regulation (EU) 2024/2847, <b>Cyber Resilience Act</b> (CRA)</td><td>Cybersecurity of every product with software sold in the EU: security requirements, updates, vulnerability handling and reporting</td><td>Reporting from 11-09-2026; in full from 11-12-2027</td></tr>
+  <tr><td>Directive 2014/53/EU, <b>RED</b>, with Delegated Regulation (EU) 2022/30 and standard EN 18031-1</td><td>Only boards <b>with WiFi</b>: cybersecurity of internet-connected radio equipment</td><td>From 1-08-2025 to 11-12-2027, then replaced by the CRA</td></tr>
+  <tr><td>Directives 2014/30/EU (EMC) and 2011/65/EU (RoHS)</td><td>Every board sold</td><td>already in force</td></tr>
+</table>
+
+<h2>What the firmware already does</h2>
+<p>For the PLC, the µLink I/O modules and the panel, from the November 2026 versions (MiaPlc-idf 0.3.90, MiaHmi-idf 0.1.26). Details are in the <a href="wiki.html#sicurezza">wiki</a>.</p>
+<ul>
+  <li><b>Mandatory password</b>: every board asks for the administrator password, which you choose when you commission it. A board cannot be used without a password.</li>
+  <li><b>No identical factory passwords</b>: the recovery password and the PLC's WiFi password are different on every board.</li>
+  <li><b>Signed commands</b>: every request from the editor and the panel carries a signature tied to the session; a copied or altered request is rejected.</li>
+  <li><b>Passwords never on the network</b>: challenge login; the board only keeps a verifier, not the password. Wrong attempts are slowed down.</li>
+  <li><b>Signed updates</b>: the board only accepts firmware and editor files signed with your configuration's key.</li>
+  <li><b>Protected µLink</b>: frames between the PLC and the I/O modules are authenticated (CMAC) and cannot be replayed.</li>
+  <li><b>HTTPS on the P4 panel</b>, with your configuration's certificate. On the P4 PLC it is being prepared.</li>
+  <li><b>Security log</b>: logins, rejections and bad signatures, in Diagnostics.</li>
+</ul>
+
+<h2>Boards for development and hobby use</h2>
+<p>On boards without PSRAM or smaller than the S3 and P4 the firmware protects integrity (password, signatures) but not the confidentiality of data on the network:
+there are not enough resources for TLS encryption. That is why they must be used <b>only on an isolated local network</b>, never connected to the internet, for testing and debugging.
+Whoever builds and uses them is responsible for them.</p>
+
+<h2>Installing safely</h2>
+<ul>
+  <li>Put PLCs, modules and panels on a <b>separate plant network</b>; for remote control use a VPN, do not open router ports towards the PLC.</li>
+  <li>Mount the boards in a <b>closed cabinet</b>: whoever holds the board can reinstall it over USB.</li>
+  <li>Keep a copy of the configuration's credentials file (<code>access.miapwd</code>) and do not share it.</li>
+  <li>Update the firmware when a security fix is released.</li>
+</ul>
+
+<h2>Reporting a vulnerability</h2>
+<p>Write to <a href="mailto:security@miaplc.it">security@miaplc.it</a> with the product, the firmware version (Diagnostics → versions), what happens and how to reproduce it.
+Please do not publish the details before the fix is out.</p>
+<ul>
+  <li>Acknowledgement within 3 working days; assessment within 10.</li>
+  <li>Fix as soon as possible; for serious vulnerabilities the target is 30 days. Then we publish it here and in the release notes, with your name if you wish.</li>
+  <li>A vulnerability that is already being exploited is reported to the authorities as the Cyber Resilience Act requires.</li>
+</ul>
+
+<h2>Support and updates</h2>
+<p>Every MiaPLC board sold will have a declared <b>support period</b>, with its end date. Security updates will be <b>free</b> for the whole period.</p>
+
+<h2>Where we stand</h2>
+<table>
+  <tr><th>Step</th><th>Status</th></tr>
+  <tr><td>Password login, signed sessions, per-board passwords, protected µLink</td><td>done and tested (November 2026)</td></tr>
+  <tr><td>Signed updates</td><td>done and tested (November 2026)</td></tr>
+  <tr><td>Last points of the security review</td><td>in progress</td></tr>
+  <tr><td>HTTPS on the P4 PLC</td><td>being prepared</td></tr>
+  <tr><td>Software bill of materials (SBOM) for every firmware</td><td>to do</td></tr>
+  <tr><td>Lab tests and EU declaration of conformity of the first P4 board</td><td>before sales</td></tr>
+</table>
+</article>
+</div>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
+    </div>
+    <div><h4>Project</h4><ul>
+      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li>🚧 GitHub (code public in early 2027)</li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
+    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
+    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+</div></footer>
+<script src="../assets/js/lightbox.js?v=ff57e3d0" defer></script>
+</body>
+</html>
