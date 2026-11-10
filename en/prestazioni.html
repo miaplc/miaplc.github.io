@@ -41,7 +41,7 @@
     <div class="stat"><em class="m">measured</em><b>0.79 µs</b><span>one ladder network “contact → coil” on ESP32</span></div>
     <div class="stat"><em class="m">measured</em><b>0.92 ms</b><span>1000 ladder networks, one full scan</span></div>
     <div class="stat"><em class="m">measured</em><b>5.4×</b><span>faster on the P4 with machine code, on a large program</span></div>
-    <div class="stat"><em class="m">measured</em><b>0.3–0.5 ms</b><span>round trip of a µLink I/O module</span></div>
+    <div class="stat"><em class="m">measured</em><b>~1.1 ms</b><span>round trip of a signed µLink I/O module, ESP32 PLC</span></div>
   </div>
 </div></section>
 
@@ -198,26 +198,34 @@
       <tr><td>Small program with loops: VM / machine code</td><td>136 / 168 µs</td><td>ESP32-P4</td></tr>
       <tr><td>Free work memory, WiFi + Ethernet</td><td>11,702 bytes</td><td>ESP32</td></tr>
       <tr><td>Free work memory</td><td>7,989,150 bytes</td><td>ESP32-P4 with PSRAM</td></tr>
-      <tr><td>µLink, average round trip (3 ESP32 modules)</td><td>309–495 µs</td><td>P4 PLC, 5 ms period</td></tr>
-      <tr><td>µLink, late replies under stress</td><td>0.06–0.42 %</td><td>22,608 exchanges per module</td></tr>
-      <tr><td>µLink, ESP32-C3 + W5100 (SPI) module</td><td>4.7–7.3 ms</td><td>the SPI chip is the bottleneck</td></tr>
+      <tr><td>Signed µLink, average round trip (2 ESP32 modules)</td><td>1.05–1.11 ms</td><td>ESP32 PLC, 5 ms period, 10 November 2026</td></tr>
+      <tr><td>Signed µLink, lost or late replies (ESP32 modules)</td><td>0.007–0.11 %</td><td>10 minutes per test: alone, with Online and Download, with HTTPS</td></tr>
+      <tr><td>Signed µLink, ESP32-C3 / S3 + W5100 (SPI) module</td><td>3.1–3.8 ms</td><td>fast SPI driver from 0.3.92; for the W5100 periods of 10 ms or more</td></tr>
+      <tr><td>µLink before signing, average round trip (3 ESP32 modules)</td><td>309–495 µs</td><td>P4 PLC, 5 ms period</td></tr>
+      <tr><td>µLink before signing, late replies under stress</td><td>0.06–0.42 %</td><td>P4 PLC, 22,608 exchanges per module</td></tr>
       <tr><td>µLink, 8 modules</td><td>~1.3 ms of bus every 5 ms</td><td>µLink documentation</td></tr>
       <tr><td>µLink, 192 modules (test)</td><td>16 ms to send everything</td><td>ESP32-P4</td></tr>
       <tr><td>Download of 127 KB over USB (serial cable, including STOP and flash write)</td><td>~28 s</td><td>ESP32-P4, MiaConfig automatic measurement</td></tr>
       <tr><td>Editor over Ethernet / USB</td><td>0.7–1.3 s / 33.5 s</td><td>370 KB, 18 files</td></tr>
       <tr><td>Status request over Ethernet, PLC in RUN</td><td>31–40 ms</td><td>ESP32 and P4</td></tr>
     </table>
-    <p class="small mut">The µLink measurements are from before message signing (protocol 2, firmware 0.3.81): they have to be taken again.</p>
-    <h3>What security costs (measured on 9 November 2026)</h3>
+    <p class="small mut">Signed µLink (protocol 2): measured on 10 November 2026 on the Belacqua ESP32 PLC with four modules; the measurements with
+      the P4 PLC and with 8 or 192 modules are from before signing.</p>
+    <h3>What security costs (measured on 9 and 10 November 2026)</h3>
     <table>
       <tr><th>What</th><th>Value</th><th>Where</th></tr>
       <tr><td>HTTPS (TLS 1.2, ECDSA P-256 certificate): RAM of one connection, at its worst</td><td>35–40 KB</td><td>ESP32 without PSRAM</td></tr>
-      <tr><td>HTTPS: handshake of a new connection</td><td>~0.7 s (0.85–0.92 s with the PLC in RUN)</td><td>ESP32</td></tr>
+      <tr><td>HTTPS: handshake of a new connection</td><td>~0.7 s (0.85–0.92 s with the PLC in RUN, 1.07–1.11 s with signed µLink every 5 ms)</td><td>ESP32</td></tr>
       <tr><td>HTTPS: larger firmware</td><td>+119 KB</td><td>ESP32</td></tr>
       <tr><td>PLC cycle during 10 HTTPS handshakes</td><td>+4 µs on average, no overrun</td><td>ESP32, Belacqua program in RUN</td></tr>
-      <tr><td>Signing a µLink message (CMAC), outgoing / incoming</td><td>~27 / ~34 µs</td><td>panel ESP32-P4; on the PLCs still to be measured</td></tr>
+      <tr><td>Signing a µLink message (CMAC), outgoing / incoming</td><td>87–102 / 108–127 µs</td><td>ESP32 (PLC and modules), 160 MHz</td></tr>
+      <tr><td>Signing a µLink message, outgoing / incoming</td><td>55 / 68 µs · 84 / 105 µs · ~27 / ~34 µs</td><td>ESP32-C3 · ESP32-S3 · ESP32-P4</td></tr>
+      <tr><td>Signatures and checks in one PLC ↔ module round</td><td>~0.42 ms</td><td>ESP32: most of the 1.1 ms round trip</td></tr>
+      <tr><td>Signed µLink during 10 HTTPS handshakes</td><td>0.016–0.022 % lost replies, cycle without overruns</td><td>ESP32, free RAM down to 32 KB</td></tr>
+      <tr><td>HTTPS together with editor Online and Download</td><td>free RAM down to 20 KB, PLC restart</td><td>ESP32 without PSRAM, test firmware</td></tr>
     </table>
-    <p class="small mut">TLS runs on the other core and does not slow the cycle down: the limit is RAM. On the ESP32 without PSRAM, in RUN, about 72 KB are left:
+    <p class="small mut">TLS runs on the other core and slows down neither the cycle nor µLink: the limit is RAM. On 10 November, with a test
+      HTTPS connection, the editor Online and a Download together, the ESP32 PLC went down to 20 KB free and restarted. On the ESP32 without PSRAM, in RUN, about 72 KB are left:
       one HTTPS connection would leave 16–20, and the browser opens more than one. That is why boards without PSRAM use HTTP with
       login and signed requests (integrity, no encryption) and must stay on an isolated network; HTTPS is on the boards with PSRAM:
       already on the P4 panel, being prepared on the P4 PLC.</p>
