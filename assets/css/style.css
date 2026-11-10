@@ -373,3 +373,40 @@ html.lb-open{overflow:hidden}
 .path ol{margin:10px 0 10px 18px;padding:0}
 .path li{margin:0 0 8px}
 @media(max-width:860px){.paths{grid-template-columns:1fr}}
+
+
+/* wiki: guida completa dei programmi a tendine (MiaConfig, editor MiaPLC, editor MiaHMI), tendine annidate */
+.guide-tools{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+.guide-tools button{font:600 .82rem/1 var(--sans);padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--txt);cursor:pointer}
+.guide-tools button:hover{border-color:var(--cy);color:#fff}
+details.g1{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin:0 0 14px;padding:0 20px}
+details.g1[open]{border-color:rgba(34,211,238,.55)}
+details.g1>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px 0;font-weight:700;font-size:1.2rem;color:#fff}
+details.g1>summary .key-n{font-size:.68rem}
+details.g1>summary small{font-weight:400;font-size:.88rem;color:var(--mut)}
+details.g1[open]>summary{border-bottom:1px solid var(--line);margin-bottom:12px}
+details.g1>.g-intro{margin:4px 0 14px}
+details.g2{border:1px solid var(--line);border-radius:10px;margin:0 0 10px;padding:0 16px;background:rgba(5,12,28,.35)}
+details.g2[open]{border-color:rgba(34,211,238,.35)}
+details.g2>summary{list-style:none;cursor:pointer;padding:12px 0;font-weight:600;color:#e6eefc}
+details.g2[open]>summary{border-bottom:1px solid var(--line);margin-bottom:10px;color:#fff}
+details.g3{border-left:2px solid var(--line);margin:8px 0 10px;padding:0 0 0 14px}
+details.g3[open]{border-left-color:var(--cy)}
+details.g3>summary{list-style:none;cursor:pointer;padding:6px 0;font-weight:600;color:#cfe0f7;font-size:.97rem}
+details.g1>summary::-webkit-details-marker,details.g2>summary::-webkit-details-marker,details.g3>summary::-webkit-details-marker{display:none}
+details.g1>summary::before,details.g2>summary::before,details.g3>summary::before{content:"";flex:none;display:inline-block;width:8px;height:8px;margin-right:10px;
+  border-right:2px solid var(--cy);border-bottom:2px solid var(--cy);transform:rotate(-45deg);transition:transform .15s;vertical-align:2px}
+details.g1[open]>summary::before,details.g2[open]>summary::before,details.g3[open]>summary::before{transform:rotate(45deg)}
+details.g1>summary::before{margin-right:0}
+.doc details.g2 table,.doc details.g3 table{font-size:.9rem;margin:10px 0 14px}
+.doc details.g2 p,.doc details.g3 p{margin:8px 0}
+.doc details.g2 ul,.doc details.g2 ol{margin:8px 0}
+.g-body{padding-bottom:12px}
+.doc article h2#guida{scroll-margin-top:90px}
+.guide-tools{align-items:center}
+.guide-q{flex:1 1 220px;min-width:180px;font:500 .92rem var(--sans);padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:#071330;color:#fff}
+.guide-q:focus{outline:none;border-color:var(--cy)}
+.guide-info{font-size:.85rem;color:var(--mut)}
+mark.gq{background:rgba(250,204,21,.35);color:#fff;border-radius:3px;padding:0 1px}
+details.g1,details.g2,details.g3,.doc article h2{scroll-margin-top:90px}
+@media (max-width:600px){details.g1{padding:0 10px}details.g2{padding:0 10px}details.g3{padding-left:10px}.guide-tools button{padding:8px 10px}}

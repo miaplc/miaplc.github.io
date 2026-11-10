@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=9f84e21e">
+<link rel="stylesheet" href="assets/css/style.css?v=dc035142">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -214,9 +214,9 @@
     <p class="mut">Cosa è cambiato per ultimo in ogni parte di MiaPLC: si aggiorna da solo a ogni pubblicazione.</p></div>
   <div class="tblwrap"><table class="agg"><thead><tr><th>Componente</th><th>Versione</th><th>Data</th><th>Motivo</th></tr></thead><tbody>
 <tr><td><b>MiaPLC editor</b><small>editor web del PLC (ladder, FC, Online, diagnostica)</small></td><td class="v">4.9.42</td><td class="d">10/11/2026</td><td>Aggiornamento del firmware: l&#x27;impronta del firmware si legge dalla lunghezza vera dell&#x27;immagine (intestazione, segmenti, checksum…</td></tr>
-<tr><td><b>MiaPLC firmware</b><small>firmware del PLC (ESP-IDF)</small></td><td class="v">0.3.89</td><td class="d">10/11/2026</td><td>Spazio dei file su LittleFS al posto della SPIFFS (stessa partizione «spiffs» da 824 KB, stesso punto di montaggio, niente USB)</td></tr>
-<tr><td><b>MiaConfig</b><small>configuratore e compilatore del firmware</small></td><td class="v">0.1.135</td><td class="d">10/11/2026</td><td>Spazio dei file del PLC su LittleFS (MiaPlc-idf 0.3.89): l&#x27;immagine dei file dell&#x27;editor per il caricamento via USB (file-editor.bin, anche…</td></tr>
-<tr><td><b>MiaHMI firmware</b><small>firmware del pannello HMI touch</small></td><td class="v">0.1.25.0</td><td class="d">09/11/2026</td><td>«Rete per MAC» di MiaConfig (UDP UPLC!NET): le password WiFi arrivano cifrate (pass_c, appass_c, AES-128-CTR con HMAC(V, &quot;cifra\n&quot; ns), V =…</td></tr>
+<tr><td><b>MiaPLC firmware</b><small>firmware del PLC (ESP-IDF)</small></td><td class="v">0.3.91</td><td class="d">10/11/2026</td><td>/api/plc/cycle: uptime_s, secondi dall&#x27;avvio (prove a caso del 10-11: un riavvio non comandato si riconosce</td></tr>
+<tr><td><b>MiaHMI firmware</b><small>firmware del pannello HMI touch</small></td><td class="v">0.1.26.0</td><td class="d">10/11/2026</td><td>Firmware firmato (P76, come MiaPlc-idf 0.3.90), senza Secure Boot e senza eFuse: con le credenziali della configurazione MiaConfig 0.1.137…</td></tr>
+<tr><td><b>MiaConfig</b><small>configuratore e compilatore del firmware</small></td><td class="v">0.1.137</td><td class="d">10/11/2026</td><td>Pannello firmato (P76, MiaHmi-idf 0.1.26.0): sdkconfig.hmi con la firma V2 RSA-3072 quando le credenziali sono aperte</td></tr>
 <tr><td><b>µLink</b><small>moduli I/O remoti</small></td><td class="v">0.4.2</td><td class="d">09/11/2026</td><td>Arduino: il numero casuale delle connessioni (nm) dal rumore di un ingresso analogico libero (l&#x27;ultimo non usato dallo sketch), dal tempo…</td></tr>
 <tr><td><b>MiaExamples</b><small>progetti di esempio (Belacqua…)</small></td><td class="v">0.3.3.5</td><td class="d">09/11/2026</td><td>tools/screens_mc.py: anche mc-belacqua (MiaConfig con la configurazione di Belacqua, i quattro dispositivi e il PLC con µLink), per la…</td></tr>
 <tr><td><b>MiaComponents</b><small>componenti comuni</small></td><td class="v">0.1.0.3</td><td class="d">05/11/2026</td><td>README: sezione «Disclaimer» in fondo (non è un controllore di sicurezza, schede da sviluppo, responsabilità di chi progetta e installa…</td></tr>

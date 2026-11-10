@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../wiki.html"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=9f84e21e">
+<link rel="stylesheet" href="../assets/css/style.css?v=dc035142">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -33,119 +33,152 @@
 <div class="wrap doc">
 <aside>
   <h4>Getting started</h4>
-  <a href="#intro">What is MiaPLC</a>
+  <a href="#intro">What MiaPLC is</a>
   <a href="#primi-passi">First steps</a>
   <a href="#simulatore">The simulator</a>
   <h4>Programming</h4>
   <a href="#scansione">The scan cycle</a>
-  <a href="#blocchi">Blocks: Main, FC, DB</a>
+  <a href="#blocchi">Blocks: Main, StartUp, FC, DB</a>
+  <a href="#ritentiva">Retentive memory</a>
   <a href="#aree">Areas and addresses</a>
   <a href="#tipi">Data types</a>
   <a href="#istruzioni">Ladder instructions</a>
   <a href="#testo">FCs in ST and C</a>
+  <h4>The PLC at work</h4>
+  <a href="#run-stop">RUN, STOP and errors</a>
   <a href="#online">Online and diagnostics</a>
+  <a href="#sistema">System DB</a>
+  <a href="#limiti">Memory and limits</a>
   <h4>Hardware and network</h4>
   <a href="#schede">Boards and MiaConfig</a>
+  <a href="#rete">Network</a>
+  <a href="#sicurezza">Passwords and security</a>
+  <a href="#aggiornare">Update, backup, restore</a>
+  <a href="#orologio">Clock</a>
   <a href="#ulink">µLink: remote I/O</a>
+  <a href="#scambio">Modbus TCP and data exposure</a>
   <a href="#hmi">HMI panel</a>
+  <h4>Program guide</h4>
+  <a href="#mc">MiaConfig</a>
+  <a href="#editor">MiaPLC editor</a>
+  <a href="#hmi-editor">MiaHMI editor</a>
   <h4>Manuals</h4>
-  <a href="guida-esempi.html">Building the examples</a>
+  <a href="guida-esempi.html">Build the examples</a>
   <a href="guida-hardware.html">Hardware with MiaConfig</a>
   <h4>More</h4>
   <a href="#faq">FAQ</a>
 </aside>
 <article>
-<h1 class="sr-only">MiaPLC wiki</h1>
-<p class="note">The editor's interface is available in Italian and English: pick the language from the drop-down in the toolbar.</p>
+<h1 class="sr-only">MiaPLC Wiki</h1>
 
-<h2 id="intro">What is MiaPLC</h2>
+<h2 id="intro">What MiaPLC is</h2>
 <p>MiaPLC (<em>Micro Integrated Automation Programmable Logic Controller</em>) is a PLC built on ESP32 microcontrollers.
-Three pieces work together:</p>
+Three parts work together:</p>
 <ul>
-  <li><b>the board</b>: an ESP32 with inputs, outputs and usually Ethernet;</li>
-  <li><b>the firmware</b>: runs the program in a bytecode virtual machine, scan after scan, and handles network, I/O, clock and diagnostics;</li>
-  <li><b>the web editor</b>: lives inside the PLC. Open it in the browser with the board's IP address and program in ladder.</li>
+  <li><b>the board</b>: an ESP32 with inputs, outputs and a network (Ethernet, WiFi or both, depending on the board);</li>
+  <li><b>the firmware</b>: runs the program in a bytecode virtual machine, cycle after cycle, and handles network, I/O, clock, security and diagnostics;</li>
+  <li><b>the web editor</b>: it lives inside the PLC. You open it in the browser at the board's address and program in ladder. You can also open it on the PC and connect with a USB cable.</li>
 </ul>
-<p>The workflow is the one of industrial PLCs: write the program, <kbd>Compile</kbd>, <kbd>Download to cpu</kbd>, <kbd>Run</kbd>, then <kbd>Online</kbd> to watch it work.</p>
+<p>You work the same way as with industrial PLCs: write the program, <kbd>Compile</kbd>, <kbd>Download to cpu</kbd>, <kbd>Run</kbd>, then <kbd>Online</kbd> to watch it work.
+Around it are the other programs: <a href="#mc">MiaConfig</a> to prepare custom boards and firmware, the <a href="#ulink">µLink</a> remote I/O modules and the <a href="#hmi">HMI panel</a>.</p>
 
 <h2 id="primi-passi">First steps</h2>
-<p>There are two ways. With a board that already has the MiaPLC firmware you start right away: power it, open the editor and program.
-<b>MiaConfig is only for the advanced way</b>: custom electronic boards and advanced projects, when you build your own tailored firmware.</p>
+<p>There are two paths. With a board that already has the MiaPLC firmware you start right away: power on, open the editor and program.
+<b>MiaConfig is only needed on the advanced path</b>: custom electronic boards and advanced projects, when you build your own custom firmware.</p>
 <div class="paths">
   <div class="path">
     <span class="key-n">Basic</span>
     <h3>Ready board, firmware already loaded</h3>
     <ol>
-      <li><b>Power the board.</b> The firmware is already inside: inputs, outputs and network are ready.</li>
-      <li><b>Connect.</b> From your PC or tablet to the board's WiFi, <code>miaplc-XXXX</code> (the last digits come from the chip),
-        or with an Ethernet cable to your network.</li>
-      <li><b>Open the editor.</b> In the browser open <code>http://10.10.10.1</code> (board WiFi) or the IP address it has on your network.
-        The editor lives inside the PLC: nothing to install.</li>
+      <li><b>Power on the board.</b> The firmware is already inside: inputs, outputs and network are ready.</li>
+      <li><b>Connect.</b> With the Ethernet cable, a factory board has the fixed address <code>192.168.0.10</code>: the PC must be on the 192.168.0.x network.
+        Boards without Ethernet open their own WiFi network <code>miaplc-XXXX</code> instead (the last digits come from the chip) with the address <code>10.10.10.1</code>.</li>
+      <li><b>Open the editor.</b> In the browser, open the board's address, for example <code>http://192.168.0.10</code>. The editor lives inside the PLC: nothing to install.</li>
+      <li><b>Log in.</b> The first time, you set the administrator password using the board's recovery password (valid for the first 10 minutes after power-on). After that you log in with your password.</li>
       <li><b>Write your first network</b>, then <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
     </ol>
-    <p class="small mut">No MiaConfig needed. Firmware updates are done from the editor, with the <code>.miaplc.fw</code> package.</p>
+    <p class="small mut">You don't need MiaConfig. Firmware updates are done from the editor, with the <code>.miaplc.fw</code> package.</p>
   </div>
   <div class="path adv">
     <span class="key-n">Advanced</span>
-    <h3>Configure the board yourself with MiaConfig</h3>
-    <p>For custom electronic boards and advanced projects: you choose chip, pins, modules and communications, and build a firmware tailored to your needs.</p>
+    <h3>You configure the board with MiaConfig</h3>
+    <p>For custom electronic boards and advanced projects: you choose chip, pins, modules and communications, and you compile a firmware tailored to your needs.</p>
     <ol>
-      <li><b>Choose a board.</b> One of the reference boards or your own (see <a href="#schede">Boards and MiaConfig</a>).</li>
-      <li><b>Build the firmware with MiaConfig.</b> Draw the board (inputs, outputs, Ethernet, clock, µLink, panel), then <em>Generate → Build firmware</em>.
-        The first time it downloads the build tools (internet and about 1 GB of disk needed); after that it just builds.</li>
-      <li><b>Flash the firmware.</b> The first time over USB, then from the editor with the <code>.miaplc.fw</code> package.</li>
-      <li><b>Program</b> as in the basic way: editor in the browser, Compile, Download, Run, Online.</li>
+      <li><b>Choose the board.</b> One of the reference boards or your own (see <a href="#schede">Boards and MiaConfig</a>).</li>
+      <li><b>Prepare the firmware with MiaConfig.</b> You describe the board (inputs, outputs, Ethernet, clock, µLink, panel), then <em>Genera → Compila firmware</em> (Generate → Compile firmware).
+        The first time it downloads the build tools (you need internet and about 1 GB of disk); after that it just compiles.</li>
+      <li><b>Load the firmware.</b> The first time via USB, later from the editor with the <code>.miaplc.fw</code> package. MiaConfig also sets the board's passwords.</li>
+      <li><b>Program</b> as on the basic path: editor in the browser, Compile, Download, Run, Online.</li>
     </ol>
-    <p class="small"><a href="guida-hardware.html">Manual: hardware with MiaConfig, step by step</a></p>
+    <p class="small"><a href="guida-hardware.html">Manual: hardware with MiaConfig, step by step</a> · <a href="#mc">Full MiaConfig guide</a></p>
   </div>
 </div>
-<p class="note">No board yet? Start with the <a href="provami.html">simulator</a>: it's the same editor, with a simulated PLC in your browser.</p>
+<p class="note">No board yet? Start with the <a href="provami.html">simulator</a>: it is the same editor, with a simulated PLC in the browser.</p>
 
 <h2 id="simulatore">The simulator</h2>
-<p>The simulator is the real editor with a simulated PLC instead of the board. Its virtual machine is the same logic as the firmware, rewritten in JavaScript with the same limits,
-so a program that works in the simulator works on the board too.</p>
+<p>The simulator is the real editor with a simulated PLC instead of the board. The simulated virtual machine follows the same rules as the firmware: a program that works in the simulator also works on the board.</p>
 <ul>
-  <li>In the <b>MOCK PLC</b> panel click inputs <code>I0…I5</code> to switch them on and off; outputs <code>Q0…Q3</code> light up when active.</li>
-  <li><b>RUN / STOP / Reboot</b> act like the board's switch and reset; <b>Errore</b> and <b>Offline</b> simulate a fault and a lost connection.</li>
-  <li>The execution time shown is an estimate: the real one is measured on the PLC.</li>
-  <li>Program and state stay saved in your browser; <b>Reset mock</b> clears everything.</li>
+  <li>In the <b>MOCK PLC</b> box, click the inputs <code>I0…I5</code> to switch them on and off; the outputs <code>Q0…Q3</code> light up when they are active.</li>
+  <li><b>RUN / STOP / Reboot</b> work like the editor commands and the board restart; <b>Error</b> and <b>Offline</b> simulate a fault and a lost connection.</li>
+  <li>The simulator runs one scan every 10 ms and at most 10000 instructions per scan. On the board the cycle can go down to 1 ms and the limit is time (the cycle watchdog), not the number of instructions. Real timings are measured on the PLC.</li>
+  <li>Program and state stay saved in the browser; <b>Reset mock</b> clears everything.</li>
 </ul>
 
 <h2 id="scansione">The scan cycle</h2>
-<p>Like every PLC, MiaPLC repeats the same loop forever:</p>
-<ol><li>read the inputs;</li><li>run the program from start to end (Main and the FCs it calls);</li><li>write the outputs.</li></ol>
-<p>So the program never “waits”: every network is evaluated again on every scan. Timers measure time between scans, edges remember the previous scan's state.
-Scan time and CPU load are shown in Diagnostics and in the system DB.</p>
+<p>Like every PLC, MiaPLC always repeats the same loop:</p>
+<ol><li>reads the inputs of the board and of the µLink modules;</li><li>runs the program from start to end (Main and the FCs it calls);</li><li>writes the outputs and sends them to the modules.</li></ol>
+<p>So the program does not “wait”: every network is evaluated again on every loop. Timers count the time between one loop and the next; edges remember the state of the previous loop.</p>
+<ul>
+  <li>The set cycle time (1 ms) is a minimum: with a long program the loop takes longer.</li>
+  <li>The <b>cycle watchdog</b> (150 ms by default, from 10 to 1000 ms in MiaConfig) is the maximum time of one scan: beyond it, the PLC goes to STOP with an error and the outputs off.</li>
+  <li>On dual-core chips the PLC has a CPU all to itself; on single-core chips (C3), after each loop the system (network, editor, USB) gets at most 2 ms.</li>
+  <li>Writes from outside (Online, panel, data exposure, Modbus) come in between two scans, never in the middle of one.</li>
+  <li>Scan time, cycle time and CPU load can be read in Diagnostics and in the <a href="#sistema">System DB</a>.</li>
+</ul>
 
 <h2 id="blocchi">Blocks: Main, StartUp, FC, DB</h2>
 <table>
-  <tr><th>Block</th><th>Purpose</th></tr>
+  <tr><th>Block</th><th>What it is for</th></tr>
   <tr><td><b>Main</b></td><td>The main program, run on every scan.</td></tr>
-  <tr><td><b>StartUp</b></td><td>Run once at power-up or after a Download: initial values, resets.</td></tr>
-  <tr><td><b>FC</b> (function)</td><td>A reusable piece of program with its own interface (inputs, outputs, local variables). Called from Main or from other FCs.</td></tr>
-  <tr><td><b>DB</b> (data block)</td><td>Named, typed variables, including structures and arrays. A DB can be <em>retentive</em>: it keeps its values at power-off.</td></tr>
-  <tr><td><b>System DBs</b></td><td>Created by the PLC: board data and system values (scan time, free RAM, network status, first scan…), read-only.</td></tr>
+  <tr><td><b>StartUp</b></td><td>One scan instead of Main each time the PLC goes to RUN: power-on in RUN, from STOP to RUN, after an error and after a full Download. It reads the inputs and writes the outputs: use it for initial values and resets.</td></tr>
+  <tr><td><b>FC</b> (function)</td><td>A reusable piece of program with its own interface (IN, OUT, IN_OUT, TEMP). Numbers from 1 to 1023; called from Main, from StartUp or from other FCs, up to 8 levels.</td></tr>
+  <tr><td><b>FC with memory</b> (FB)</td><td>An FC with at least one STATIC variable: each call has its own instance DB (DB 3000…3999, created by the editor) and remembers values from one loop to the next.</td></tr>
+  <tr><td><b>DB</b> (data block)</td><td>Variables with name and type, including structures and arrays. Numbers from 1 to 65535. A DB can be <em>retentive</em>: see <a href="#ritentiva">Retentive memory</a>.</td></tr>
+  <tr><td><b>System DBs</b></td><td>Written by the PLC, read-only: DB 1000 (board hardware and I/O tables), DB 1100 (Modbus), DB 2000 «Sistema» (times, RAM, network…), DB 1001 and following for the µLink modules.</td></tr>
 </table>
-<p>Every block is split into <b>networks</b>, each with a title and comment. Blocks can be grouped in folders.</p>
+<p>Each block is split into <b>networks</b>, each with a title and a comment. Blocks can be grouped in folders. A program has at most 256 blocks; the local data of an FC can be up to 1024 bytes.</p>
+
+<h2 id="ritentiva">Retentive memory</h2>
+<p>Only the <b>DBs marked retentive</b> survive power-off. Merkers M, timers T and outputs start from zero at every power-on.</p>
+<p>Retentive DBs are saved to flash:</p>
+<ul>
+  <li>at every STOP from the editor;</li>
+  <li>at every clean restart (from the editor or from MiaConfig);</li>
+  <li>when power fails, if the board has the <b>Mancanza tensione</b> (Power failure) input (you add it in MiaConfig, with a capacitor that keeps the chip on long enough to save).</li>
+</ul>
+<p class="note">Without the power-failure input, a sudden power-off in RUN loses the changes made after the last save: for a real machine you should always include it.</p>
+<p>On Download, fields with the same name and the same type keep their value. Space for retentive DBs: 8 KB on ESP32, C3 and S3, 64 KB on the P4.</p>
 
 <h2 id="aree">Areas and addresses</h2>
 <table>
-  <tr><th>Area</th><th>Addresses</th><th>Contents</th></tr>
-  <tr><td><code>I</code></td><td>I0 … I1023</td><td>Digital inputs (read-only)</td></tr>
-  <tr><td><code>Q</code></td><td>Q0 … Q1023</td><td>Digital outputs</td></tr>
-  <tr><td><code>M</code></td><td>M0 … M1023</td><td>Markers: internal memory bits</td></tr>
-  <tr><td><code>T</code></td><td>T0 … T255</td><td>Timers: contact <code>T5</code> is the output of timer 5</td></tr>
-  <tr><td><code>SM</code></td><td>SM0 … SM5</td><td>System bits (read-only, see below)</td></tr>
-  <tr><td><code>MB / MW / MD</code></td><td>e.g. MW3, MW3.5</td><td>Memory bytes, words and double words; <code>MW3.5</code> is bit 5 of word 3</td></tr>
-  <tr><td><code>DB</code></td><td>e.g. <code>"Plant".level</code></td><td>Data block variables, by name</td></tr>
+  <tr><th>Area</th><th>Addresses</th><th>What it holds</th></tr>
+  <tr><td><code>I</code></td><td>I0 … I1023</td><td>Digital inputs (read-only). The board's inputs come first, the µLink modules' inputs from I64 up (64 bits per module).</td></tr>
+  <tr><td><code>Q</code></td><td>Q0 … Q1023</td><td>Digital outputs, with the same layout.</td></tr>
+  <tr><td><code>M</code></td><td>M0 … M1023</td><td>Merkers: internal memory bits, cleared at every power-on.</td></tr>
+  <tr><td><code>T</code></td><td>T0 … T255</td><td>Timers: the contact <code>T5</code> is the output of timer 5.</td></tr>
+  <tr><td><code>SM</code></td><td>SM0 … SM5</td><td>System bits (read-only, see below).</td></tr>
+  <tr><td><code>DB</code></td><td>e.g. <code>"Impianto".livello</code></td><td>Data block variables, by name. You can also use one bit of an integer field: <code>"Dati".stato.3</code>.</td></tr>
 </table>
+<p>Memory bytes, words and double words (<code>MB</code>, <code>MW</code>, <code>MD</code>…) are no longer PLC areas: if a project uses them, the editor moves them automatically into a retentive DB «Merker»
+(<code>MW3</code> becomes <code>"Merker".MW3</code>, <code>MW3.5</code> its bit 5).</p>
 <h3>System bits</h3>
 <table>
   <tr><th>Bit</th><th>Meaning</th></tr>
-  <tr><td>SM0</td><td>1 on the first scan only</td></tr><tr><td>SM1</td><td>always 1</td></tr><tr><td>SM2</td><td>always 0</td></tr>
-  <tr><td>SM3</td><td>10 Hz clock</td></tr><tr><td>SM4</td><td>2 Hz clock</td></tr><tr><td>SM5</td><td>1 Hz clock</td></tr>
+  <tr><td>SM0</td><td>1 in StartUp and in the first Main after each change to RUN</td></tr><tr><td>SM1</td><td>always 1</td></tr><tr><td>SM2</td><td>always 0</td></tr>
+  <tr><td>SM3</td><td>10 Hz clock (100 ms period)</td></tr><tr><td>SM4</td><td>2 Hz clock (500 ms)</td></tr><tr><td>SM5</td><td>1 Hz clock (1 s)</td></tr>
 </table>
-<p>Every address can get a <b>symbol</b> (name and comment) in the symbol table: in the ladder you'll see <code>"Start"</code> above <code>I0</code>.</p>
+<p>The clocks change from one scan to the next. Times, RAM and network status are in the <a href="#sistema">System DB</a>.
+You can give each address a <b>symbol</b> (name and comment) in the symbol table: in ladder you will see <code>"Start"</code> above <code>I0</code>.</p>
 
 <h2 id="tipi">Data types</h2>
 <table>
@@ -155,100 +188,1408 @@ Scan time and CPU load are shown in Diagnostics and in the system DB.</p>
   <tr><td>WORD · UINT</td><td>0 … 65535</td></tr><tr><td>INT</td><td>−32768 … 32767</td></tr>
   <tr><td>DINT</td><td>32-bit signed</td></tr><tr><td>UDINT</td><td>32-bit unsigned</td></tr>
   <tr><td>REAL</td><td>32-bit floating point</td></tr>
-  <tr><td>TIME</td><td>time in ms, written <code>T#5s</code>, <code>T#1m30s</code>, <code>T#250ms</code></td></tr>
-  <tr><td>TIMER</td><td>a timer whose state lives in a DB variable (doesn't use T0…T255)</td></tr>
+  <tr><td>TIME</td><td>time in ms (about ±24 days), written as <code>T#5s</code>, <code>T#1m30s</code>, <code>T#250ms</code>, <code>T#2h</code>, <code>T#1d</code></td></tr>
+  <tr><td>TIMER</td><td>a timer with its state in a variable (fields PT, ET, IN, Q): it does not use T0…T255 and, in a retentive DB, it survives power-off</td></tr>
 </table>
-<p>DBs and FC interfaces can also use <b>arrays</b> and <b>structures</b> (e.g. <code>"Data".motor.speed</code>).</p>
+<ul>
+  <li><b>Structures</b>: your own types with simple fields and timers, for use in DBs and interfaces (e.g. <code>"Dati".motore.velocita</code>).</li>
+  <li><b>Arrays</b> <code>[min..max]</code>: up to 4096 elements, not of BOOL or structures. An indexed element is used in FCs in ST and C; an index out of bounds sends the PLC to STOP with an error.</li>
+  <li>There are no strings and no 64-bit types.</li>
+</ul>
 
 <h2 id="istruzioni">Ladder instructions</h2>
 <table>
   <tr><th>Group</th><th>Instructions</th></tr>
-  <tr><td>Contacts</td><td>NO, NC, positive / negative edge of an operand, power-flow edge P_TRIG / N_TRIG, NOT, comparison (== &lt;&gt; &lt; &gt; &lt;= &gt;=)</td></tr>
+  <tr><td>Contacts</td><td>NO, NC, P / N edge of an operand, power-flow edge P_TRIG / N_TRIG, NOT, compare (== &lt;&gt; &lt; &gt; &lt;= &gt;=)</td></tr>
   <tr><td>Coils</td><td>coil, negated coil, SET, RESET, end of FC (RET)</td></tr>
-  <tr><td>Timers</td><td>TON on-delay, TOF off-delay, TP pulse</td></tr>
-  <tr><td>Counters</td><td>CTU up, CTD down, CTUD up/down</td></tr>
-  <tr><td>Numbers</td><td>MOVE, ADD, SUB, MUL, DIV, MOD, NEG, ABS, MIN, MAX, LIMIT, CONV, SQRT, SQR, SCALE (e.g. 0…27648 → 0…100 %)</td></tr>
-  <tr><td>Words</td><td>AND, OR, XOR, INV, SHL, SHR, ROL, ROR, SWAP</td></tr>
-  <tr><td>Functions</td><td>FC call, with its parameters</td></tr>
+  <tr><td>Timers</td><td>TON on-delay, TOF off-delay, TP pulse: on T0…T255 or on a TIMER variable</td></tr>
+  <tr><td>Counters</td><td>CTU up, CTD down, CTUD up and down (the CV value is an integer variable in a DB)</td></tr>
+  <tr><td>Numbers</td><td>MOVE, ADD, SUB, MUL, DIV, MOD, NEG, ABS, MIN, MAX, LIMIT, CONV, SQRT, SQR (REAL only), SCALE (e.g. 0…27648 → 0…100 %)</td></tr>
+  <tr><td>Words</td><td>AND, OR, XOR, INV, SHL, SHR, ROL, ROR, SWAP (integers only)</td></tr>
+  <tr><td>Functions</td><td>call of an FC, with its parameters; Modbus system functions</td></tr>
 </table>
-<p>Numeric boxes have EN / ENO: an overflow or a division by zero doesn't stop the PLC, it sets ENO to 0.</p>
+<p>Numeric boxes have EN / ENO. An overflow does not stop the PLC: the result wraps around and ENO goes to 0. A division by zero leaves the result unchanged, sets ENO to 0 and turns on SF with an entry in Diagnostics.
+LIMIT with a minimum greater than the maximum and SCALE with the input out of range also set ENO to 0.</p>
 
-<h3>How they look in the ladder</h3>
+<h3>How they look in ladder</h3>
 <div class="istr">
-  <figure class="shot"><img src="../assets/img/istr-contatti-en.jpg" alt="NO, NC and edge P contacts in a ladder network" loading="lazy"><figcaption><b>Contacts</b>: NO passes with 1, NC (negated) passes with 0, edge P passes for one cycle only when the operand goes from 0 to 1.</figcaption></figure>
-  <figure class="shot"><img src="../assets/img/istr-bobine-en.jpg" alt="Coil, SET and RESET in a ladder network" loading="lazy"><figcaption><b>Coils</b>: the coil copies the power flow to the output; SET switches it on and leaves it on, RESET switches it off. Several outputs in one network.</figcaption></figure>
-  <figure class="shot"><img src="../assets/img/istr-timer-en.jpg" alt="TON timer T0 of 5 s in a ladder network" loading="lazy"><figcaption><b>TON</b>: the output of timer T0 closes 5 s after power arrives and opens as soon as it is gone. Online it shows elapsed / preset.</figcaption></figure>
-  <figure class="shot"><img src="../assets/img/istr-contatore-en.jpg" alt="CTU counter with inputs CU, R, PV and outputs Q, CV" loading="lazy"><figcaption><b>CTU</b>: CV + 1 at every rising edge on CU; Q = 1 when CV ≥ PV; R resets.</figcaption></figure>
-  <figure class="shot"><img src="../assets/img/istr-confronto-en.jpg" alt="Compare: Count greater than or equal to 5" loading="lazy"><figcaption><b>Compare</b>: lets the power through when the condition is true, here Count ≥ 5.</figcaption></figure>
-  <figure class="shot"><img src="../assets/img/istr-somma-en.jpg" alt="ADD box with EN, IN1, IN2, OUT and ENO" loading="lazy"><figcaption><b>ADD</b> with EN / ENO: OUT = IN1 + IN2 in every cycle that power arrives. To count only once, put an edge P in front.</figcaption></figure>
-  <figure class="shot"><img src="../assets/img/istr-move-en.jpg" alt="MOVE box resetting the count" loading="lazy"><figcaption><b>MOVE</b>: copies IN to OUT, here it resets the count.</figcaption></figure>
+  <figure class="shot"><img src="../assets/img/istr-contatti-en.jpg" alt="NO, NC and P edge contacts in a ladder network" loading="lazy"><figcaption><b>Contacts</b>: NO passes with 1, NC (negated) passes with 0, P edge passes for one cycle only when the operand goes from 0 to 1.</figcaption></figure>
+  <figure class="shot"><img src="../assets/img/istr-bobine-en.jpg" alt="Coil, SET and RESET in a ladder network" loading="lazy"><figcaption><b>Coils</b>: the coil copies the power flow to the output; SET turns it on and keeps it on, RESET turns it off. Several outputs in the same network.</figcaption></figure>
+  <figure class="shot"><img src="../assets/img/istr-timer-en.jpg" alt="5 s TON timer T0 in a ladder network" loading="lazy"><figcaption><b>TON</b>: the output of timer T0 closes 5 s after power flow arrives and opens as soon as it is gone. In Online it shows elapsed / preset.</figcaption></figure>
+  <figure class="shot"><img src="../assets/img/istr-contatore-en.jpg" alt="CTU counter with inputs CU, R, PV and outputs Q, CV" loading="lazy"><figcaption><b>CTU</b>: CV + 1 on every rising edge at CU; Q = 1 when CV ≥ PV; R resets.</figcaption></figure>
+  <figure class="shot"><img src="../assets/img/istr-confronto-en.jpg" alt="Compare: Count greater than or equal to 5" loading="lazy"><figcaption><b>Compare</b>: lets power flow pass if the condition is true, here Count ≥ 5.</figcaption></figure>
+  <figure class="shot"><img src="../assets/img/istr-somma-en.jpg" alt="ADD box with EN, IN1, IN2, OUT and ENO" loading="lazy"><figcaption><b>ADD</b> with EN / ENO: OUT = IN1 + IN2 in every cycle where power flow arrives. To count only once, put a P edge in front.</figcaption></figure>
+  <figure class="shot"><img src="../assets/img/istr-move-en.jpg" alt="MOVE box that resets the count" loading="lazy"><figcaption><b>MOVE</b>: copies IN to OUT, here it resets the count.</figcaption></figure>
 </div>
-<p class="mut small">The pictures come from the editor. Memory words <code>MW</code> show up as fields of the «Merker» DB (e.g. <code>"Merker".MW4</code>). Step by step: <a href="guida-esempi.html">build the example projects</a>.</p>
+<p class="mut small">The images come from the editor. The details of each instruction are in the <a href="#ed-istruzioni">editor guide</a>. Step by step: <a href="guida-esempi.html">build the example projects</a>.</p>
 
 <h2 id="testo">FCs in ST and C</h2>
-<p>A function can also be written as text: <b>ST</b> (Structured Text) or <b>C</b>. You get IF, CASE / switch, FOR, WHILE, REPEAT / do-while, EXIT / break, CONTINUE, RETURN,
-with auto-completion of variable names, DB fields and symbols. Handy for calculations and recipes, while contact logic stays in ladder.</p>
-<pre>IF #start AND NOT #stop THEN
+<p>A function can also be written as text: <b>ST</b> (Structured Text) or <b>C</b>. Main and StartUp stay in ladder. Useful for calculations, loops and recipes, while contact logic stays in ladder.</p>
+<table>
+  <tr><th></th><th>ST</th><th>C</th></tr>
+  <tr><td>Conditions</td><td><code>IF … THEN … ELSIF … ELSE … END_IF</code>, <code>CASE … OF 1: …; 2, 5..7: … ELSE … END_CASE</code></td><td><code>if / else</code>, <code>switch / case / default</code> (each case ends with <code>break;</code>)</td></tr>
+  <tr><td>Loops</td><td><code>FOR … TO … BY … DO … END_FOR</code>, <code>WHILE … DO … END_WHILE</code>, <code>REPEAT … UNTIL … END_REPEAT</code>, <code>EXIT</code>, <code>CONTINUE</code></td><td><code>for</code>, <code>while</code>, <code>do … while</code>, <code>break</code>, <code>continue</code>, <code>++ -- += -=</code></td></tr>
+  <tr><td>Operators</td><td><code>AND OR XOR NOT</code>, <code>= &lt;&gt;</code>, <code>MOD</code></td><td><code>&amp;&amp; || ^ !</code>, <code>== !=</code>, <code>%</code>, <code>&amp; |</code> bitwise</td></tr>
+  <tr><td>Operands</td><td colspan="2"><code>#name</code> (interface; in C without #), <code>"DB".field</code>, <code>I5</code>, <code>Q0</code>, <code>M100</code>, <code>T5</code>, <code>SM0</code>, <code>name[i]</code>, symbols <code>"Name"</code>; constants <code>16#FF</code>, <code>2#1010</code>, <code>1.5</code>, <code>TRUE</code>, <code>T#5s</code>; comments <code>//</code> and <code>(* *)</code></td></tr>
+</table>
+<pre>IF #avvio AND NOT #stop THEN
     #output := TRUE;
 ELSIF #stop THEN
     #output := FALSE;
 END_IF;</pre>
+<p>Autocomplete suggests variables, DB fields and symbols. From text you cannot call other FCs, timers or counters: do those in ladder.
+An endless loop does not lock up the board: the cycle watchdog sends the PLC to STOP and Diagnostics shows the point in the program.</p>
+
+<h2 id="run-stop">RUN, STOP and errors</h2>
+<ul>
+  <li>PLC states: <b>RUN</b>, <b>STOP</b>, <b>error</b> and «no program». In STOP and in error the outputs are off.</li>
+  <li>RUN and STOP come from the editor (network or USB): the board has no selector switch. At power-on, the MiaConfig setting «Al riavvio» (On restart) applies: «ultimo stato» (last state) or «sempre RUN» (always RUN).</li>
+  <li>You leave the error state with RUN; if the cause is still there, the PLC goes back to error.</li>
+  <li>A Download with the PLC in RUN sends only the changed blocks and swaps them between two scans; if there is not enough memory, you need STOP and a full Download.</li>
+</ul>
+<h3>What sends the PLC to STOP</h3>
+<ul>
+  <li>A scan longer than the cycle watchdog, inputs not read again, an array index out of range, an invalid program.</li>
+  <li>A lost µLink module, if the module setting says so.</li>
+  <li>I/O tables made for a different board (RUN is refused).</li>
+  <li>A serious firmware error: the board restarts and the PLC starts again in STOP with a warning.</li>
+</ul>
+<h3>SF: system fault</h3>
+<p>SF is the “red LED” that the editor shows: there is a problem, but the PLC keeps working. It stays on as long as the cause is there; the details are in Diagnostics (startup checks and log).</p>
+<table>
+  <tr><th>Example causes</th></tr>
+  <tr><td>Invalid settings, unreadable retentive data, low RAM, missing I2C or SPI device, network used by the program still missing after the allowed time, division by zero in the program,
+  access point with the factory password, factory network restored, previous settings or firmware restored, missing I/O point, µLink module not reachable</td></tr>
+</table>
+<h3>Protection against firmware errors</h3>
+<p>The settings in use become “good” after one hour (two minutes with an editor connected). After 3 serious errors in a row right after power-on, the last good settings come back;
+after 3 more, the board starts with the previous firmware. A firmware module that does not start (e.g. a missing I2C chip) does not lock up the board: it becomes a warning or an SF.</p>
 
 <h2 id="online">Online and diagnostics</h2>
 <ul>
-  <li><b>Online</b>: closed contacts and energised coils turn green, timers show elapsed / preset time, boxes show their values.</li>
-  <li><b>Diagnostics</b>: PLC status, versions, event log, scan times, CPU load, RAM analysis, boot checks.</li>
-  <li>An error in one module doesn't stop the board: it becomes a warning in diagnostics and the PLC carries on.</li>
+  <li><b>Online</b>: closed contacts and energized coils turn green, timers show elapsed / preset time, boxes show their values.
+    A click on a DB field or a merker changes its value (it is not a force: the program can write it again).</li>
+  <li><b>Diagnostics</b>, with three levels <b>Basic</b>, <b>Advanced</b> and <b>Debug</b>: PLC state, versions, event log, scan times, CPU load, RAM analysis, startup checks,
+    µLink I/O modules, network, access (sessions, passwords, access log), firmware update, backup and restore.</li>
+  <li>The <b>log</b> records startups (with the reset reason), RUN and STOP with who requested them, errors, network, modules lost and back, power failures. Entries get a date as soon as the time is known.</li>
 </ul>
+<figure class="shot"><img src="../assets/img/diag-en.jpg" alt="PLC Diagnostics at the Advanced level" loading="lazy"><figcaption>Diagnostics, Advanced level: state, versions, cycle times and log. At the top: Basic / Advanced / Debug.</figcaption></figure>
 
-<figure class="shot"><img src="../assets/img/diag-en.jpg" alt="PLC diagnostics at Advanced level" loading="lazy"><figcaption>Diagnostics, Advanced level: status, versions, cycle times and log. At the top Basic / Advanced / Debug.</figcaption></figure>
+<h2 id="sistema">System DB «Sistema» (DB 2000)</h2>
+<p>Written by the PLC before every scan, read-only. You use it in the program like the other DBs, for example <code>"Sistema".scan_us</code>.</p>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Meaning</th></tr>
+  <tr><td>tick_us, tick_ms, uptime_s</td><td>UDINT</td><td>µs (wraps around after about 71 minutes), ms and seconds since power-on</td></tr>
+  <tr><td>unix</td><td>UDINT</td><td>UTC time in seconds since 1970 (0 = unknown)</td></tr>
+  <tr><td>scan_us, scan_max_us</td><td>UDINT</td><td>execution time of the previous scan and maximum of the last 6 s (µs)</td></tr>
+  <tr><td>cycle_us, scan_count</td><td>UDINT</td><td>cycle from one output write to the next (µs), scans since startup</td></tr>
+  <tr><td>heap_free, heap_min</td><td>UDINT</td><td>free RAM and minimum since power-on (bytes)</td></tr>
+  <tr><td>cpu0, cpu1</td><td>REAL</td><td>load of CPU 0 (network and USB) and CPU 1 (PLC), %</td></tr>
+  <tr><td>rssi</td><td>INT</td><td>WiFi signal to the router (dBm, 0 = not connected)</td></tr>
+  <tr><td>editors, load</td><td>BYTE</td><td>editors connected in the last 10 s, program time in the last second (%)</td></tr>
+  <tr><td>ulink_ok, ulink_n</td><td>BYTE</td><td>µLink modules in RUN (bit n = module n) and configured modules</td></tr>
+  <tr><td>eth, wifi, ap, hmi, sf, first_scan</td><td>BOOL</td><td>Ethernet connected, WiFi to the router, access point open, panel connected, SF on, first loop</td></tr>
+</table>
+
+<h2 id="limiti">Memory and limits</h2>
+<table>
+  <tr><th></th><th>ESP32, S3, C3</th><th>ESP32-P4</th></tr>
+  <tr><td>Program code</td><td>up to 100 KB</td><td>up to 8 MB</td></tr>
+  <tr><td>Work memory (RAM for the code)</td><td>up to 40000 bytes, depending on free RAM (about 11 KB on the C3)</td><td>from 50 KB up to 8 MB in PSRAM</td></tr>
+  <tr><td>With WiFi on</td><td colspan="2">work memory drops to 12 KB: WiFi uses a lot of RAM</td></tr>
+  <tr><td>All DBs together</td><td>8 KB</td><td>2 MB (one DB at most 32 KB)</td></tr>
+  <tr><td>Retentive DBs</td><td>8 KB</td><td>64 KB</td></tr>
+  <tr><td>Blocks, call levels, I/Q/M, timers</td><td colspan="2">256 blocks, 8 levels, 1024 bits per area, 256 T timers</td></tr>
+</table>
+<p>MiaConfig shows the memory of the chosen configuration and can measure it on a real board. If the program does not fit, the Download is refused with a clear message.</p>
 
 <h2 id="schede">Boards and MiaConfig</h2>
-<p class="note"><b>MiaConfig is for custom boards and advanced projects.</b> With a board that already has the MiaPLC firmware you don't need it: see the basic way in <a href="#primi-passi">First steps</a>.</p>
-<p>MiaConfig is the configurator: describe the board (inputs, outputs, Ethernet, WiFi, clock, I2C/SPI devices) and it picks the firmware modules and builds it.
-It runs on Windows, Linux and macOS and installs nothing on the system: everything stays in its folder.</p>
+<p class="note"><b>MiaConfig is for custom boards and advanced projects.</b> With a board that already has the MiaPLC firmware you don't need it: see the basic path in <a href="#primi-passi">First steps</a>.</p>
+<p>MiaConfig is the configurator: you describe the board (inputs, outputs, Ethernet, WiFi, clock, I2C/SPI devices) and it chooses the firmware modules and compiles the firmware.
+It runs on Windows, Linux and macOS and installs nothing on the system: everything stays in its folder. The full guide is in <a href="#mc">Program guide → MiaConfig</a>.</p>
 <table>
-  <tr><th>Chip</th><th>Example configurations</th></tr>
-  <tr><td>ESP32</td><td>Olimex ESP32-EVB (with or without DS3231 clock)</td></tr>
-  <tr><td>ESP32-C3</td><td>with W5100 or W5500 Ethernet, with or without DS3231</td></tr>
-  <tr><td>ESP32-S3</td><td>ESP32-S3-DevKitC-1</td></tr>
-  <tr><td>ESP32-P4</td><td>PLC and HMI panel</td></tr>
+  <tr><th>Chip</th><th>Reference boards</th></tr>
+  <tr><td>ESP32</td><td>Olimex ESP32-EVB, Ethernet LAN8720 (with or without DS3231 clock)</td></tr>
+  <tr><td>ESP32-C3</td><td>ESP32-C3 Super Mini: WiFi only, or Ethernet W5100 (also with DS3231 and µLink) or W5500</td></tr>
+  <tr><td>ESP32-S3</td><td>ESP32-S3-DevKitC-1 (WiFi)</td></tr>
+  <tr><td>ESP32-P4</td><td>Waveshare ESP32-P4-ETH (Ethernet IP101) and HMI panel</td></tr>
+  <tr><td>ESP32-C6</td><td>Can be configured, not yet tested on a board</td></tr>
 </table>
-<p>Ethernet chips supported by the firmware: W5100, W5500, LAN8720, IP101.</p>
+<p>Ethernet chips: W5100 and W5500 (SPI, on every chip), LAN8720 and IP101 (RMII, on ESP32 and P4). The W5100 carries both network and µLink.</p>
+<figure class="shot"><img src="../assets/img/mc-ingressi-en.jpg" alt="MiaConfig, ESP32 pinout with inputs and outputs" loading="lazy"><figcaption>MiaConfig: the chip pinout, the modules on the left and the settings on the right.</figcaption></figure>
+<p>Manual: <a href="guida-hardware.html">configure the hardware for the examples with MiaConfig</a>, from project to wiring.</p>
 
-<figure class="shot"><img src="../assets/img/mc-ingressi-en.jpg" alt="MiaConfig, ESP32 pinout with inputs and outputs" loading="lazy"><figcaption>MiaConfig (in Italian for now): the chip pinout, modules on the left and settings on the right.</figcaption></figure>
-<p>Manual: <a href="guida-hardware.html">set up the examples' hardware with MiaConfig</a>, from the project to the wiring.</p>
+<h2 id="rete">Network</h2>
+<table>
+  <tr><th>Interface</th><th>Factory values</th></tr>
+  <tr><td>Ethernet</td><td>fixed IP 192.168.0.10, mask 255.255.255.0, gateway and DNS 192.168.0.1 (or DHCP, if you set it)</td></tr>
+  <tr><td>PLC WiFi access point</td><td>network <code>miaplc-XXXX</code>, IP 10.10.10.1 with DHCP for devices that connect, channel 6, up to 8 devices. It closes by itself when the PLC is connected to the router.</td></tr>
+  <tr><td>WiFi to the router</td><td>DHCP or fixed IP; remembers up to 5 networks; if the router does not answer it reconnects by itself.</td></tr>
+</table>
+<ul>
+  <li>From the factory, WiFi is on only on boards without Ethernet. You change it from the editor (Diagnostics → Network) or in MiaConfig; network settings take effect after a restart.</li>
+  <li>The PLC <b>name</b> (factory name <code>uplc</code>, up to 24 characters) is also its DHCP name.</li>
+  <li><b>Back to the factory network</b>: power on the board 3 times in a row, switching it off each time within 10 seconds.</li>
+  <li>The networks the editor can be opened from are chosen in MiaConfig: all, Ethernet only or WiFi only.</li>
+  <li>MiaConfig finds the PLCs on the network (UDP 5052) and can change their address even if they are on a different network from the PC.</li>
+  <li>With both WiFi and Ethernet off, the editor works only via USB cable.</li>
+</ul>
+
+<h2 id="sicurezza">Passwords and security</h2>
+<ul>
+  <li>To open the PLC editor and the panel editor from the network you need the <b>administrator password</b>: at least 10 characters with an uppercase letter, a lowercase letter, a number and a special character.</li>
+  <li>Login uses a challenge (the password never travels over the network) and every request is signed. The PLC stores only a fingerprint of the password, never the password itself.</li>
+  <li>A new board opens with the <b>recovery password</b> created by MiaConfig, valid for the first 10 minutes after power-on and only to choose the administrator password. You also use it if you forget the password.</li>
+  <li>Sessions expire after 30 minutes without requests and in any case after 12 hours; at most 4 at a time (2 on the C3). After 5 wrong passwords the wait doubles, up to 5 minutes.</li>
+  <li>The USB cable is physical access: it does not ask for a password.</li>
+  <li>µLink modules talk to the PLC with signed messages (CMAC-AES), with one key per module.</li>
+  <li>Modbus TCP has no password, as on all PLCs: keep PLCs, modules and panels on a protected network, never directly on the internet.</li>
+</ul>
+
+<h2 id="aggiornare">Update, backup, restore</h2>
+<ul>
+  <li><b>Update the firmware</b>: from the editor with the <code>.miaplc.fw</code> package, with the PLC in STOP. The new firmware goes into the second half of the flash and becomes the boot firmware only if it is intact;
+    settings, symbols, log and program are kept. If a package changes the partitions, you need to load it via USB.</li>
+  <li><b>Backup</b> from Diagnostics: a <code>.miaplc.bkp</code> file (<code>.miaulink.bkp</code> for a µLink module) with firmware, editor files, settings, symbols, program and DB values.
+    WiFi passwords are not included: on a new board you must enter the router password again.</li>
+  <li><b>Restore</b>: on the same PLC from the editor, on a new board with the USB recovery.</li>
+  <li><b>First install and recovery</b>: via USB, with the <code>-completo.bin</code> file from MiaConfig or with the recovery in the editor opened on the PC.</li>
+</ul>
+
+<h2 id="orologio">Clock</h2>
+<p>The PLC gets the time, in this order, from a <b>DS3231</b> clock with battery (if the board has one), from the internet (NTP) as soon as it has a network, or from the PC when you open the editor.
+The time is kept in UTC and the editor shows it in the PC's time zone. In the program you read it in <code>"Sistema".unix</code> (0 = time unknown).</p>
 
 <h2 id="ulink">µLink: remote I/O</h2>
-<p>µLink connects input/output modules to the PLC over wired Ethernet. It works directly on Ethernet frames, without IP addresses:
-the PLC searches for modules (“Search devices”), pairs them and drives them as if they were its own I/O.</p>
+<p>µLink connects input and output modules to the PLC over the Ethernet cable. It works directly on Ethernet frames, without IP addresses:
+it works through switches but not through routers, and not over WiFi.</p>
 <ul>
-  <li>A module can be another ESP32 running MiaPLC firmware in the I/O module role.</li>
-  <li>Or an <b>Arduino Uno</b> with a W5100 or W5500 Ethernet shield, using the MiauLink library.</li>
-  <li>Modules can also have analog inputs and outputs.</li>
+  <li>The PLC exchanges outputs and inputs with each module every 15 ms, without ever stopping the scan to wait for them.</li>
+  <li>Up to 8 modules (64 on the P4). Each module uses 64 inputs and 64 outputs from I64 / Q64 up, plus analog REAL values (from 0.0 to 1.0 of the range; the program does the scaling), and has its own DB in the program.</li>
+  <li>Pairing: from Diagnostics («Search devices», pair, save) or from MiaConfig with pre-pairing: the PLC finds and pairs its modules by itself, even in RUN.</li>
+  <li>If a module stops answering (300 ms): its outputs turn off, SF turns on in the PLC and the log records it. Then, depending on the setting: it restarts by itself when it comes back (factory setting), waits for a «Re-arm», keeps the PLC in STOP while it is missing, or sends it to STOP at once.</li>
+  <li>A module can be an ESP32 with the MiaPLC firmware in the «Modulo I/O» (I/O module) role (it has its own web page and its own update), or an <b>Arduino Uno</b> with a W5100 or W5500 Ethernet shield
+    and the MiauLink library (up to 14 digital and 6 analog points). The Arduino sketch has not yet been tested on a board.</li>
+</ul>
+
+<h2 id="scambio">Modbus TCP and data exposure</h2>
+<ul>
+  <li><b>Modbus TCP</b> master and slave (port 502, functions 1, 2, 3, 4, 5, 6, 15, 16). Devices and registers are set in the editor; the data is in DB 1100 «Modbus»,
+    with result, ready and request for each read and write. The master works only in RUN; the slave answers in STOP too. Modbus RTU over serial is not available yet.</li>
+  <li><b>Data exposure</b>: another program reads and writes PLC values in JSON (<code>/api/data/exposure</code>), up to 256 values per request; only chosen merkers and DB fields can be written.
+    From the network it needs a login with signed requests, as for the editor.</li>
 </ul>
 
 <h2 id="hmi">HMI panel</h2>
-<p>MiaHmi is the firmware for a 10.1" touch panel on ESP32-P4: it reads and writes PLC data and shows fast trend charts.
-It is prepared with MiaConfig (HMI project), just like the PLC.</p>
+<p>MiaHmi is the firmware for a 10.1" touch panel on ESP32-P4, with Ethernet, WiFi (ESP32-C6 module), microSD and USB port. It shows and controls PLC values and handles alarms and charts.
+The PLC sends it the items chosen in the editor's <b>HMI data</b> module (up to 256, updated every 250–1000 ms). The firmware is prepared with MiaConfig; the pages are drawn in the panel editor,
+explained in <a href="#hmi-editor">Program guide → MiaHMI editor</a>.</p>
+<figure class="shot"><img src="../assets/img/hmi-editor-en.jpg" alt="HMI panel editor with a page, lamps, buttons and a bar" loading="lazy"><figcaption>The HMI panel editor: pages, variables, alarms, recordings and texts in several languages.</figcaption></figure>
 
-<figure class="shot"><img src="../assets/img/hmi-editor-en.jpg" alt="HMI panel editor with a page, lamps, buttons and a bar" loading="lazy"><figcaption>The HMI panel editor (in Italian for now): pages, variables, alarms, trends and texts in several languages.</figcaption></figure>
+<h2 id="guida">Program guide</h2>
+<p>Everything the three programs do, item by item. Open the section you need, or search for a word: only the parts that contain it will open.</p>
+<div id="guida-tendine">
+<details class="g1" id="mc">
+<summary><span class="key-n">MiaConfig</span> The board configurator <small>· custom hardware and firmware</small></summary>
+<div class="g-intro">
+<p class="mut small">MiaConfig is in Italian only: the labels below are quoted as they appear on screen, with the English meaning in brackets.</p>
+<p>MiaConfig designs the hardware of a board (chip, modules, pins), checks that everything is consistent, builds the ESP-IDF firmware on your PC and uploads it,
+via USB or over the network. It also handles a whole installation: PLC, µLink I/O modules and panels, all uploaded together.
+<b>It is meant for custom boards and advanced projects</b>: with a board that already has the MiaPLC firmware you don't need it. The PLC program is not written here but in the MiaPLC editor.</p>
+</div>
+
+<details class="g2" id="mc-avvio"><summary>Installing and starting</summary><div class="g-body">
+<details class="g3"><summary>Systems and requirements</summary>
+<ul>
+  <li>Windows, Linux and macOS. Ready-made packages: <code>MiaConfig-&lt;versione&gt;-windows.zip</code>, <code>-linux.tar.gz</code>, <code>-macos.zip</code>.</li>
+  <li>Linux: you need <code>python3</code> with <code>venv</code> and the desktop Qt libraries (on Debian and Ubuntu also <code>libxcb-cursor0</code>).</li>
+  <li>macOS: you need <code>python3</code> (Xcode Command Line Tools). The program is not signed: the first time, right-click → Open.</li>
+  <li>From source: Python 3.10 or newer.</li>
+  <li>It installs nothing into the system: everything stays in its own folder (Python, ESP-IDF, compilers, projects, outputs).</li>
+</ul></details>
+<details class="g3"><summary>First start</summary>
+<ul>
+  <li>Package: unpack and start <b>MiaConfig</b> (on macOS <code>MiaConfig.app</code>).</li>
+  <li>From source on Windows: double-click <code>avvia.bat</code>. The first time it prepares the <code>.venv</code> folder with Python and PySide6 (internet required):
+    «Preparo l'ambiente Python in .venv (solo la prima volta)...» (Preparing the Python environment in .venv (first time only)...). If it fails: you need Python 3.10 or newer; delete <code>.venv</code> and try again.</li>
+  <li>The window remembers its size, position, the open configuration, the device and even the project not yet saved.</li>
+</ul></details>
+<details class="g3"><summary>What the first build downloads</summary>
+<ul>
+  <li>ESP-IDF v5.5.6, the chip compilers and (on Windows) a portable Python, in the <code>pacchetti</code> folder: about <b>1 GB</b> on disk. Internet is needed only this once.</li>
+  <li>The compilers for each chip are downloaded the first time you build for that chip.</li>
+  <li>The firmware sources (MiaPlc-idf, MiauLink, MiaHmi-idf, MiaComponents) in the <code>firmware</code> folder.</li>
+  <li>An interrupted download resumes the next time; each download is tried 3 times. Behind a company proxy the <code>SSL_CERT_FILE</code> variable is honoured.</li>
+  <li>To start over from scratch: delete <code>pacchetti</code>, <code>firmware</code>, <code>progetti</code> or <code>.venv</code>.</li>
+</ul></details>
+<details class="g3"><summary>Command line</summary>
+<table>
+  <tr><th>Command</th><th>What it does</th></tr>
+  <tr><td><code>miaconfig controlla scheda.mia</code></td><td>Checks only. Exits with 0 if there are no errors, with 1 if there are.</td></tr>
+  <tr><td><code>miaconfig genera scheda.mia cartella</code></td><td>Writes the firmware configuration files.</td></tr>
+  <tr><td><code>miaconfig compila scheda.mia</code></td><td>Configuration, ESP-IDF, build and packages in <code>uscita/&lt;scheda&gt;/</code>.</td></tr>
+  <tr><td><code>miaconfig --version</code></td><td>The version.</td></tr>
+</table>
+<p>On Windows from source: <code>avvia.bat compila esempi\plc-c3.mia</code>. Messages are prefixed with <code>ERRORE:</code> (error), <code>ATTENZIONE:</code> (warning), <code>nota:</code> (info).</p>
+</details>
+</div></details>
+
+<details class="g2" id="mc-finestra"><summary>The window</summary><div class="g-body">
+<details class="g3"><summary>Menus</summary>
+<table>
+  <tr><th>Menu</th><th>Items</th></tr>
+  <tr><td>File</td><td>«Nuova configurazione…» (New configuration…, Ctrl+N), «Apri configurazione…» (Open configuration…, Ctrl+O), «Chiudi configurazione» (Close configuration), «Importa dal PLC…» (Import from PLC…), «Salva» (Save, Ctrl+S), «Salva con nome…» (Save as…, Ctrl+Shift+S), «Esci» (Exit, Ctrl+Q)</td></tr>
+  <tr><td>Modifica (Edit)</td><td>«Annulla» (Undo, Ctrl+Z), «Ripeti» (Redo, Ctrl+Y or Ctrl+Shift+Z): up to 200 steps, for each open project</td></tr>
+  <tr><td>Visualizza (View)</td><td>«Rete (ricerca dispositivi)» (Network (device search), Ctrl+R); the views «Pinout» (Ctrl+1), «Mappa I/O» (I/O map, Ctrl+2), «Progetto» (Project, Ctrl+3), «Memoria» (Memory, Ctrl+4), «Controlli» (Checks, Ctrl+5), «Genera» (Generate, Ctrl+6), «Seriale» (Serial, Ctrl+7)</td></tr>
+  <tr><td>Aiuto (Help)</td><td>«Informazioni su MiaConfig» (About MiaConfig)</td></tr>
+</table></details>
+<details class="g3"><summary>Top bar</summary>
+<ul>
+  <li>«◂ Configurazione» (Configuration): goes back to the configuration page (also by clicking the name at the top of the tree).</li>
+  <li>The path: configuration ▸ open device.</li>
+  <li>The check counters: «N gravi» (N errors; red if more than 0: the firmware will not build), «N avvisi» (N warnings; yellow: to be checked), «N info» (to be aware of). A click opens the Checks view.</li>
+  <li>«↶» undo, «↷» redo, then «Nuova» (New), «Apri» (Open), «Salva» (Save), «Importa dal PLC» (Import from PLC).</li>
+  <li>In the window title the dot «●» means unsaved changes.</li>
+</ul></details>
+<details class="g3"><summary>The columns</summary>
+<ol>
+  <li><b>Configuration tree</b>: the devices of the installation, drawn like a ladder (power rail on the left, each PLC on a network, its modules and panels below).</li>
+  <li><b>Views and modules</b>: the view buttons, then the project modules split by group (Sistema (System), Comunicazioni (Communications), Bus, Dispositivi (Devices), I/O, HMI, Dispositivi I/O (I/O devices)).
+    The dot of each module is red with an error, yellow with a warning, green if it is fine. At the bottom, the «Aggiungi modulo» (Add module) drop-down.</li>
+  <li><b>Central view</b>: the selected view.</li>
+  <li><b>Settings</b> (Pinout only): settings and pins of the selected module. It widens by dragging its left edge.</li>
+</ol></details>
+<details class="g3"><summary>Closing</summary>
+<p>With unsaved changes MiaConfig asks for confirmation (the project is still there the next time you open it). With jobs in progress (build, upload, Misura (Measure), serial monitor)
+it warns that they will be stopped. If it is writing the flash of a board, stopping may leave it half-written: fix it by uploading again via USB.</p></details>
+</div></details>
+
+<details class="g2" id="mc-configurazione"><summary>The configuration: an installation with several boards</summary><div class="g-body">
+<details class="g3"><summary>What it is and how it looks on disk</summary>
+<p>A configuration groups the boards of one job: PLC, µLink I/O modules, HMI panels. Each device has its own folder:</p>
+<pre>stazione_pompaggio/
+  stazione_pompaggio.mia                      the configuration
+  access.miapwd                               board credentials (encrypted)
+  stazione_pompaggio_plc_001/
+    stazione_pompaggio_plc_001.mia            PLC hardware
+    stazione_pompaggio_plc_001.miaplc         PLC program
+  stazione_pompaggio_io_002/ …                I/O module
+  stazione_pompaggio_hmi_003/ … .miahmi       panel</pre>
+<p>The device files are normal MiaConfig projects: they can also be opened on their own.</p></details>
+<details class="g3"><summary>New configuration and opening</summary>
+<ul>
+  <li>From the start page: type the name (e.g. «Stazione di pompaggio») and press «Nuova configurazione…» (New configuration…), then choose where to create the folder.</li>
+  <li>«Apri configurazione…» (Open configuration…) opens a configuration <code>.mia</code>. If you open the <code>.mia</code> of a single board, MiaConfig creates <code>&lt;nome&gt;-configurazione.mia</code> next to it with that board and opens it.</li>
+  <li>Old <code>.hwplc</code> files and settings saved from a PLC (<code>.json</code>) can also be opened.</li>
+  <li>When you open a configuration without an administrator password, MiaConfig asks for one (see <a href="#mc-accesso">Board access</a>).</li>
+</ul></details>
+<details class="g3"><summary>The configuration page</summary>
+<ul>
+  <li>«Descrizione della configurazione» (Configuration description): free text.</li>
+  <li>«Dispositivi» (Devices) table: «Nome» (Name), «Tipo» (Type: PLC 001, I/O 002, HMI 003), «Indirizzo» (Address: fixed IP or DHCP), «PLC» (which PLC a module or panel belongs to, or «nessun PLC (standalone)» (no PLC (standalone))), «Nome uLink» (uLink name), «Cartella» (Folder), «Commento» (Comment).
+    Name, comment and uLink name are typed directly in the table; double-click opens the device.</li>
+  <li>Buttons «Nuovo dispositivo…» (New device…), «Apri hardware» (Open hardware), «Duplica» (Duplicate: copies hardware and program or project, with the next number and address), «Togli» (Remove: removes it from the configuration but does not delete the folder), «▲», «▼».</li>
+  <li>Below, the checks between devices; if everything is fine: «Schede coerenti: indirizzi unici, uLink, PLC dei pannelli e tabelle I/O dei programmi a posto.» (Boards consistent: unique addresses, uLink, panel PLCs and program I/O tables all fine.)</li>
+  <li>«Prepara la base del firmware in sottofondo» (Prepare the firmware base in the background), «Verifica compilazione» (Check build), «Allinea le schede» (Align the boards), «Compila tutto» (Build all), «Carica tutto…» (Upload all…), «Accesso alle schede…» (Board access…).</li>
+</ul></details>
+<details class="g3"><summary>The device tree</summary>
+<ul>
+  <li>Each box shows image, name, code and address («PLC 001 · 192.168.0.21»), and for modules the uLink name, the pre-pairing and the status of the firmware base. Red name = error, yellow = warning.</li>
+  <li>Click: opens the device; click again: back to the configuration.</li>
+  <li>Right-click on a device: «Apri» (Open), «Editor del pannello (offline)» (Panel editor (offline), panels), «Compila il firmware» (Build the firmware), «Rinomina…» (Rename…), «Duplica» (Duplicate), «Togli dalla configurazione…» (Remove from configuration…), «Sposta su» (Move up), «Sposta giù» (Move down),
+    «Identifica (LED o schermo)» (Identify (LED or screen); makes the real board blink, if it is already paired), «Nuovo dispositivo…» (New device…).</li>
+  <li>Right-click outside the devices: «Nuovo dispositivo…» (New device…), «Allinea le schede» (Align the boards), «Carica tutto…» (Upload all…), «Ricerca dispositivi» (Device search), «Pagina della configurazione» (Configuration page).</li>
+</ul></details>
+<details class="g3"><summary>New device</summary>
+<figure class="shot"><img src="../assets/img/mc-nuovo-en.jpg" alt="New device window with type, name, family and module" loading="lazy"><figcaption>«Nuovo dispositivo» (New device): type (PLC, I/O module, HMI panel), name, chip family and module.</figcaption></figure>
+<ol>
+  <li>«Tipo» (Type): «PLC», «Modulo I/O» (I/O module) or «Pannello HMI» (HMI panel).</li>
+  <li>«Nome» (Name), chip «Famiglia» (Family; the panel only ESP32-P4), «Modulo» (Module; for ESP32 the default is «ESP32-WROOM-32E / 32UE», the one on the Olimex ESP32-EVB).</li>
+  <li>For modules and panels: the «PLC» that controls them.</li>
+  <li>«Aggiungi» (Add): the device opens ready to use. PLCs and modules have Seriale editor (Editor serial), WiFi (if the chip has the radio) and uLink; with the Olimex ESP32-EVB also the LAN8720 Ethernet with its pins.
+    The panel starts with IP101 Ethernet, a 10.1" JD9365 screen and GT911 touch.</li>
+  <li>Proposed addresses: from 192.168.0.21 upwards for PLCs and modules, from 192.168.0.20 upwards for panels.</li>
+</ol></details>
+<details class="g3"><summary>uLink name, module DBs and pre-pairing</summary>
+<ul>
+  <li>Each I/O module has a <b>uLink name</b>: lowercase letters and digits, at most 16, starting with a letter (e.g. <code>linea</code>). It is its name on the network and the name of its DB in the program.</li>
+  <li>The module DBs in the program start from 1001 (1000 is the one for the board's own hardware).</li>
+  <li><b>Pre-pairing</b> is an 8-hex-digit code shared by a PLC and its devices: this way the PLC recognises its modules and panels by itself.</li>
+</ul></details>
+<details class="g3"><summary>Align the boards</summary>
+<p>Writes into the boards what the configuration decides:</p>
+<ul>
+  <li>in the I/O modules the «Modulo I/O» (I/O module) role and a network name equal to the uLink name;</li>
+  <li>in the PLCs the «PLC» role and the number of modules;</li>
+  <li>in the panels the IP of their PLC (empty if standalone);</li>
+  <li>the pre-pairing in all of them;</li>
+  <li>in the PLC's <code>.miaplc</code> program, the I/O tables with the points of the board and of the modules, and the module DBs: the program sees them even before the hardware exists.</li>
+</ul>
+<p>The button is active when there is at least one «da allineare» (to be aligned) warning. The result lists what was changed, or «Niente da allineare.» (Nothing to align.).</p></details>
+</div></details>
+
+<details class="g2" id="mc-chip"><summary>Chips and boards</summary><div class="g-body">
+<p>For now MiaConfig shows only the chips and boards that can be tested on the bench.</p>
+<table>
+  <tr><th>Family</th><th>Modules and chips</th><th>Notes</th></tr>
+  <tr><td>ESP32</td><td>ESP32-WROOM-32E / 32UE; on-board chips D0WD-V3, D0WDRH2-V3, U4WDH, D0WDQ6-V3</td><td>RMII Ethernet (LAN8720, IP101), DAC on GPIO 25 and 26, up to 16 PWM</td></tr>
+  <tr><td>ESP32-S3</td><td>ESP32-S3-WROOM-1 N8R8 / N16R8; chips S3, S3FN8, S3RH2, S3R8, S3R16V, S3FH4R2</td><td>SPI Ethernet only, native USB</td></tr>
+  <tr><td>ESP32-C3</td><td>ESP32-C3 Super Mini; chips C3, C3FH4, C3FN4, C3FH8X, C3FH4X, C3FH4AZ</td><td>Single core, SPI Ethernet (W5100, W5500)</td></tr>
+  <tr><td>ESP32-C6</td><td>on-board chips C6, C6FH4, C6FH8</td><td>SPI Ethernet</td></tr>
+  <tr><td>ESP32-P4</td><td>ESP32-P4 + C6 PoE; chips P4NRW16X, P4NRW32X</td><td>No radio in the P4 (WiFi is in the C6), RMII Ethernet, large programs, the only chip for panels</td></tr>
+</table>
+<p>MiaConfig's examples: Olimex ESP32-EVB (also with DS3231 clock), ESP32-S3-DevKitC-1, ESP32-C3 Super Mini with W5100 or W5500, Waveshare ESP32-P4-ETH, P4 panel.</p>
+<p>Changing the family sets the module to the first one of the new family and removes the modules that the new chip does not have.</p>
+</div></details>
+
+<details class="g2" id="mc-viste"><summary>The views</summary><div class="g-body">
+<details class="g3" id="mc-pinout"><summary>Pinout</summary>
+<figure class="shot"><img src="../assets/img/mc-ingressi-en.jpg" alt="Chip pinout with the inputs" loading="lazy"><figcaption>Pinout: the pins in use are coloured and have their name next to them.</figcaption></figure>
+<ul>
+  <li>The chip drawn with pins on all four sides; with an «su scheda» (on-board) chip, all the package pads in their place.</li>
+  <li>Colours: used pin = colour of the module's group; reserved pin (e.g. flash) dark with its function; red border = error, yellow = warning, white = pin of the selected module.</li>
+  <li>Zoom with the wheel or two fingers (up to 6×), drag to move around, double-click the background to see the whole chip again.</li>
+  <li>Click on a pin: its characteristics (reserved, input only, analog only, ADC, DAC, boot pin…), who uses it with «libera» (free),
+    the signals still without a pin that can go there (one click assigns them) and «Riassegna…» (Reassign…) to move a signal there from another pin.</li>
+  <li>Right-hand panel: module settings, signal table («Segnale» (Signal), «Dispositivo» (Device), «GPIO», 24-character «Commento» (Comment)). The GPIO drop-down offers only suitable pins.
+    Mandatory signal without a pin = red.</li>
+  <li>«Assegna pin liberi» (Assign free pins): picks free pins by itself, preferring those without warnings (avoids boot, serial and USB pins, and ADC2 for analog inputs).</li>
+  <li>«Esempio di collegamento» (Wiring example) for «Mancanza tensione» (Power loss) and «Protezione reset USB» (USB reset protection): drawing and components.</li>
+  <li>The module's memory line: how much flash and RAM it uses (estimate).</li>
+</ul></details>
+<details class="g3" id="mc-mappa"><summary>I/O map</summary>
+<figure class="shot"><img src="../assets/img/mc-mappa-en.jpg" alt="MiaConfig I/O map" loading="lazy"><figcaption>I/O map: every point of the board with its address in the program.</figcaption></figure>
+<ul>
+  <li>Tables «Ingressi» (Inputs), «Uscite» (Outputs), «Ingressi analogici» (Analog inputs), «Uscite PWM» (PWM outputs), «Uscite analogiche» (Analog outputs): for each point (I0, Q0, AI0, PWM0, AO0…) where it is connected, GPIO and comment, or the bit of a shift register
+    (e.g. «Shift register ingressi 0 · 0.3» (Input shift register 0 · 0.3)). Point without a pin = red row.</li>
+  <li>With uLink in the PLC role: table of remote modules, 64 digital inputs, 64 digital outputs and 8 REALs per module.</li>
+  <li>Cells can be copied (Ctrl+C or right-click → «Copia» (Copy)), also to paste them into a spreadsheet.</li>
+</ul></details>
+<details class="g3" id="mc-progetto"><summary>Project: board settings</summary>
+<p>«Impostazioni» (Settings): «Base» (Basic) or «Avanzate» (Advanced). In Basic the advanced settings are visible but cannot be changed; going back to Basic resets them to their defaults.
+In Advanced the file is saved as <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code> and never overwrites a Basic project.</p>
+<table>
+  <tr><th>Field</th><th>What it decides</th></tr>
+  <tr><td>Nome (Name), Identificativo (Identifier), Famiglia (Family), Modulo (Module), Chip, Flash</td><td>The board. The identifier is turned into lowercase with hyphens.</td></tr>
+  <tr><td>Misura (Measurement)</td><td>«misurato il &lt;data&gt;» (measured on &lt;date&gt;) or «non misurato» (not measured) (see Memory).</td></tr>
+  <tr><td>Nome di rete (Network name)</td><td>Default <code>uplc</code>; 1–24 characters, lowercase, digits and <code>-</code>.</td></tr>
+  <tr><td>Editor dalla rete (Editor from network)</td><td>«da tutte le reti» (from all networks), «solo Ethernet» (Ethernet only), «solo WiFi» (WiFi only).</td></tr>
+  <tr><td>Rete usata dal programma (Network used by the program)</td><td>«nessuna: il PLC non la aspetta» (none: the PLC does not wait for it), «Ethernet», «WiFi verso il router» (WiFi to the router), «Ethernet o WiFi» (Ethernet or WiFi); with a network also «Tempo concesso all'avvio s» (Time allowed at startup, s; 1–600, default 30): the PLC waits for it at startup and writes to the log if it is missing.</td></tr>
+  <tr><th colspan="2">Avanzate (Advanced)</th></tr>
+  <tr><td>Al riavvio (On restart)</td><td>«ultimo stato» (last state) or «sempre RUN» (always RUN).</td></tr>
+  <tr><td>Controllo del ciclo ms (Cycle watchdog, ms)</td><td>Default 150, from 10 to 1000.</td></tr>
+  <tr><td>Tempo massimo al sistema µs (Maximum system time, µs)</td><td>Time for web server, USB and network after each PLC cycle: 0 on dual-core chips, 2000 µs on single-core ones.</td></tr>
+  <tr><td>Seriale USB (USB serial)</td><td>«solo editor» (editor only) or «diagnostica avanzata» (advanced diagnostics).</td></tr>
+  <tr><td>Interprete (Interpreter)</td><td>«VM standard» (standard VM), «VM accu» (accumulator VM); on the P4 in developer mode also «VM codice macchina» (machine-code VM).</td></tr>
+  <tr><td>In STOP</td><td>«programma nella RAM» (program in RAM) or «libera la RAM (il programma resta in flash)» (free the RAM (the program stays in flash)).</td></tr>
+  <tr><td>RAM per task, RAM minima: controllo ogni (RAM per task, minimum RAM: check every)</td><td>Memory diagnostic tools.</td></tr>
+  <tr><td>Modalità sviluppatore (Developer mode)</td><td>Unlocks non-production features (Pannello HMI (HMI panel) module, WiFi for everything, up to 255 uLink modules on the P4, machine-code VM) and turns crash-risk errors into warnings.</td></tr>
+</table></details>
+<details class="g3" id="mc-memoria"><summary>Memory and Measure</summary>
+<ul>
+  <li>Without a measurement: estimate per chip and module of «Flash (partizione del programma)» (Flash (program partition)), «RAM statica» (Static RAM), «RAM libera dopo l'avvio» (Free RAM after startup), «Memoria di lavoro PLC» (PLC work memory) and of the tasks (CPU, priority, stack).
+    Red rows: flash above 95 %, free RAM below 48 KB, work memory below 16 KB.</li>
+  <li><b>«Misura» (Measure)</b> tests the configuration on a real board connected via USB: it erases the chip, uploads a measurement firmware, measures it idle and under load
+    (test program at 90 % of memory in RUN, Online for 30 s, two Downloads, editor via USB and via the ticked networks), then puts back the configured firmware without a program.
+    It takes about 6 minutes.</li>
+  <li>The result: verdict («sicura» (safe), «poco margine» (little margin), «rischio di crash: la compilazione è bloccata» (crash risk: the build is blocked)), RAM, recommended maximum system time, tests passed and with errors, stack and load of each task, the PLC cycle drawn phase by phase.</li>
+  <li>Measurements apply to all configurations with the same combination (module, Ethernet, WiFi, clock, uLink, Modbus…). «Importa misura» (Import measurement) and «Visualizza misura» (View measurement) for those from another PC.</li>
+</ul></details>
+<details class="g3" id="mc-controlli-vista"><summary>Checks</summary>
+<p>All the project checks, coloured by level. A click on a row selects the module and opens the Pinout. With no problems: «Nessun problema» (No problems). See <a href="#mc-controlli">Checks</a>.</p></details>
+<details class="g3" id="mc-genera"><summary>Generate</summary>
+<figure class="shot"><img src="../assets/img/mc-genera-en.jpg" alt="MiaConfig Generate view" loading="lazy"><figcaption>Genera (Generate): builds the firmware and uploads it to the board.</figcaption></figure>
+<ul>
+  <li>«Compila firmware» (Build firmware; disabled if there are errors), package «Versione» (Version), the port (USB or PLCs found on the network), «↻ Cerca» (Search), «Carica» (Upload).</li>
+  <li>«Salva file conf» (Save conf files; zip of the firmware configuration) and «Salva configurazione PLC» (Save PLC configuration; <code>&lt;id&gt;-impostazioni.json</code>).</li>
+  <li>«Moduli del firmware» (Firmware modules): which parts go into the firmware (plc, eth, wifi, rtc, io, ulink, modbus, system, web, hmi, usb), chosen from the hardware.</li>
+  <li>The build log (red errors, yellow warnings, green success), then the output files with «Apri cartella» (Open folder) and, at the bottom, the generated files and their content.</li>
+  <li>Each device has its own job: you can build a panel while a module is uploading, but never two jobs on the same USB port.</li>
+</ul></details>
+<details class="g3" id="mc-seriale"><summary>Serial</summary>
+<ul>
+  <li>The board log from the USB port at 115200 baud, without restarting it. «▶ Apri» (Open) / «■ Chiudi» (Close), «Pulisci» (Clear), «Salva log» (Save log; to <code>uscita/&lt;id&gt;/seriale-&lt;data&gt;.log</code>).</li>
+  <li>Error lines in red, warnings in yellow.</li>
+  <li>A board crash (Guru Meditation) is decoded automatically with function, file and line, using the firmware from the project's last build.</li>
+  <li>«Carica» (Upload) on the same port closes the monitor.</li>
+</ul></details>
+<details class="g3" id="mc-rete"><summary>Device search (network)</summary>
+<ul>
+  <li>Visualizza (View) → «Rete (ricerca dispositivi)» (Network (device search), Ctrl+R): the MiaPLC boards that respond (UDP 5052, every 5 seconds), even on another network of the PC, because they are reached by MAC.</li>
+  <li>Columns «Tipo» (Type), «Nome» (Name), «IP», «MAC», «Firmware», «Stato» (Status: RUN, STOP, connected to the PLC…), «Vista da» (Seen from).</li>
+  <li>For each board: «Identifica» (Identify; LED for 5 s, on the panel the brightness), «Ping» (tells whether the board is there and whether the firmware responds),
+    «Rete» (Network; changes name, IP, mask and gateway via MAC, even if the board is on another network), «Web» (opens its page; with a protected board MiaConfig logs in with the project key).</li>
+  <li>Flags boards that do not respond, respond slowly (over 500 ms) or have file space above 80 %.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="mc-moduli"><summary>The modules («Aggiungi modulo» (Add module))</summary><div class="g-body">
+<p>The drop-down at the bottom of the list adds modules. The «⚠» sign means «non ancora segnato come provato su una scheda» (not yet marked as tested on a board) or «non ancora nel firmware» (not yet in the firmware).
+An item is disabled if the chip lacks the peripheral, if you already have the maximum, or if developer mode is needed.
+Tested on a board: Ethernet (W5100, LAN8720), DS3231 clock, digital inputs and outputs, JD9365 display, GT911 touch.</p>
+<details class="g3"><summary>System</summary>
+<table>
+  <tr><th>Module</th><th>What it is for, settings</th></tr>
+  <tr><td>Seriale editor (Editor serial)</td><td>Fixed. The editor's serial port; on chips with native USB, «Collegamento» (Connection) UART0 or native USB.</td></tr>
+  <tr><td>Mancanza tensione (Power loss)</td><td>An input that signals when the power supply fails, to save the retentive memory. «Attiva» (Active) low or high. With a wiring example (divider and 2200 µF capacitor, or PC817 optocoupler).</td></tr>
+  <tr><td>Protezione reset USB (USB reset protection)</td><td>An output that prevents USB from resetting the board while it is in RUN. «Livello che isola» (Isolating level) 0 or 1, with a wiring example.</td></tr>
+  <tr><td>HMI core</td><td>Panels only, fixed: screen (JD9365 10.1", EK79007 7", ILI9881C, RGB, SPI…) and touch (GT911, FT5x06, XPT2046), or «Senza schermo: solo via web server» (No screen: web server only).</td></tr>
+</table></details>
+<details class="g3"><summary>Communications: WiFi</summary>
+<figure class="shot"><img src="../assets/img/mc-wifi-en.jpg" alt="WiFi module in MiaConfig" loading="lazy"><figcaption>The WiFi module: when it is on, the PLC access point (network, password, IP, channel) and router.</figcaption></figure>
+<table>
+  <tr><th>Section</th><th>Fields and default values</th></tr>
+  <tr><td>Impostazioni di default (Default settings)</td><td>«WiFi»: «acceso se non c'è Ethernet» (on if there is no Ethernet; default), «acceso» (on), «spento» (off). «Uso del WiFi» (WiFi use): «editor ed esposizione dati» (editor and data exposure; default), «solo editor» (editor only), «solo esposizione dati» (data exposure only).</td></tr>
+  <tr><td>Access point del PLC (PLC access point)</td><td>«Nome rete» (Network name; empty = <code>miaplc-XXXX</code> from the chip), «Password» (8–63 characters), «IP» <code>10.10.10.1</code>, «Canale» (Channel) 6, «Con il router» (With the router): «si chiude quando è collegato» (closes when connected) or «resta aperto» (stays open).</td></tr>
+  <tr><td>Router</td><td>«Collegamento» (Connection) «nessuno» (none) or «a una rete» (to a network): name, password (empty = open network), DHCP or fixed IP with mask, gateway, DNS.</td></tr>
+</table>
+<p>With protected access, the access point password becomes a random WPA2 password for each board, created by MiaConfig.</p></details>
+<details class="g3"><summary>Communications: Ethernet</summary>
+<ul>
+  <li>«Chip»: W5100 and W5500 (SPI, on every chip), LAN8720 and IP101 (RMII, ESP32 and ESP32-P4 only). Other chips are in the catalogue but not yet in the firmware.</li>
+  <li>SPI: «Bus» and the CS, INT (mandatory with the W5500) and RST pins. RMII: «Indirizzo PHY» (PHY address) and the EMAC pins plus MDC, MDIO, RST.</li>
+  <li>«Priorità ricezione» (Receive priority; factory default 17 with uLink, otherwise 15).</li>
+  <li>«Impostazioni di default» (Default settings): Ethernet on or off; fixed address (default <code>192.168.0.10</code>, mask 255.255.255.0, gateway and DNS 192.168.0.1) or DHCP.</li>
+  <li>The W5100 handles TCP/IP and uLink at the same time.</li>
+</ul></details>
+<details class="g3"><summary>Communications: uLink, Data exposure, Modbus, HMI panel</summary>
+<table>
+  <tr><th>Module</th><th>What it is for, settings</th></tr>
+  <tr><td>uLink (I/O remoti) (remote I/O)</td><td>I/O modules on the Ethernet cable, with their own frames without TCP/IP: Ethernet is required. «Ruolo» (Role) «PLC (comanda i moduli)» (PLC (controls the modules)) with «Moduli» (Modules) from 1 to 8 (on the P4 up to 64), or «Modulo I/O (comandato da un PLC)» (I/O module (controlled by a PLC)). Each module carries 64 inputs, 64 outputs and 8 REALs.</td></tr>
+  <tr><td>Esposizione dati (Data exposure)</td><td>PLC values read and written by another program on the network (<code>/api/data/</code>).</td></tr>
+  <tr><td>Modbus</td><td>Up to 4. «Tipo» (Type) RTU or TCP, «Ruolo» (Role) master or slave, «Porta» (Port; default 502), «Indirizzo slave» (Slave address) 1–247. Today the firmware has only Modbus TCP, with at most one master and one slave; the master registers are set in the editor.</td></tr>
+  <tr><td>Pannello HMI (HMI panel)</td><td>Developer mode only: the data to the panel (TCP 5050, fast trend UDP 5051), with «Anche via WiFi» (Also via WiFi).</td></tr>
+</table></details>
+<details class="g3"><summary>Buses and devices</summary>
+<table>
+  <tr><th>Module</th><th>What it is for, settings</th></tr>
+  <tr><td>Bus SPI (SPI bus)</td><td>«Clock MHz»: moves by itself into the range that suits all devices on the bus. SCK, MOSI, MISO pins. If no clock suits all of them: put the slow devices on another bus.</td></tr>
+  <tr><td>Bus I2C (I2C bus)</td><td>«Clock kHz» 100, 400 or 1000; SDA, SCL. Two devices with the same address give an error.</td></tr>
+  <tr><td>Orologio (Clock)</td><td>RTC on I2C: today the firmware has the DS3231.</td></tr>
+  <tr><td>Scheda SD (SD card), Memoria FRAM (FRAM memory)</td><td>In the catalogue, not yet in the firmware.</td></tr>
+</table></details>
+<details class="g3"><summary>Board I/O</summary>
+<table>
+  <tr><th>Module</th><th>Settings</th></tr>
+  <tr><td>Ingressi digitali (Digital inputs) / Uscite digitali (Digital outputs)</td><td>From 0 to 64 points, one per GPIO (I0, I1… / Q0, Q1…).</td></tr>
+  <tr><td>Shift register ingressi (Input shift register)</td><td>Up to 4 chains, 1–16 74HC165 ICs each (8 inputs per IC). LOAD and CLK pins (shareable), DATA, INH.</td></tr>
+  <tr><td>Shift register uscite (Output shift register)</td><td>Up to 4 chains, 1–16 74HC595 ICs. DATA, CLK and LATCH pins (shareable), OE, CLR.</td></tr>
+  <tr><td>Ingressi analogici (Analog inputs)</td><td>Chip ADC, 0–20 inputs. «Portata» (Range): 0–950 mV, 0–1250 mV, 0–1750 mV, 0–3100 mV. Automatic factory calibration.</td></tr>
+  <tr><td>Uscite PWM (PWM outputs)</td><td>Up to the chip's limit, «Frequenza Hz» (Frequency, Hz) 1–40000 (default 1000).</td></tr>
+  <tr><td>Uscite analogiche (Analog outputs)</td><td>Chip DAC (ESP32 only, GPIO 25 and 26).</td></tr>
+  <tr><td>LED RGB (WS2812) (RGB LED)</td><td>Up to 4 chains of 16 LEDs: three outputs R, G, B (0–255) per LED.</td></tr>
+  <tr><td>Canale analogico V/mA (Analog channel V/mA)</td><td>Up to 32: a 0–10 V, 0–20 mA or 4–20 mA channel on a chip ADC, an external ADC or an AD5422, with shunt and voltage/current selection bit.</td></tr>
+  <tr><td>Pin ingresso/uscita (Input/output pin)</td><td>Up to 32 pins, direction decided in the PLC tables.</td></tr>
+</table>
+<p>The maximum is 1024 inputs and 1024 outputs per board.</p></details>
+<details class="g3"><summary>I/O devices on the buses</summary>
+<table>
+  <tr><th>Type</th><th>Chip</th></tr>
+  <tr><td>ADC esterno (mV) (External ADC (mV))</td><td>ADS1115, ADS1015 (I2C, 4 channels), MCP3208 (SPI, 8), MCP3204 (SPI, 4), PCF8591 (I2C)</td></tr>
+  <tr><td>DAC esterno (External DAC)</td><td>MCP4725 (I2C, 1), GP8403 (I2C, 2), AD5422 (SPI, V/mA), MCP4922 (SPI, 2)</td></tr>
+  <tr><td>Espansore di I/O (I/O expander)</td><td>MCP23017 (I2C, 16 bit), PCF8574 (I2C, 8 bit), MCP23S17 (SPI, 16 bit), with «Direzione dei pin (i/o)» (Pin direction (i/o))</td></tr>
+  <tr><td>Sonda RTD (RTD probe)</td><td>MAX31865 (SPI), ADS122C04 (I2C); PT100 or PT1000, 2, 3 or 4 wires; values in °C</td></tr>
+  <tr><td>Termocoppia (Thermocouple)</td><td>MCP9600 (I2C), MAX31855, MAX31856 (SPI); types K, J, T, N, E, S, R, B</td></tr>
+</table>
+<p>Up to 8 per type. In panels the local I/O become system values of the panel editor (<code>sys.io.in&lt;GPIO&gt;</code>, <code>sys.io.out&lt;GPIO&gt;</code>…).</p></details>
+<details class="g3"><summary>Panel: Display and Touch</summary>
+<ul>
+  <li>Display: width and height in pixels, backlight (via the screen board's I2C, PWM on a pin, on/off, always on), colour order, mirroring. The panel firmware currently uses DSI screens.</li>
+  <li>Touch: bus, address (GT911 automatic 0x5D or 0x14), axis swap and mirroring, read every 30 ms.</li>
+</ul></details>
+<details class="g3"><summary>Not yet in the firmware</summary>
+<p>Seriale (Serial), Seriale software (Software serial), CAN, LoRa, Modbus RTU, Scheda SD (SD card) and Memoria FRAM (FRAM memory) can already be designed, but the build leaves them out with a warning.</p></details>
+</div></details>
+
+<details class="g2" id="mc-controlli"><summary>Checks: errors, warnings, info</summary><div class="g-body">
+<table>
+  <tr><th>Level</th><th>Meaning</th></tr>
+  <tr><td>Grave (Error)</td><td>The firmware is neither generated nor built: «Compila firmware» (Build firmware), «Carica» (Upload), configuration saves and «Carica tutto» (Upload all) skip that board.</td></tr>
+  <tr><td>Avviso (Warning)</td><td>To be checked, it builds anyway.</td></tr>
+  <tr><td>Info</td><td>To be aware of.</td></tr>
+</table>
+<details class="g3"><summary>Examples of project checks</summary>
+<ul>
+  <li>Pins: «pin mancante» (missing pin), «GPIO… riservato» (GPIO… reserved), «solo ingresso» (input only), «solo analogico» (analog only), «non ha l'ADC» (has no ADC), pin used by two signals, boot pin («il segnale collegato non deve tenerlo al livello sbagliato» (the connected signal must not hold it at the wrong level)), ADC2 that cannot be read with WiFi on.</li>
+  <li>Modules: chip without radio or without DAC, too many modules, bus not selected, values out of range, developer-mode-only features.</li>
+  <li>Network: gateway outside the network, non-private access point IP, password from 8 to 63 characters, router network equal to the access point network.</li>
+  <li>uLink without Ethernet, invalid network name, more than 1024 inputs or outputs, SPI bus without a clock that suits all, two I2C devices with the same address.</li>
+  <li>Firmware: chip without a base firmware, firmware that does not fit in the partition, little work memory, crash risk from Misura (Measure) (below 7 KB of RAM under load or stack below 256 B: build blocked).</li>
+</ul></details>
+<details class="g3"><summary>Checks between the devices of the configuration</summary>
+<ul>
+  <li>Device file missing, address invalid or used twice, module without a PLC, uLink name invalid or repeated, program not readable.</li>
+  <li>«da allineare» (to be aligned) warnings (uLink, program I/O tables, pre-pairing, PLC IP in panels): «Allinea le schede» (Align the boards) fixes them.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="mc-compila"><summary>Building and uploading</summary><div class="g-body">
+<details class="g3"><summary>Build firmware</summary>
+<ul>
+  <li>Builds the project as it is now. The log goes to <code>uscita/&lt;id&gt;/compilazione.log</code>; at the end «OK: compilazione riuscita in N s» (OK: build succeeded in N s) or «ERRORE: compilazione NON riuscita» (ERROR: build NOT successful).</li>
+  <li>The first time it starts from scratch (about 900 steps). With the base ready it redoes only what changes (about 70 steps).</li>
+  <li><b>Firmware base in the background</b> (active by default): as soon as a device has its hardware, MiaConfig builds it at low priority, one at a time, and stops when a real build starts.
+    The states («base in coda» (base queued), «base pronta» (base ready), «base: aspetta che non ci siano errori gravi» (base: waiting until there are no errors)…) are shown in the tree.</li>
+  <li>«Verifica compilazione» (Check build) builds a device right away and tells you whether there are errors and where. «Compila tutto» (Build all) rebuilds all devices before «Carica tutto» (Upload all).</li>
+</ul></details>
+<details class="g3"><summary>The output files</summary>
+<table>
+  <tr><th>File</th><th>What it is for</th></tr>
+  <tr><td><code>&lt;id&gt;-completo.bin</code></td><td>Everything in one file to upload at address 0x0: first installation with any Espressif tool.</td></tr>
+  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miaplc.fw</code></td><td>Package for updating from the editor or over the network: firmware and editor files.</td></tr>
+  <tr><td><code>bootloader.bin</code>, <code>partition-table.bin</code>, <code>ota_data_initial.bin</code>, <code>uplc.bin</code>, <code>file-editor.bin</code>, <code>flash_args</code></td><td>The separate parts for esptool (<code>write-flash @flash_args</code>).</td></tr>
+  <tr><td><code>leggimi.txt</code></td><td>How to upload them.</td></tr>
+  <tr><td><code>impronte/&lt;impronta&gt;.json</code></td><td>The hardware of this build: from the fingerprint you see in the Diagnostics you can find the configured modules.</td></tr>
+  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miahmi.fw</code>, <code>hmi-c6-wifi.bin</code></td><td>Panel: firmware and web pages; firmware of the C6 WiFi module.</td></tr>
+</table>
+<p>The first installation erases the board's program, settings and files.</p></details>
+<details class="g3"><summary>Uploading a board (Genera (Generate) → Carica (Upload))</summary>
+<ul>
+  <li><b>Via USB</b>: builds and writes <code>-completo.bin</code> from 0x0 at 460800 baud. Erases program, settings and files. If the board does not connect: hold <b>BOOT</b> and press <b>RESET</b>.</li>
+  <li><b>Over the network</b> (board that already has the MiaPLC firmware): the PLC goes to STOP, the new firmware goes into the free slot, the editor files are updated, the PLC restarts in STOP. Program and settings are kept.
+    If the firmware is the same it is not rewritten. At the end MiaConfig asks whether to put back in RUN a PLC that was in RUN.</li>
+  <li>If the firmware changes the partitions, USB is needed. If the board hardware changes, the PLC stays in STOP: in the editor Compile, Download and then RUN.</li>
+  <li>Panel over the network: the new firmware is on trial and becomes final if the panel stays on for 60 s. Via USB it erases project, images and settings.</li>
+</ul></details>
+<details class="g3"><summary>Upload all</summary>
+<ol>
+  <li>Each device is paired with its board: first by saved MAC, then by the project the board says it has. Free boards are recognised with «Identifica» (Identify) and chosen in the drop-down.</li>
+  <li>«Controlla» (Check) tells you what would change without touching anything.</li>
+  <li>«Carica tutto» (Upload all) → «Conferma: carica N schede» (Confirm: upload N boards): all to STOP, firmware and web files of the I/O modules, then of the panels, then of the PLCs; only if all firmware is fine, the PLC programs and the panel projects.</li>
+  <li>What is already the same is not uploaded again. A device with errors is skipped.</li>
+  <li>At the end the PLCs stay in STOP: «RUN dei PLC» (RUN the PLCs) puts them back in RUN.</li>
+</ol>
+<p>A PLC or a module without a board on the network is uploaded with «Carica via USB» (Upload via USB). With protected access MiaConfig also sends the modules' µLink keys to their PLC and the secret for the PLC–panel connection.</p></details>
+<details class="g3"><summary>Import from PLC</summary>
+<p>Searches for PLCs on the network (at most 5 seconds) and opens the hardware project the chosen one's firmware was built with. It works with firmware built by MiaConfig 0.1.95 onwards.
+The imported project opens without a file: save it with «Salva» (Save).</p></details>
+<details class="g3"><summary>Offline panel editor</summary>
+<p>From the right-click menu on a panel: «Editor del pannello (offline)» (Panel editor (offline)) opens in the browser the panel editor on the files in its folder (<code>.miahmi</code> project, images, variables of its PLC's program).
+The parts that need the real panel (firmware, WiFi, clock, microSD, USB stick) reply «solo con il pannello collegato» (only with the panel connected).</p></details>
+</div></details>
+
+<details class="g2" id="mc-accesso"><summary>Board access and security</summary><div class="g-body">
+<p>Boards with recent firmware are protected: logging in requires a challenge login (the password never travels over the network) and every request is signed.
+Without a signature only the basic information and the editor files can be read.</p>
+<details class="g3"><summary>Administrator password</summary>
+<ul>
+  <li>It is chosen when the configuration is opened: at least 10 characters, with uppercase, lowercase, number and special character. Passwords that are too common or too easy (1234, abcd, qwer…) are rejected.</li>
+  <li>MiaConfig does not store it: it keeps only an encrypted fingerprint for this PC.</li>
+  <li>It is needed to log in from the PLC and panel editors, and it is mandatory to upload a firmware with access protection, otherwise the board could no longer be opened from the network.</li>
+</ul></details>
+<details class="g3"><summary>The access.miapwd file</summary>
+<ul>
+  <li>It is in the configuration folder and is encrypted for the PC's Windows user: copied to another PC it cannot be opened.</li>
+  <li>It contains the fingerprint of the administrator password, the project access key, and for each board the recovery password, the access point WPA2 password, the µLink key and the PLC–panel secret, plus the authority for the https certificates.</li>
+  <li>The previous copy is kept in <code>access.miapwd.bak</code>. MiaConfig adds it to <code>.gitignore</code>: it must never go into a repository.</li>
+</ul></details>
+<details class="g3"><summary>The «Accesso alle schede…» (Board access…) window</summary>
+<ul>
+  <li>Status: password set, project access key, https certificate.</li>
+  <li>«Cambia la password di amministratore…» (Change the administrator password…), then «Manda la password alle schede» (Send the password to the boards) to write it to every board that responds (until you send it, the boards keep the previous one).</li>
+  <li>Table of boards with «Password di recupero» (Recovery password) and «WPA2 access point» hidden («Mostra» (Show) to see them), «Copia recupero» (Copy recovery) and «Nuovo recupero» (New recovery; creates a new one and writes it to the board; the old one is no longer valid).</li>
+  <li>«Installa il certificato https su questo PC» (Install the https certificate on this PC): the browser no longer warns about the panels; the <code>miaconfig-ca.cer</code> file is for other PCs and tablets.</li>
+</ul></details>
+<details class="g3"><summary>Commissioning a new board</summary>
+<p>During the upload MiaConfig writes into the firmware the recovery password, the access point WPA2 password and the board's µLink key.
+Then it logs in, sets the administrator password and the project key, and immediately changes the recovery password. On a board already in service, over the network, the keys travel encrypted inside the session.</p></details>
+<details class="g3"><summary>Forgotten password or lost file</summary>
+<ul>
+  <li>Forgotten administrator password: in the first 10 minutes after power-on you can log in from the board's web page with the recovery password (in «Accesso alle schede…» (Board access…) → «Mostra» (Show)) and choose a new one.
+    Then in MiaConfig «Cambia la password di amministratore…» (Change the administrator password…) and «Manda la password alle schede» (Send the password to the boards).</li>
+  <li>MiaConfig still logs in with the project key, even without knowing the password.</li>
+  <li>Lost file: there is <code>access.miapwd.bak</code>. Without either of them, the board is put back into service by uploading it again via USB, which erases program and settings.</li>
+  <li>Too many wrong attempts: the board makes you wait a few seconds before trying again.</li>
+</ul></details>
+<details class="g3"><summary>Panel https certificates and µLink keys</summary>
+<ul>
+  <li>Each configuration has its own authority (CA). The panel's private key is created on the panel and never leaves it: MiaConfig only signs the certificate (800 days, renewed when fewer than 60 days remain).</li>
+  <li>Each µLink module has its own key; «Carica tutto» (Upload all) sends the PLC the keys of its modules.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="mc-file"><summary>Files and folders</summary><div class="g-body">
+<table>
+  <tr><th>File or folder</th><th>What it contains</th></tr>
+  <tr><td><code>.mia</code> (configuration)</td><td>The devices of the installation, names, comments, PLCs, uLink names, board MACs.</td></tr>
+  <tr><td><code>.mia</code> (device)</td><td>The hardware of one board. In Advanced the name becomes <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code>. It used to be called <code>.hwplc</code>.</td></tr>
+  <tr><td><code>.miaplc</code></td><td>The PLC program (MiaPLC editor), in the PLC folder.</td></tr>
+  <tr><td><code>.miahmi</code>, <code>.miahmi.bozza</code></td><td>The panel project and the offline editor's draft.</td></tr>
+  <tr><td><code>immagini/</code>, <code>immagini-sd/</code>, <code>aspetto-&lt;schermo&gt;.json</code></td><td>Panel images (flash and microSD) and control sizes for the screen.</td></tr>
+  <tr><td><code>.miaplc.fw</code>, <code>.miahmi.fw</code>, <code>-completo.bin</code></td><td>Firmware: update packages and full image.</td></tr>
+  <tr><td><code>access.miapwd</code> (+ <code>.bak</code>)</td><td>Board credentials, encrypted.</td></tr>
+  <tr><td><code>miaconfig-ca.cer</code></td><td>Configuration certificate for other PCs.</td></tr>
+  <tr><td><code>&lt;id&gt;-impostazioni.json</code>, <code>&lt;id&gt;-conf.zip</code></td><td>PLC settings and firmware configuration saved separately.</td></tr>
+  <tr><td><code>pacchetti/</code>, <code>firmware/</code>, <code>progetti/</code>, <code>uscita/</code>, <code>misure/</code></td><td>ESP-IDF and compilers, firmware sources, builds, files to upload and logs, measurements.</td></tr>
+</table></div></details>
+
+<details class="g2" id="mc-problemi"><summary>Common problems</summary><div class="g-body">
+<table>
+  <tr><th>Problem</th><th>What to do</th></tr>
+  <tr><td>The board does not connect via USB</td><td>Check the port; hold BOOT and press RESET, then try again.</td></tr>
+  <tr><td>«niente da caricare: prima compila» (nothing to upload: build first)</td><td>Press «Compila firmware» (Build firmware).</td></tr>
+  <tr><td>«il firmware cambia le partizioni: serve il caricamento via USB» (the firmware changes the partitions: upload via USB is needed)</td><td>Upload once via USB.</td></tr>
+  <tr><td>No board found on the network</td><td>«↻ Cerca» (Search); in the device search «Ping» tells you whether the problem is the network (cable, address) or the firmware.</td></tr>
+  <tr><td>«spazio dei file al N %» (file space at N %)</td><td>Above 80 % a Download or an editor update may not fit.</td></tr>
+  <tr><td>Crash risk, build blocked</td><td>Remove modules, or measure the board (Memoria (Memory) → «Misura» (Measure)) to get the real values.</td></tr>
+  <tr><td>Two devices with the same name build together</td><td>Give each board a different identifier.</td></tr>
+</table>
+<p>Tips: use «Assegna pin liberi» (Assign free pins), put slow SPI devices on another bus, leave the firmware base in the background active and,
+after changing devices or links, run «Allinea le schede» (Align the boards), «Compila tutto» (Build all) and «Carica tutto…» (Upload all…).</p></div></details>
+</details>
+
+<details class="g1" id="editor">
+<summary><span class="key-n">MiaPLC editor</span> The PLC program <small>· ladder, FC, DB, Online, diagnostics</small></summary>
+<div class="g-intro">
+<p>The editor is the web page you use to write the program, load it onto the PLC and watch it work. It lives inside the PLC: open the board's address in the browser.
+It can also be used from the PC, connected over USB, or with the simulator, without a board.</p>
+</div>
+
+<details class="g2" id="ed-apri"><summary>Opening the editor and connecting</summary><div class="g-body">
+<details class="g3"><summary>Three ways to connect</summary>
+<table>
+  <tr><th>Mode</th><th>How</th></tr>
+  <tr><td>Network</td><td>Open the PLC's address in the browser (Ethernet, WiFi through the router or its access point, factory default <code>10.10.10.1</code>). This is the normal way.</td></tr>
+  <tr><td>USB</td><td>With the editor opened from the PC (button «⭳ Download the editor for the PC») in Chrome or Edge: «🔌» → «USB» → «Connect…». It starts at 115200 baud and goes up to 921600. It does not ask for a password: it is physical access.</td></tr>
+  <tr><td>Simulator</td><td>A PLC simulated in the browser, without a board: from the <a href="provami.html">website</a> or from the editor opened from the PC.</td></tr>
+</table>
+<p>The «🔌 NETWORK / USB / SIMULATOR» button at the top shows the connection and opens the window to change it. For USB you need the drivers for the board's chip (CH340 or CP2102) and a data cable;
+if the board restarts when you open the port, MiaConfig has the «USB reset protection» module.</p></details>
+<details class="g3"><summary>What happens at startup</summary>
+<ol>
+  <li>The editor reads the program from the PLC. If the PLC only has the compiled code, it rebuilds it («⚠ rebuilt»); if the PLC is empty it starts from an empty project.</li>
+  <li>It reads the symbol table.</li>
+  <li>If the browser has a <b>draft</b> with changes not downloaded, it asks whether to reopen it («Reopen the draft», «Discard the draft»). Nothing changes on the PLC until you do a Download.</li>
+  <li>If it is missing, it creates the <b>HWDB</b> (DB 1000) with the board's input and output points read from the PLC.</li>
+  <li>If the PLC has no time set, it sends it the PC's time.</li>
+</ol>
+<p>If the board is a µLink I/O module, the editor shows its page and the Diagnostics instead of the ladder.</p></details>
+<details class="g3"><summary>Password access</summary>
+<ul>
+  <li>From the network the editor asks for the administrator password («PLC access»). The open program, the tables and Online stay underneath the window.</li>
+  <li>New board: you log in with the recovery password (from MiaConfig, within the first 10 minutes after power-up) and choose the administrator password.</li>
+  <li>If the session expires (30 minutes without requests, 12 hours in any case) or the PLC restarts, the window comes back and the pending request restarts on its own after login: nothing is lost.</li>
+  <li>Opened from MiaConfig with «Web», the editor logs in already with the project key. You log out from Diagnostics → Access → «Log out».</li>
+  <li>After 5 wrong passwords the board makes you wait longer and longer («too many attempts: try again in N s»).</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-finestra"><summary>The window</summary><div class="g-body">
+<details class="g3"><summary>Top bar</summary>
+<table>
+  <tr><th>Command</th><th>What it does</th></tr>
+  <tr><td>Project name</td><td>Click to rename it (up to 60 characters). The project ID does not change: the PLC still recognizes it.</td></tr>
+  <tr><td>«🆕 New»</td><td>New project with a new ID (first it asks whether to lose the changes not downloaded).</td></tr>
+  <tr><td>«📂 Open»</td><td>Opens a <code>.miaplc</code> project (also the old <code>.json</code> and <code>.bin</code>).</td></tr>
+  <tr><td>«💾 Save» (Ctrl+S)</td><td>Saves the project with the symbols to <code>&lt;name&gt;-&lt;date&gt;.miaplc</code>, even if it does not compile.</td></tr>
+  <tr><td>«↶» «↷»</td><td>Undo and redo (Ctrl+Z, Ctrl+Y), 100 steps by default. If the change is in another block it takes you there.</td></tr>
+  <tr><td>«🔍 Search»</td><td>Cross references.</td></tr>
+  <tr><td>«🏷 Symbols», «⭳ Import», «⭱ Export»</td><td>Symbol table, import and export the symbols (CSV or JSON).</td></tr>
+  <tr><td>Labels</td><td>What to show above contacts and coils: symbol and address, symbol only, address only, with or without floating comment.</td></tr>
+  <tr><td>Language</td><td>Italiano, English and one extra language loaded on the PLC; «Languages…».</td></tr>
+  <tr><td>«🔌 …», «🩺 Diagnostics»</td><td>Connection and Diagnostics.</td></tr>
+</table></details>
+<details class="g3"><summary>Status indicators</summary>
+<table>
+  <tr><th>Indicator</th><th>Meaning</th></tr>
+  <tr><td>«RUN», «STOP», «STOP (error)», «NO PROGRAM», «OFFLINE»</td><td>PLC state (OFFLINE if it has not answered for at least 5 seconds).</td></tr>
+  <tr><td>Red badge</td><td>The text of the error that stopped the PLC.</td></tr>
+  <tr><td>«● SF»</td><td>System error: the PLC stays in RUN. Click: the causes and the links to the Diagnostics.</td></tr>
+  <tr><td>«✓ PLC = editor», «≠ PLC: FC1, FC2…», «Empty PLC»</td><td>Comparison between the editor's program and the PLC's. «texts to download» means that only names, titles or comments change.</td></tr>
+  <tr><td>«⚠ Symbols not saved on the PLC»…</td><td>Status of the symbol saving; click to try again.</td></tr>
+  <tr><td>Yellow warning above the networks</td><td>Another editor (with its IP) has loaded a program onto the PLC.</td></tr>
+</table></details>
+<details class="g3"><summary>Bottom bar</summary>
+<p>On the left «Compile», «Download to cpu», «Upload from cpu», «Online». In the middle the status line (yellow for warnings, red for errors). On the right «Run» and «Stop».</p></details>
+<details class="g3"><summary>Left column</summary>
+<p>From the top: the block tree, «+ New function», «+ New DB», «+ StartUp», the «Instructions» palette, the «Structures», the «Modules», the «Memory» bars and «⚙ Graphics».
+The column widens by dragging its edge.</p>
+<table>
+  <tr><th>Bar</th><th>What it measures</th></tr>
+  <tr><td>Work</td><td>Work memory (RAM): the code of the blocks.</td></tr>
+  <tr><td>Load</td><td>Load memory (flash): code and source with names and comments.</td></tr>
+  <tr><td>Symbols</td><td>Space of the symbol table on the PLC.</td></tr>
+</table>
+<p>Yellow from 70 %, red from 90 %.</p></details>
+</div></details>
+
+<details class="g2" id="ed-blocchi"><summary>Block tree and folders</summary><div class="g-body">
+<ul>
+  <li>Under «Program»: Main (M), StartUp (S), the folders, the FCs (FB if they have STATIC variables) with the number of networks, the DBs (SDB for system ones, «· R» if retentive).</li>
+  <li><b>Folders</b> are only for ordering: the PLC does not see them. The «Sys_DB» and «Sys_Modbus» folders are created on their own for the system blocks.</li>
+  <li>Multiple selection with Ctrl+click, Shift+click or a box drawn with the mouse; then drag or «📁 Move to».</li>
+  <li>Dragging an FC into a network inserts a call to it.</li>
+  <li>In Online: «●» block executed in the last scan, «○» not executed, «≠» different from the PLC.</li>
+</ul>
+<details class="g3"><summary>Right-click menu</summary>
+<table>
+  <tr><th>On</th><th>Items</th></tr>
+  <tr><td>«Program» or empty space</td><td>«📁 New folder», «＋ New function», «＋ New DB», «📋 Paste FC», FC management by number or by name, «# Renumber all FCs in order», expand and collapse.</td></tr>
+  <tr><td>Folder</td><td>New folder or function inside it, «✎ Rename», «✕ Delete folder» (the content moves up one level, the blocks are not deleted), «📋 Paste FC inside here».</td></tr>
+  <tr><td>FC</td><td>«↗ Open», «✎ Rename», «# Renumber…» (the calls update on their own), «📄 Copy FC», «📁 Move to», «✕ Delete» (only if nothing calls it).</td></tr>
+  <tr><td>DB</td><td>«↗ Open», «✎ Rename», «# Change number» (1–999, the operands update), «📁 Move to», «✕ Delete».</td></tr>
+  <tr><td>StartUp</td><td>«↗ Open», «📁 Move to», «✕ Delete StartUp» (the PLC will start directly from Main).</td></tr>
+</table>
+<p>«Paste FC» creates a copy with the first free number and the name «… copy», even in another project open in another browser tab.</p></details>
+<details class="g3"><summary>New function, new DB, StartUp</summary>
+<ul>
+  <li>«+ New function»: choose the language (Ladder, ST or C: it cannot be changed later) and an optional name. The number is the highest + 1.</li>
+  <li>«+ New DB»: a free number from 1 to 999 and a unique name (letters, digits and _; in operands <code>Name.Field</code>).</li>
+  <li>«+ StartUp»: creates the StartUp right after Main.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-ladder"><summary>Writing the ladder</summary><div class="g-body">
+<details class="g3"><summary>Networks</summary>
+<ul>
+  <li>Each block is a list of numbered networks. Header: title (80 characters; Enter confirms, Esc cancels), «💬» comment (500 characters; Ctrl+Enter confirms), «▲» «▼» to move it, «✕» to delete it.</li>
+  <li>Titles and comments are only text: changing them does not change the program and Online stays on.</li>
+  <li>«+ Add network» at the bottom adds an empty network.</li>
+  <li>Right click on the header: «＋ Add network above / below», «📄 Copy network», «📋 Paste network above / below», «📋 Paste into the network». A copied network can also be pasted into another FC or another project.</li>
+</ul></details>
+<details class="g3"><summary>Inserting elements</summary>
+<ul>
+  <li>Drag an element from the palette onto a <b>dashed zone</b>: the nearest one lights up. An empty network says «drag a contact or a coil here».</li>
+  <li>The element goes in without an address, with a yellow glow: click to configure it. Compile does not accept elements still to be configured.</li>
+  <li>Contacts, comparisons, edges, timers, FCs and boxes line up from left to right. A <b>coil</b> closes the network; timers, FCs or boxes at the end close it too but let it continue.</li>
+  <li>A coil dropped on a line opens a parallel output there. A coil on a coil only changes its type; the same for a timer on a timer.</li>
+  <li>NOT, P_TRIG, N_TRIG and RET go in without a window.</li>
+</ul></details>
+<details class="g3"><summary>Parallel branches (OR)</summary>
+<ul>
+  <li>Right click on a contact → «⤵ Parallel branch (OR) from here»: an open branch appears with a «?» placeholder. Close it by <b>dragging the arrow</b> onto the line where it must rejoin, or with a right click on the arrow «⤴ Close the branch after…».</li>
+  <li>Faster: hold a dragged contact still for 2 seconds in front of another contact: the branch appears, release.</li>
+  <li>On a contact inside a parallel: «＋ Add branch to this parallel», open or close the branch one element earlier or later.</li>
+  <li>Click on the «?»: choose NO contact, NC contact, edge, comparison or NOT, also with the keys A, C, P, N, &gt;, &lt;, =, !.</li>
+  <li>A branch that ends with a coil becomes an output.</li>
+</ul></details>
+<details class="g3"><summary>Parallel outputs</summary>
+<ul>
+  <li>Right click on a coil → «⤵ Add parallel output (before this coil)»: a «?» output appears where you can put a coil, negated coil, SET, RESET or TON (keys B, /, S, R, T), or drag a timer, FC or box onto it.</li>
+  <li>Outputs can also branch one inside another.</li>
+</ul></details>
+<details class="g3"><summary>Operands and symbols</summary>
+<ul>
+  <li>Clicking an element opens «Configure contact / coil / timer»: type, «Area» (I, Q, M, T, SM, DB, # inside an FC), index or field.</li>
+  <li>In the «Symbol» field you can write a name from the symbol table, <code>Dati.Campo</code>, <code>"Dati".Campo</code>, <code>DB3.Campo</code>, a bit <code>Dati.Parola.5</code> or <code>#var</code>: the drop-down suggests as you type.
+    A new name becomes the operand's symbol.</li>
+  <li>For edges: «automatic» memory (a hidden bit, it uses no merker) or an M merker chosen by you.</li>
+  <li>Coils accept only writable areas (Q, M, DB, #); timers only T or a TIMER variable.</li>
+</ul></details>
+<details class="g3"><summary>Selecting, copying and pasting</summary>
+<ul>
+  <li><b>Shift+click</b> on the first and last element of the same line: light blue box. Then Ctrl+C, or right click → «📄 Copy selection» or «✕ Delete selection».</li>
+  <li><b>Ctrl+V</b> pastes into the dashed zone under the mouse; right click on a zone: «📋 Paste here».</li>
+  <li>Right click on an element: «⧉ Copy». A coil pasted on another coil becomes a parallel output.</li>
+  <li>When pasting, timers already in use get a free number and automatic edges a new memory.</li>
+  <li>The clipboard also works between browser tabs, for 24 hours.</li>
+</ul></details>
+<details class="g3"><summary>Cross references</summary>
+<ul>
+  <li>«🔍 Search»: type an operand (<code>M5</code>, <code>I0</code>, <code>FC1</code>, <code>DB1</code>), a whole area (<code>M</code>), a symbol or a text.</li>
+  <li>The table shows block, network and use (NO contact, NC contact, coil, SET, RESET, timer, FC input…), with warnings such as «⚠ N normal coils» or «⚠ never called».</li>
+  <li>Click on a row: go to the spot, the element blinks.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-istruzioni"><summary>The instructions, one by one</summary><div class="g-body">
+<details class="g3"><summary>Contacts</summary>
+<table>
+  <tr><th>Instruction</th><th>What it does</th></tr>
+  <tr><td>NO</td><td>Conducts if the operand is 1.</td></tr>
+  <tr><td>NC (negated)</td><td>Conducts if the operand is 0.</td></tr>
+  <tr><td>P edge / N edge</td><td>True for one scan when the operand goes from 0 to 1 (or from 1 to 0). In Online it always looks off: it lasts one cycle.</td></tr>
+  <tr><td>P / N power flow edge (P_TRIG / N_TRIG)</td><td>Edge of the incoming power flow, not of an operand.</td></tr>
+  <tr><td>Comparison</td><td>A == B, A &lt;&gt; B, A &lt; B, A &gt; B, A &lt;= B, A &gt;= B: conducts if true. Same type for A and B, at least one variable.</td></tr>
+  <tr><td>NOT</td><td>Inverts the power flow.</td></tr>
+</table>
+<p>Contact operands: I, Q, M, T (the timer output), SM, a BOOL or a bit of a DB, a BOOL of the interface.</p></details>
+<details class="g3"><summary>Coils</summary>
+<table>
+  <tr><th>Instruction</th><th>What it does</th></tr>
+  <tr><td>Coil ( )</td><td>Writes the incoming power flow into the bit.</td></tr>
+  <tr><td>Negated coil (/)</td><td>Writes the inverted power flow.</td></tr>
+  <tr><td>SET (S) / RESET (R)</td><td>With power flow sets the bit to 1 / to 0; without power flow leaves it as it is.</td></tr>
+  <tr><td>End (RET)</td><td>With power flow exits the FC (in Main it ends the scan). Click: «RET», «ENO» (the call's ENO = power flow) or «Negated ENO».</td></tr>
+</table>
+<p>If several normal coils write the same bit, Compile warns: the last one wins.</p></details>
+<details class="g3"><summary>TON, TOF, TP timers</summary>
+<table>
+  <tr><th>Instruction</th><th>What it does</th></tr>
+  <tr><td>TON on-delay</td><td>Q = 1 when IN has been 1 for at least PT; IN at 0 resets it.</td></tr>
+  <tr><td>TOF off-delay</td><td>Q stays 1 for PT after IN goes to 0.</td></tr>
+  <tr><td>TP pulse</td><td>On the edge of IN, Q = 1 for PT (it does not retrigger during the pulse).</td></tr>
+</table>
+<ul>
+  <li>PT is written <code>500ms</code>, <code>2s</code>, <code>2.5s</code>, <code>1m30s</code>, <code>1h</code>, <code>T#2s500ms</code> or in ms; at most about 24.8 days.</li>
+  <li>Timers T0…T255 (the editor proposes the first free one), or a <b>TIMER</b> variable of a DB (e.g. <code>Dati.t_pompa</code>): it does not use the Ts, in a retentive DB it survives power-off and PT can come from a TIME or DINT variable.</li>
+  <li>In Online: «elapsed / PT» and a time bar.</li>
+  <li>Warnings: the same timer used in several places, a timer in StartUp (it never reaches the end of its time), a timer on a TEMP variable (it restarts from zero at every call).</li>
+</ul></details>
+<details class="g3"><summary>CTU, CTD, CTUD counters</summary>
+<table>
+  <tr><th>Instruction</th><th>What it does</th></tr>
+  <tr><td>CTU</td><td>Counts up the rising edges of the power flow; R resets; Q = CV ≥ PV.</td></tr>
+  <tr><td>CTD</td><td>Counts down; LD loads PV; Q = CV ≤ 0.</td></tr>
+  <tr><td>CTUD</td><td>The power flow counts up, CD counts down; R resets, LD loads PV; QU = CV ≥ PV.</td></tr>
+</table>
+<p>CV and PV are integer variables of the same type (not REAL). R has priority over LD; counting stops at the limits of the type.</p></details>
+<details class="g3"><summary>Numeric boxes (EN / ENO)</summary>
+<table>
+  <tr><th>Box</th><th>What it does</th></tr>
+  <tr><td>MOVE</td><td>OUT = IN</td></tr>
+  <tr><td>ADD, SUB, MUL, DIV</td><td>The four operations (DIV between integers truncates toward zero)</td></tr>
+  <tr><td>MOD</td><td>Remainder of the division (integers only)</td></tr>
+  <tr><td>NEG, ABS</td><td>Sign change, absolute value</td></tr>
+  <tr><td>MIN, MAX, LIMIT</td><td>The smaller, the larger, IN kept between MN and MX</td></tr>
+  <tr><td>SQRT, SQR</td><td>Square root and square (REAL only)</td></tr>
+  <tr><td>CONV</td><td>Converts to the type of OUT; from REAL to integer «round» or «truncate». If the value does not fit, OUT stays as it was and ENO = 0.</td></tr>
+  <tr><td>SCALE</td><td>Maps IN from IN_MIN…IN_MAX to OUT_MIN…OUT_MAX (e.g. 0…27648 → 0…100 %); IN out of range is limited and ENO = 0.</td></tr>
+</table>
+<p>With EN = 0 the box does nothing. All operands of the same type, except in CONV and SCALE (the type is written above the box).
+Overflow: the result wraps around and ENO = 0. Division by zero: result unchanged, ENO = 0, an entry in «Program errors» and SF on; the PLC does not stop.</p></details>
+<details class="g3"><summary>Word boxes (bitwise)</summary>
+<p>AND, OR, XOR bit by bit; INV inverts the bits; SHL and SHR shift by N bits (SHR signed on INT and DINT); ROL and ROR rotate; SWAP reverses the byte order. Integers only.</p></details>
+<details class="g3"><summary>Calling an FC</summary>
+<ul>
+  <li>Drag the FC from the tree into the network. The box shows IN and IN_OUT (⇄) on the left, OUT on the right, EN and ENO.</li>
+  <li>Click on the box: «Function call», one field per parameter. IN not connected = default value, OUT not connected = discarded, IN_OUT must always be connected to a variable.</li>
+  <li>The FC runs only with EN = 1; the OUTs are copied out at the end. Double click on the box opens the FC.</li>
+  <li>A function cannot call itself; at most 8 calls nested one inside another.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-fc"><summary>Functions (FC) and interface</summary><div class="g-body">
+<details class="g3"><summary>The interface</summary>
+<table>
+  <tr><th>Section</th><th>What it is for</th></tr>
+  <tr><td>IN</td><td>Input values; constants can be connected; if not connected they take the «Default».</td></tr>
+  <tr><td>OUT</td><td>Results, copied out at the end (only with EN = 1).</td></tr>
+  <tr><td>IN_OUT</td><td>Read at the start and written back at the end: they must be connected to a variable.</td></tr>
+  <tr><td>STATIC</td><td>Memory that persists from one call to the next: the FC becomes an <b>FB</b> and each call has its own instance DB (3000…3999), created automatically.</td></tr>
+  <tr><td>TEMP</td><td>Working variables, at 0 at every call.</td></tr>
+</table>
+<p>Names up to 24 characters (letters, digits and _), unique. Renaming a variable updates the operands and the calls. Local data at most 1024 bytes.
+In Online you see the values of the last call of the open FC.</p></details>
+<details class="g3"><summary>FCs in ST and in C</summary>
+<ul>
+  <li>Text area with line numbers; errors appear below («line R, col. C: …», click to go there), checked as you type.</li>
+  <li>Autocompletion proposes interface variables, DB fields, symbols and language keywords (↑ ↓, Enter or Tab).</li>
+  <li>The «Instructions» column becomes a list of templates (IF, CASE, FOR, WHILE, REPEAT, switch…): click or drag into the text. «Comment» on a selected text comments or uncomments it.</li>
+  <li>The full syntax is in the section <a href="#testo">FCs in ST and in C</a>.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-db"><summary>DBs, structures and types</summary><div class="g-body">
+<details class="g3"><summary>The DB page</summary>
+<ul>
+  <li>«Name», «Number», «Retentive» (the whole DB is saved and comes back at power-up), «+ Field».</li>
+  <li>Columns «Name», «Type», «Initial value», «Actual value», «Offset» (as in PLCs: <code>DBX1.3</code>, <code>DBB4</code>, <code>DBW4</code>, <code>DBD8</code>), «Comment», then ↑ ↓ ✕.
+    The columns widen by dragging their edge; the page is as wide as the screen.</li>
+  <li>«Reset initial values»; «Load actual into initial» (reads the values from the PLC); «Load initial into actual» (writes them to the PLC right away, even in RUN). The last two require the DB to be the same on the PLC.</li>
+  <li>The actual value is shown in Online; a click changes it.</li>
+  <li>Renaming a field updates the ladder operands, the HMI data and the data exposure (in the text of ST/C FCs it must be changed by hand).</li>
+</ul></details>
+<details class="g3"><summary>Types, arrays and structures</summary>
+<ul>
+  <li>Types: BOOL, SINT, USINT, BYTE, INT, UINT, WORD, DINT, UDINT, TIME, REAL, TIMER, ARRAY, the structures.</li>
+  <li><b>ARRAY</b>: indices «min..max» (e.g. 0..9, at most 4096 elements) and element type (not BOOL). The initial value applies to all elements.</li>
+  <li><b>Structures</b> («＋ New structure» in the palette): a type made of several fields (e.g. Motor with speed, current, state), to use in DBs and FCs: <code>Dati.pompa1.velocita</code>.
+    Inside: simple types, arrays and timers, not other structures. An on-the-spot «Structure» applies to a single variable only.</li>
+</ul></details>
+<details class="g3"><summary>System DBs</summary>
+<table>
+  <tr><th>DB</th><th>What it contains</th></tr>
+  <tr><td>1000 HWDB</td><td>One field for each point of the board (BOOL for bits, REAL for analogs), from the I/O tables. It is changed there; here only addresses and values.</td></tr>
+  <tr><td>1001 and following</td><td>One DB for each µLink module, with its name (e.g. <code>vasca.Livello</code>).</td></tr>
+  <tr><td>1100 Modbus</td><td>Registers and results of Modbus TCP.</td></tr>
+  <tr><td>2000 System</td><td>Times, RAM, network, load: see <a href="#sistema">System DB</a>.</td></tr>
+  <tr><td>3000…3999</td><td>Instance DBs of the FBs.</td></tr>
+  <tr><td>Merker</td><td>Created automatically if you open an old project with MB, MW, MD…</td></tr>
+</table></details>
+</div></details>
+
+<details class="g2" id="ed-moduli"><summary>Modules: I/O tables, HMI data, Data exposure, Modbus</summary><div class="g-body">
+<p>Each module opens from the «Modules» palette. You change it with «✎ Edit» and close it with «✓ Confirm» (checks and creates the new version) or «Cancel»; then Compile and Download.
+Compile does not accept a module being edited or never confirmed.</p>
+<details class="g3"><summary>⚙ I/O tables</summary>
+<ul>
+  <li>They link the board's points (read from the PLC with «⟳ Points from PLC») to the HWDB fields, one tab per device (the PLC board and each µLink module).</li>
+  <li>For each point: name, comment, signal (0-10 V, 0-20 mA, 4-20 mA), scaling from raw to value, unit, averaging, inversion, filter in ms and what to do if it is missing («0», «last value», «0 and SF error»).</li>
+  <li>The tables carry the board's fingerprint: if you load a program made for another board the PLC does not put it in RUN. «⚠ Board changed» tells you what to realign.</li>
+</ul></details>
+<details class="g3"><summary>▣ HMI data</summary>
+<p>The items the PLC sends to the panel: «Name», «Operand», «Type», «Write», «Unit», «Minimum», «Maximum», «Decimals», and the «Update» (250–1000 ms, base 500).
+Up to 256 items; from the panel only M merkers and DB fields can be written. See <a href="#hmi-apri">MiaHMI editor</a>.</p></details>
+<details class="g3"><summary>⇄ Data exposure</summary>
+<p>The values that another program reads («TX · read») and writes («RX · write») in JSON at the address <code>/api/data/exposure</code>. Columns «Name in the JSON», «Operand», «Type», «Comment».
+Only merkers and DB fields can be written. «● Enabled» / «○ Disabled» applies after the Download; «⭳ plctx.json» and «⭳ plcrx.json» download the description for whoever writes the external program.</p></details>
+<details class="g3"><summary>⇆ Modbus TCP</summary>
+<ul>
+  <li>Appears if the firmware has Modbus. «Devices (master)»: name, IP, port, id, timeout and the registers to read or write (addresses as in the manuals: 40001 holding, 30001 input, 10001 inputs, 1 coil). «+ 3-inverter example» prepares one.</li>
+  <li>«Slave registers»: what the PLC exposes to others.</li>
+  <li>The values are in DB 1100; for each device a system function <code>MB_&lt;name&gt;</code> is created, to put in the ladder: REQ → DONE, BUSY, ERR, STATUS
+    (0 ok, 1–11 Modbus exception, 256 timeout, 257 not connected, 258 invalid response).</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-simboli"><summary>Symbol table</summary><div class="g-body">
+<ul>
+  <li>«🏷 Symbols» opens the table: «Operand», «Type», «Name», «Comment», «Uses» (click: cross references). You type directly in the cells.</li>
+  <li>Filters by text, area (I, Q, M, T) and type; views «With a name or used in the program», «All operands of the area», «Free only».</li>
+  <li>Name up to 32 characters, unique, not an address and not starting with a digit; comment up to 160.</li>
+  <li>Symbols are separate from the program: they are saved on the PLC separately, with a copy in the browser. DB fields and # variables already have their own name and are not here.</li>
+  <li>«⭱ Export» creates a CSV (<code>Operando;Nome;Commento</code>) to open with a spreadsheet; «⭳ Import» reads CSV or JSON and asks whether to merge or replace.</li>
+</ul></div></details>
+
+<details class="g2" id="ed-download"><summary>Compile, Download, Upload, Run and Stop</summary><div class="g-body">
+<details class="g3"><summary>Compile</summary>
+<p>Checks and compiles with the limits of the connected PLC. Errors state block and network («FC3 network 2: …»). If it succeeds: bytes of code in RAM, bytes to download and instructions per scan.
+Download compiles on its own: Compile is for checking. The editor also compiles in the background for the comparison with the PLC.</p></details>
+<details class="g3"><summary>Download to cpu</summary>
+<ol>
+  <li>The editor checks the PLC (state, memory, space, other connected editors). If the PLC already has the same program: «nothing to load».</li>
+  <li>It chooses on its own: <b>only the changed blocks</b> (same project, there is room) or the <b>full Download</b> (another project, empty PLC, different program or not enough memory).</li>
+  <li>A single confirmation with the list. Changed blocks: the PLC stays in RUN, timers and merkers stay. Full: the PLC goes to STOP, the old program is deleted, the new one is loaded and the PLC stays in STOP.</li>
+  <li>A window shows sending, installation and writing to flash; it closes on its own when done. If something goes wrong the previous program stays.</li>
+</ol>
+<p>The PLC never goes to RUN on its own after a full Download: the editor asks. The program is saved to flash right away.</p></details>
+<details class="g3"><summary>Upload from cpu</summary>
+<p>Replaces the editor's project with the PLC's (asks for confirmation if you have changes not downloaded). If the PLC only has the code, the project is rebuilt.</p></details>
+<details class="g3"><summary>Run and Stop</summary>
+<ul>
+  <li>«Run» puts the PLC in RUN and clears an error; if the error is still there the PLC goes back to STOP and the status line says why.</li>
+  <li>«Stop» asks for confirmation: the scan stops and the outputs turn off.</li>
+</ul></details>
+<details class="g3"><summary>Automatic draft</summary>
+<p>Every change not downloaded is saved in the browser after half a second. When you reopen the editor you can pick it up again. It is deleted after a successful Download or Upload, or with «Discard the draft».
+Two editors open in the same browser do not steal each other's draft.</p></details>
+</div></details>
+
+<details class="g2" id="ed-online"><summary>Online</summary><div class="g-body">
+<figure class="shot"><img src="../assets/img/editor-online-en.jpg" alt="Editor in Online with the networks colored" loading="lazy"><figcaption>In Online, closed contacts and energized coils turn green.</figcaption></figure>
+<ul>
+  <li>«Online» turns on if the editor's program compiles and is the same as the PLC's; if only some blocks are the same, Online applies to those.</li>
+  <li>Closed contacts, energized coils and wires with power flow turn <b>green</b>; timers show elapsed / PT; the value appears next to the pins of boxes and FCs.</li>
+  <li>The networks of a block that was not executed (FC not called, PLC not in RUN) stay grey.</li>
+  <li>If you change a block, only that block leaves Online until the Download.</li>
+  <li><b>Controlling a bit</b>: right click on a contact or a coil → «SET TRUE» / «SET FALSE» on M merkers and DB BOOLs. The editor warns if a coil writes it again on the next cycle.</li>
+  <li><b>Changing a value</b>: right click on a box or a comparison → «✎ Edit…», or click on the actual value in the DB page. The value goes in between two scans; if the program writes it, it changes it again.</li>
+  <li>There is no permanent forcing, and inputs, outputs and timers cannot be controlled from Online.</li>
+</ul></div></details>
+
+<details class="g2" id="ed-diagnostica"><summary>Diagnostics</summary><div class="g-body">
+<p>«🩺 Diagnostics» opens a large window. At the top the level: <b>Basic</b> (what you need to use the PLC), <b>Advanced</b> (also the technical settings) and the <b>Debug</b> checkbox (RAM, tasks, Download phases).</p>
+<details class="g3"><summary>PLC state and versions</summary>
+<ul>
+  <li>State, program (code and source), connected editors with their IP, last Download, uptime, chip temperature, VM version, program and file memory.</li>
+  <li>SF panel with the causes and how long they have been present.</li>
+  <li>Versions of chip, firmware, editor, µLink and MiaConfig, hardware fingerprint.</li>
+  <li>Cycle times: last, average, maximum (in Advanced also the maximum of the last hour). «RAM analysis» per task.</li>
+  <li>PLC date and time with «🕑 Set from PC» (also in the DS3231 clock).</li>
+</ul></details>
+<details class="g3"><summary>Hardware, startup, log, program errors</summary>
+<ul>
+  <li><b>Hardware</b>: a dot for each part (Ethernet, WiFi, µLink, clock, I2C and SPI buses, devices): green active, grey configured, yellow or red with a problem.</li>
+  <li><b>PLC startup</b> (Advanced): power-up phases with their times and the startup checks.</li>
+  <li><b>Log</b>: events with date, category and detail; filters, search, «⭱ Export CSV». Size from 512 bytes to 32 KB (more on the P4); «Advanced diagnostics» on for one hour.</li>
+  <li><b>Program errors</b>: where (FC and network), which instruction, how many times, first and last time.</li>
+</ul></details>
+<details class="g3"><summary>PLC settings and network</summary>
+<ul>
+  <li>«Board role»: PLC or «Remote I/O module».</li>
+  <li>«At restart»: «Last state» or «Always RUN»; «Cycle check» (10–1000 ms, factory default 150).</li>
+  <li>µLink, «Module lost»: «Automatic re-arm», «Manual re-arm», «STOP if a module is missing», «STOP on a new fault».</li>
+  <li>Network: PLC name, WiFi (network, password, IP, channel, closing the access point when the router is available), «📶 Connect to the router» with the guided procedure, Ethernet (DHCP or static IP).
+    It warns if the access point still has the factory password. Network settings take effect after a restart: «Restart the PLC» appears.</li>
+</ul></details>
+<details class="g3"><summary>Access</summary>
+<p>Who is logged in (administrator, MiaConfig, recovery), the open sessions, «Log out», «Change administrator password» (closes the other sessions) and the log of the latest logins,
+rejections and requests with a wrong signature.</p></details>
+<details class="g3"><summary>µLink I/O modules</summary>
+<ul>
+  <li>«+ New module», «🔍 Search devices», «Pair», «Re-arm», period and hold time (Advanced), «Save».</li>
+  <li>For each module: state (RUN, locked, re-arm, unreachable, protected…), hardware fingerprint, round trip in µs, lost replies (also «max in a row»), point configuration.</li>
+  <li>«Found on the network»: MAC, chip, role, version, I/O, «Identify» (blinks the LED) and «Pair».</li>
+</ul></details>
+<details class="g3"><summary>Firmware, backup and restore</summary>
+<ul>
+  <li>Connection → «Firmware» → «⭱ Update firmware…»: choose the <code>.miaplc.fw</code>; the editor compares version, board and size, puts the PLC in STOP, writes the firmware into the free slot and only the editor files that changed, restarts, and asks whether to go back to RUN.</li>
+  <li>«🛠 Recovery / first installation…» (USB only, editor from the PC): writes everything from scratch; if the board does not enter on its own, hold BOOT, press and release RESET, release BOOT.</li>
+  <li>«PLC backup»: <code>backup-&lt;name&gt;-&lt;date&gt;.miaplc.bkp</code> with firmware, editor, settings, symbols, program and DB values. «Restore» loads it back like an update.</li>
+  <li>«Delete program» (with the offer to save a copy first).</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-lingue"><summary>Languages and graphics</summary><div class="g-body">
+<details class="g3"><summary>Languages</summary>
+<ul>
+  <li>Italian and English as standard; the first time, the editor picks the browser's language.</li>
+  <li>«Languages…»: exports all the texts to Excel or CSV (interface and project texts), imports them back translated and loads one extra language onto the PLC besides English.</li>
+  <li>Project texts (titles, comments, names) have one column per language: empty = the Italian applies.</li>
+</ul></details>
+<details class="g3"><summary>⚙ Graphics</summary>
+<ul>
+  <li>Sizes of the ladder (contacts, coils, boxes, wires, spacing), of texts and menus, palette width, undo steps, colors and light or dark theme.</li>
+  <li>Up to 5 profiles in the browser (e.g. one for 1366×768 and one for 1920×1080), to export and import as files.</li>
+  <li>The dashed insertion zones can be always visible, only while dragging, or never.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="ed-tasti"><summary>Shortcuts</summary><div class="g-body">
+<table>
+  <tr><th>Keys</th><th>What they do</th></tr>
+  <tr><td>Ctrl+Z, Ctrl+Y (or Ctrl+Shift+Z)</td><td>Undo, redo</td></tr>
+  <tr><td>Ctrl+S</td><td>Save the project to a file</td></tr>
+  <tr><td>Shift+click, Ctrl+C, Ctrl+V</td><td>Select several elements, copy, paste into the zone under the mouse</td></tr>
+  <tr><td>Esc</td><td>Closes menus and windows, cancels an insertion, clears the selection</td></tr>
+  <tr><td>Enter, Ctrl+Enter</td><td>OK in windows and in the title; confirms the network comment</td></tr>
+  <tr><td>A, C, P, N, &gt;, &lt;, =, !</td><td>On the «?» of a branch: NO contact, NC contact, edges, comparison, NOT</td></tr>
+  <tr><td>B, /, S, R, T</td><td>On a «?» output: coil, negated, SET, RESET, TON</td></tr>
+  <tr><td>Double click</td><td>On a call opens the FC; on a window title recenters it</td></tr>
+</table></div></details>
+
+<details class="g2" id="ed-simulatore"><summary>The simulator</summary><div class="g-body">
+<figure class="shot"><img src="../assets/img/simulatore-en.jpg" alt="The simulator with the MOCK PLC panel" loading="lazy"><figcaption>The simulator: inputs and outputs in the panel at the bottom right.</figcaption></figure>
+<ul>
+  <li>«🧪 MOCK PLC» panel at the bottom right (it shrinks with a click on the title and widens by pulling the edge).</li>
+  <li>Inputs I0…I5 (click = switch), outputs Q0…Q3 green when on.</li>
+  <li>«RUN», «STOP», «Reboot» (the RAM is reloaded from flash, merkers are reset, retentive DBs stay), «Error» (an error that stays until you clear it), «Offline», «PLC network», «Reset mock» (deletes everything).</li>
+  <li>«Size» changes the memory of the simulated program (16–128 KB).</li>
+  <li>The VM is the same as the firmware's; the execution time shown is an estimate. No password and no USB in the simulator.</li>
+</ul></div></details>
+
+<details class="g2" id="ed-errori"><summary>Messages and errors</summary><div class="g-body">
+<details class="g3"><summary>Common Compile messages</summary>
+<table>
+  <tr><th>Message</th><th>What to do</th></tr>
+  <tr><td>«empty program: Main has no network»</td><td>Write at least one network in Main.</td></tr>
+  <tr><td>«… elements to configure (yellow glow …)»</td><td>Click on the yellow elements and choose the operand.</td></tr>
+  <tr><td>«incomplete — the final element is missing»</td><td>End the network with a coil, a timer, an FC or a box.</td></tr>
+  <tr><td>«open parallel branch»</td><td>Drag the arrow onto the line or end the branch with a coil.</td></tr>
+  <tr><td>«… is an input, it cannot be written»</td><td>A coil goes on Q, M or a DB field.</td></tr>
+  <tr><td>«different types (…) — use CONV»</td><td>Convert first with CONV.</td></tr>
+  <tr><td>«area MB/MW/… no longer in the PLC»</td><td>Use a DB field (old projects are converted automatically into the Merker DB).</td></tr>
+  <tr><td>«too many nested calls (max 8)», «recursion»</td><td>Reduce the calls nested one inside another; an FC cannot call itself.</td></tr>
+  <tr><td>«… being edited: ✓ Confirm or Cancel before Compile»</td><td>Confirm the module (I/O tables, HMI data…).</td></tr>
+  <tr><td>«the PLC firmware (VM x) does not know …»</td><td>Update the PLC firmware.</td></tr>
+  <tr><td>«program too large for the work memory»</td><td>Reduce the program, turn off WiFi if not needed, or use a P4.</td></tr>
+</table></details>
+<details class="g3"><summary>Errors that stop the PLC (red badge)</summary>
+<table>
+  <tr><th>Error</th><th>Cause</th></tr>
+  <tr><td>«Scan overrun»</td><td>Scan longer than the cycle check (usually a FOR or WHILE loop that is too long).</td></tr>
+  <tr><td>«Array index out of range»</td><td>A computed index went outside the array limits.</td></tr>
+  <tr><td>«Inputs not read again in time»</td><td>The cycle check saw inputs that were not refreshed.</td></tr>
+  <tr><td>«uLink fault»</td><td>I/O module lost or with its configuration changed, with a STOP setting.</td></tr>
+  <tr><td>«I/O tables made for another board»</td><td>Open the I/O tables, then Compile and Download.</td></tr>
+  <tr><td>«Instruction not valid», «Wrong program version»</td><td>Program compiled for a different firmware: update the firmware.</td></tr>
+  <tr><td>«Program too large for the PLC», «Loading from flash failed»</td><td>Do the Download again (full).</td></tr>
+</table></details>
+</div></details>
+</details>
+
+<details class="g1" id="hmi-editor">
+<summary><span class="key-n">MiaHMI editor</span> The operator panel <small>· pages, alarms, charts</small></summary>
+<div class="g-intro">
+<p class="mut small">The HMI editor and the panel are in Italian only for now: labels are quoted as they appear on screen, with the English meaning in brackets.</p>
+<p>The panel is a 10.1" touch screen on an ESP32-P4 board, with Ethernet, an ESP32-C6 WiFi module, microSD and a USB port for a flash drive.
+It shows and controls PLC values. The panel editor is a web page served by the panel itself: you open it in the browser, draw the pages and publish them.</p>
+</div>
+
+<details class="g2" id="hmi-apri"><summary>Opening the editor and connecting the PLC</summary><div class="g-body">
+<details class="g3"><summary>Panel addresses</summary>
+<table>
+  <tr><th>Address</th><th>What it opens</th></tr>
+  <tr><td><code>http://192.168.0.20/editor</code></td><td>The editor (192.168.0.20 is the factory address; MiaConfig can change it).</td></tr>
+  <tr><td><code>http://192.168.0.20/</code></td><td>The web view: the page the panel is showing, operable from the browser.</td></tr>
+  <tr><td><code>http://192.168.0.20/info</code></td><td>Information: RAM, PSRAM, uptime, Ethernet link.</td></tr>
+</table>
+<p>With the MiaConfig https certificate installed on the PC, the addresses switch to https automatically. The ☀/🌙 button next to the title changes the editor theme.</p></details>
+<details class="g3"><summary>Offline editor and PC editor</summary>
+<ul>
+  <li><b>Offline from MiaConfig</b>: right-click on the panel → «Editor del pannello (offline)» [panel editor (offline)]. The variables come from the PLC program of the configuration;
+    «Pubblica sul pannello» (Publish to panel) becomes «Salva nella configurazione» (Save to configuration), and it then goes to the panel with «Carica tutto» [download all].</li>
+  <li><b>PC editor</b>: Settings → «⭳ Scarica l'editor per il PC» (⭳ Download the editor for the PC) saves a single <code>.html</code> file. In Chrome or Edge it talks to the panel over a USB cable («USB» button): it is also used for recovery over USB.</li>
+</ul></details>
+<details class="g3"><summary>HMI Data: what the PLC sends to the panel</summary>
+<ol>
+  <li>In the PLC editor add the «Dati HMI» (HMI Data) module: a table with «Nome» (Name), «Operando» (Operand), «Tipo» (Type), «Scrittura» (Write), «Unità» (Unit), «Minimo» (Minimum), «Massimo» (Maximum), «Decimali» (Decimals).</li>
+  <li>At most 256 items, with unique names. Only merkers (M) and DB fields with «Scrittura» ticked can be written from the panel; minimum and maximum limit the panel keypad.</li>
+  <li>Types: BOOL, BYTE, SINT, INT, WORD, DINT, UDINT, REAL, from the I, Q, M and DB areas.</li>
+  <li>Update from 250 to 1000 ms (default 500 ms). Then Compile and Download.</li>
+</ol>
+<p>The panel reads the list of items from the PLC, then the values over TCP 5050 (the fast chart over UDP 5051). Items are linked by name: if you change the PLC they reconnect by themselves;
+an item that has disappeared shows as «mancante» (missing), with a dashed red frame. With no data for 3 seconds the connection is lost.</p></details>
+<details class="g3"><summary>Connecting the panel to the PLC</summary>
+<ul>
+  <li>Settings → «PLC»: type the IP and «Collega» (Connect), or «Cerca» (Search; list of PLCs with the state of their HMI Data) and «Usa» (Use). «Scarica configurazione» (Download configuration) reloads the items.</li>
+  <li>States: «Collegato · N voci» (Connected · N items), «PLC non raggiungibile» (PLC not reachable), «PLC senza Dati HMI» (PLC without HMI Data), «Dati HMI disattivati sul PLC» (HMI Data disabled on the PLC), «PLC collegato a un altro pannello» (PLC connected to another panel).</li>
+  <li>A PLC accepts only one panel at a time. With the PLC IP empty, the panel works on its own.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="hmi-progetto"><summary>Project, draft and publishing</summary><div class="g-body">
+<ul>
+  <li>The project is a <code>.miahmi</code> file (at most 2 MB on the panel). <b>Active</b> is the one the panel shows, <b>draft</b> is the work in progress.</li>
+  <li>The draft saves itself 2 seconds after every change, on the panel and in the browser (if the network is missing). «Salva bozza» (Save draft) or Ctrl+S saves at once; «Scarta bozza» (Discard draft) goes back to the active project.</li>
+  <li>On opening, if there is unpublished work: a yellow bar with «Carica attivo» (Load active) and «Carica lavoro non salvato» (Load unsaved work).</li>
+  <li>«Pubblica sul pannello» (Publish to panel): the browser compiles the pages and the panel restarts from the start screen with the new project.</li>
+  <li>«Esporta…» (Export…) saves the draft or the active project; «Importa» (Import) puts a file into the draft (it must then be published).</li>
+  <li>Panel without a project: the editor offers the automatic view of the PLC items (20 items per page).</li>
+</ul></div></details>
+
+<details class="g2" id="hmi-finestra"><summary>The editor window</summary><div class="g-body">
+<details class="g3"><summary>Top bar</summary>
+<p>«Pubblica sul pannello» (Publish to panel), «Salva bozza» (Save draft), «Scarta bozza» (Discard draft), «Esporta…» (Export…), «Importa» (Import), undo and redo (up to 200 steps), zoom (from 25 % to 400 %, also Ctrl + wheel) and «Adatta» (Fit),
+the text language «Testi: it-IT» (Texts: it-IT), «Griglia» (Grid) with its step (2–100 px, default 10), «N oggetti fuori pagina» (N objects off the page) when there are any, the status line.</p></details>
+<details class="g3"><summary>Left column: Project and the other tabs</summary>
+<ul>
+  <li>Tabs «Progetto» (Project), «Impostazioni» (Settings), «WiFi», «Flash», «SD», «USB».</li>
+  <li>In «Progetto», the tree: «Pagine» (Pages; ★ = start page, with the number of variables used), «Variabili» (Variables), «Allarmi» (Alarms), «Registrazioni» (Logs), «Testi» (Texts). Icons «Aggiungi» (Add), «Rinomina» (Rename), «Duplica» (Duplicate), «Elimina» (Delete), «Sposta su» (Move up), «Sposta giù» (Move down), «Pagina iniziale» (Start page).</li>
+  <li>Double-click on a page to rename it; right-click for new pages, alarms, logs and text lists.</li>
+</ul></details>
+<details class="g3"><summary>Right column: tools and groups</summary>
+<ul>
+  <li>The tools: «Selezione» (Select); «Linea» (Line), «Rettangolo» (Rectangle), «Cerchio» (Circle), «Testo» (Text), «Immagine» (Image); «Campo valore» (Value field), «Pulsante» (Button), «Lampada» (Lamp), «Barra» (Bar), «Tabella» (Table); «Riga allarmi» (Alarm line), «Tabella allarmi» (Alarm table), «Grafico» (Chart), «Grafico veloce» (Fast chart), «File SD → USB» (SD file → USB).</li>
+  <li>You draw by dragging on the page (one click = default size), or you drag the tool onto the page.</li>
+  <li>«Gruppi» (Groups): 10 layers, from «0 · Base» to «9 · Pulsanti invisibili» (9 · Invisible buttons), with the eye icon to hide them in the editor (on the panel they are all shown).</li>
+</ul></details>
+<details class="g3"><summary>Properties</summary>
+<ul>
+  <li>With nothing selected: name, background and resolution of the page.</li>
+  <li>With one object: name, order (bring to front, forward, backward, send to back), «Elimina» (Delete) and the tabs «Grafica» (Graphics), «Layout», «Testo» (Text), «Dati» (Data), «Eventi» (Events), «Funzioni» (Functions).
+    With several objects only the common properties («—» = different values).</li>
+  <li>Right-click on a tab name: copy and paste all its settings to another object. Right-click on a field: «Valore predefinito» (Default value), «Aggiungi animazione ⚡» (Add animation ⚡).</li>
+</ul></details>
+<details class="g3"><summary>Mouse and keyboard</summary>
+<table>
+  <tr><th>Action</th><th>What it does</th></tr>
+  <tr><td>Click, Shift/Ctrl+click, drag on empty space</td><td>Select, add or remove, selection box</td></tr>
+  <tr><td>Double-click on an object with text</td><td>Type on the page (Enter confirms, Shift+Enter new line, Esc cancels)</td></tr>
+  <tr><td>Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+D</td><td>Copy, cut, paste, duplicate</td></tr>
+  <tr><td>Ctrl+Z, Ctrl+Y</td><td>Undo, redo</td></tr>
+  <tr><td>Ctrl+] / Ctrl+[ (with Shift: all the way to the top / bottom)</td><td>Object order</td></tr>
+  <tr><td>Arrows, Shift+arrows</td><td>Move by 1 px, by one grid step</td></tr>
+  <tr><td>Del, Esc, Ctrl+A, Ctrl+S</td><td>Delete, back to Select, select all, save the draft</td></tr>
+</table></details>
+</div></details>
+
+<details class="g2" id="hmi-pagine"><summary>Pages and resolution</summary><div class="g-body">
+<ul>
+  <li>Each page has a name, a background colour and its objects; all pages have the project resolution. The page with ★ is the first one the panel shows.</li>
+  <li>You move from one page to another with the «Vai a pagina» (Go to page) event on any object, or by writing <code>sys.hmi.pagina</code>.</li>
+  <li>Settings → «Risoluzione» (Resolution): 800 × 480, 1024 × 600, 1280 × 720, <b>1280 × 800 (10" screen, landscape)</b>, 800 × 1280 (portrait) or custom.
+    A new project starts at 1024 × 600: for the 10.1" panel choose 1280 × 800. «Applica» (Apply) can scale all objects proportionally.</li>
+  <li>On the panel the rotation is chosen in Settings → «Rotazione» (Rotation; from the project, portrait, landscape, upside down).</li>
+</ul></div></details>
+
+<details class="g2" id="hmi-oggetti"><summary>The objects</summary><div class="g-body">
+<p>Common properties: rotation, «Visibile» (Visible), «Lampeggio» (Blink; 500 ms on and 500 ms off), group, border (colour, width, solid, dashed, dotted), fill, text (size, colour, bold, alignment).
+In any text <code>${nome voce}</code> shows the value of a variable: type <code>$</code> and choose from the drop-down list.</p>
+<details class="g3"><summary>Shapes, texts and images</summary>
+<table>
+  <tr><th>Object</th><th>What it does</th></tr>
+  <tr><td>Line, Rectangle (with corner radius), Circle</td><td>Drawing. A rectangle or circle with no border and no fill is an invisible touch area.</td></tr>
+  <tr><td>Text</td><td>Multi-line text, also with <code>${…}</code> values.</td></tr>
+  <tr><td>Image</td><td>A file in the panel flash («Carica ridotta…» (Upload reduced…): resized, at most 1 MB) or on the microSD («Carica su SD…» (Upload to SD…): original quality, up to 8 MB and 3000 px per side). Formats png, jpg, gif, bmp, webp, svg.</td></tr>
+</table></details>
+<details class="g3"><summary>Values and commands</summary>
+<table>
+  <tr><th>Object</th><th>What it does</th></tr>
+  <tr><td>Value field</td><td>The value of an item, with decimals, unit and number of characters (if it does not fit: <code>###</code>). BOOL reads as ON/OFF. With a «Lista testi» (Text list) it shows a text for each value. With «Scrittura» (Write) a touch opens the numeric keypad with the item limits.</td></tr>
+  <tr><td>Button</td><td>Goes down when pressed; the actions are chosen in «Eventi» (Events). «Invisibile» (Invisible): it can be touched but is not seen.</td></tr>
+  <tr><td>Lamp</td><td>Circle or square: «Acceso» (On) colour if the item is not 0, «Spento» (Off) otherwise.</td></tr>
+  <tr><td>Bar</td><td>Filled proportionally between «Min» and «Max», upwards or to the right.</td></tr>
+  <tr><td>Table</td><td>List of HMI Data items (name, value, unit) starting from one item; writable rows can be touched to change them.</td></tr>
+</table></details>
+<details class="g3"><summary>Alarms, charts and files</summary>
+<table>
+  <tr><th>Object</th><th>What it does</th></tr>
+  <tr><td>Alarm line</td><td>The most recent active alarm with class colour, date and text; «+n» if there are others; touch to acknowledge.</td></tr>
+  <tr><td>Alarm table</td><td>Current alarms, short history on the panel or long history on the microSD, day by day. Touch a row to be acknowledged to acknowledge it.</td></tr>
+  <tr><td>Chart</td><td>Up to 20 logs, period from one minute to 7 days, two scales, legend, Excel button, zoom lock. See <a href="#hmi-grafici">Logs and charts</a>.</td></tr>
+  <tr><td>Fast chart</td><td>Up to 8 values sampled from 30 ms, to see fast phenomena.</td></tr>
+  <tr><td>SD file → USB</td><td>List of a microSD folder with check boxes to copy the files to the flash drive.</td></tr>
+</table></details>
+<details class="g3"><summary>Events: what happens when you touch</summary>
+<ul>
+  <li>Gestures: «Tocco» (Tap), «Doppio tocco» (Double tap), «Pressione lunga» (Long press), «Premuto» (Pressed), «Rilasciato» (Released).</li>
+  <li>Actions: «Imposta a 1» (Set to 1), «Resetta a 0» (Reset to 0), «Commuta» (Toggle), «Scrivi valore» (Write value), «Vai a pagina» (Go to page), «Esporta storico allarmi» (Export alarm history), «Esporta grafici» (Export charts), «Conferma tutti gli allarmi» (Acknowledge all alarms), «Esci al menu del pannello» (Exit to panel menu).</li>
+  <li>Momentary button: «Premuto» → «Imposta a 1» and «Rilasciato» → «Resetta a 0».</li>
+  <li>Exports go to a USB flash drive or microSD, for a number of days from 0 to 366.</li>
+</ul></details>
+<details class="g3"><summary>Functions: animations ⚡</summary>
+<p>The ⚡ button next to a property links it to an item. Modes: «scala» (scale; e.g. the X of a carriage following a position), «diretto» (direct), «due valori» (two values), «soglie» (thresholds)
+(e.g. the fill colour changing with temperature), «lista di testi» (text list); for check boxes (Visible, Blink, Bold) «se la voce è 1» (if the item is 1; e.g. blinking linked to an alarm bit).</p></details>
+</div></details>
+
+<details class="g2" id="hmi-variabili"><summary>Variables</summary><div class="g-body">
+<ul>
+  <li><b>User</b>: the items of the PLC HMI Data. <b>Sys</b>: panel variables. The «Tabella delle variabili» (Variable table) shows address, write, unit, limits and where they are used (one click takes you to the object).</li>
+  <li>Each item can be given a label, decimals and a <b>scale</b> (e.g. from the mV of an input to engineering units): the panel shows the scaled value and writes the raw one; the scale also applies to alarms and logs.</li>
+</ul>
+<details class="g3"><summary>System variables</summary>
+<table>
+  <tr><th>Variable</th><th>Meaning</th></tr>
+  <tr><td><code>sys.plc.connesso</code>, <code>.stato</code>, <code>.run</code>, <code>.stop</code>, <code>.fault</code>, <code>.ip</code>, <code>.progetto</code>, <code>.ciclo</code>, <code>.ciclo_max</code></td><td>PLC connection and state, cycle time in ms</td></tr>
+  <tr><td><code>sys.plc.cmd.run</code>, <code>sys.plc.cmd.stop</code>, <code>sys.plc.dataora</code></td><td>RUN/STOP commands and PLC time (writable)</td></tr>
+  <tr><td><code>sys.hmi.dataora</code>, <code>.data</code>, <code>.ora</code>, <code>.anno</code> … <code>.secondi</code></td><td>Panel date and time</td></tr>
+  <tr><td><code>sys.hmi.pagina</code>, <code>.pagina_nome</code>, <code>.lingua</code>, <code>.luminosita</code></td><td>Page, language and brightness (writable)</td></tr>
+  <tr><td><code>sys.hmi.lampeggio</code>, <code>.uptime</code>, <code>.ip</code>, <code>.ram</code>, <code>.spazio</code></td><td>Blink, seconds since power-on, IP, free memory and free space</td></tr>
+  <tr><td><code>sys.io.in&lt;GPIO&gt;</code>, <code>sys.io.out&lt;GPIO&gt;</code>, <code>sys.io.ai&lt;GPIO&gt;</code>, <code>sys.io.pwm&lt;GPIO&gt;</code></td><td>Panel board I/O chosen in MiaConfig (inputs read every 20 ms, analog inputs every 100 ms)</td></tr>
+</table></details>
+</div></details>
+
+<details class="g2" id="hmi-allarmi"><summary>Alarms</summary><div class="g-body">
+<ul>
+  <li>«Tabella degli allarmi» (Alarm table): «ID» (fixed number, never reused), «Testo» (Text; also with <code>${voce}</code> and translated), «Variabile» (Variable), «Indirizzo» (Address), «Classe» (Class), current «Stato» (State) on the panel.</li>
+  <li>«Condizione» (Condition): «bit a 1» (bit at 1), «bit a 0» (bit at 0; one bit of an integer item), «sopra max» (above max), «sotto min» (below min), «fuori da min…max» (outside min…max).</li>
+  <li><b>Classes</b>: «Allarme» (Alarm) red, «Avviso» (Warning) orange, «Info» blue, all with acknowledgement; others can be added with their own colour. Acknowledgement can be changed alarm by alarm.</li>
+  <li>«Uscita del pannello» (Panel output): a board output kept on while the alarm is active or not acknowledged (e.g. a siren).</li>
+  <li>Acknowledgement: touch on the alarm line or alarm table, or the «Conferma tutti gli allarmi» (Acknowledge all alarms) event.</li>
+  <li>Short history in RAM (4096 events) and long history on the microSD, one file per day.</li>
+  <li>«Esporta .xlsx» (Export .xlsx), «Esporta .csv» (Export .csv), «Importa» (Import): alarms can also be written in Excel.</li>
+</ul>
+<details class="g3"><summary>System alarms</summary>
+<p>Always present, numbers from 60001: connection to the PLC lost or restored, PLC in STOP, in error or without a program, HMI Data not available, microSD or flash drive not readable,
+panel memory almost full, screen or touch not found, panel powered on or restarted after an error, plant WiFi not reachable, WiFi module not responding.</p></details>
+</div></details>
+
+<details class="g2" id="hmi-grafici"><summary>Logs and charts</summary><div class="g-body">
+<ul>
+  <li>«Tabella delle registrazioni» (Log table): up to 64, each with name, variable, interval («Ogni» (Every), from every PLC update up to 60 minutes) and colour.</li>
+  <li>The panel logs for each Chart object (up to 48) on the microSD: the raw data and the summaries at 10 s, 1 min, 10 min and 1 h with minimum, maximum and average of all values, so a short peak is not lost.
+    Without a microSD only the latest data in RAM are kept.</li>
+  <li>On the panel the chart shows real time; opening the lock lets you zoom and scroll with your finger; «Storico» (History) opens the calendar to view a whole day.</li>
+  <li>The chart's Excel button exports the visible period to CSV (separator <code>;</code>, decimal comma, ready for Excel in Italian) to a flash drive or microSD, in the <code>hmi-export</code> folder.</li>
+  <li><b>Fast chart</b>: up to 8 values every 30–500 ms for at most 15 minutes, started by hand, by a trigger (e.g. value &gt; threshold) or when the page opens; «Salva SD» (Save SD) exports it.</li>
+</ul></div></details>
+
+<details class="g2" id="hmi-lingue"><summary>Languages and text lists</summary><div class="g-body">
+<ul>
+  <li>Up to 8 languages (Settings → «Lingue» (Languages)), one of them the start language. The «Testi: …» (Texts: …) drop-down at the top shows and edits the texts in that language; an empty text uses the one of the first language.</li>
+  <li>On the panel the language changes by writing <code>sys.hmi.lingua</code> (e.g. with a «Scrivi valore» (Write value) button).</li>
+  <li>All texts can be exported to and imported from Excel to have them translated.</li>
+  <li><b>Text lists</b>: value → text (e.g. 0 «Fermo» (Stopped), 1 «Marcia» (Running), 2 «Guasto» (Fault)), with a text for «altri valori» (other values). They are used in the Value field or in an animation.</li>
+</ul></div></details>
+
+<details class="g2" id="hmi-impostazioni"><summary>Settings, WiFi and memories</summary><div class="g-body">
+<details class="g3"><summary>Settings</summary>
+<ul>
+  <li>«PLC», «Data e ora del pannello» (Panel date and time; PC time, from the PLC, to the PLC, manual, time zone), «Risoluzione» (Resolution), «Immagini» (Images), «Lingue» (Languages).</li>
+  <li>«Pannello» (Panel): CPU load, RAM, PSRAM, flash, microSD, flash drive, firmware version, last boot, history.</li>
+  <li>«Firmware» (see below) and «Aspetto dei comandi» (Control appearance; scale, sizes of buttons, icons and screen cells, which can be saved and reloaded).</li>
+</ul></details>
+<details class="g3"><summary>WiFi</summary>
+<ul>
+  <li>«Modalità» (Mode): «spento» (off), «rete dell'impianto» (plant network; the panel connects to a router), «rete del pannello» (panel network; it creates its own network, factory address 192.168.4.1), or plant and, if it does not find it within 20 s, panel network.</li>
+  <li>Panel network: name, password of at least 8 characters, channel, up to 10 devices, DHCP and «Ponte verso il PLC e l'Ethernet» (Bridge to the PLC and Ethernet) to reach the PLC from a tablet.</li>
+  <li>«Aggiorna modulo WiFi…» (Update WiFi module…) with the <code>hmi-c6-wifi.bin</code> file from MiaConfig.</li>
+  <li>The panel Ethernet network (fixed IP) is set by MiaConfig.</li>
+</ul></details>
+<details class="g3"><summary>Flash, SD and USB</summary>
+<ul>
+  <li>«Flash»: the images in the panel, with where they are used; «Elimina immagini non usate» (Delete unused images).</li>
+  <li>«SD»: files and folders on the microSD, upload, rename, «Formatta SD» (Format SD; erases images, charts and history).</li>
+  <li>«USB»: the files on the FAT32 flash drive in the panel port; you can copy and paste between SD and USB.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="hmi-pannello"><summary>On the panel: menu, access and security</summary><div class="g-body">
+<ul>
+  <li>At power-on the menu shows the IP and PLC state, with «Avvia HMI» (Start HMI; starts by itself after 3 seconds), «Impostazioni» (Settings) and «Progetto da USB» (Project from USB).</li>
+  <li>From the project to the menu: <b>hold a finger on the background for 4 seconds</b>, or the «Esci al menu del pannello» (Exit to panel menu) event.</li>
+  <li>Screen settings: backlight, rotation, auto-start, screen off after a time (the first touch wakes it without pressing anything), touch and colour test.</li>
+  <li>Web view: as soon as someone touches the screen, the browser goes read-only for 20 seconds («Pannello in uso — sola lettura» (Panel in use — read only)).</li>
+</ul>
+<details class="g3"><summary>Password access</summary>
+<ul>
+  <li>The editor and web pages ask for the administrator password (same rule as MiaConfig: at least 10 characters, an uppercase letter, a lowercase letter, a number, a special character).</li>
+  <li>New panel: you log in with the recovery password created by MiaConfig (only in the first 10 minutes after power-on) and choose the administrator password.</li>
+  <li>The session expires after 30 minutes without requests and in any case after 12 hours; at most 4 sessions. Login is challenge-based and every request is signed.</li>
+  <li>There is no login on the touch screen: whoever is in front of the panel uses it. Over a USB cable no password is needed (physical access).</li>
+  <li>https with a certificate signed by the authority of the MiaConfig configuration.</li>
+</ul></details>
+</div></details>
+
+<details class="g2" id="hmi-firmware"><summary>Firmware, recovery and project from USB</summary><div class="g-body">
+<ul>
+  <li><b>Updating the firmware</b>: Settings → «Firmware» → «Importa firmware (.miahmi.fw)…» (Import firmware (.miahmi.fw)…) → «Aggiorna firmware e file web» (Update firmware and web files). Project, draft, images and settings are kept.
+    The new firmware is on trial: if the panel stays on for 60 seconds it becomes permanent, otherwise it goes back to the previous one by itself. After 3 serious errors in a row it goes back to the previous firmware.</li>
+  <li><b>Recovery from a flash drive</b>: «Per la chiavetta USB» (For the USB flash drive) saves <code>hmi-recovery.miahmi.fw</code>; copy it to the root folder of a FAT32 flash drive, plug it in and power on the panel. The result is in <code>hmi-recovery.txt</code>.</li>
+  <li><b>Recovery over USB</b> (new panel or firmware that does not start): from the PC editor in Chrome or Edge, «Recupero via USB…» (Recovery over USB…). If it does not enter by itself: hold down BOOT, press and release RESET, release BOOT.</li>
+  <li><b>Project from USB</b>: from the panel menu, it picks a project from the flash drive (the previous one is kept as a backup copy). The panel lists the <code>.json</code> files: an exported <code>.miahmi</code> must be renamed to <code>.json</code>.</li>
+</ul></div></details>
+
+<details class="g2" id="hmi-limiti"><summary>Limits and common problems</summary><div class="g-body">
+<table>
+  <tr><th>What</th><th>Limit</th></tr>
+  <tr><td>HMI Data items</td><td>256</td></tr>
+  <tr><td>Update from the PLC</td><td>250–1000 ms</td></tr>
+  <tr><td>Project</td><td>2 MB</td></tr>
+  <tr><td>Languages</td><td>8</td></tr>
+  <tr><td>Alarms</td><td>1000; short history 4096 events</td></tr>
+  <tr><td>Logs, series per chart, logged charts</td><td>64, 20, 48</td></tr>
+  <tr><td>Fast chart</td><td>8 values, from 30 ms, up to 15 minutes</td></tr>
+  <tr><td>Images</td><td>1 MB in the flash, 8 MB and 3000 px on the microSD</td></tr>
+</table>
+<table>
+  <tr><th>Problem</th><th>What to do</th></tr>
+  <tr><td>Dashed red frame, «voce mancante» (missing item)</td><td>The item is no longer in the PLC HMI Data: fix the PLC or reload with «Scarica configurazione» (Download configuration).</td></tr>
+  <tr><td>«N oggetti fuori pagina» (N objects off the page)</td><td>It happens after a resolution change: the button selects them.</td></tr>
+  <tr><td>«PLC senza Dati HMI» (PLC without HMI Data), «Dati HMI disattivati sul PLC» (HMI Data disabled on the PLC)</td><td>Add or enable the HMI Data module in the PLC, then Compile and Download.</td></tr>
+  <tr><td>«PLC collegato a un altro pannello» (PLC connected to another panel)</td><td>A PLC talks to one panel at a time.</td></tr>
+  <tr><td>«Valore fuori dai limiti» (Value out of limits), «Voce di sola lettura» (Read-only item)</td><td>Check minimum, maximum and «Scrittura» (Write) in the HMI Data.</td></tr>
+</table>
+<p>A complete example is the <a href="belacqua.html">Belacqua</a> panel: 33 pages, 146 alarms, 46 logs.</p>
+</div></details>
+</details>
+</div>
 
 <h2 id="faq">FAQ</h2>
 <h3>Is it a certified PLC?</h3>
 <p>No. MiaPLC is meant for teaching, prototypes and hobby projects. <b>Do not use it for safety functions</b> (emergency stops, guards, protection of people):
-those require certified safety components.</p>
-<h3>Does it need internet?</h3>
-<p>No. The PLC and its editor work on the local network. MiaConfig needs internet only the first time, to download the build tools.</p>
+those need certified safety components, wired independently of the PLC.</p>
+<h3>Do I need internet?</h3>
+<p>No. The PLC and its editor work on the local network. MiaConfig needs internet to download the build tools and the firmware sources, and the PLC needs it only if you want the time from the internet.</p>
+<h3>I forgot the administrator password.</h3>
+<p>Switch the board off and on again. In the first 10 minutes, log in with the recovery password (in MiaConfig, «Accesso alle schede…» (Board access…)) and choose a new password. Over the USB cable no password is needed.</p>
+<h3>I can't find the PLC on the network anymore.</h3>
+<p>Power it on 3 times in a row, switching it off each time within 10 seconds: the factory network comes back (Ethernet 192.168.0.10, access point 10.10.10.1). Or connect via USB.
+In MiaConfig, the device search finds the board even if it is on a different network.</p>
+<h3>Values are lost when I power off.</h3>
+<p>Only retentive DBs are kept; they are saved at every STOP, at every restart from the editor and with the power-failure input. Merkers M are always cleared: for values you want to keep, use a retentive DB.</p>
+<h3>The PLC went to STOP by itself.</h3>
+<p>Check the log in Diagnostics. Typical causes: a scan longer than the cycle watchdog, an array index out of range, a lost µLink module with a STOP setting,
+I/O tables from a different board, a restart after a serious firmware error.</p>
+<h3>Can I Download with the PLC in RUN?</h3>
+<p>Yes, if only some blocks change: they are swapped between two scans. If there is not enough memory, the editor asks for STOP and a full Download.</p>
+<h3>Why doesn't the program fit with WiFi on?</h3>
+<p>WiFi uses a lot of RAM: the program's work memory drops to 12 KB. If you can, use Ethernet, or an ESP32-P4.</p>
+<h3>Does the PLC have a RUN/STOP switch?</h3>
+<p>No. RUN and STOP come from the editor (or from the panel). At power-on, the setting «ultimo stato» (last state) or «sempre RUN» (always RUN) applies.</p>
+<h3>How many µLink modules can I connect?</h3>
+<p>Up to 8 (64 on the P4), on the Ethernet cable in the same network: through switches yes, through routers and WiFi no.</p>
+<h3>The new firmware does not start: do I lose everything?</h3>
+<p>No. It goes into the free half of the flash and becomes the boot firmware only if it is intact. After 3 serious errors in a row the last good settings come back; after 3 more, the previous firmware.</p>
+<h3>Can I read and write the data from another program?</h3>
+<p>Yes: with data exposure in JSON (with login) or with Modbus TCP on port 502 (no password: only on a protected network).</p>
+<h3>Can FCs in ST or C call other FCs or use timers?</h3>
+<p>No: they have assignments, conditions, loops and expressions. Calls, timers and counters are done in ladder.</p>
+<h3>Can I use an Arduino as an I/O module?</h3>
+<p>Yes, an Arduino Uno with a W5100 or W5500 shield and the MiauLink library, up to 14 digital and 6 analog points. The sketch has not yet been tested on a board.</p>
 <h3>How much does it cost?</h3>
-<p>The software is free. The hardware is an ESP32 board: from a few euros for a C3 module up to boards with Ethernet and relays already fitted.</p>
-<h3>What licence is it under?</h3>
-<p>Firmware, editor and tools are free software under the GPL-3.0 licence; the µLink library (MiauLink) is under the LGPL-3.0, so it can also be used in firmware with another licence. Current status: <strong>private repositories, release in progress</strong>.</p>
-<h3>Does what I learn here apply to industrial PLCs?</h3>
-<p>Yes, in the concepts: scan cycle, ladder, networks, functions with interfaces, data blocks, IEC data types, Online view. Every brand has its own environment and details,
-but once you've got these basics you find your way quickly.</p>
+<p>The software is free. The hardware is that of an ESP32 board: from a few euros for a C3 module up to boards with Ethernet and relays already fitted.</p>
+<h3>What license does it have?</h3>
+<p>Firmware, editor, MiaConfig and the panel firmware are free software under the GPL-3.0 license; the µLink library (MiauLink) has the LGPL-3.0 license, so it can also be used in firmware with a different license.
+Current status: <strong>private repositories, being prepared for release</strong>.</p>
+<h3>Does what I learn here also apply to industrial PLCs?</h3>
+<p>Yes, in the concepts: scan, ladder, networks, functions with interfaces, data blocks, IEC types, Online. Each brand then has its own environment and its own details,
+but once you understand these basics you find your way quickly.</p>
 </article>
 </div>
+<script src="../assets/js/wiki.js" defer></script>
 
 </main>
 <footer><div class="wrap">
