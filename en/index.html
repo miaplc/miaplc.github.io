@@ -213,8 +213,8 @@
     <p class="mut">The latest change in each part of MiaPLC, updated automatically at every release.</p></div>
   <div class="tblwrap"><table class="agg"><thead><tr><th>Component</th><th>Version</th><th>Date</th><th>What changed <small>(notes in Italian)</small></th></tr></thead><tbody>
 <tr><td><b>MiaPLC editor</b><small>PLC web editor (ladder, FCs, Online, diagnostics)</small></td><td class="v">4.9.41</td><td class="d">10 Nov 2026</td><td lang="it">Download: il primo pezzo aspetta fino a 90 s (il PLC prima pulisce lo spazio dei file, che pieno e sporco può chiedere decine di secondi) e…</td></tr>
-<tr><td><b>MiaPLC firmware</b><small>PLC firmware (ESP-IDF)</small></td><td class="v">0.3.87</td><td class="d">10 Nov 2026</td><td lang="it">Riavvio da rete (POST /api/plc/reboot, PLC e moduli): la scheda riparte 500 ms dopo, da un timer, fuori dal gestore</td></tr>
-<tr><td><b>MiaConfig</b><small>configurator and firmware builder</small></td><td class="v">0.1.134</td><td class="d">10 Nov 2026</td><td lang="it">«Carica tutto» (e il suo «Carica via USB») fa gli stessi controlli della pagina del dispositivo: con un errore grave non compila e non…</td></tr>
+<tr><td><b>MiaPLC firmware</b><small>PLC firmware (ESP-IDF)</small></td><td class="v">0.3.89</td><td class="d">10 Nov 2026</td><td lang="it">Spazio dei file su LittleFS al posto della SPIFFS (stessa partizione «spiffs» da 824 KB, stesso punto di montaggio, niente USB)</td></tr>
+<tr><td><b>MiaConfig</b><small>configurator and firmware builder</small></td><td class="v">0.1.135</td><td class="d">10 Nov 2026</td><td lang="it">Spazio dei file del PLC su LittleFS (MiaPlc-idf 0.3.89): l&#x27;immagine dei file dell&#x27;editor per il caricamento via USB (file-editor.bin, anche…</td></tr>
 <tr><td><b>MiaHMI firmware</b><small>touch HMI panel firmware</small></td><td class="v">0.1.25.0</td><td class="d">9 Nov 2026</td><td lang="it">«Rete per MAC» di MiaConfig (UDP UPLC!NET): le password WiFi arrivano cifrate (pass_c, appass_c, AES-128-CTR con HMAC(V, &quot;cifra\n&quot; ns), V =…</td></tr>
 <tr><td><b>µLink</b><small>remote I/O modules</small></td><td class="v">0.4.2</td><td class="d">9 Nov 2026</td><td lang="it">Arduino: il numero casuale delle connessioni (nm) dal rumore di un ingresso analogico libero (l&#x27;ultimo non usato dallo sketch), dal tempo…</td></tr>
 <tr><td><b>MiaExamples</b><small>example projects (Belacqua…)</small></td><td class="v">0.3.3.5</td><td class="d">9 Nov 2026</td><td lang="it">tools/screens_mc.py: anche mc-belacqua (MiaConfig con la configurazione di Belacqua, i quattro dispositivi e il PLC con µLink), per la…</td></tr>
@@ -229,7 +229,7 @@
     <p>Are you a teacher who'd like to try MiaPLC in the lab? Do you have a project and want to know if it fits?
       Want to help out, report a problem or suggest an idea? Write to me.</p>
     <div class="btns"><a class="btn pri" href="mailto:info@miaplc.it">✉ info@miaplc.it</a>
-      <span class="btn wip" aria-disabled="true" title="Repositories still private: public code at the end of 2026">GitHub <small>🚧 end of 2026</small></span>
+      <span class="btn wip" aria-disabled="true" title="Repositories still private: public code in early 2027">GitHub <small>🚧 early 2027</small></span>
       <a class="btn" href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a>
       <a class="btn" href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a>
       <a class="btn" href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></div>
@@ -237,7 +237,7 @@
   <div class="cards" style="grid-template-columns:1fr">
     <div class="card"><h3>Schools</h3><p>Available for teaching pilots and to help prepare exercises that match the course syllabus.</p></div>
     <div class="card"><h3>Source code</h3><p>Firmware, editor and configurator are free software (GPL-3.0), under the <a href="https://github.com/miaplc" rel="noopener">miaplc</a> organisation on GitHub.
-      Current status: <strong>private repositories</strong>. Code and downloads will be published at the end of 2026.</p></div>
+      Current status: <strong>private repositories</strong>. Code and downloads will be published in early 2027.</p></div>
   </div>
 </div></section>
 
@@ -253,7 +253,7 @@
       <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
     <div><h4>Contact</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
-      <li>🚧 GitHub (code public at the end of 2026)</li>
+      <li>🚧 GitHub (code public in early 2027)</li>
       <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
       <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
