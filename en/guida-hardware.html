@@ -26,7 +26,7 @@
 <header class="top"><div class="wrap">
   <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
   <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
-  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Examples</a><a href="prestazioni.html">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../guida-hardware.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html" class="on">Examples</a><a href="prestazioni.html">Performance</a><a href="galleria.html">Gallery</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../guida-hardware.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
 </div></header>
 <div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
 <main>
@@ -34,8 +34,10 @@
   <div class="sec-h" style="max-width:860px">
     <span class="kick">Manual</span>
     <h1>The examples on a real board, <span>with MiaConfig</span></h1>
-    <p class="lead">Prepare the firmware for a cheap ESP32, wire buttons and LEDs on a breadboard and load the same examples as in the
-      simulator. One configuration works for Motor start / stop, Traffic light and the relay song.</p>
+    <p class="lead">Take an ESP32 that costs a few euros, wire buttons and LEDs on a breadboard and load the same examples as in the simulator.
+      One configuration works for Motor start / stop, Traffic light and the relay song.</p>
+    <p>The <b>firmware</b> is the software that runs on the board and turns it into a PLC. <b>MiaConfig</b> is the PC program that prepares and loads it.
+      This is the advanced road, for those starting from any development board: no MiaPLC board with the firmware already inside is in circulation yet.</p>
   </div>
 </div></section>
 
@@ -71,14 +73,14 @@
   <tr><td>3 push buttons and 3 × 10 kΩ resistors</td><td>Start / Enable, Stop, Overload</td></tr>
   <tr><td>3 LEDs (green, yellow, red) and 3 × 330 Ω resistors</td><td>Motor / Green, Lamp / Yellow, Alarm / Red</td></tr>
   <tr><td>Optional: 2-channel relay module with 3.3 V input</td><td>to hear the relay song click</td></tr>
-  <tr><td>Windows, Linux or macOS PC with Python 3.10 or newer</td><td>the first build downloads about 1 GB (ESP-IDF and compilers)</td></tr>
+  <tr><td>Windows, Linux or macOS PC with Python 3.10 or newer</td><td>the first build downloads about 1 GB (ESP-IDF, Espressif's build tools)</td></tr>
 </table>
 <p>To skip steps 2 to 6, download the ready-made project <a href="../esempi/esp32-devkit-esempi.mia" download>esp32-devkit-esempi.mia</a>
 and open it in MiaConfig with <kbd>Apri progetto</kbd> (open project).</p>
 
 <h2 id="h1">1 · Start MiaConfig</h2>
 <p><!-- da rimettere quando i repo sono pubblici e c'è il pacchetto di MiaConfig: Download MiaConfig from <a href="https://github.com/miaplc" rel="noopener">github.com/miaplc</a> and unpack it into a folder. -->
-<b>MiaConfig downloads will be available soon.</b>
+<span class="st-wip">🚧 coming</span> <b>MiaConfig downloads are not available yet: they arrive in early 2027, together with the code on GitHub.</b>
 On Windows double click <code>avvia.bat</code>: the first time it prepares its own Python (internet needed), then opens the window.
 On Linux and macOS follow the README. Nothing is installed in the system: everything stays in its folder.</p>
 
@@ -88,9 +90,11 @@ On Linux and macOS follow the README. Nothing is installed in the system: everyt
 <figure class="shot" style="max-width:480px"><img src="../assets/img/mc-nuovo-en.jpg" alt="MiaConfig, new project: PLC, ESP32 classic family, WROOM-32E module" loading="lazy"></figure>
 <p>The project already has the serial port for the editor (GPIO 1 and 3), WiFi, digital inputs and outputs. On the left the list of modules,
 in the middle the chip with its pins, on the right the settings of the chosen module.</p>
+<p>If MiaConfig asks for the <b>administrator password</b>, choose one: at least 10 characters, with an uppercase letter, a lowercase letter, a number and a special character.
+You will need it to log in to the board's editor. MiaConfig creates the board's other passwords by itself.</p>
 
 <h2 id="h3">3 · Digital inputs</h2>
-<p>Click <b>Ingressi digitali</b> (digital inputs) on the left and set <b>Ingressi</b> = <code>3</code>. MiaConfig picks free, suitable pins by itself:
+<p>Click <b>Ingressi digitali</b> (digital inputs) on the left and set <b>Ingressi</b> = <code>3</code>. MiaConfig picks free, suitable pins (GPIO, the chip's pins) by itself:
 <code>I0</code> → GPIO34, <code>I1</code> → GPIO35, <code>I2</code> → GPIO36. In the <b>Commento</b> (comment) column write what they are for:
 you will find them in the pinout and in the editor's point table.</p>
 <figure class="shot"><img src="../assets/img/mc-ingressi-en.jpg" alt="MiaConfig, ESP32 pinout with three digital inputs on GPIO34, 35 and 36" loading="lazy">
@@ -102,11 +106,11 @@ you will find them in the pinout and in the editor's point table.</p>
 <figure class="shot"><img src="../assets/img/mc-uscite-en.jpg" alt="MiaConfig, three digital outputs on GPIO16, 17 and 18" loading="lazy"></figure>
 
 <h2 id="h5">5 · WiFi</h2>
-<p>With WiFi the board is an access point: the PC connects straight to it, no router needed. Keep the defaults or change the password.</p>
+<p>With WiFi the board creates its own network (it acts as an access point): the PC connects straight to it, no router needed. Keep the defaults.</p>
 <table>
   <tr><th>Setting</th><th>Default</th></tr>
   <tr><td>Nome rete (network name)</td><td><code>miaplc-XXXX</code> (the last digits come from the chip)</td></tr>
-  <tr><td>Password</td><td><code>miaplc1234</code></td></tr>
+  <tr><td>Password</td><td>random and different for every board: MiaConfig creates it. You see it in «Accesso alle schede…» (Board access…) → «Mostra» (Show), WPA2 access point column</td></tr>
   <tr><td>PLC IP</td><td><code>10.10.10.1</code></td></tr>
 </table>
 <figure class="shot"><img src="../assets/img/mc-wifi-en.jpg" alt="MiaConfig, WiFi settings: the PLC access point" loading="lazy"></figure>
@@ -155,8 +159,9 @@ Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.m
 <h2 id="h9">9 · Open the board's editor</h2>
 <ol>
   <li>Plug the USB cable back in (or a USB power supply): the board starts.</li>
-  <li>From the PC connect to the WiFi network <code>miaplc-XXXX</code> with the password <code>miaplc1234</code>.</li>
+  <li>From the PC connect to the WiFi network <code>miaplc-XXXX</code> with the board's WPA2 password (in MiaConfig: «Accesso alle schede…» (Board access…) → «Mostra» (Show)).</li>
   <li>In the browser open <code>http://10.10.10.1</code>: it is the same editor as the simulator, but now it talks to the real board.</li>
+  <li>Log in with the administrator password you chose in MiaConfig.</li>
 </ol>
 <p>Open <b>🩺 Diagnostics</b> to check everything is fine: PLC status, versions, event log and cycle times.</p>
 <figure class="shot"><img src="../assets/img/diag-en.jpg" alt="PLC diagnostics at Advanced level with RUN status, versions, cycle times and log" loading="lazy"></figure>

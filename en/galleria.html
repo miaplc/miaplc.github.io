@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gallery — MiaPLC</title>
+<meta name="description" content="Photos from the MiaPLC test bench: the boards, what they do and the most important tests run on them.">
+<meta property="og:title" content="Gallery — MiaPLC">
+<meta property="og:description" content="Photos from the MiaPLC test bench: the boards, what they do and the most important tests run on them.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/en/galleria.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/galleria.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/galleria.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/galleria.html">
+<link rel="canonical" href="https://www.miaplc.it/en/galleria.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../galleria.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/style.css?v=dc035142">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html">Examples</a><a href="prestazioni.html">Performance</a><a href="galleria.html" class="on">Gallery</a><a href="index.html#contatti">Contact</a><a class="cta" href="provami.html">▶ Try it</a><a class="lang" href="../galleria.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Website under construction: some sections are still incomplete. We apologise for the inconvenience.</div>
+<main>
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Gallery</span><h1>From the test bench</h1>
+    <p class="mut">Photos of the real boards MiaPLC is tested on every day. For each photo: what you see and which tests we ran on it.
+      These are lab prototypes: no MiaPLC board is in circulation yet.</p></div>
+
+  <figure class="shot" style="margin:30px 0 0"><a href="../assets/img/galleria/banco-belacqua.jpg" target="_blank" rel="noopener">
+    <img src="../assets/img/galleria/banco-belacqua-800.jpg" srcset="../assets/img/galleria/banco-belacqua-800.jpg 800w, ../assets/img/galleria/banco-belacqua.jpg 1620w"
+      sizes="(max-width: 1100px) 100vw, 1100px" alt="Test bench: ESP32 boards wired to a switch, a touch panel and a PC running MiaConfig" loading="lazy"></a>
+    <figcaption>The Belacqua bench: a PLC, the I/O modules, the touch panel and the PC, all on the same Ethernet network. Tap the photo to enlarge it.</figcaption></figure>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>What you see</h2>
+  <p>It is the plant of the <a href="belacqua.html">Belacqua</a> example (the sturgeon farm), built on a table instead of in an electrical cabinet.
+    Each board has a job, as in a real plant:</p>
+  <ul class="feat">
+    <li><b>The PLC</b> (ESP32 with LAN8710A Ethernet): runs the farm's ladder program</li>
+    <li><b>The I/O modules</b> (ESP32-WROOM, ESP32-C3 with W5100 Ethernet, ESP32-S3): read sensors, drive outputs and talk to the PLC over µLink</li>
+    <li><b>The touch panel</b> (ESP32-P4, bottom right): shows the 20 tanks, the alarms and the trends</li>
+    <li><b>The network switch</b> (top): a dedicated network with no other traffic, as in real plants</li>
+    <li><b>The PC with MiaConfig</b> (bottom left): finds every board on the network by itself, with name, firmware and RUN / STOP state</li>
+  </ul>
+  <p class="note" style="margin-top:18px">Different boards on purpose: if the program runs well on a small ESP32 and on a cheap C3, it runs well on the bigger boards too.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>The most important tests run here</h2>
+  <div class="stats">
+    <div class="stat"><b>0.92 ms</b><span>to run 1000 ladder networks on the ESP32: the program repeats more than 1000 times a second</span></div>
+    <div class="stat"><b>~3 ms</b><span>one pass of the real Belacqua program (369 networks) with the PLC in RUN, never over time</span></div>
+    <div class="stat"><b>50 of 50</b><span>security tests passed on 6 boards: passwords, signatures, forbidden access refused</span></div>
+    <div class="stat"><b>~1.1 ms</b><span>round trip between the PLC and a module, with every message signed</span></div>
+  </div>
+  <ol style="margin-top:28px">
+    <li><b>PLC speed.</b> Programs from 1 to 1000 networks, timed by the PLC itself. The full numbers are on the <a href="prestazioni.html">Performance</a> page.</li>
+    <li><b>A complete plant in RUN.</b> The Belacqua program runs without overrunning its cycle time, even while the PC downloads programs or watches Online.</li>
+    <li><b>Security.</b> Every board has its own password; firmware and program are accepted only when signed with the project key. The bench boards passed 50 tests out of 50 (9–10 November 2026), the panel 12 out of 12.</li>
+    <li><b>Signed µLink.</b> PLC and modules exchange inputs and outputs every 5 ms with every message signed: less than 1 message lost in 900 on the Ethernet boards, and the PLC never overran its cycle.</li>
+    <li><b>What HTTPS costs.</b> An encrypted connection needs 35–40 KB of RAM at the worst moment: too much for an ESP32 without external memory (PSRAM). That is why HTTPS will come as standard on boards with PSRAM, starting with the P4.</li>
+  </ol>
+
+  <details class="geek" style="margin-top:30px"><summary>The details, for those who already work with PLCs</summary>
+    <ul>
+      <li>Network: dedicated switch, PLC at 192.168.0.21, µLink modules over Ethernet (EtherType 0x88B5, layer 2 only), panel connected to the PLC on TCP 5050.</li>
+      <li>Belacqua cycle (~74 % load): mean scan 2.93 ms, mean period 3.96 ms, 0 overruns even with 10 TLS handshakes of 48 KB during RUN.</li>
+      <li>µLink protocol 2 with CMAC signatures at 5 ms: 0.007–0.11 % lost replies on the EVBs, round trip 1.06 ms (about 0.42 ms is signing and checking). On the C3 and S3 at 5 ms, 1–7 % of replies arrive late (3.2–3.8 ms): a longer period suits them better.</li>
+      <li>TLS 1.2 with ECDSA P-256 on ESP32 without PSRAM: handshake ~0.7 s, cost 35–40 KB of RAM, flash +119 KB. Two connections at once do not fit.</li>
+      <li>What is still to do, said plainly: during a Download the µLink exchange pauses briefly (up to 0.8 s), the network attack tests are still to be run, and automatic rollback to the previous firmware is not on the PLC yet.</li>
+    </ul>
+  </details>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="../assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
+    </div>
+    <div><h4>Project</h4><ul>
+      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li>🚧 GitHub (code public in early 2027)</li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
+    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
+    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+</div></footer>
+<script src="../assets/js/lightbox.js?v=ff57e3d0" defer></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Galleria — MiaPLC</title>
+<meta name="description" content="Foto dal banco di prova di MiaPLC: le schede, cosa fanno e le prove più importanti fatte su di loro.">
+<meta property="og:title" content="Galleria — MiaPLC">
+<meta property="og:description" content="Foto dal banco di prova di MiaPLC: le schede, cosa fanno e le prove più importanti fatte su di loro.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/galleria.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MiaPLC">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/galleria.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/galleria.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/galleria.html">
+<link rel="canonical" href="https://www.miaplc.it/galleria.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/galleria.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=dc035142">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="galleria.html" class="on">Galleria</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/galleria.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
+<main>
+<section><div class="wrap">
+  <div class="sec-h"><span class="tag">Galleria</span><h1>Dal banco di prova</h1>
+    <p class="mut">Le foto delle schede vere su cui MiaPLC viene provato ogni giorno. Per ogni foto: cosa si vede e quali prove ci abbiamo fatto.
+      Sono prototipi da laboratorio: nessuna scheda MiaPLC è ancora in circolazione.</p></div>
+
+  <figure class="shot" style="margin:30px 0 0"><a href="assets/img/galleria/banco-belacqua.jpg" target="_blank" rel="noopener">
+    <img src="assets/img/galleria/banco-belacqua-800.jpg" srcset="assets/img/galleria/banco-belacqua-800.jpg 800w, assets/img/galleria/banco-belacqua.jpg 1620w"
+      sizes="(max-width: 1100px) 100vw, 1100px" alt="Banco di prova: schede ESP32 collegate a uno switch, pannello touch e PC con MiaConfig" loading="lazy"></a>
+    <figcaption>Il banco di Belacqua: un PLC, i moduli di ingressi e uscite, il pannello touch e il PC, tutti sulla stessa rete Ethernet. Tocca la foto per ingrandirla.</figcaption></figure>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>Cosa si vede</h2>
+  <p>È l'impianto dell'esempio <a href="belacqua.html">Belacqua</a> (l'allevamento di storioni), montato sul tavolo invece che in un quadro elettrico.
+    Ogni scheda ha un compito, come in un impianto vero:</p>
+  <ul class="feat">
+    <li><b>Il PLC</b> (ESP32 con Ethernet LAN8710A): fa girare il programma ladder dell'allevamento</li>
+    <li><b>I moduli di ingressi e uscite</b> (ESP32-WROOM, ESP32-C3 con Ethernet W5100, ESP32-S3): leggono sensori e comandano le uscite e parlano col PLC via µLink</li>
+    <li><b>Il pannello touch</b> (ESP32-P4, in basso a destra): mostra le 20 vasche, gli allarmi e i grafici</li>
+    <li><b>Lo switch di rete</b> (in alto): una rete dedicata, senza altro traffico, come si fa negli impianti</li>
+    <li><b>Il PC con MiaConfig</b> (in basso a sinistra): trova da solo tutte le schede sulla rete, con nome, firmware e stato RUN / STOP</li>
+  </ul>
+  <p class="note" style="margin-top:18px">Schede diverse apposta: se il programma gira bene su un ESP32 piccolo e su un C3 economico, gira bene anche sulle schede più grandi.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Le prove più importanti fatte qui</h2>
+  <div class="stats">
+    <div class="stat"><b>0,92 ms</b><span>per far girare 1000 network ladder sull'ESP32: il programma si ripete più di 1000 volte al secondo</span></div>
+    <div class="stat"><b>~3 ms</b><span>il giro del programma vero di Belacqua (369 network) col PLC in RUN, senza mai sforare il tempo</span></div>
+    <div class="stat"><b>50 su 50</b><span>prove di sicurezza superate su 6 schede: password, firme, accessi non permessi rifiutati</span></div>
+    <div class="stat"><b>~1,1 ms</b><span>andata e ritorno fra PLC e un modulo, con ogni messaggio firmato</span></div>
+  </div>
+  <ol style="margin-top:28px">
+    <li><b>Velocità del PLC.</b> Programmi da 1 a 1000 network, cronometrati dal PLC stesso. I numeri completi sono nella pagina <a href="prestazioni.html">Prestazioni</a>.</li>
+    <li><b>Un impianto completo in RUN.</b> Il programma di Belacqua gira senza sforare il tempo ciclo, anche mentre il PC scarica programmi o guarda l'Online.</li>
+    <li><b>Sicurezza.</b> Ogni scheda ha la sua password; il firmware e il programma vengono accettati solo se firmati con la chiave del progetto. Le schede del banco hanno superato 50 prove su 50 (09–10 novembre 2026), il pannello 12 su 12.</li>
+    <li><b>µLink firmato.</b> PLC e moduli si scambiano gli ingressi e le uscite ogni 5 ms con ogni messaggio firmato: meno di 1 messaggio perso su 900 sulle schede con Ethernet, e il PLC non ha mai sforato il tempo.</li>
+    <li><b>Quanto costa l'HTTPS.</b> Una connessione cifrata chiede 35–40 KB di RAM nel momento peggiore: sull'ESP32 senza memoria esterna (PSRAM) è troppo. Per questo l'HTTPS sarà di serie sulle schede con PSRAM, a partire dal P4.</li>
+  </ol>
+
+  <details class="geek" style="margin-top:30px"><summary>I dettagli per chi lavora già con i PLC</summary>
+    <ul>
+      <li>Rete: switch dedicato, PLC 192.168.0.21, moduli µLink su Ethernet (EtherType 0x88B5, solo livello 2), pannello collegato al PLC su TCP 5050.</li>
+      <li>Ciclo di Belacqua (carico ~74 %): scansione media 2,93 ms, periodo medio 3,96 ms, 0 overrun anche con 10 strette di mano TLS da 48 KB durante il RUN.</li>
+      <li>µLink protocollo 2 con firma CMAC a 5 ms: 0,007–0,11 % di risposte perse sulle EVB, andata e ritorno 1,06 ms (circa 0,42 ms sono firme e controlli). Sul C3 e sull'S3 a 5 ms l'1–7 % delle risposte arriva in ritardo (3,2–3,8 ms): per loro conviene un periodo più lungo.</li>
+      <li>TLS 1.2 con ECDSA P-256 su ESP32 senza PSRAM: stretta di mano ~0,7 s, costo 35–40 KB di RAM, flash +119 KB. Due connessioni insieme non ci stanno.</li>
+      <li>Cosa resta da fare, scritto senza giri di parole: durante un Download lo scambio µLink si ferma per un momento (fino a 0,8 s), le prove contro gli attacchi in rete vanno ancora fatte, il ritorno automatico al firmware precedente sul PLC non c'è ancora.</li>
+    </ul>
+  </details>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li>🚧 GitHub (codice pubblico a inizio 2027)</li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
+    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+<script src="assets/js/lightbox.js?v=ff57e3d0" defer></script>
+</body>
+</html>
