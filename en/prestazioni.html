@@ -222,10 +222,11 @@
       <tr><td>Signing a µLink message, outgoing / incoming</td><td>55 / 68 µs · 84 / 105 µs · ~27 / ~34 µs</td><td>ESP32-C3 · ESP32-S3 · ESP32-P4</td></tr>
       <tr><td>Signatures and checks in one PLC ↔ module round</td><td>~0.42 ms</td><td>ESP32: most of the 1.1 ms round trip</td></tr>
       <tr><td>Signed µLink during 10 HTTPS handshakes</td><td>0.016–0.022 % lost replies, cycle without overruns</td><td>ESP32, free RAM down to 32 KB</td></tr>
-      <tr><td>HTTPS together with editor Online and Download</td><td>free RAM down to 20 KB, PLC restart</td><td>ESP32 without PSRAM, test firmware</td></tr>
+      <tr><td>HTTPS together with editor Online and Download</td><td>free RAM down to 18–20 KB, no cycle overrun</td><td>ESP32 without PSRAM, test firmware</td></tr>
     </table>
     <p class="small mut">TLS runs on the other core and slows down neither the cycle nor µLink: the limit is RAM. On 10 November, with a test
-      HTTPS connection, the editor Online and a Download together, the ESP32 PLC went down to 20 KB free and restarted. On the ESP32 without PSRAM, in RUN, about 72 KB are left:
+      HTTPS connection, the editor Online and a Download together, the ESP32 PLC went down to 18–20 KB free. (A restart seen in that test
+      did not depend on TLS: it was a firmware bug between the panel and the Download, fixed in 0.3.96.) On the ESP32 without PSRAM, in RUN, about 72 KB are left:
       one HTTPS connection would leave 16–20, and the browser opens more than one. That is why boards without PSRAM use HTTP with
       login and signed requests (integrity, no encryption) and must stay on an isolated network; HTTPS is on the boards with PSRAM:
       already on the P4 panel, being prepared on the P4 PLC.</p>

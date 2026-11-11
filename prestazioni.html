@@ -222,10 +222,11 @@
       <tr><td>Firma di un messaggio µLink, in uscita / in entrata</td><td>55 / 68 µs · 84 / 105 µs · ~27 / ~34 µs</td><td>ESP32-C3 · ESP32-S3 · ESP32-P4</td></tr>
       <tr><td>Firme e controlli in un giro PLC ↔ modulo</td><td>~0,42 ms</td><td>ESP32: gran parte dell'andata e ritorno di 1,1 ms</td></tr>
       <tr><td>µLink firmato durante 10 strette di mano HTTPS</td><td>0,016–0,022 % di risposte perse, ciclo senza superamenti</td><td>ESP32, RAM libera fino a 32 KB</td></tr>
-      <tr><td>HTTPS insieme a editor Online e Download</td><td>RAM libera fino a 20 KB, riavvio del PLC</td><td>ESP32 senza PSRAM, firmware di prova</td></tr>
+      <tr><td>HTTPS insieme a editor Online e Download</td><td>RAM libera fino a 18–20 KB, nessun superamento del ciclo</td><td>ESP32 senza PSRAM, firmware di prova</td></tr>
     </table>
     <p class="small mut">La TLS gira sull'altro core e non rallenta il ciclo né µLink: il limite è la RAM. Il 10 novembre, con una connessione
-      HTTPS di prova, l'editor Online e un Download insieme, il PLC ESP32 è sceso a 20 KB liberi e si è riavviato. Sull'ESP32 senza PSRAM, in RUN, restano circa 72 KB:
+      HTTPS di prova, l'editor Online e un Download insieme, il PLC ESP32 è sceso a 18–20 KB liberi. (Un riavvio visto in quella prova
+      non dipendeva dalla TLS: era un errore del firmware fra pannello e Download, corretto nella 0.3.96.) Sull'ESP32 senza PSRAM, in RUN, restano circa 72 KB:
       una connessione HTTPS ne lascerebbe 16–20, e il browser ne apre più di una. Per questo le schede senza PSRAM usano HTTP con
       login e richieste firmate (integrità, senza cifratura) e vanno tenute in una rete isolata; HTTPS è sulle schede con PSRAM:
       già sul pannello P4, in preparazione sul PLC P4.</p>
