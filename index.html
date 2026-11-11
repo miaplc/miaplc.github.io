@@ -35,13 +35,16 @@
   <div>
     <span class="kick">PLC · ESP32 · Editor web</span>
     <h1>Il PLC vero,<br><span>alla portata di tutti.</span></h1>
-    <p class="lead">MiaPLC è un PLC basato su ESP32 che si programma in ladder da un editor nel browser,
-      con network, funzioni, blocchi dati, Online e diagnostica, come in fabbrica.
-      Con pochi euro hai una scheda vera sul banco e cominci a imparare l'automazione industriale.</p>
+    <p class="lead">Un PLC è il piccolo computer che nelle fabbriche legge pulsanti e sensori e comanda luci, motori e valvole.
+      MiaPLC è un PLC costruito su una scheda ESP32 da pochi euro.
+      Il programma lo disegni nel browser in <b>ladder</b>: lo schema a contatti che si usa negli impianti.</p>
+    <p>Accendi una lampada, fai partire un motore, automatizzi una serra.
+      E intanto impari l'automazione industriale, con gli stessi passi che si fanno in fabbrica.</p>
     <div class="btns">
       <a class="btn pri" href="provami.html">▶ Provalo nel browser</a>
       <a class="btn" href="#perche">Perché esiste</a>
     </div>
+    <p class="mut" style="margin-top:14px;font-size:.92rem">Non hai una scheda? Il simulatore gira nel browser: niente da installare.</p>
   </div>
   <img class="logo" src="assets/img/logo-512.png" alt="Logo MiaPLC">
 </div></section>
@@ -66,7 +69,7 @@
     <ul class="feat" style="grid-template-columns:1fr">
       <li>Una scheda per ogni studente, non una per laboratorio</li>
       <li>Si programma dal browser: niente licenze, niente installazioni sui PC della scuola</li>
-      <li>Le stesse idee dell'industria: scansione, network, FC, DB, Online</li>
+      <li>Le stesse idee dell'industria: ciclo di scansione, network, funzioni (FC), blocchi dati (DB), Online</li>
       <li>Software libero (GPL-3.0): si studia anche com'è fatto dentro</li>
     </ul>
   </div>
@@ -75,22 +78,27 @@
 <section class="alt"><div class="wrap">
   <div class="sec-h"><span class="tag">Cosa fa</span>
     <h2>Un PLC completo, dentro un ESP32</h2>
-    <p class="mut">Il firmware esegue il programma in una macchina virtuale a bytecode, ciclo dopo ciclo.
-      L'editor è servito dal PLC stesso: lo apri dal browser e programmi.</p></div>
+    <p class="mut">La scheda legge gli ingressi, esegue il tuo programma e scrive le uscite. Poi ricomincia, senza fermarsi mai:
+      è il ciclo di scansione di ogni PLC. L'editor sta dentro la scheda: lo apri dal browser e programmi.</p>
+    <p class="small mut">Per chi vuole i dettagli: il ladder diventa bytecode, che una macchina virtuale nel firmware esegue a ogni ciclo.</p></div>
   <div class="cards c3">
     <div class="card art art-ladder"><h3>Ladder come in fabbrica</h3>
-      <p>Network con titolo e commento, contatti, bobine, SET/RESET, fronti, confronti, box matematici e di conversione.</p></div>
+      <p>Il programma si disegna come uno schema elettrico: i contatti leggono gli ingressi, le bobine comandano le uscite.
+        Lo dividi in network, cioè blocchi numerati con titolo e commento.
+        Poi SET/RESET, fronti, confronti, box matematici e di conversione.</p></div>
     <div class="card win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>http://192.168.4.1</span></div>
       <div class="win-body"><h3>Editor nel browser</h3>
-      <p>Nessun programma da installare: l'editor gira nel PLC. Compile, Download, Run, come sei abituato.</p></div></div>
+      <p>Nessun programma da installare: l'editor gira nel PLC. Compile, Download, Run: gli stessi passi dei PLC industriali.</p></div></div>
     <div class="card art art-online"><h3>Online e diagnostica</h3>
-      <p>Vedi la corrente scorrere nei contatti, i timer contare, i valori dei DB. Log, tempi di scansione, RAM.</p></div>
+      <p>Con il programma in funzione vedi la corrente scorrere nei contatti, i timer contare, i valori cambiare. Più log, tempi di scansione e RAM.</p></div>
     <div class="card art art-fc"><h3>Blocchi strutturati</h3>
-      <p>Main, StartUp, funzioni (FC) con interfaccia, DB ritentivi, strutture, array. FC anche in ST e in C.</p></div>
+      <p>Dividi il programma in pezzi: Main, StartUp, funzioni (FC) con interfaccia.
+        I dati stanno nei blocchi dati (DB), anche ritentivi, con strutture e array.
+        Le FC si scrivono anche in ST (Structured Text) e in C.</p></div>
     <div class="card art art-ton"><h3>Timer, contatori, numeri</h3>
       <p>TON, TOF, TP, CTU, CTD, CTUD; tipi da BOOL a REAL e TIME; scala lineare per gli analogici.</p></div>
     <div class="card art art-cat"><h3>Comunicazione</h3>
-      <p>Ethernet e WiFi, Modbus TCP, moduli I/O remoti µLink, pannello HMI touch.</p></div>
+      <p>Ethernet e WiFi, Modbus TCP, moduli di ingressi e uscite a distanza (µLink), pannello operatore touch (HMI).</p></div>
   </div>
 </div></section>
 
@@ -139,11 +147,12 @@
     <div class="card"><b>MiaConfig</b><h3 style="margin-top:8px">Configuratore</h3>
       <p>Per schede elettroniche custom e progetti avanzati: disegni la tua scheda (ingressi, uscite, Ethernet, orologio) e lui compila un firmware su misura. Con una scheda già pronta non serve. Windows, Linux, macOS.</p></div>
     <div class="card"><b>µLink</b><h3 style="margin-top:8px">I/O remoti</h3>
-      <p>Bus su Ethernet cablata per moduli I/O: altri ESP32 o anche Arduino Uno con shield W5100/W5500.</p></div>
+      <p>Ingressi e uscite lontani dal PLC, collegati con un cavo Ethernet. I moduli sono altri ESP32 o anche un Arduino Uno con shield W5100/W5500.</p></div>
     <div class="card"><b>MiaHmi</b><h3 style="margin-top:8px">Pannello operatore</h3>
-      <p>Pannello touch da 10,1" su ESP32-P4 che legge e scrive i dati del PLC.</p></div>
+      <p>Il pannello operatore (HMI, interfaccia uomo-macchina): uno schermo touch da 10,1" su ESP32-P4 che mostra e cambia i dati del PLC.</p></div>
   </div>
   <h3 style="margin-top:40px">Schede di riferimento</h3>
+  <p class="mut">Le schede di sviluppo su cui MiaPLC è provato. Nessuna scheda MiaPLC è ancora in circolazione: la prima è in progettazione.</p>
   <table class="cmp">
     <tr><th>Chip</th><th>Esempio</th><th>Note</th></tr>
     <tr><td>ESP32</td><td>Olimex ESP32-EVB</td><td>Ethernet a bordo, relè, orologio DS3231 opzionale</td></tr>
@@ -151,6 +160,16 @@
     <tr><td>ESP32-S3</td><td>ESP32-S3-DevKitC-1</td><td>più memoria per programmi grandi</td></tr>
     <tr><td>ESP32-P4</td><td>schede con Ethernet</td><td>la più potente; anche base del pannello HMI</td></tr>
   </table>
+  <h3 style="margin-top:40px">Per chi lavora già con i PLC</h3>
+  <ul class="feat">
+    <li>Ladder per Main e StartUp; le funzioni (FC) anche in ST o in C</li>
+    <li>Ciclo di scansione classico, con controllo del tempo di ciclo: oltre il limite il PLC va in STOP</li>
+    <li>Misurato su ESP32: 1000 network contatto → bobina in 0,92 ms</li>
+    <li>Programma fino a 100 KB su ESP32, fino a 8 MB su P4</li>
+    <li>I/O remoti µLink su Ethernet senza IP: fino a 8 moduli, 64 sul P4</li>
+    <li>Non è un PLC di sicurezza: niente funzioni di sicurezza delle macchine</li>
+  </ul>
+  <p class="small mut">Tutti i numeri e i limiti: <a href="prestazioni.html">Prestazioni</a> e <a href="wiki.html#limiti">Memoria e limiti</a> nella wiki.</p>
 </div></section>
 
 <section id="prossimi-passi"><div class="wrap">
@@ -194,9 +213,11 @@
 
 <section><div class="wrap">
   <span class="tag-l">Esempio completo</span>
-  <h2>Non due lampadine: un impianto vero</h2>
-  <p>Belacqua è un allevamento di 100 storioni beluga in 20 vasche, comandato da un PLC MiaPLC con due moduli I/O µLink e un pannello touch:
-    ossigeno e pasti vasca per vasca, ricircolo con risparmio energetico, 146 allarmi, 369 network di ladder. Tutto scaricabile, con il manuale.</p>
+  <h2>Non due lampadine: un impianto completo</h2>
+  <p>Belacqua è un allevamento di storioni beluga in 20 vasche. Lo comanda un PLC MiaPLC, con due moduli µLink e un pannello touch.
+    Il PLC regola ossigeno e pasti vasca per vasca e fa girare l'acqua consumando meno energia.
+    Progetti, programma e manuale sono tutti da scaricare.</p>
+  <p class="small mut">È un esempio di progettazione, non ancora provato su un impianto reale. Per chi vuole i numeri: 369 network di ladder e 146 allarmi.</p>
   <a href="belacqua.html"><figure class="shot" style="margin:22px 0 18px"><img src="esempi/belacqua/img/hmi-overview.png" alt="Belacqua: pannello con le 20 vasche" loading="lazy"></figure></a>
   <div class="btns"><a class="btn pri" href="belacqua.html">Scopri Belacqua ▶</a><a class="btn" href="esempi/belacqua/index.html">📘 Manuale</a></div>
 </div></section>

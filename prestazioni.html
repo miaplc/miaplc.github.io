@@ -119,11 +119,13 @@
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">In pratica · 1</span><h2>L'hotel: quante stanze?</h2>
     <p class="mut">Ogni stanza: <b>10 pulsanti, 10 luci, clima</b> con sonda di temperatura, valvola e ventilatore. Una funzione «Stanza» scritta una volta
-      e chiamata per ogni camera; un modulo µLink da 64 I/O nel quadro di piano serve 5 stanze.</p></div>
+      e chiamata per ogni camera; un modulo µLink da 64 I/O nel quadro di piano serve 5 stanze.</p>
+    <p class="small mut">Come leggere i tre calcolatori: muovi il cursore e guarda se il PLC ce la fa. Sono stime prudenti:
+      per la memoria contiamo il <b>doppio</b> di quello che serve davvero, così il conto non è ottimista.</p></div>
   <div class="calc" id="calc-hotel">
     <div class="calc-in">
       <label>Stanze: <b class="n">40</b></label>
-      <input type="range" min="5" max="5000" step="5" value="40" aria-label="Numero di stanze">
+      <input type="range" min="5" max="200" step="5" value="40" aria-label="Numero di stanze">
       <label class="chk"><input type="checkbox"> WiFi acceso sul PLC</label>
     </div>
     <div class="calc-out">
@@ -132,7 +134,8 @@
     </div>
   </div>
   <p class="small mut">Un battito di ciglia dura 100–400 ms: sotto i 100 ms dal pulsante alla luce nessun ospite si accorge di niente.
-    Il P4 nella configurazione estesa (🚧 in sviluppo) arriva a 1000 schede I/O, 128 kbit di I/O e un'area REAL da 128k valori: è la parte alta del cursore. Con le luci sotto i 100 ms ci stanno circa 1300 stanze; oltre conviene dividere su più bus o più PLC.</p>
+    Con 200 stanze l'ESP32 è già al limite dei moduli I/O, mentre il P4 usa una piccola parte della sua memoria: lo spazio libero serve per altro
+    (allarmi, storici, ricette). Un albergo più grande si divide di solito su più PLC, uno per piano o per ala.</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -142,7 +145,7 @@
   <div class="calc" id="calc-campo">
     <div class="calc-in">
       <label>Ettari: <b class="n">50</b></label>
-      <input type="range" min="5" max="10000" step="5" value="50" aria-label="Ettari">
+      <input type="range" min="5" max="200" step="5" value="50" aria-label="Ettari">
       <label class="chk"><input type="checkbox" checked> WiFi acceso sul PLC</label>
     </div>
     <div class="calc-out">
@@ -151,7 +154,7 @@
     </div>
   </div>
   <p class="small mut">Un campo non ha fretta: anche un ciclo da mezzo secondo va benissimo. Qui il limite vero sono la memoria e i punti di I/O,
-    non la velocità. Sul P4 le sonde non sono un problema: l'area REAL da 128k valori basta per oltre 100.000 sonde, quindi il tetto resta l'area dei DB. Le sonde analogiche servono moduli con ingressi analogici o sensori in Modbus.</p>
+    non la velocità. Le sonde analogiche si leggono con moduli che hanno ingressi analogici, oppure con sensori in Modbus.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -161,8 +164,8 @@
       Un modulo µLink da 64 I/O serve 15 nastri.</p></div>
   <div class="calc" id="calc-nastri">
     <div class="calc-in">
-      <label>Nastri: <b class="n">200</b></label>
-      <input type="range" min="5" max="3000" step="5" value="200" aria-label="Numero di nastri">
+      <label>Nastri: <b class="n">60</b></label>
+      <input type="range" min="5" max="200" step="5" value="60" aria-label="Numero di nastri">
       <label class="chk"><input type="checkbox" checked> P4 con codice macchina</label>
     </div>
     <div class="calc-out">
@@ -171,30 +174,31 @@
     </div>
   </div>
   <p class="small mut">Un grande aeroporto non usa un PLC solo: l'impianto è diviso in zone, ognuna col suo PLC. Un ESP32 regge una zona piccola,
-    un P4 una zona di centinaia di nastri, oltre 2000 col codice macchina. Stime: un impianto bagagli vero va progettato e provato sul campo.</p>
+    un P4 una zona intera con margine. Sono stime: un impianto bagagli vero va progettato e provato sul campo.</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">Riassunto</span><h2>Una riga per scheda</h2></div>
   <div class="tblwrap"><table class="cmp" id="tab-limiti">
-    <thead><tr><th>Scheda</th><th>Hotel oggi (8 moduli)</th><th>Hotel al limite</th><th>Irrigazione: ettari prima che finisca la RAM</th><th>Nastri bagagli, aggiornati ogni 20 ms</th></tr></thead>
+    <thead><tr><th>Scheda</th><th>Hotel: 200 stanze</th><th>Irrigazione: 200 ettari</th><th>Nastri bagagli: 200, entro 20 ms</th></tr></thead>
     <tbody></tbody>
   </table></div>
-  <p class="small mut" style="margin-top:10px">«Al limite»: ESP32 con 15 moduli (tutti gli I/O del programma); P4 nella configurazione estesa, 🚧 in sviluppo: 1000 schede I/O, 128 kbit di I/O, 128k REAL. Il tempo è quello in cui tutte le stanze vengono aggiornate.</p>
+  <p class="small mut" style="margin-top:10px">Stesse stime dei calcolatori, con la memoria contata il doppio. «Memoria usata» è la memoria di lavoro del PLC occupata dall'esempio.
+    Il P4 oltre 15 moduli usa la configurazione estesa (🚧 in sviluppo).</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
   <details class="geek">
-    <summary>🤓 Per i più curiosi: i numeri grezzi e come abbiamo fatto i conti</summary>
+    <summary>🤓 Per i più curiosi: le misure e come abbiamo fatto i conti</summary>
     <div class="doc" style="display:block;padding:0"><article>
     <h3>Misure (schede vere, firmware 0.3.39–0.3.71, novembre 2026)</h3>
     <table>
       <tr><th>Cosa</th><th>Valore</th><th>Dove</th></tr>
-      <tr><td>Network LD → ST (3 istruzioni VM)</td><td>788 ns</td><td>ESP32-WROOM 240 MHz</td></tr>
-      <tr><td>Network con ADD DINT su DB</td><td>1.364–1.460 ns</td><td>ESP32</td></tr>
-      <tr><td>Scansione vuota (I/O, SDB, controlli)</td><td>~0,13 ms</td><td>ESP32</td></tr>
-      <tr><td>carico-100fc: Main + 101 FC, 14,8 KB</td><td>1,44 ms</td><td>ESP32</td></tr>
-      <tr><td>4,3 MB di codice macchina, 129 blocchi: VM / misto</td><td>209,7 / 38,9 ms</td><td>ESP32-P4, 60 confronti con l'interprete uguali</td></tr>
+      <tr><td>Un network contatto → bobina (3 istruzioni della VM)</td><td>788 ns</td><td>ESP32-WROOM 240 MHz</td></tr>
+      <tr><td>Un network con una somma (ADD) su un DB</td><td>1.364–1.460 ns</td><td>ESP32</td></tr>
+      <tr><td>Un giro del PLC senza programma (ingressi, uscite, controlli)</td><td>~0,13 ms</td><td>ESP32</td></tr>
+      <tr><td>Programma di prova con 101 funzioni (14,8 KB)</td><td>1,44 ms</td><td>ESP32</td></tr>
+      <tr><td>Programma grande (4,3 MB, 129 blocchi): solo VM / con codice macchina</td><td>209,7 / 38,9 ms</td><td>ESP32-P4, 60 confronti con l'interprete uguali</td></tr>
       <tr><td>Programma piccolo con cicli: VM / codice macchina</td><td>136 / 168 µs</td><td>ESP32-P4</td></tr>
       <tr><td>Memoria di lavoro libera, WiFi + Ethernet</td><td>11.702 byte</td><td>ESP32</td></tr>
       <tr><td>Memoria di lavoro libera</td><td>7.989.150 byte</td><td>ESP32-P4 con PSRAM</td></tr>
@@ -230,31 +234,35 @@
       una connessione HTTPS ne lascerebbe 16–20, e il browser ne apre più di una. Per questo le schede senza PSRAM usano HTTP con
       login e richieste firmate (integrità, senza cifratura) e vanno tenute in una rete isolata; HTTPS è sulle schede con PSRAM:
       già sul pannello P4, in preparazione sul PLC P4.</p>
-    <h3>Stime (da confermare)</h3>
+    <h3>Come abbiamo fatto i conti</h3>
+    <p>Per ogni esempio abbiamo immaginato il programma di <b>una</b> stanza, di <b>un</b> ettaro o di <b>un</b> nastro, come lo scriverebbe un
+      tecnico: una funzione scritta una volta e richiamata tante volte. Poi abbiamo contato di cosa è fatta e moltiplicato per il numero scelto col cursore.</p>
+    <table>
+      <tr><th>Esempio</th><th>Cosa fa il programma</th><th>Tempo per unità (ESP32)</th><th>Memoria per unità (già raddoppiata)</th></tr>
+      <tr><td>Una stanza d'hotel</td><td>10 pulsanti accendono 10 luci, il clima regola valvola e ventilatore dalla temperatura</td><td>~29 µs</td><td>~0,2 KB di programma + 48 byte di dati</td></tr>
+      <tr><td>Un ettaro irrigato</td><td>due settori: apre la valvola per il tempo impostato se il terreno è secco</td><td>~26 µs</td><td>~0,2 KB di programma + 112 byte di dati</td></tr>
+      <tr><td>Un nastro bagagli</td><td>4 fotocellule, motore, segue la posizione di ogni valigia, intasamenti e deviatori</td><td>~34 µs</td><td>~0,1 KB di programma + 128 byte di dati</td></tr>
+    </table>
     <ul>
-      <li><b>P4 con la VM interprete</b>: almeno 1,5× l'ESP32 (CPU RISC-V 360–400 MHz; la stima va da 1,5 a 2,2×). Nei calcoli usiamo 1,5×.</li>
-      <li><b>Chiamata di una FC</b>: ~0,3 µs, più ~0,25 µs per parametro.</li>
-      <li><b>Stanza</b>: 23 network di bit, 3 box (scala e confronti del clima), 26 parametri → ~29 µs su ESP32, ~19 µs sul P4;
-        107 byte di chiamata + 24 byte di DB; la FC «Stanza» 600 byte, una volta sola. 12 uscite per stanza: 5 stanze per modulo da 63 uscite utili.</li>
-      <li><b>Ettaro</b>: 2 settori × (5 network, 4 box con il timer, 12 parametri) → ~26 µs su ESP32; 102 byte di chiamate, 56 byte di DB
-        (due TIMER da 16 byte, tempi, soglie, sonda). Stazione fissa: 4 KB di codice, 1 KB di DB, 0,4 ms.</li>
-      <li><b>Nastro</b>: 20 network di bit, 10 box (inseguimento, tempi, confronti), 15 parametri → ~34 µs su ESP32, ~23 µs sul P4 con la VM;
-        col codice macchina del P4 5,4× più veloce (il valore misurato sul programma grande). 63 byte di chiamata, 64 byte di DB (coda delle valigie, timer);
-        4 ingressi per nastro: 15 nastri per modulo. Obiettivo: tutto aggiornato entro 20 ms.</li>
-      <li><b>Bus</b>: periodo = almeno 5 ms, con il bus occupato al massimo al 60 %; sul P4 0,083 ms per modulo (192 moduli in 16 ms). Reazione al peggio = 2 periodi + 1 ciclo.</li>
-      <li><b>P4, configurazione estesa</b> (🚧 in sviluppo): 1000 schede I/O, aree I/O da 128 kbit, area REAL da 131.072 valori (128k). Una sonda REAL per stanza e per ettaro.</li>
+      <li><b>Tempo</b>: viene dalle misure della tabella sopra (un network semplice 0,79 µs, una somma 1,4 µs). Sul P4 contiamo 1,5 volte più veloce dell'ESP32,
+        la stima più prudente; col codice macchina, sui programmi grandi, 5,4 volte (misurato).</li>
+      <li><b>Memoria</b>: il conto fatto sul programma è stato <b>raddoppiato</b>, per stare larghi. La funzione scritta una volta (1–2 KB) si conta a parte.</li>
+      <li><b>Moduli I/O</b>: un modulo µLink ha 63 ingressi e 63 uscite utili, quindi serve 5 stanze o 15 nastri.
+        Il PLC parla con i moduli ogni 5 ms; con tanti moduli il giro si allunga (al massimo il 60 % del tempo occupato).</li>
+      <li><b>Reazione</b>: dal pulsante alla luce al peggio passano due giri di µLink più un giro del programma.</li>
+      <li><b>P4 oltre 15 moduli</b>: configurazione estesa, 🚧 in sviluppo (fino a 1000 schede I/O).</li>
     </ul>
-    <h3>Le formule</h3>
+    <details><summary>Le formule usate</summary>
     <pre>ciclo   = 0,13 ms + N × (network × 0,79 + box × 1,4 + 0,3 + parametri × 0,25) µs ÷ velocità
-memoria = codice fisso + N × byte di chiamata      ≤ memoria di lavoro
-dati    = dati fissi  + N × byte di DB             ≤ area dei DB
-periodo = max(5 ms, moduli × tempo per modulo ÷ 0,6)</pre>
+memoria = codice fisso + N × byte per unità       ≤ memoria di lavoro
+dati    = dati fissi  + N × byte di dati          ≤ area dei DB
+periodo = max(5 ms, moduli × tempo per modulo ÷ 0,6)</pre></details>
     <p class="small mut">Il calcolatore è nel file <code>assets/js/prestazioni.js</code> del sito: tutti i numeri di partenza sono in cima, con la loro fonte.</p>
     </article></div>
   </details>
 </div></section>
 
-<script src="assets/js/prestazioni.js?v=59db08d6"></script>
+<script src="assets/js/prestazioni.js?v=f3e3b0a9"></script>
 
 </main>
 <footer><div class="wrap">

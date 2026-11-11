@@ -35,13 +35,16 @@
   <div>
     <span class="kick">PLC · ESP32 · Web editor</span>
     <h1>A real PLC,<br><span>within everyone's reach.</span></h1>
-    <p class="lead">MiaPLC is an ESP32-based PLC programmed in ladder from an editor in your browser,
-      with networks, functions, data blocks, Online view and diagnostics, just like on the factory floor.
-      For a few euros you get a real board on your bench and start learning industrial automation.</p>
+    <p class="lead">A PLC is the small computer that, in factories, reads buttons and sensors and drives lights, motors and valves.
+      MiaPLC is a PLC built on an ESP32 board that costs a few euros.
+      You draw the program in your browser in <b>ladder</b>: the contact diagram used in real plants.</p>
+    <p>Switch on a lamp, start a motor, automate a greenhouse.
+      And along the way you learn industrial automation, with the same steps used in a factory.</p>
     <div class="btns">
       <a class="btn pri" href="provami.html">▶ Try it in your browser</a>
       <a class="btn" href="#perche">Why it exists</a>
     </div>
+    <p class="mut" style="margin-top:14px;font-size:.92rem">No board? The simulator runs in your browser: nothing to install.</p>
   </div>
   <img class="logo" src="../assets/img/logo-512.png" alt="MiaPLC logo">
 </div></section>
@@ -65,7 +68,7 @@
     <ul class="feat" style="grid-template-columns:1fr">
       <li>One board per student, not one per lab</li>
       <li>Programmed from the browser: no licences, nothing to install on school PCs</li>
-      <li>The same ideas as industry: scan cycle, networks, FCs, DBs, Online</li>
+      <li>The same ideas as industry: scan cycle, networks, functions (FC), data blocks (DB), Online</li>
       <li>Free software (GPL-3.0): you can study how it works inside, too</li>
     </ul>
   </div>
@@ -74,22 +77,27 @@
 <section class="alt"><div class="wrap">
   <div class="sec-h"><span class="tag">What it does</span>
     <h2>A complete PLC inside an ESP32</h2>
-    <p class="mut">The firmware runs your program in a bytecode virtual machine, scan after scan.
-      The editor is served by the PLC itself: open it in the browser and start programming.</p></div>
+    <p class="mut">The board reads the inputs, runs your program and writes the outputs. Then it starts again, without ever stopping:
+      that is the scan cycle of every PLC. The editor lives inside the board: open it in the browser and start programming.</p>
+    <p class="small mut">For those who want the details: the ladder becomes bytecode, which a virtual machine in the firmware runs on every scan.</p></div>
   <div class="cards c3">
     <div class="card art art-ladder"><h3>Ladder like in the factory</h3>
-      <p>Networks with title and comment, contacts, coils, SET/RESET, edges, comparisons, math and conversion boxes.</p></div>
+      <p>You draw the program like a wiring diagram: contacts read the inputs, coils drive the outputs.
+        You split it into networks, numbered blocks with a title and a comment.
+        Then SET/RESET, edges, comparisons, math and conversion boxes.</p></div>
     <div class="card win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i><span>http://192.168.4.1</span></div>
       <div class="win-body"><h3>Editor in the browser</h3>
-      <p>Nothing to install: the editor runs on the PLC. Compile, Download, Run, the way you're used to.</p></div></div>
+      <p>Nothing to install: the editor runs on the PLC. Compile, Download, Run: the same steps as industrial PLCs.</p></div></div>
     <div class="card art art-online"><h3>Online and diagnostics</h3>
-      <p>Watch power flow through contacts, timers counting, DB values changing. Event log, scan times, RAM.</p></div>
+      <p>While the program runs you see power flow through the contacts, timers counting, values changing. Plus event log, scan times and RAM.</p></div>
     <div class="card art art-fc"><h3>Structured blocks</h3>
-      <p>Main, StartUp, functions (FC) with an interface, retentive DBs, structures, arrays. FCs in ST and C too.</p></div>
+      <p>Split the program into pieces: Main, StartUp, functions (FC) with an interface.
+        Data lives in data blocks (DB), retentive ones too, with structures and arrays.
+        FCs can also be written in ST (Structured Text) and in C.</p></div>
     <div class="card art art-ton"><h3>Timers, counters, numbers</h3>
       <p>TON, TOF, TP, CTU, CTD, CTUD; types from BOOL to REAL and TIME; linear scaling for analog values.</p></div>
     <div class="card art art-cat"><h3>Communication</h3>
-      <p>Ethernet and WiFi, Modbus TCP, µLink remote I/O modules, touch HMI panel.</p></div>
+      <p>Ethernet and WiFi, Modbus TCP, remote input/output modules (µLink), touch operator panel (HMI).</p></div>
   </div>
 </div></section>
 
@@ -138,11 +146,12 @@
     <div class="card"><b>MiaConfig</b><h3 style="margin-top:8px">Configurator</h3>
       <p>For custom electronic boards and advanced projects: draw your board (inputs, outputs, Ethernet, clock) and it builds a tailored firmware. Not needed with a ready board. Windows, Linux, macOS.</p></div>
     <div class="card"><b>µLink</b><h3 style="margin-top:8px">Remote I/O</h3>
-      <p>A wired-Ethernet bus for I/O modules: other ESP32 boards or even an Arduino Uno with a W5100/W5500 shield.</p></div>
+      <p>Inputs and outputs far from the PLC, connected with an Ethernet cable. The modules are other ESP32 boards or even an Arduino Uno with a W5100/W5500 shield.</p></div>
     <div class="card"><b>MiaHmi</b><h3 style="margin-top:8px">Operator panel</h3>
-      <p>A 10.1" touch panel on ESP32-P4 that reads and writes PLC data.</p></div>
+      <p>The operator panel (HMI, human-machine interface): a 10.1" touch screen on ESP32-P4 that shows and changes PLC data.</p></div>
   </div>
   <h3 style="margin-top:40px">Reference boards</h3>
+  <p class="mut">The development boards MiaPLC is tested on. No MiaPLC board is in circulation yet: the first one is being designed.</p>
   <table class="cmp">
     <tr><th>Chip</th><th>Example</th><th>Notes</th></tr>
     <tr><td>ESP32</td><td>Olimex ESP32-EVB</td><td>on-board Ethernet, relays, optional DS3231 clock</td></tr>
@@ -150,6 +159,16 @@
     <tr><td>ESP32-S3</td><td>ESP32-S3-DevKitC-1</td><td>more memory for large programs</td></tr>
     <tr><td>ESP32-P4</td><td>boards with Ethernet</td><td>the most powerful; also the base of the HMI panel</td></tr>
   </table>
+  <h3 style="margin-top:40px">If you already work with PLCs</h3>
+  <ul class="feat">
+    <li>Ladder for Main and StartUp; functions (FC) also in ST or C</li>
+    <li>Classic scan cycle with a cycle-time watchdog: past the limit the PLC goes to STOP</li>
+    <li>Measured on ESP32: 1000 contact → coil networks in 0.92 ms</li>
+    <li>Program up to 100 KB on ESP32, up to 8 MB on P4</li>
+    <li>µLink remote I/O over Ethernet without IP: up to 8 modules, 64 on the P4</li>
+    <li>Not a safety PLC: no machine safety functions</li>
+  </ul>
+  <p class="small mut">All figures and limits: <a href="prestazioni.html">Performance</a> and <a href="wiki.html#limiti">Memory and limits</a> in the wiki.</p>
 </div></section>
 
 <section id="prossimi-passi"><div class="wrap">
@@ -193,9 +212,11 @@
 
 <section><div class="wrap">
   <span class="tag-l">Complete example</span>
-  <h2>Not two lamps: a real plant</h2>
-  <p>Belacqua is a farm of 100 beluga sturgeons in 20 tanks, run by a MiaPLC PLC with two µLink I/O modules and a touch panel:
-    oxygen and meals tank by tank, recirculation with energy saving, 146 alarms, 369 ladder networks. All downloadable, with the manual.</p>
+  <h2>Not two lamps: a complete plant</h2>
+  <p>Belacqua is a beluga sturgeon farm with 20 tanks. A MiaPLC PLC runs it, with two µLink modules and a touch panel.
+    The PLC controls oxygen and feeding tank by tank and keeps the water moving while using less energy.
+    Projects, program and manual are all downloadable.</p>
+  <p class="small mut">It is a design example, not yet tested on a real plant. For those who want the numbers: 369 ladder networks and 146 alarms.</p>
   <a href="belacqua.html"><figure class="shot" style="margin:22px 0 18px"><img src="../esempi/belacqua/img/hmi-overview.png" alt="Belacqua: panel with the 20 tanks" loading="lazy"></figure></a>
   <div class="btns"><a class="btn pri" href="belacqua.html">Discover Belacqua ▶</a><a class="btn" href="../esempi/belacqua/index.html">📘 Manual</a></div>
 </div></section>

@@ -62,6 +62,10 @@
 <article>
 
 <h2 id="prima">Prima di iniziare</h2>
+<p><b>Se parti da zero, quattro parole.</b> Il <b>ladder</b> è un programma disegnato come uno schema elettrico.
+Un <b>contatto</b> legge un ingresso, per esempio un pulsante: quando è chiuso lascia passare la corrente.
+Una <b>bobina</b> comanda un'uscita, per esempio un motore o una lampada: si accende quando la corrente le arriva.
+Un <b>network</b> è un blocco numerato del programma, con il suo titolo. Il PLC esegue i network dal primo all'ultimo, poi ricomincia.</p>
 <p>Costruiamo il primo programma di ogni corso di automazione: <b>marcia e arresto di un motore con autoritenuta</b>.
 Start avvia il motore, il contatto del motore stesso lo tiene acceso, Stop o il termico lo fermano. Una spia si accende
 3 secondi dopo la partenza e una seconda spia segnala il termico scattato.</p>
@@ -70,7 +74,7 @@ Start avvia il motore, il contatto del motore stesso lo tiene acceso, Stop o il 
   <tr><td><code>I0</code></td><td>Start</td><td>pulsante di marcia (normalmente aperto)</td></tr>
   <tr><td><code>I1</code></td><td>Stop</td><td>pulsante di arresto</td></tr>
   <tr><td><code>I2</code></td><td>Termico</td><td>protezione del motore</td></tr>
-  <tr><td><code>Q0</code></td><td>Motore</td><td>contattore del motore</td></tr>
+  <tr><td><code>Q0</code></td><td>Motore</td><td>contattore del motore (l'interruttore comandato che lo accende)</td></tr>
   <tr><td><code>Q1</code></td><td>Spia_regime</td><td>motore a regime</td></tr>
   <tr><td><code>Q2</code></td><td>Allarme</td><td>termico scattato</td></tr>
 </table>
@@ -83,8 +87,8 @@ chiuso (un filo rotto ferma la macchina) e nel ladder diventa un contatto NO: ne
 <a href="guida-hardware.html#cablaggio">manuale dell'hardware</a>.</p>
 
 <h2 id="p1">1 · Nuovo progetto</h2>
-<p>Premi <kbd>🆕 Nuovo</kbd>, scrivi il nome del progetto e premi <kbd>OK</kbd>. L'editor crea il blocco <b>Main</b> con un network vuoto
-e, dai punti della scheda, la <b>HWDB</b> nella cartella Sys_DB.</p>
+<p>Premi <kbd>🆕 Nuovo</kbd>, scrivi il nome del progetto e premi <kbd>OK</kbd>. L'editor crea il blocco <b>Main</b>, il programma principale,
+con un network vuoto. Crea anche la <b>HWDB</b> nella cartella Sys_DB: un blocco dati con gli ingressi e le uscite della scheda.</p>
 <figure class="shot"><img src="assets/img/guida-01-it.jpg" alt="Finestra Nuovo progetto con il nome Marcia e arresto" loading="lazy"></figure>
 
 <h2 id="p2">2 · I simboli</h2>
@@ -183,7 +187,7 @@ ogni network ha il suo commento.</p>
 <ul>
   <li><b>Main</b> chiama solo la funzione <b>FC10 «Canzoncina»</b>: il programma vero sta lì. Nell'albero dei blocchi clicca FC10 per aprirla.</li>
   <li><b>StartUp</b> rimette a zero il passo dopo un Download o un RUN, con dei box <b>MOVE</b>.</li>
-  <li>La <b>DB1 «Merker»</b> contiene le parole di lavoro: passo, battuta, spartito.</li>
+  <li>Il blocco dati <b>DB1 «Merker»</b> contiene i valori di lavoro: passo, battuta, spartito.</li>
   <li>Nella FC10, timer che si riarmano da soli danno il tempo di ogni parte (75, 70 e 95 ms per passo); un impulso a ogni passo
       fa avanzare il contatore con <b>ADD</b>.</li>
   <li><b>DIV</b> e <b>MOD</b> calcolano battuta e posizione; lo «spartito» è una parola di 16 bit per battuta, un bit per passo;

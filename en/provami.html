@@ -34,24 +34,27 @@
   <div class="sec-h" style="max-width:820px">
     <span class="kick">Simulator</span>
     <h1>Try it: <span>the real editor, a simulated PLC.</span></h1>
-    <p class="lead">This is the same editor that runs inside the board. Instead of the ESP32 there's a PLC simulated in your browser,
-      with the same virtual machine as the firmware. Write a network, download it, put it in RUN and watch it work.</p>
+    <p class="lead">Here you try MiaPLC with no board and nothing to install. The real editor opens, the same one that lives inside the board.
+      Instead of the board there's a PLC simulated in your browser.</p>
+    <p>You draw a network, that is a piece of ladder program. You send it to the simulated PLC, put it in RUN and watch it work.</p>
     <div class="btns">
       <a class="btn pri" href="../provami/editor/index.html?mock" onclick="try{localStorage.setItem('espplc.lang','en')}catch(e){}" target="_blank" rel="noopener">▶ Open the simulator</a>
       <a class="btn" href="esempi.html">See the examples</a>
     </div>
     <p class="mut" style="margin-top:16px;font-size:.92rem">Opens in a new tab. Ready-made examples are under <b>📂 Open</b>. Best on a computer: the editor is designed for screen and mouse.
       The editor opens in English; you can switch language from the drop-down in its toolbar.</p>
+    <p class="small mut">For those who want the details: the simulated PLC uses the same virtual machine as the firmware. A program that works here also works on the board.</p>
   </div>
 </div></section>
 
 <section style="padding-top:20px"><div class="wrap">
   <h2>Your first program in 2 minutes</h2>
+  <p>Let's do the simplest thing: a push button switches on a lamp. The button is input <code>I0</code>, the lamp is output <code>Q0</code>.</p>
   <ol class="steps" style="margin-top:20px">
-    <li><b>A contact</b>From the Instructions column drag an <b>NO</b> contact into Network 1 and type <code>I0</code>.</li>
+    <li><b>A contact</b>From the Instructions column drag an <b>NO</b> (normally open) contact into Network 1 and type <code>I0</code>.</li>
     <li><b>A coil</b>Drag a <b>coil</b> to the right and type <code>Q0</code>.</li>
     <li><b>Download</b><kbd>Download to cpu</kbd>, confirm, then <kbd>Run</kbd>.</li>
-    <li><b>Watch</b><kbd>Online</kbd>, then click <code>I0</code> in the MOCK PLC panel: <code>Q0</code> turns on.</li>
+    <li><b>Watch</b><kbd>Online</kbd>, then click <code>I0</code> in the MOCK PLC panel, the fake PLC at the bottom right: <code>Q0</code> turns on.</li>
   </ol>
 
   <figure class="shot" style="margin:44px 0 0"><img src="../assets/img/simulatore-en.jpg" alt="MiaPLC simulator with the MOCK PLC panel" loading="lazy">

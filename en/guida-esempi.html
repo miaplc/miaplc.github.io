@@ -62,6 +62,10 @@
 <article>
 
 <h2 id="prima">Before you start</h2>
+<p><b>If you are starting from zero, four words.</b> <b>Ladder</b> is a program drawn like a wiring diagram.
+A <b>contact</b> reads an input, for example a push button: when it is closed it lets the power through.
+A <b>coil</b> drives an output, for example a motor or a lamp: it switches on when power reaches it.
+A <b>network</b> is a numbered block of the program, with its own title. The PLC runs the networks from first to last, then starts again.</p>
 <p>We build the first program of every automation course: <b>start / stop of a motor with self-holding</b>.
 Start runs the motor, the motor's own contact keeps it running, Stop or the overload relay stops it. A lamp lights up
 3 seconds after the start and a second lamp shows a tripped overload.</p>
@@ -70,7 +74,7 @@ Start runs the motor, the motor's own contact keeps it running, Stop or the over
   <tr><td><code>I0</code></td><td>Start</td><td>start push button (normally open)</td></tr>
   <tr><td><code>I1</code></td><td>Stop</td><td>stop push button</td></tr>
   <tr><td><code>I2</code></td><td>Overload</td><td>motor protection</td></tr>
-  <tr><td><code>Q0</code></td><td>Motor</td><td>motor contactor</td></tr>
+  <tr><td><code>Q0</code></td><td>Motor</td><td>motor contactor (the controlled switch that turns it on)</td></tr>
   <tr><td><code>Q1</code></td><td>Running_lamp</td><td>motor running</td></tr>
   <tr><td><code>Q2</code></td><td>Alarm</td><td>overload tripped</td></tr>
 </table>
@@ -83,8 +87,8 @@ closed (a broken wire stops the machine) and in the ladder it becomes an NO cont
 <a href="guida-hardware.html#cablaggio">hardware manual</a>.</p>
 
 <h2 id="p1">1 · New project</h2>
-<p>Press <kbd>🆕 New</kbd>, type the project name and press <kbd>OK</kbd>. The editor creates the <b>Main</b> block with an empty network
-and, from the board's points, the <b>HWDB</b> in the Sys_DB folder.</p>
+<p>Press <kbd>🆕 New</kbd>, type the project name and press <kbd>OK</kbd>. The editor creates the <b>Main</b> block, the main program,
+with an empty network. It also creates the <b>HWDB</b> in the Sys_DB folder: a data block with the board's inputs and outputs.</p>
 <figure class="shot"><img src="../assets/img/guida-01-en.jpg" alt="New project window with the project name" loading="lazy"></figure>
 
 <h2 id="p2">2 · Symbols</h2>
@@ -182,7 +186,7 @@ every network has its comment (in Italian).</p>
 <ul>
   <li><b>Main</b> only calls the function <b>FC10 «Canzoncina»</b>: the real program is there. Click FC10 in the block tree to open it.</li>
   <li><b>StartUp</b> resets the step after a Download or a RUN, with <b>MOVE</b> boxes.</li>
-  <li><b>DB1 «Merker»</b> holds the working words: step, bar, score.</li>
+  <li>The data block <b>DB1 «Merker»</b> holds the working values: step, bar, score.</li>
   <li>In FC10, self-rearming timers give the time of each part (75, 70 and 95 ms per step); a pulse at every step
       advances the counter with <b>ADD</b>.</li>
   <li><b>DIV</b> and <b>MOD</b> compute bar and position; the «score» is a 16-bit word per bar, one bit per step;

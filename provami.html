@@ -34,23 +34,26 @@
   <div class="sec-h" style="max-width:820px">
     <span class="kick">Simulatore</span>
     <h1>Provami: <span>l'editor vero, un PLC simulato.</span></h1>
-    <p class="lead">Questo è lo stesso editor che gira dentro la scheda. Al posto dell'ESP32 c'è un PLC simulato nel tuo browser,
-      con la stessa macchina virtuale del firmware. Scrivi un network, scaricalo, mettilo in RUN e guardalo lavorare.</p>
+    <p class="lead">Qui provi MiaPLC senza scheda e senza installare niente. Si apre l'editor vero, lo stesso che sta dentro la scheda.
+      Al posto della scheda c'è un PLC simulato nel tuo browser.</p>
+    <p>Disegni un network, cioè un pezzo di programma in ladder. Lo mandi al PLC simulato, lo metti in RUN e lo guardi lavorare.</p>
     <div class="btns">
       <a class="btn pri" href="provami/editor/index.html?mock" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}" target="_blank" rel="noopener">▶ Apri il simulatore</a>
       <a class="btn" href="esempi.html">Vedi gli esempi</a>
     </div>
     <p class="mut" style="margin-top:16px;font-size:.92rem">Si apre in una nuova scheda. Gli esempi pronti sono sotto <b>📂 Apri</b>. Meglio da computer: l'editor è fatto per schermo e mouse.</p>
+    <p class="small mut">Per chi vuole i dettagli: il PLC simulato usa la stessa macchina virtuale del firmware. Un programma che funziona qui funziona anche sulla scheda.</p>
   </div>
 </div></section>
 
 <section style="padding-top:20px"><div class="wrap">
   <h2>Il tuo primo programma in 2 minuti</h2>
+  <p>Facciamo la cosa più semplice: un pulsante accende una lampada. Il pulsante è l'ingresso <code>I0</code>, la lampada è l'uscita <code>Q0</code>.</p>
   <ol class="steps" style="margin-top:20px">
-    <li><b>Un contatto</b>Dalla colonna Istruzioni trascina un contatto <b>NO</b> nel Network 1 e scrivi <code>I0</code>.</li>
+    <li><b>Un contatto</b>Dalla colonna Istruzioni trascina un contatto <b>NO</b> (normalmente aperto) nel Network 1 e scrivi <code>I0</code>.</li>
     <li><b>Una bobina</b>Trascina una <b>bobina</b> a destra e scrivi <code>Q0</code>.</li>
     <li><b>Scarica</b><kbd>Download to cpu</kbd>, conferma, poi <kbd>Run</kbd>.</li>
-    <li><b>Guarda</b><kbd>Online</kbd>, poi clic su <code>I0</code> nel riquadro MOCK PLC: <code>Q0</code> si accende.</li>
+    <li><b>Guarda</b><kbd>Online</kbd>, poi clic su <code>I0</code> nel riquadro MOCK PLC, il PLC finto in basso a destra: <code>Q0</code> si accende.</li>
   </ol>
 
   <figure class="shot" style="margin:44px 0 0"><img src="assets/img/simulatore-it.jpg" alt="Simulatore MiaPLC con il riquadro MOCK PLC" loading="lazy">

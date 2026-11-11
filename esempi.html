@@ -32,15 +32,18 @@
 <main>
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">Esempi</span><h1>Progetti di esempio</h1>
-    <p class="mut">Apri un progetto direttamente nel simulatore e guardalo lavorare. Nel simulatore li trovi anche sotto <b>📂 Apri</b>; per il tuo PLC scarica il file <code>.miaplc</code>.</p></div>
+    <p class="lead">Programmi pronti da aprire e guardare lavorare: dal più semplice, un motore che parte e si ferma, al più grande, un allevamento di pesci.</p>
+    <p class="mut">Si aprono nel simulatore, nel browser, senza scheda. Nel simulatore li trovi anche sotto <b>📂 Apri</b>.
+      Hai una scheda? Scarica il file <code>.miaplc</code> e aprilo nel suo editor.</p></div>
 
 
   <a class="card feature" href="belacqua.html">
     <img src="esempi/belacqua/img/hmi-overview.png" alt="Belacqua: pannello con le 20 vasche" loading="lazy">
     <div><div class="meta">Esempio completo · PLC + 2 moduli µLink + pannello HMI</div>
       <h3 style="font-size:1.6rem;margin:6px 0 10px">Belacqua: 100 storioni in 20 vasche</h3>
-      <p>Un allevamento vero a ricircolo d'acqua: ossigeno e pasti vasca per vasca, pompe a inverter con risparmio energetico, 146 allarmi,
-        pannello in stile industriale con una pagina per vasca. Progetti, programma, pannello, schemi e manuale da scaricare.</p>
+      <p>Un allevamento completo, con l'acqua che gira in un circuito chiuso. Il PLC regola ossigeno e pasti vasca per vasca
+        e fa andare le pompe piano quando basta, per risparmiare energia. Il pannello è in stile industriale, con una pagina per vasca.</p>
+      <p class="small mut">Esempio di progettazione, non ancora provato su un impianto reale. Pompe a inverter, 146 allarmi; progetti, programma, pannello, schemi e manuale da scaricare.</p>
       <p style="margin-top:14px"><span class="btn pri">Scopri Belacqua ▶</span></p></div>
   </a>
   <p class="note" style="margin-bottom:28px">📘 Vuoi rifarli da zero? <a href="guida-esempi.html">Manuale: crea i progetti di esempio passo per passo</a>.
@@ -51,7 +54,7 @@
     <li><b>Apri</b>premi <kbd>▶ Apri nel simulatore</kbd> sotto l'esempio (o <kbd>📂 Apri</kbd> dentro il simulatore).</li>
     <li><b>Conferma</b>se l'editor chiede di sostituire il progetto, rispondi <kbd>Sì, apri</kbd>.</li>
     <li><b>Download e Run</b><kbd>Download to cpu</kbd>, conferma, poi <kbd>Run</kbd>.</li>
-    <li><b>Online</b>premi <kbd>Online</kbd> e accendi gli ingressi nel riquadro MOCK PLC.</li>
+    <li><b>Online</b>premi <kbd>Online</kbd> e accendi gli ingressi nel riquadro MOCK PLC, il PLC finto in basso a destra.</li>
   </ol>
 
   <div class="ex" style="margin-top:36px">
@@ -59,7 +62,7 @@
       <div class="meta">Base · 3 network</div>
       <h3>Marcia e arresto motore</h3>
       <p>Il primo programma di ogni corso di automazione: il circuito di autoritenuta. Start avvia il motore, il suo stesso contatto lo tiene acceso,
-        Stop o il termico lo fermano. Una spia si accende 3 secondi dopo la partenza.</p>
+        Stop o il termico (la protezione del motore) lo fermano. Una spia si accende 3 secondi dopo la partenza.</p>
       <ol><li>Clic su <code>I0</code> (Start) e di nuovo per rilasciarlo: <code>Q0</code> resta acceso.</li>
         <li>Dopo 3 s si accende <code>Q1</code>.</li>
         <li>Clic su <code>I1</code> (Stop) o <code>I2</code> (termico): il motore si ferma.</li></ol>
@@ -68,7 +71,7 @@
     <div class="card">
       <div class="meta">Timer · 6 network</div>
       <h3>Semaforo</h3>
-      <p>Tre timer in cascata fanno il ciclo verde 5 s, giallo 2 s, rosso 4 s. Con il semaforo spento il giallo lampeggia usando il bit di sistema SM5 (clock 1 Hz).</p>
+      <p>Tre timer in cascata fanno il ciclo verde 5 s, giallo 2 s, rosso 4 s. Con il semaforo spento il giallo lampeggia. Lo fa con SM5, un bit di sistema che si accende e si spegne da solo una volta al secondo (clock 1 Hz).</p>
       <ol><li>Senza toccare nulla: <code>Q1</code> lampeggia.</li>
         <li>Clic su <code>I0</code> (Abilita): parte il ciclo su <code>Q0</code>, <code>Q1</code>, <code>Q2</code>.</li>
         <li>In Online guarda i timer contare dentro i box TON.</li></ol>
@@ -78,16 +81,18 @@
       <div class="meta">Avanzato · FC, DB, confronti</div>
       <h3>La canzoncina dei relè</h3>
       <p>I relè non suonano note, ma il ritmo sì: la Quinta di Beethoven, Jingle Bells e «Shave and a haircut» battute su <code>Q0</code> e <code>Q1</code>.
-        Un sequencer a passi fatto con una FC, timer e confronti. Sulla scheda vera si sente il clic dei relè.</p>
+        Un sequencer a passi fatto con una funzione (FC), timer e confronti. Sulla scheda vera si sente il clic dei relè.</p>
       <ol><li>Dopo Run la musica parte da sola.</li>
         <li><code>I0</code>: ricomincia da capo.</li>
         <li>Apri la FC10 per vedere come è fatto il sequencer.</li></ol>
       <div class="btns"><a class="btn pri" href="provami/editor/index.html?mock&amp;esempio=canzoncina" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">▶ Apri nel simulatore</a><a class="btn" href="esempi/canzoncina.miaplc" download>⭳ Scarica</a></div>
     </div>
     <div class="card" style="border-style:dashed">
-      <div class="meta">In arrivo</div>
+      <div class="meta">🚧 In arrivo</div>
       <h3>Altri esempi</h3>
-      <p>Contapezzi con CTU, serbatoio con livello analogico e SCALE, ricetta in un DB ritentivo, FC in Structured Text, modulo I/O µLink con Arduino.</p>
+      <p>Un contapezzi (contatore CTU). Un serbatoio con sensore di livello analogico (SCALE).
+        Una ricetta salvata in un blocco dati che resta anche a scheda spenta (DB ritentivo).
+        Una funzione scritta in Structured Text. Un modulo I/O µLink fatto con Arduino.</p>
       <p class="mut" style="margin-top:10px">Hai un esempio da proporre? <a href="mailto:info@miaplc.it">Scrivimi</a>.</p>
     </div>
   </div>

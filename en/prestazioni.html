@@ -119,11 +119,13 @@
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">In practice · 1</span><h2>The hotel: how many rooms?</h2>
     <p class="mut">Each room: <b>10 buttons, 10 lights, climate</b> with temperature probe, valve and fan. A “Room” function written once
-      and called for every room; one 64-I/O µLink module in the floor cabinet serves 5 rooms.</p></div>
+      and called for every room; one 64-I/O µLink module in the floor cabinet serves 5 rooms.</p>
+    <p class="small mut">How to read the three calculators: move the slider and see whether the PLC can cope. They are cautious estimates:
+      for memory we count <b>twice</b> what is really needed, so the numbers are not optimistic.</p></div>
   <div class="calc" id="calc-hotel">
     <div class="calc-in">
       <label>Rooms: <b class="n">40</b></label>
-      <input type="range" min="5" max="5000" step="5" value="40" aria-label="Number of rooms">
+      <input type="range" min="5" max="200" step="5" value="40" aria-label="Number of rooms">
       <label class="chk"><input type="checkbox"> WiFi on the PLC</label>
     </div>
     <div class="calc-out">
@@ -132,7 +134,8 @@
     </div>
   </div>
   <p class="small mut">A blink lasts 100–400 ms: under 100 ms from button to light no guest notices anything.
-    The P4 in its extended configuration (🚧 in development) reaches 1000 I/O boards, 128 kbit of I/O and a 128k-value REAL area: that's the top of the slider. Keeping lights under 100 ms, about 1300 rooms fit; beyond that, split over more buses or PLCs.</p>
+    With 200 rooms the ESP32 is already at its I/O module limit, while the P4 uses a small part of its memory: the free space is for other things
+    (alarms, history, recipes). A bigger hotel is usually split over several PLCs, one per floor or wing.</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -142,7 +145,7 @@
   <div class="calc" id="calc-campo">
     <div class="calc-in">
       <label>Hectares: <b class="n">50</b></label>
-      <input type="range" min="5" max="10000" step="5" value="50" aria-label="Hectares">
+      <input type="range" min="5" max="200" step="5" value="50" aria-label="Hectares">
       <label class="chk"><input type="checkbox" checked> WiFi on the PLC</label>
     </div>
     <div class="calc-out">
@@ -151,7 +154,7 @@
     </div>
   </div>
   <p class="small mut">A field is in no hurry: even a half-second scan is fine. Here the real limits are memory and I/O points,
-    not speed. On the P4 probes are not a problem: the 128k-value REAL area is enough for over 100,000 probes, so the ceiling stays the DB area. Analog probes need modules with analog inputs or Modbus sensors.</p>
+    not speed. Analog probes are read with modules that have analog inputs, or with Modbus sensors.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -161,8 +164,8 @@
       One 64-I/O µLink module serves 15 conveyors.</p></div>
   <div class="calc" id="calc-nastri">
     <div class="calc-in">
-      <label>Conveyors: <b class="n">200</b></label>
-      <input type="range" min="5" max="3000" step="5" value="200" aria-label="Number of conveyors">
+      <label>Conveyors: <b class="n">60</b></label>
+      <input type="range" min="5" max="200" step="5" value="60" aria-label="Number of conveyors">
       <label class="chk"><input type="checkbox" checked> P4 with machine code</label>
     </div>
     <div class="calc-out">
@@ -171,30 +174,31 @@
     </div>
   </div>
   <p class="small mut">A large airport doesn't use one PLC: the system is split into zones, each with its own PLC. An ESP32 handles a small zone,
-    a P4 a zone of hundreds of conveyors, over 2000 with machine code. Estimates: a real baggage system must be engineered and tested on site.</p>
+    a P4 a whole zone with room to spare. These are estimates: a real baggage system must be engineered and tested on site.</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">Summary</span><h2>One row per board</h2></div>
   <div class="tblwrap"><table class="cmp" id="tab-limiti">
-    <thead><tr><th>Board</th><th>Hotel today (8 modules)</th><th>Hotel at the limit</th><th>Irrigation: hectares before RAM runs out</th><th>Baggage conveyors, refreshed every 20 ms</th></tr></thead>
+    <thead><tr><th>Board</th><th>Hotel: 200 rooms</th><th>Irrigation: 200 hectares</th><th>Baggage conveyors: 200, within 20 ms</th></tr></thead>
     <tbody></tbody>
   </table></div>
-  <p class="small mut" style="margin-top:10px">“At the limit”: ESP32 with 15 modules (all the program's I/O); P4 in its extended configuration, 🚧 in development: 1000 I/O boards, 128 kbit of I/O, 128k REAL. The time is how often all rooms are refreshed.</p>
+  <p class="small mut" style="margin-top:10px">Same estimates as the calculators, with memory counted twice. “Memory used” is the share of the PLC's work memory the example takes.
+    Beyond 15 modules the P4 uses its extended configuration (🚧 in development).</p>
 </div></section>
 
 <section class="alt"><div class="wrap">
   <details class="geek">
-    <summary>🤓 For the curious: raw numbers and how we did the maths</summary>
+    <summary>🤓 For the curious: the measurements and how we did the maths</summary>
     <div class="doc" style="display:block;padding:0"><article>
     <h3>Measurements (real boards, firmware 0.3.39–0.3.71, November 2026)</h3>
     <table>
       <tr><th>What</th><th>Value</th><th>Where</th></tr>
-      <tr><td>LD → ST network (3 VM instructions)</td><td>788 ns</td><td>ESP32-WROOM 240 MHz</td></tr>
-      <tr><td>Network with ADD DINT on DB</td><td>1,364–1,460 ns</td><td>ESP32</td></tr>
-      <tr><td>Empty scan (I/O, system DB, checks)</td><td>~0.13 ms</td><td>ESP32</td></tr>
-      <tr><td>carico-100fc: Main + 101 FCs, 14.8 KB</td><td>1.44 ms</td><td>ESP32</td></tr>
-      <tr><td>4.3 MB of machine code, 129 blocks: VM / mixed</td><td>209.7 / 38.9 ms</td><td>ESP32-P4, 60 comparisons with the interpreter identical</td></tr>
+      <tr><td>One contact → coil network (3 VM instructions)</td><td>788 ns</td><td>ESP32-WROOM 240 MHz</td></tr>
+      <tr><td>One network with an addition (ADD) on a DB</td><td>1,364–1,460 ns</td><td>ESP32</td></tr>
+      <tr><td>One PLC scan without a program (inputs, outputs, checks)</td><td>~0.13 ms</td><td>ESP32</td></tr>
+      <tr><td>Test program with 101 functions (14.8 KB)</td><td>1.44 ms</td><td>ESP32</td></tr>
+      <tr><td>Large program (4.3 MB, 129 blocks): VM only / with machine code</td><td>209.7 / 38.9 ms</td><td>ESP32-P4, 60 comparisons with the interpreter identical</td></tr>
       <tr><td>Small program with loops: VM / machine code</td><td>136 / 168 µs</td><td>ESP32-P4</td></tr>
       <tr><td>Free work memory, WiFi + Ethernet</td><td>11,702 bytes</td><td>ESP32</td></tr>
       <tr><td>Free work memory</td><td>7,989,150 bytes</td><td>ESP32-P4 with PSRAM</td></tr>
@@ -230,31 +234,35 @@
       one HTTPS connection would leave 16–20, and the browser opens more than one. That is why boards without PSRAM use HTTP with
       login and signed requests (integrity, no encryption) and must stay on an isolated network; HTTPS is on the boards with PSRAM:
       already on the P4 panel, being prepared on the P4 PLC.</p>
-    <h3>Estimates (to be confirmed)</h3>
+    <h3>How we did the maths</h3>
+    <p>For each example we imagined the program for <b>one</b> room, <b>one</b> hectare or <b>one</b> conveyor, as a technician would write it:
+      one function written once and called many times. Then we counted what it is made of and multiplied by the number on the slider.</p>
+    <table>
+      <tr><th>Example</th><th>What the program does</th><th>Time per unit (ESP32)</th><th>Memory per unit (already doubled)</th></tr>
+      <tr><td>One hotel room</td><td>10 buttons switch 10 lights, the climate drives valve and fan from the temperature</td><td>~29 µs</td><td>~0.2 KB of program + 48 bytes of data</td></tr>
+      <tr><td>One irrigated hectare</td><td>two sectors: opens the valve for the set time when the soil is dry</td><td>~26 µs</td><td>~0.2 KB of program + 112 bytes of data</td></tr>
+      <tr><td>One baggage conveyor</td><td>4 photocells, motor, tracks where every bag is, jams and diverters</td><td>~34 µs</td><td>~0.1 KB of program + 128 bytes of data</td></tr>
+    </table>
     <ul>
-      <li><b>P4 with the interpreter VM</b>: at least 1.5× the ESP32 (RISC-V CPU at 360–400 MHz; the estimate ranges 1.5–2.2×). We use 1.5× in the maths.</li>
-      <li><b>FC call</b>: ~0.3 µs, plus ~0.25 µs per parameter.</li>
-      <li><b>Room</b>: 23 bit networks, 3 boxes (climate scaling and comparisons), 26 parameters → ~29 µs on ESP32, ~19 µs on P4;
-        107 bytes of call + 24 bytes of DB; the “Room” FC 600 bytes, once. 12 outputs per room: 5 rooms per module with 63 usable outputs.</li>
-      <li><b>Hectare</b>: 2 sectors × (5 networks, 4 boxes including the timer, 12 parameters) → ~26 µs on ESP32; 102 bytes of calls, 56 bytes of DB
-        (two 16-byte TIMERs, times, thresholds, probe). Fixed station: 4 KB of code, 1 KB of DB, 0.4 ms.</li>
-      <li><b>Conveyor</b>: 20 bit networks, 10 boxes (tracking, timers, comparisons), 15 parameters → ~34 µs on ESP32, ~23 µs on P4 with the VM;
-        with the P4's machine code 5.4× faster (the value measured on the large program). 63 bytes of call, 64 bytes of DB (bag queue, timers);
-        4 inputs per conveyor: 15 conveyors per module. Target: everything refreshed within 20 ms.</li>
-      <li><b>Bus</b>: period = at least 5 ms, with the bus busy at most 60 %; on the P4 0.083 ms per module (192 modules in 16 ms). Worst-case reaction = 2 periods + 1 scan.</li>
-      <li><b>P4 extended configuration</b> (🚧 in development): 1000 I/O boards, 128-kbit I/O areas, a REAL area of 131,072 values (128k). One REAL probe per room and per hectare.</li>
+      <li><b>Time</b>: from the measurements in the table above (a simple network 0.79 µs, an addition 1.4 µs). We count the P4 1.5 times faster than the ESP32,
+        the most cautious estimate; with machine code, on large programs, 5.4 times (measured).</li>
+      <li><b>Memory</b>: the count made on the program has been <b>doubled</b>, to stay on the safe side. The function written once (1–2 KB) is counted separately.</li>
+      <li><b>I/O modules</b>: a µLink module has 63 usable inputs and 63 outputs, so it serves 5 rooms or 15 conveyors.
+        The PLC talks to the modules every 5 ms; with many modules the round gets longer (at most 60 % of the time busy).</li>
+      <li><b>Reaction</b>: from button to light, at worst, two µLink rounds plus one program scan.</li>
+      <li><b>P4 beyond 15 modules</b>: extended configuration, 🚧 in development (up to 1000 I/O boards).</li>
     </ul>
-    <h3>The formulas</h3>
+    <details><summary>The formulas used</summary>
     <pre>scan    = 0.13 ms + N × (networks × 0.79 + boxes × 1.4 + 0.3 + params × 0.25) µs ÷ speed
-memory  = fixed code + N × call bytes          ≤ work memory
-data    = fixed data + N × DB bytes            ≤ DB area
-period  = max(5 ms, modules × time per module ÷ 0.6)</pre>
+memory  = fixed code + N × bytes per unit      ≤ work memory
+data    = fixed data + N × data bytes          ≤ DB area
+period  = max(5 ms, modules × time per module ÷ 0.6)</pre></details>
     <p class="small mut">The calculator is in the site file <code>assets/js/prestazioni.js</code>: all starting numbers are at the top, with their source.</p>
     </article></div>
   </details>
 </div></section>
 
-<script src="../assets/js/prestazioni.js?v=59db08d6"></script>
+<script src="../assets/js/prestazioni.js?v=f3e3b0a9"></script>
 
 </main>
 <footer><div class="wrap">

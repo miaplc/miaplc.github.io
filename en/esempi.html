@@ -32,15 +32,18 @@
 <main>
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">Examples</span><h1>Example projects</h1>
-    <p class="mut">Open a project straight in the simulator and watch it work. Inside the simulator you also find them under <b>📂 Open</b>; for your own PLC, download the <code>.miaplc</code> file.</p></div>
+    <p class="lead">Ready-made programs to open and watch at work: from the simplest, a motor that starts and stops, to the biggest, a fish farm.</p>
+    <p class="mut">They open in the simulator, in your browser, with no board. Inside the simulator you also find them under <b>📂 Open</b>.
+      Got a board? Download the <code>.miaplc</code> file and open it in the board's editor.</p></div>
 
 
   <a class="card feature" href="belacqua.html">
     <img src="../esempi/belacqua/img/hmi-overview.png" alt="Belacqua: panel with the 20 tanks" loading="lazy">
     <div><div class="meta">Complete example · PLC + 2 µLink modules + HMI panel</div>
       <h3 style="font-size:1.6rem;margin:6px 0 10px">Belacqua: 100 sturgeons in 20 tanks</h3>
-      <p>A real recirculating farm: oxygen and meals tank by tank, VFD pumps with energy saving, 146 alarms, an industrial-style panel
-        with one page per tank. Projects, program, panel, wiring and manual to download.</p>
+      <p>A complete farm, with the water flowing in a closed loop. The PLC controls oxygen and feeding tank by tank
+        and runs the pumps slowly when that is enough, to save energy. The panel is industrial-style, with one page per tank.</p>
+      <p class="small mut">A design example, not yet tested on a real plant. VFD pumps, 146 alarms; projects, program, panel, wiring and manual to download.</p>
       <p style="margin-top:14px"><span class="btn pri">Discover Belacqua ▶</span></p></div>
   </a>
   <p class="note" style="margin-bottom:28px">📘 Want to build them from scratch? <a href="guida-esempi.html">Manual: build the example projects step by step</a>.
@@ -51,7 +54,7 @@
     <li><b>Open</b>press <kbd>▶ Open in the simulator</kbd> under the example (or <kbd>📂 Open</kbd> inside the simulator).</li>
     <li><b>Confirm</b>if the editor asks to replace the project, answer yes.</li>
     <li><b>Download and Run</b><kbd>Download to cpu</kbd>, confirm, then <kbd>Run</kbd>.</li>
-    <li><b>Online</b>press <kbd>Online</kbd> and switch the inputs on in the MOCK PLC panel.</li>
+    <li><b>Online</b>press <kbd>Online</kbd> and switch the inputs on in the MOCK PLC panel, the fake PLC at the bottom right.</li>
   </ol>
 
   <div class="ex" style="margin-top:36px">
@@ -59,7 +62,7 @@
       <div class="meta">Basic · 3 networks</div>
       <h3>Motor start / stop</h3>
       <p>The first program of every automation course: the self-holding circuit. Start runs the motor, its own contact keeps it on,
-        Stop or the thermal overload stop it. A lamp lights up 3 seconds after starting.</p>
+        Stop or the thermal overload (the motor protection) stop it. A lamp lights up 3 seconds after starting.</p>
       <ol><li>Click <code>I0</code> (Start) and click again to release it: <code>Q0</code> stays on.</li>
         <li>After 3 s <code>Q1</code> lights up.</li>
         <li>Click <code>I1</code> (Stop) or <code>I2</code> (overload): the motor stops.</li></ol>
@@ -68,7 +71,7 @@
     <div class="card">
       <div class="meta">Timers · 6 networks</div>
       <h3>Traffic light</h3>
-      <p>Three cascaded timers run the cycle green 5 s, yellow 2 s, red 4 s. With the traffic light off, yellow flashes using system bit SM5 (1 Hz clock).</p>
+      <p>Three cascaded timers run the cycle green 5 s, yellow 2 s, red 4 s. With the traffic light off, yellow flashes. It uses SM5, a system bit that turns on and off by itself once a second (1 Hz clock).</p>
       <ol><li>Without touching anything: <code>Q1</code> flashes.</li>
         <li>Click <code>I0</code> (Enable): the cycle starts on <code>Q0</code>, <code>Q1</code>, <code>Q2</code>.</li>
         <li>In Online, watch the timers count inside the TON boxes.</li></ol>
@@ -78,16 +81,18 @@
       <div class="meta">Advanced · FC, DB, comparisons</div>
       <h3>The relay song</h3>
       <p>Relays can't play notes, but they can play rhythm: Beethoven's Fifth, Jingle Bells and “Shave and a haircut” beaten out on <code>Q0</code> and <code>Q1</code>.
-        A step sequencer built with an FC, timers and comparisons. On a real board you hear the relays click. (Comments in Italian.)</p>
+        A step sequencer built with a function (FC), timers and comparisons. On a real board you hear the relays click. (Comments in Italian.)</p>
       <ol><li>After Run the music starts by itself.</li>
         <li><code>I0</code>: start again from the top.</li>
         <li>Open FC10 to see how the sequencer is built.</li></ol>
       <div class="btns"><a class="btn pri" href="../provami/editor/index.html?mock&amp;esempio=canzoncina" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','en')}catch(e){}">▶ Open in the simulator</a><a class="btn" href="../esempi/canzoncina.miaplc" download>⭳ Download</a></div>
     </div>
     <div class="card" style="border-style:dashed">
-      <div class="meta">Coming soon</div>
+      <div class="meta">🚧 Coming soon</div>
       <h3>More examples</h3>
-      <p>Part counter with CTU, tank with analog level and SCALE, recipe in a retentive DB, FC in Structured Text, µLink I/O module with Arduino.</p>
+      <p>A part counter (CTU counter). A tank with an analog level sensor (SCALE).
+        A recipe stored in a data block that survives power-off (retentive DB).
+        A function written in Structured Text. A µLink I/O module made with Arduino.</p>
       <p class="mut" style="margin-top:10px">Got an example to suggest? <a href="mailto:info@miaplc.it">Write to me</a>.</p>
     </div>
   </div>

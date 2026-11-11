@@ -35,21 +35,24 @@
     },
   };
 
+  // Memoria: i byte di ogni esempio sono il DOPPIO del conto fatto sul programma (Denys 11-11-2026): margine prudente,
+  // e il P4 mostra lo stesso quanto spazio ha. I tempi restano quelli del conto.
   // Stanza d'hotel: 10 pulsanti, 10 luci, clima (sonda, valvola, ventilatore)
-  const STANZA = { di: 10, do: 12, rung: 23, box: 3, par: 26, codice: 107, dati: 24 };
+  const STANZA = { di: 10, do: 12, rung: 23, box: 3, par: 26, codice: 214, dati: 48 };
   const STANZE_PER_MODULO = Math.floor(63 / STANZA.do);  // modulo µLink: 63 ingressi + 63 uscite utili
-  const FC_STANZA = 600;                                  // byte, la FC «Stanza» scritta una volta
+  const FC_STANZA = 1200;                                  // byte, la FC «Stanza» scritta una volta
 
   // Ettaro: 2 settori (valvola, timer, soglia umidità) + 1 sonda
-  const ETTARO = { rung: 10, box: 8, par: 24, codice: 102, dati: 56, valvole: 2 };
-  const IMPIANTO = { codice: 4096, dati: 1024, tempo: 400 };  // stazione: pompe, dosatori, fanghi, agitatori
+  const ETTARO = { rung: 10, box: 8, par: 24, codice: 204, dati: 112, valvole: 2 };
+  const IMPIANTO = { codice: 8192, dati: 2048, tempo: 400 };  // stazione: pompe, dosatori, fanghi, agitatori
 
   // Nastro trasportatore di un impianto bagagli: 4 fotocellule, motore marcia/velocità,
   // inseguimento delle valigie (coda di posizioni), intasamenti, deviatori
-  const NASTRO = { rung: 20, box: 10, par: 15, codice: 63, dati: 64, di: 4, do: 2 };
+  const NASTRO = { rung: 20, box: 10, par: 15, codice: 126, dati: 128, di: 4, do: 2 };
   const NASTRI_PER_MODULO = Math.floor(63 / NASTRO.di);   // 15
-  const FC_NASTRO = 1200;
-  const OBIETTIVO_MS = 20;                                 // a 2 m/s in 20 ms la valigia fa 4 cm
+  const FC_NASTRO = 2400;
+  const OBIETTIVO_MS = 20;
+  const MAX = 200;                                         // fondo dei cursori (Denys 11-11-2026: niente numeri esagerati)                                 // a 2 m/s in 20 ms la valigia fa 4 cm
 
   const fmtN = (n, d = 0) => n.toLocaleString(EN ? "en-GB" : "it-IT", { maximumFractionDigits: d, minimumFractionDigits: d });
   const ms = us => us >= 1000 ? fmtN(us / 1000, us >= 100000 ? 0 : 1) + " ms" : fmtN(us) + " µs";
@@ -114,6 +117,7 @@
     testing: "beyond 15 modules: P4 extended configuration (in development)", dbFull: "DB area full",
     probes: "analog probes (REAL)", probesFull: "analog values (REAL) full", slow: "slow for lights: split over more buses or PLCs",
     probeLimit: n => `but the probes stop at ${n} hectares (REAL area)`,
+    roomy: n => `memory to spare: well over ${n} hectares`,
     upd: "all conveyors refreshed every", bag: "a bag at 2 m/s moves", tracking: "tracking within 4 cm", tooSlow: "over 20 ms: split into zones",
     conv: "conveyors", vm: "VM", native: "machine code",
     wifiOn: "WiFi on", wifiOff: "Ethernet only",
@@ -124,6 +128,7 @@
     testing: "oltre 15 moduli: configurazione estesa del P4 (in sviluppo)", dbFull: "area DB piena",
     probes: "sonde analogiche (REAL)", probesFull: "valori analogici (REAL) finiti", slow: "lento per le luci: meglio dividere su più bus o PLC",
     probeLimit: n => `ma le sonde finiscono a ${n} ettari (area REAL)`,
+    roomy: n => `memoria in abbondanza: ben oltre ${n} ettari`,
     upd: "tutti i nastri aggiornati ogni", bag: "una valigia a 2 m/s si sposta di", tracking: "inseguimento entro 4 cm", tooSlow: "oltre 20 ms: meglio dividere in zone",
     conv: "nastri", vm: "VM", native: "codice macchina",
     wifiOn: "WiFi acceso", wifiOff: "solo Ethernet",
@@ -178,7 +183,7 @@
         riga(T.data, quota(r.dati, D.db, kb), r.dati <= D.db) + barra(r.dati, D.db) +
         riga(T.valves, fmtN(r.valvole)) +
         (isFinite(r.maxSonde) ? riga(T.probes, quota(r.sonde, r.maxSonde, fmtN), r.sonde <= r.maxSonde) : "") +
-        `<p class="verdict ${memOk && r.sonde <= r.maxSonde ? "ok" : "no"}">${T.maxRam} <b>${fmtN(tondo(r.max))} ${T.ha}</b></p>` +
+        `<p class="verdict ${memOk && r.sonde <= r.maxSonde ? "ok" : "no"}">${r.max > MAX ? "✓ " + T.roomy(fmtN(MAX)) : `${T.maxRam} <b>${fmtN(tondo(r.max))} ${T.ha}</b>`}</p>` +
         (r.maxSonde < r.max ? `<p class="small" style="margin:6px 0 0;color:#fde68a">⚠ ${T.probeLimit(fmtN(r.maxSonde))}</p>` : "");
     });
   }
@@ -211,19 +216,30 @@
   lega("calc-campo", disegnaCampo);
   lega("calc-nastri", disegnaNastri);
 
-  // Tabella riassuntiva (una riga per scheda)
+  // Tabella riassuntiva: 200 stanze, 200 ettari, 200 nastri per scheda; se non ci stanno, fin dove si arriva e perché
+  const T2 = EN ? { fits: "fits", upd: "refreshed every", mem: "memory used", stops: n => `stops at ${n}`, why: { mem: "work memory", db: "DB area", mods: "I/O modules", slow: "too slow" }, wifi: "WiFi on" }
+               : { fits: "ci sta", upd: "aggiornati ogni", mem: "memoria usata", stops: n => `si ferma a ${n}`, why: { mem: "memoria di lavoro", db: "area dei DB", mods: "moduli I/O", slow: "troppo lento" }, wifi: "WiFi acceso" };
+  function cella(prova) {
+    let ok = 0, perche = "";
+    for (let n = 5; n <= MAX; n += 5) { const p = prova(n); if (p.no) { perche = p.no; break; } ok = n; }
+    const r = prova(ok || 5);
+    if (ok === MAX) return `✓ ${MAX} ${r.cosa}: ${T2.fits}<br><small>${T2.upd} ${fmtN(r.agg, 0)} ms · ${T2.mem} ${r.mem < 1 ? "&lt;1" : fmtN(r.mem, 0)} %</small>`;
+    return `✕ ${T2.stops(ok)} ${r.cosa}<br><small>${T2.why[perche] || perche}</small>`;
+  }
   const tab = document.getElementById("tab-limiti");
   if (tab) {
     const rows = ["esp32", "p4"].map(k => {
-      const D = DATI[k], h = hotel(D, 1, true), hw = hotel(D, 1, false), c = campo(D, 1, true), cw = campo(D, 1, false);
-      const nOggi = h.maxOggi, nMax = Math.min(h.maxBus, hw.maxMem);
-      const hOggi = hotel(D, nOggi, false), hMax = hotel(D, nMax, false);
-      return `<tr><td><b>${k === "p4" ? "ESP32-P4" : "ESP32"}</b></td>` +
-        `<td>${fmtN(nOggi)} ${T.rooms} · ${fmtN(Math.max(hOggi.periodo, hOggi.ciclo / 1000))} ms</td>` +
-        `<td>${fmtN(nMax)} ${T.rooms} · ${fmtN(Math.max(hMax.periodo, hMax.ciclo / 1000))} ms</td>` +
-        `<td>${c.max === cw.max ? "~" + fmtN(tondo(c.max)) + " " + T.ha + (D.real < c.max ? ` · ${T.probeLimit(fmtN(D.real))}` : "")
-              : `${fmtN(c.max)} ${T.ha} (${T.wifiOn}) · ${fmtN(cw.max)} ${T.ha} (${T.wifiOff})`}</td>` +
-        `<td>${k === "p4" ? `~${fmtN(maxNastri(D, false))} (${T.vm}) · ~${fmtN(maxNastri(D, true))} (${T.native})` : "~" + fmtN(maxNastri(D, false))} ${T.conv}</td></tr>`;
+      const D = DATI[k];
+      const h = cella(n => { const r = hotel(D, n, false), agg = Math.max(r.periodo, r.ciclo / 1000);
+        return { cosa: T.rooms, agg, mem: 100 * r.codice / r.lavoro,
+                 no: r.codice > r.lavoro ? "mem" : r.dati > D.db ? "db" : r.moduli > D.modMax ? "mods" : r.reazione > 100 ? "slow" : "" }; });
+      const c = cella(n => { const r = campo(D, n, true);
+        return { cosa: T.ha, agg: Math.max(5, r.ciclo / 1000), mem: 100 * r.codice / r.lavoro,
+                 no: r.codice > r.lavoro ? "mem" : r.dati > D.db ? "db" : "" }; });
+      const z = cella(n => { const r = nastri(D, n, k === "p4");
+        return { cosa: T.conv, agg: r.agg, mem: 100 * r.codice / D.lavoroEth,
+                 no: r.codice > D.lavoroEth ? "mem" : r.dati > D.db ? "db" : r.moduli > D.modMax ? "mods" : r.agg > OBIETTIVO_MS ? "slow" : "" }; });
+      return `<tr><td><b>${k === "p4" ? "ESP32-P4" : "ESP32"}</b></td><td>${h}</td><td>${c}<br><small>(${T2.wifi})</small></td><td>${z}</td></tr>`;
     });
     tab.querySelector("tbody").innerHTML = rows.join("");
   }
