@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Conformità e cybersicurezza — MiaPLC</title>
-<meta name="description" content="Come MiaPLC si prepara al Cyber Resilience Act e alla RED: quali schede sono prodotti, cosa protegge il firmware, come segnalare una vulnerabilità.">
-<meta property="og:title" content="Conformità e cybersicurezza — MiaPLC">
-<meta property="og:description" content="Come MiaPLC si prepara al Cyber Resilience Act e alla RED: quali schede sono prodotti, cosa protegge il firmware, come segnalare una vulnerabilità.">
+<title>Conformità e cybersicurezza — MIAplc</title>
+<meta name="description" content="Come MIAplc si prepara al Cyber Resilience Act e alla RED: quali schede sono prodotti, cosa protegge il firmware, come segnalare una vulnerabilità.">
+<meta property="og:title" content="Conformità e cybersicurezza — MIAplc">
+<meta property="og:description" content="Come MIAplc si prepara al Cyber Resilience Act e alla RED: quali schede sono prodotti, cosa protegge il firmware, come segnalare una vulnerabilità.">
 <meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
 <meta property="og:url" content="https://www.miaplc.it/conformita.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="MiaPLC">
+<meta property="og:site_name" content="MIAplc">
 <meta property="og:locale" content="it_IT">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="it" href="https://www.miaplc.it/conformita.html">
@@ -32,17 +32,17 @@
 <main>
 <section><div class="wrap" style="max-width:860px">
   <div class="sec-h"><span class="tag">Conformità</span><h1>Conformità e cybersicurezza</h1>
-    <p class="mut">Come MiaPLC si prepara alle regole europee per i prodotti collegati in rete. Ultimo aggiornamento: 10 novembre 2026.</p></div>
+    <p class="mut">Come MIAplc si prepara alle regole europee per i prodotti collegati in rete. Ultimo aggiornamento: 13 novembre 2026.</p></div>
 <div class="doc" style="display:block;padding:0">
 <article>
-<p class="note">🚧 <b>Bozza.</b> Oggi nessuna scheda MiaPLC è in circolazione e non è ancora stata emessa nessuna dichiarazione UE di conformità.
+<p class="note">🚧 <b>Bozza.</b> Oggi nessuna scheda MIAplc è in circolazione e non è ancora stata emessa nessuna dichiarazione UE di conformità.
 Questa pagina dice cosa vale per quali schede e a che punto siamo; verrà aggiornata a ogni passo.</p>
 
 <h2>In breve</h2>
 <ul>
-  <li><b>I prodotti a marchio MiaPLC saranno schede su ESP32-P4</b>: il PLC e il pannello HMI. Le prime saranno senza WiFi; il WiFi sarà un'opzione.</li>
-  <li><b>Le altre schede</b> (ESP32, C3, S2, schede di sviluppo, Arduino con µLink) restano per <b>sviluppo, prova e hobby</b>: il firmware libero ci gira, ma non diventeranno prodotti MiaPLC.</li>
-  <li><b>MiaPLC non è un dispositivo di sicurezza</b>: non usarlo per funzioni di sicurezza di macchine o impianti (arresti di emergenza, barriere, protezioni delle persone).</li>
+  <li><b>I prodotti a marchio MIAplc saranno schede su ESP32-P4</b>: il PLC e il pannello HMI. Le prime saranno senza WiFi; il WiFi sarà un'opzione.</li>
+  <li><b>Le altre schede</b> (ESP32, C3, S2, schede di sviluppo, Arduino con µLink) restano per <b>sviluppo, prova e hobby</b>: il firmware libero ci gira, ma non diventeranno prodotti MIAplc. La loro conformità è responsabilità di chi le monta e le mette in servizio; per un uso commerciale servono schede certificate: vedi <a href="certified.html">MIAplc Certified</a>.</li>
+  <li><b>MIAplc non è un dispositivo di sicurezza</b>: non usarlo per funzioni di sicurezza di macchine o impianti (arresti di emergenza, barriere, protezioni delle persone).</li>
 </ul>
 
 <h2>Le regole che ci riguardano</h2>
@@ -58,17 +58,19 @@ Questa pagina dice cosa vale per quali schede e a che punto siamo; verrà aggior
 <ul>
   <li><b>Password obbligatoria</b>: ogni scheda chiede la password di amministratore, scelta da te alla messa in servizio. Non si può usare una scheda senza password.</li>
   <li><b>Niente password di fabbrica uguali</b>: la password di recupero e quella del WiFi del PLC sono diverse per ogni scheda.</li>
-  <li><b>Comandi firmati</b>: ogni richiesta all'editor e al pannello porta una firma legata alla sessione; una richiesta copiata o cambiata viene rifiutata.</li>
-  <li><b>Password mai in rete</b>: login a sfida; sulla scheda c'è solo un verificatore, non la password. Tentativi sbagliati rallentati.</li>
-  <li><b>Aggiornamenti firmati</b>: la scheda accetta solo firmware e file dell'editor firmati con la chiave della tua configurazione.</li>
-  <li><b>µLink protetto</b>: i frame fra PLC e moduli I/O sono autenticati (CMAC) e non si possono ripetere.</li>
+  <li><b>Comandi firmati</b>: ogni richiesta all'editor e al pannello porta una firma legata alla sessione; una richiesta copiata o cambiata viene rifiutata. Le risposte della scheda e i dati non sono cifrati né firmati, salvo dove c'è HTTPS.</li>
+  <li><b>La password non viaggia in rete</b>: login a sfida. La scheda conserva un valore derivato dalla password, che va protetto come la password: chi ha la scheda in mano può leggerlo. Tentativi sbagliati rallentati.</li>
+  <li><b>Aggiornamenti firmati</b>: con il firmware preparato da MiaConfig la scheda accetta solo firmware e file dell'editor firmati con la chiave della tua configurazione. Oggi non impedisce di reinstallare una versione precedente firmata.</li>
+  <li><b>µLink protetto</b>: i frame fra PLC e moduli I/O sono autenticati (CMAC) e legati alla sessione di quell'avvio.</li>
   <li><b>HTTPS sul pannello P4</b>, con il certificato della tua configurazione. Sul PLC P4 è in preparazione.</li>
   <li><b>Registro della sicurezza</b>: accessi, rifiuti e firme sbagliate, nella Diagnostica.</li>
 </ul>
 
+<p>Queste protezioni sono state provate con prove interne. Una verifica esterna indipendente non è ancora stata fatta.</p>
+
 <h2>Schede per sviluppo e hobby</h2>
-<p>Sulle schede senza PSRAM o più piccole di S3 e P4 il firmware protegge l'integrità (password, firme) ma non la riservatezza dei dati in rete:
-non ci sono le risorse per la cifratura TLS. Per questo vanno usate <b>solo in una rete locale isolata</b>, mai collegate a internet, per prova e debug.
+<p>Sulle schede senza PSRAM o più piccole di S3 e P4 il firmware protegge i comandi (password, firme) ma i dati in rete non sono cifrati:
+non ci sono le risorse per la cifratura TLS. Su una rete non fidata chi può alterare il traffico può sostituire l'editor e ottenere la password. Per questo vanno usate <b>solo in una rete locale isolata</b>, mai collegate a internet, per prova e debug.
 Chi le monta e le usa ne è responsabile.</p>
 
 <h2>Come installare in sicurezza</h2>
@@ -89,7 +91,7 @@ Non pubblicare i dettagli prima che sia uscita la correzione.</p>
 </ul>
 
 <h2>Supporto e aggiornamenti</h2>
-<p>Ogni scheda MiaPLC avrà un <b>periodo di supporto di 5 anni</b>, con la data di fine indicata. Gli aggiornamenti di sicurezza saranno <b>gratuiti</b> per tutto il periodo.</p>
+<p>Ogni scheda MIAplc avrà un <b>periodo di supporto di 5 anni</b>, con la data di fine indicata. Gli aggiornamenti di sicurezza saranno <b>gratuiti</b> per tutto il periodo.</p>
 
 <h2>A che punto siamo</h2>
 <table>
@@ -113,8 +115,8 @@ Non pubblicare i dettagli prima che sia uscita la correzione.</p>
       <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
     </div>
     <div><h4>Progetto</h4><ul>
-      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+      <li><a href="index.html#perche">Perché MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Marchio</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
     <div><h4>Contatti</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (codice pubblico a inizio 2027)</li>
@@ -123,9 +125,9 @@ Non pubblicare i dettagli prima che sia uscita la correzione.</p>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
-    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
-    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ è un <a href="marchio.html">marchio depositato</a> · Software libero GPL-3.0 ·
+    MIAplc è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MIAplc non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
 </div></footer>
 <script src="assets/js/lightbox.js?v=ff57e3d0" defer></script>
 </body>

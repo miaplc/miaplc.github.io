@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Compliance and cybersecurity — MiaPLC</title>
-<meta name="description" content="How MiaPLC prepares for the Cyber Resilience Act and the RED: which boards are products, what the firmware protects, how to report a vulnerability.">
-<meta property="og:title" content="Compliance and cybersecurity — MiaPLC">
-<meta property="og:description" content="How MiaPLC prepares for the Cyber Resilience Act and the RED: which boards are products, what the firmware protects, how to report a vulnerability.">
+<title>Compliance and cybersecurity — MIAplc</title>
+<meta name="description" content="How MIAplc prepares for the Cyber Resilience Act and the RED: which boards are products, what the firmware protects, how to report a vulnerability.">
+<meta property="og:title" content="Compliance and cybersecurity — MIAplc">
+<meta property="og:description" content="How MIAplc prepares for the Cyber Resilience Act and the RED: which boards are products, what the firmware protects, how to report a vulnerability.">
 <meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
 <meta property="og:url" content="https://www.miaplc.it/en/conformita.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="MiaPLC">
+<meta property="og:site_name" content="MIAplc">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="it" href="https://www.miaplc.it/conformita.html">
@@ -32,17 +32,17 @@
 <main>
 <section><div class="wrap" style="max-width:860px">
   <div class="sec-h"><span class="tag">Compliance</span><h1>Compliance and cybersecurity</h1>
-    <p class="mut">How MiaPLC is getting ready for the European rules on connected products. Last updated: 10 November 2026.</p></div>
+    <p class="mut">How MIAplc is getting ready for the European rules on connected products. Last updated: 13 November 2026.</p></div>
 <div class="doc" style="display:block;padding:0">
 <article>
-<p class="note">🚧 <b>Draft.</b> No MiaPLC board is in circulation yet and no EU declaration of conformity has been issued.
+<p class="note">🚧 <b>Draft.</b> No MIAplc board is in circulation yet and no EU declaration of conformity has been issued.
 This page says which rules apply to which boards and where we stand; it will be updated at every step.</p>
 
 <h2>In short</h2>
 <ul>
-  <li><b>MiaPLC-branded products will be ESP32-P4 boards</b>: the PLC and the HMI panel. The first ones will have no WiFi; WiFi will be an option.</li>
-  <li><b>Other boards</b> (ESP32, C3, S2, development boards, Arduino with µLink) stay for <b>development, testing and hobby use</b>: the free firmware runs on them, but they will not become MiaPLC products.</li>
-  <li><b>MiaPLC is not a safety device</b>: do not use it for safety functions of machines or plants (emergency stops, light curtains, protection of people).</li>
+  <li><b>MIAplc-branded products will be ESP32-P4 boards</b>: the PLC and the HMI panel. The first ones will have no WiFi; WiFi will be an option.</li>
+  <li><b>Other boards</b> (ESP32, C3, S2, development boards, Arduino with µLink) stay for <b>development, testing and hobby use</b>: the free firmware runs on them, but they will not become MIAplc products. Their compliance is the responsibility of whoever builds and commissions them; commercial use needs certified boards: see <a href="certified.html">MIAplc Certified</a>.</li>
+  <li><b>MIAplc is not a safety device</b>: do not use it for safety functions of machines or plants (emergency stops, light curtains, protection of people).</li>
 </ul>
 
 <h2>The rules that apply</h2>
@@ -58,17 +58,19 @@ This page says which rules apply to which boards and where we stand; it will be 
 <ul>
   <li><b>Mandatory password</b>: every board asks for the administrator password, which you choose when you commission it. A board cannot be used without a password.</li>
   <li><b>No identical factory passwords</b>: the recovery password and the PLC's WiFi password are different on every board.</li>
-  <li><b>Signed commands</b>: every request from the editor and the panel carries a signature tied to the session; a copied or altered request is rejected.</li>
-  <li><b>Passwords never on the network</b>: challenge login; the board only keeps a verifier, not the password. Wrong attempts are slowed down.</li>
-  <li><b>Signed updates</b>: the board only accepts firmware and editor files signed with your configuration's key.</li>
-  <li><b>Protected µLink</b>: frames between the PLC and the I/O modules are authenticated (CMAC) and cannot be replayed.</li>
+  <li><b>Signed commands</b>: every request from the editor and the panel carries a signature tied to the session; a copied or altered request is rejected. The board's answers and the data are neither encrypted nor signed, except where there is HTTPS.</li>
+  <li><b>The password does not travel on the network</b>: challenge login. The board keeps a value derived from the password, which must be protected like the password: whoever holds the board can read it. Wrong attempts are slowed down.</li>
+  <li><b>Signed updates</b>: with firmware prepared by MiaConfig the board only accepts firmware and editor files signed with your configuration's key. Today it does not prevent reinstalling an earlier signed version.</li>
+  <li><b>Protected µLink</b>: frames between the PLC and the I/O modules are authenticated (CMAC) and tied to the session of that boot.</li>
   <li><b>HTTPS on the P4 panel</b>, with your configuration's certificate. On the P4 PLC it is being prepared.</li>
   <li><b>Security log</b>: logins, rejections and bad signatures, in Diagnostics.</li>
 </ul>
 
+<p>These protections have been checked with internal tests. An independent external review has not been done yet.</p>
+
 <h2>Boards for development and hobby use</h2>
-<p>On boards without PSRAM or smaller than the S3 and P4 the firmware protects integrity (password, signatures) but not the confidentiality of data on the network:
-there are not enough resources for TLS encryption. That is why they must be used <b>only on an isolated local network</b>, never connected to the internet, for testing and debugging.
+<p>On boards without PSRAM or smaller than the S3 and P4 the firmware protects commands (password, signatures) but data on the network is not encrypted:
+there are not enough resources for TLS encryption. On an untrusted network, anyone who can alter the traffic can replace the editor and obtain the password. That is why they must be used <b>only on an isolated local network</b>, never connected to the internet, for testing and debugging.
 Whoever builds and uses them is responsible for them.</p>
 
 <h2>Installing safely</h2>
@@ -89,7 +91,7 @@ Please do not publish the details before the fix is out.</p>
 </ul>
 
 <h2>Support and updates</h2>
-<p>Every MiaPLC board will have a <b>5-year support period</b>, with its end date stated. Security updates will be <b>free</b> for the whole period.</p>
+<p>Every MIAplc board will have a <b>5-year support period</b>, with its end date stated. Security updates will be <b>free</b> for the whole period.</p>
 
 <h2>Where we stand</h2>
 <table>
@@ -113,8 +115,8 @@ Please do not publish the details before the fix is out.</p>
       <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
     </div>
     <div><h4>Project</h4><ul>
-      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+      <li><a href="index.html#perche">Why MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Trademark</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
     <div><h4>Contact</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (code public in early 2027)</li>
@@ -123,9 +125,9 @@ Please do not publish the details before the fix is out.</p>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
-    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
-    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ is a <a href="marchio.html">filed trademark</a> · Free software, GPL-3.0 ·
+    MIAplc is an independent project; third-party product names and trademarks belong to their respective owners.
+    MIAplc is not a safety device: do not use it for safety functions of machines or plants.</div>
 </div></footer>
 <script src="../assets/js/lightbox.js?v=ff57e3d0" defer></script>
 </body>

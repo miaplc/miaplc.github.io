@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Manual: the examples' hardware with MiaConfig — MiaPLC</title>
+<title>Manual: the examples' hardware with MiaConfig — MIAplc</title>
 <meta name="description" content="Prepare an ESP32 firmware with MiaConfig, wire buttons and LEDs and load the examples on the real board.">
-<meta property="og:title" content="Manual: the examples' hardware with MiaConfig — MiaPLC">
+<meta property="og:title" content="Manual: the examples' hardware with MiaConfig — MIAplc">
 <meta property="og:description" content="Prepare an ESP32 firmware with MiaConfig, wire buttons and LEDs and load the examples on the real board.">
 <meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
 <meta property="og:url" content="https://www.miaplc.it/en/guida-hardware.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="MiaPLC">
+<meta property="og:site_name" content="MIAplc">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="it" href="https://www.miaplc.it/guida-hardware.html">
@@ -37,7 +37,8 @@
     <p class="lead">Take an ESP32 that costs a few euros, wire buttons and LEDs on a breadboard and load the same examples as in the simulator.
       One configuration works for Motor start / stop, Traffic light and the relay song.</p>
     <p>The <b>firmware</b> is the software that runs on the board and turns it into a PLC. <b>MiaConfig</b> is the PC program that prepares and loads it.
-      This is the advanced road, for those starting from any development board: no MiaPLC board with the firmware already inside is in circulation yet.</p>
+      This is the advanced road, for those starting from any development board: no MIAplc board with the firmware already inside is in circulation yet.
+      Development boards are fine for learning and testing; commercial use needs CE-marked boards: see <a href="conformita.html">Compliance</a>.</p>
   </div>
 </div></section>
 
@@ -126,7 +127,7 @@ you will find them in the pinout and in the editor's point table.</p>
 <ol>
   <li>Press <kbd>↻ Cerca</kbd> (search) and choose the board's port (<code>COMx</code> on Windows, <code>/dev/ttyUSB0</code> on Linux).</li>
   <li>Press <kbd>Carica</kbd> (load): MiaConfig builds the firmware and writes it to the board. The first time it downloads ESP-IDF, the compilers and the
-      MiaPLC firmware: it takes a while, later only a few minutes.</li>
+      MIAplc firmware: it takes a while, later only a few minutes.</li>
 </ol>
 <figure class="shot"><img src="../assets/img/mc-genera-en.jpg" alt="MiaConfig, Genera page with build firmware, port and load" loading="lazy"></figure>
 <p class="note">Loading over USB erases the PLC's program, settings and files: fine on a new board. To update a PLC already in use, pick its
@@ -152,7 +153,7 @@ Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.m
       datasheet says. Never a relay coil straight on a pin. Many modules switch on with the pin at 0 («active low» input): then the relays do the
       opposite of the LEDs.</li>
   <li><b>Stop in real plants:</b> here Stop is a normally open button, as in the simulator. On a real machine the stop is wired
-      <b>normally closed</b>, so a broken wire stops the motor, and in the ladder it becomes an NO contact. Remember also that MiaPLC is not a
+      <b>normally closed</b>, so a broken wire stops the motor, and in the ladder it becomes an NO contact. Remember also that MIAplc is not a
       safety device: the real emergency stop goes through safety circuits and components.</li>
 </ul>
 
@@ -206,8 +207,8 @@ Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.m
       <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
     </div>
     <div><h4>Project</h4><ul>
-      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+      <li><a href="index.html#perche">Why MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Trademark</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
     <div><h4>Contact</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (code public in early 2027)</li>
@@ -216,9 +217,9 @@ Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.m
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
-    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
-    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ is a <a href="marchio.html">filed trademark</a> · Free software, GPL-3.0 ·
+    MIAplc is an independent project; third-party product names and trademarks belong to their respective owners.
+    MIAplc is not a safety device: do not use it for safety functions of machines or plants.</div>
 </div></footer>
 <script src="../assets/js/lightbox.js?v=ff57e3d0" defer></script>
 </body>

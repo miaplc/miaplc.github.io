@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gallery — MiaPLC</title>
-<meta name="description" content="Photos from the MiaPLC test bench: the boards, what they do and the most important tests run on them.">
-<meta property="og:title" content="Gallery — MiaPLC">
-<meta property="og:description" content="Photos from the MiaPLC test bench: the boards, what they do and the most important tests run on them.">
+<title>Gallery — MIAplc</title>
+<meta name="description" content="Photos from the MIAplc test bench: the boards, what they do and the most important tests run on them.">
+<meta property="og:title" content="Gallery — MIAplc">
+<meta property="og:description" content="Photos from the MIAplc test bench: the boards, what they do and the most important tests run on them.">
 <meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
 <meta property="og:url" content="https://www.miaplc.it/en/galleria.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="MiaPLC">
+<meta property="og:site_name" content="MIAplc">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="it" href="https://www.miaplc.it/galleria.html">
@@ -32,8 +32,8 @@
 <main>
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">Gallery</span><h1>From the test bench</h1>
-    <p class="mut">Photos of the real boards MiaPLC is tested on every day. For each photo: what you see and which tests we ran on it.
-      These are lab prototypes: no MiaPLC board is in circulation yet.</p></div>
+    <p class="mut">Photos of the real boards MIAplc is tested on every day. For each photo: what you see and which tests we ran on it.
+      These are lab prototypes: no MIAplc board is in circulation yet.</p></div>
 
   <figure class="shot" style="margin:30px 0 0"><a href="../assets/img/galleria/banco-belacqua.jpg" target="_blank" rel="noopener">
     <img src="../assets/img/galleria/banco-belacqua-800.jpg" srcset="../assets/img/galleria/banco-belacqua-800.jpg 800w, ../assets/img/galleria/banco-belacqua.jpg 1620w"
@@ -60,13 +60,13 @@
   <div class="stats">
     <div class="stat"><b>0.92 ms</b><span>to run 1000 ladder networks on the ESP32: the program repeats more than 1000 times a second</span></div>
     <div class="stat"><b>~3 ms</b><span>one pass of the real Belacqua program (369 networks) with the PLC in RUN, never over time</span></div>
-    <div class="stat"><b>50 of 50</b><span>security tests passed on 6 boards: passwords, signatures, forbidden access refused</span></div>
+    <div class="stat"><b>50 of 50</b><span>internal security tests passed on 6 boards: passwords, signatures, forbidden access refused</span></div>
     <div class="stat"><b>~1.1 ms</b><span>round trip between the PLC and a module, with every message signed</span></div>
   </div>
   <ol style="margin-top:28px">
     <li><b>PLC speed.</b> Programs from 1 to 1000 networks, timed by the PLC itself. The full numbers are on the <a href="prestazioni.html">Performance</a> page.</li>
     <li><b>A complete plant in RUN.</b> The Belacqua program runs without overrunning its cycle time, even while the PC downloads programs or watches Online.</li>
-    <li><b>Security.</b> Every board has its own password; firmware and program are accepted only when signed with the project key. The bench boards passed 50 tests out of 50 (9–10 November 2026), the panel 12 out of 12.</li>
+    <li><b>Security.</b> Every board has its own password; firmware and program are accepted only when signed with the project key. The bench boards passed 50 internal tests out of 50 (9–10 November 2026), the panel 12 out of 12.</li>
     <li><b>Signed µLink.</b> PLC and modules exchange inputs and outputs every 5 ms with every message signed: less than 1 message lost in 900 on the Ethernet boards, and the PLC never overran its cycle.</li>
     <li><b>What HTTPS costs.</b> An encrypted connection needs 35–40 KB of RAM at the worst moment: too much for an ESP32 without external memory (PSRAM). That is why HTTPS will come as standard on boards with PSRAM, starting with the P4.</li>
   </ol>
@@ -90,8 +90,8 @@
       <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>An ESP32 PLC to learn real automation on a small budget.</p>
     </div>
     <div><h4>Project</h4><ul>
-      <li><a href="index.html#perche">Why MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
+      <li><a href="index.html#perche">Why MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Examples</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manual: build the examples</a></li><li><a href="guida-hardware.html">Manual: hardware</a></li><li><a href="prestazioni.html">Performance</a></li><li><a href="index.html#prossimi-passi">Next steps</a></li><li><a href="index.html#aggiornamenti">Latest updates</a></li><li><a href="sostieni.html">Support the project</a></li><li><a href="provami.html">Simulator</a></li><li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Trademark</a></li><li><a href="conformita.html">Compliance</a></li><li><a href="privacy.html">Privacy and cookies</a></li></ul></div>
     <div><h4>Contact</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (code public in early 2027)</li>
@@ -100,9 +100,9 @@
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 MiaPLC · Free software, GPL-3.0 ·
-    MiaPLC is an independent project; third-party product names and trademarks belong to their respective owners.
-    MiaPLC is not a safety device: do not use it for safety functions of machines or plants.</div>
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ is a <a href="marchio.html">filed trademark</a> · Free software, GPL-3.0 ·
+    MIAplc is an independent project; third-party product names and trademarks belong to their respective owners.
+    MIAplc is not a safety device: do not use it for safety functions of machines or plants.</div>
 </div></footer>
 <script src="../assets/js/lightbox.js?v=ff57e3d0" defer></script>
 </body>

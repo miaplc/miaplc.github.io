@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wiki — MiaPLC</title>
-<meta name="description" content="Guida di MiaPLC: primi passi, aree di memoria, istruzioni ladder, Online, µLink, HMI e domande frequenti.">
-<meta property="og:title" content="Wiki — MiaPLC">
-<meta property="og:description" content="Guida di MiaPLC: primi passi, aree di memoria, istruzioni ladder, Online, µLink, HMI e domande frequenti.">
+<title>Wiki — MIAplc</title>
+<meta name="description" content="Guida di MIAplc: primi passi, aree di memoria, istruzioni ladder, Online, µLink, HMI e domande frequenti.">
+<meta property="og:title" content="Wiki — MIAplc">
+<meta property="og:description" content="Guida di MIAplc: primi passi, aree di memoria, istruzioni ladder, Online, µLink, HMI e domande frequenti.">
 <meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
 <meta property="og:url" content="https://www.miaplc.it/wiki.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="MiaPLC">
+<meta property="og:site_name" content="MIAplc">
 <meta property="og:locale" content="it_IT">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="it" href="https://www.miaplc.it/wiki.html">
@@ -33,7 +33,7 @@
 <div class="wrap doc">
 <aside>
   <h4>Iniziare</h4>
-  <a href="#intro">Cos'è MiaPLC</a>
+  <a href="#intro">Cos'è MIAplc</a>
   <a href="#primi-passi">Primi passi</a>
   <a href="#simulatore">Il simulatore</a>
   <h4>Programmare</h4>
@@ -60,7 +60,7 @@
   <a href="#hmi">Pannello HMI</a>
   <h4>Guida dei programmi</h4>
   <a href="#mc">MiaConfig</a>
-  <a href="#editor">Editor MiaPLC</a>
+  <a href="#editor">Editor MIAplc</a>
   <a href="#hmi-editor">Editor MiaHMI</a>
   <h4>Manuali</h4>
   <a href="guida-esempi.html">Creare gli esempi</a>
@@ -69,10 +69,10 @@
   <a href="#faq">Domande frequenti</a>
 </aside>
 <article>
-<h1 class="sr-only">Wiki di MiaPLC</h1>
+<h1 class="sr-only">Wiki di MIAplc</h1>
 
-<h2 id="intro">Cos'è MiaPLC</h2>
-<p>MiaPLC (<em>Micro Integrated Automation Programmable Logic Controller</em>) è un PLC costruito su microcontrollori ESP32.
+<h2 id="intro">Cos'è MIAplc</h2>
+<p>MIAplc (<em>Micro Integrated Automation Programmable Logic Controller</em>) è un PLC costruito su microcontrollori ESP32.
 Tre pezzi lavorano insieme:</p>
 <ul>
   <li><b>la scheda</b>: un ESP32 con ingressi, uscite e una rete (Ethernet, WiFi o tutte e due, secondo la scheda);</li>
@@ -83,7 +83,7 @@ Tre pezzi lavorano insieme:</p>
 Intorno ci sono gli altri programmi: <a href="#mc">MiaConfig</a> per preparare schede e firmware su misura, i moduli I/O remoti <a href="#ulink">µLink</a> e il <a href="#hmi">pannello HMI</a>.</p>
 
 <h2 id="primi-passi">Primi passi</h2>
-<p>Ci sono due strade. Con una scheda che ha già il firmware MiaPLC parti subito: accendi, apri l'editor e programmi.
+<p>Ci sono due strade. Con una scheda che ha già il firmware MIAplc parti subito: accendi, apri l'editor e programmi.
 <b>MiaConfig serve solo nella strada avanzata</b>: schede elettroniche custom e progetti avanzati, quando ti prepari da solo un firmware su misura.</p>
 <div class="paths">
   <div class="path">
@@ -125,7 +125,7 @@ Intorno ci sono gli altri programmi: <a href="#mc">MiaConfig</a> per preparare s
 </ul>
 
 <h2 id="scansione">Il ciclo di scansione</h2>
-<p>Come ogni PLC, MiaPLC ripete sempre lo stesso giro:</p>
+<p>Come ogni PLC, MIAplc ripete sempre lo stesso giro:</p>
 <ol><li>legge gli ingressi della scheda e dei moduli µLink;</li><li>esegue il programma dall'inizio alla fine (Main e le FC che chiama);</li><li>scrive le uscite e le manda ai moduli.</li></ol>
 <p>Il programma quindi non “aspetta”: ogni network viene rivalutato a ogni giro. I timer contano il tempo tra un giro e l'altro, i fronti ricordano lo stato del giro prima.</p>
 <ul>
@@ -304,7 +304,7 @@ dopo altri 3 la scheda riparte con il firmware precedente. Un modulo del firmwar
 <p>MiaConfig mostra la memoria della configurazione scelta e può misurarla su una scheda vera. Se il programma non entra, il Download viene rifiutato con un messaggio chiaro.</p>
 
 <h2 id="schede">Schede e MiaConfig</h2>
-<p class="note"><b>MiaConfig è per le schede custom e i progetti avanzati.</b> Con una scheda che ha già il firmware MiaPLC non serve: vedi la strada base nei <a href="#primi-passi">Primi passi</a>.</p>
+<p class="note"><b>MiaConfig è per le schede custom e i progetti avanzati.</b> Con una scheda che ha già il firmware MIAplc non serve: vedi la strada base nei <a href="#primi-passi">Primi passi</a>.</p>
 <p>MiaConfig è il configuratore: descrivi la scheda (ingressi, uscite, Ethernet, WiFi, orologio, dispositivi I2C/SPI) e lui sceglie i moduli del firmware e lo compila.
 Funziona su Windows, Linux e macOS e non installa nulla nel sistema: tutto resta nella sua cartella. La guida completa è in <a href="#mc">Guida dei programmi → MiaConfig</a>.</p>
 <table>
@@ -368,7 +368,7 @@ funziona attraverso gli switch ma non attraverso i router, e non sul WiFi.</p>
   <li>Fino a 8 moduli (64 sul P4). Ogni modulo occupa 64 ingressi e 64 uscite da I64 / Q64 in su, più valori analogici REAL (da 0.0 a 1.0 del campo, la scala la fa il programma), e ha la sua DB nel programma.</li>
   <li>Abbinamento: dalla Diagnostica («Cerca dispositivi», abbina, salva) oppure da MiaConfig con il preabbinamento: il PLC trova e abbina da solo i suoi moduli, anche in RUN.</li>
   <li>Se un modulo smette di rispondere (300 ms): le sue uscite si spengono, nel PLC si accende SF e il log lo registra. Poi, secondo l'impostazione: riparte da solo quando torna (di fabbrica), aspetta un «Riarma», tiene il PLC in STOP finché manca, o lo manda in STOP subito.</li>
-  <li>Un modulo può essere un ESP32 con il firmware MiaPLC in ruolo «Modulo I/O» (ha la sua pagina web e il suo aggiornamento), oppure un <b>Arduino Uno</b> con shield Ethernet W5100 o W5500
+  <li>Un modulo può essere un ESP32 con il firmware MIAplc in ruolo «Modulo I/O» (ha la sua pagina web e il suo aggiornamento), oppure un <b>Arduino Uno</b> con shield Ethernet W5100 o W5500
     e la libreria MiauLink (fino a 14 punti digitali e 6 analogici). Lo sketch Arduino non è ancora stato provato su una scheda.</li>
 </ul>
 
@@ -394,7 +394,7 @@ spiegato in <a href="#hmi-editor">Guida dei programmi → Editor MiaHMI</a>.</p>
 <div class="g-intro">
 <p>MiaConfig disegna l'hardware di una scheda (chip, moduli, pin), controlla che tutto torni, compila il firmware ESP-IDF sul tuo PC e lo carica,
 via USB o via rete. Gestisce anche un impianto intero: PLC, moduli I/O µLink e pannelli, caricati tutti insieme.
-<b>Serve per le schede custom e i progetti avanzati</b>: con una scheda che ha già il firmware MiaPLC non serve. Il programma del PLC non si scrive qui ma nell'editor MiaPLC.</p>
+<b>Serve per le schede custom e i progetti avanzati</b>: con una scheda che ha già il firmware MIAplc non serve. Il programma del PLC non si scrive qui ma nell'editor MIAplc.</p>
 </div>
 
 <details class="g2" id="mc-avvio"><summary>Installare e avviare</summary><div class="g-body">
@@ -614,7 +614,7 @@ In Avanzate il file si salva come <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code> e no
 </ul></details>
 <details class="g3" id="mc-rete"><summary>Ricerca dispositivi (rete)</summary>
 <ul>
-  <li>Visualizza → «Rete (ricerca dispositivi)» (Ctrl+R): le schede MiaPLC che rispondono (UDP 5052, ogni 5 secondi), anche su un'altra rete del PC, perché si raggiungono per MAC.</li>
+  <li>Visualizza → «Rete (ricerca dispositivi)» (Ctrl+R): le schede MIAplc che rispondono (UDP 5052, ogni 5 secondi), anche su un'altra rete del PC, perché si raggiungono per MAC.</li>
   <li>Colonne «Tipo», «Nome», «IP», «MAC», «Firmware», «Stato» (RUN, STOP, collegato al PLC…), «Vista da».</li>
   <li>Per ogni scheda: «Identifica» (LED per 5 s, sul pannello la luminosità), «Ping» (dice se la scheda c'è e se il firmware risponde),
     «Rete» (cambia nome, IP, maschera e gateway via MAC, anche se la scheda è su un'altra rete), «Web» (apre la sua pagina; con una scheda protetta MiaConfig entra con la chiave del progetto).</li>
@@ -745,7 +745,7 @@ Provati su scheda: Ethernet (W5100, LAN8720), Orologio DS3231, Ingressi e Uscite
 <details class="g3"><summary>Caricare una scheda (Genera → Carica)</summary>
 <ul>
   <li><b>Via USB</b>: compila e scrive <code>-completo.bin</code> da 0x0 a 460800 baud. Cancella programma, impostazioni e file. Se la scheda non si collega: tieni premuto <b>BOOT</b> e premi <b>RESET</b>.</li>
-  <li><b>Via rete</b> (scheda che ha già il firmware MiaPLC): il PLC va in STOP, il firmware nuovo va nello slot libero, si aggiornano i file dell'editor, il PLC riparte in STOP. Programma e impostazioni restano.
+  <li><b>Via rete</b> (scheda che ha già il firmware MIAplc): il PLC va in STOP, il firmware nuovo va nello slot libero, si aggiornano i file dell'editor, il PLC riparte in STOP. Programma e impostazioni restano.
     Se il firmware è uguale non si riscrive. Alla fine MiaConfig chiede se rimettere in RUN un PLC che era in RUN.</li>
   <li>Se il firmware cambia le partizioni serve la USB. Se cambia l'hardware della scheda, il PLC resta in STOP: nell'editor Compile, Download e poi RUN.</li>
   <li>Pannello via rete: il firmware nuovo è in prova e diventa definitivo se il pannello resta acceso 60 s. Via USB cancella progetto, immagini e impostazioni.</li>
@@ -812,7 +812,7 @@ Poi entra, imposta la password di amministratore e la chiave del progetto, e cam
   <tr><th>File o cartella</th><th>Cosa contiene</th></tr>
   <tr><td><code>.mia</code> (configurazione)</td><td>I dispositivi dell'impianto, nomi, commenti, PLC, nomi uLink, MAC delle schede.</td></tr>
   <tr><td><code>.mia</code> (dispositivo)</td><td>L'hardware di una scheda. In Avanzate il nome diventa <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code>. Prima si chiamava <code>.hwplc</code>.</td></tr>
-  <tr><td><code>.miaplc</code></td><td>Il programma del PLC (editor MiaPLC), nella cartella del PLC.</td></tr>
+  <tr><td><code>.miaplc</code></td><td>Il programma del PLC (editor MIAplc), nella cartella del PLC.</td></tr>
   <tr><td><code>.miahmi</code>, <code>.miahmi.bozza</code></td><td>Il progetto del pannello e la bozza dell'editor offline.</td></tr>
   <tr><td><code>immagini/</code>, <code>immagini-sd/</code>, <code>aspetto-&lt;schermo&gt;.json</code></td><td>Immagini del pannello (flash e microSD) e misure dei comandi per lo schermo.</td></tr>
   <tr><td><code>.miaplc.fw</code>, <code>.miahmi.fw</code>, <code>-completo.bin</code></td><td>Firmware: pacchetti per l'aggiornamento e immagine completa.</td></tr>
@@ -838,7 +838,7 @@ dopo aver cambiato dispositivi o legami, fai «Allinea le schede», «Compila tu
 </details>
 
 <details class="g1" id="editor">
-<summary><span class="key-n">Editor MiaPLC</span> Il programma del PLC <small>· ladder, FC, DB, Online, diagnostica</small></summary>
+<summary><span class="key-n">Editor MIAplc</span> Il programma del PLC <small>· ladder, FC, DB, Online, diagnostica</small></summary>
 <div class="g-intro">
 <p>L'editor è la pagina web con cui scrivi il programma, lo carichi sul PLC e lo guardi lavorare. Sta dentro il PLC: apri l'indirizzo della scheda nel browser.
 Si può usare anche dal PC, collegato via USB, oppure con il simulatore, senza scheda.</p>
@@ -1547,7 +1547,7 @@ memoria del pannello quasi piena, schermo o touch non trovati, pannello acceso o
 
 <h2 id="faq">Domande frequenti</h2>
 <h3>È un PLC certificato?</h3>
-<p>No. MiaPLC è pensato per didattica, prototipi e progetti hobbistici. <b>Non usarlo per funzioni di sicurezza</b> (arresti di emergenza, ripari, protezione delle persone):
+<p>No. MIAplc è pensato per didattica, prototipi e progetti hobbistici. <b>Non usarlo per funzioni di sicurezza</b> (arresti di emergenza, ripari, protezione delle persone):
 lì servono componenti di sicurezza certificati, cablati indipendentemente dal PLC.</p>
 <h3>Serve internet?</h3>
 <p>No. Il PLC e il suo editor funzionano nella rete locale. Internet serve a MiaConfig per scaricare gli strumenti di compilazione e i sorgenti del firmware, e al PLC solo se vuoi l'ora da internet.</p>
@@ -1582,6 +1582,8 @@ tabelle I/O di un'altra scheda, riavvio dopo un errore grave del firmware.</p>
 <h3>Che licenza ha?</h3>
 <p>Firmware, editor, MiaConfig e il firmware del pannello sono software libero con licenza GPL-3.0; la libreria µLink (MiauLink) ha la licenza LGPL-3.0, così si può usare anche in firmware con un'altra licenza.
 Stato attuale: <strong>repository privati, in fase di rilascio</strong>.</p>
+<p>Testi, manuali ed esempi di questo sito hanno la licenza <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" rel="noopener">CC BY-SA 4.0</a>. Il nome e il logo MIAplc non fanno parte di queste licenze: vedi <a href="marchio.html">Marchio</a>.</p>
+<p>Segnalazioni e proposte sono benvenute a <a href="mailto:info@miaplc.it">info@miaplc.it</a>. I contributi al codice si accettano solo dopo un accordo scritto sui diritti (CLA), così il progetto resta di un solo titolare.</p>
 <h3>Quello che imparo qui vale anche per i PLC industriali?</h3>
 <p>Sì, nei concetti: scansione, ladder, network, funzioni con interfaccia, blocchi dati, tipi IEC, Online. Ogni marca ha poi il suo ambiente e i suoi dettagli,
 ma chi ha capito queste basi ci si orienta in fretta.</p>
@@ -1597,8 +1599,8 @@ ma chi ha capito queste basi ci si orienta in fretta.</p>
       <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
     </div>
     <div><h4>Progetto</h4><ul>
-      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+      <li><a href="index.html#perche">Perché MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Marchio</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
     <div><h4>Contatti</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (codice pubblico a inizio 2027)</li>
@@ -1607,9 +1609,9 @@ ma chi ha capito queste basi ci si orienta in fretta.</p>
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
-    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
-    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ è un <a href="marchio.html">marchio depositato</a> · Software libero GPL-3.0 ·
+    MIAplc è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MIAplc non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
 </div></footer>
 <script src="assets/js/lightbox.js?v=ff57e3d0" defer></script>
 </body>

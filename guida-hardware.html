@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Manuale: hardware degli esempi con MiaConfig — MiaPLC</title>
+<title>Manuale: hardware degli esempi con MiaConfig — MIAplc</title>
 <meta name="description" content="Prepara il firmware di un ESP32 con MiaConfig, collega pulsanti e LED e carica gli esempi sulla scheda vera.">
-<meta property="og:title" content="Manuale: hardware degli esempi con MiaConfig — MiaPLC">
+<meta property="og:title" content="Manuale: hardware degli esempi con MiaConfig — MIAplc">
 <meta property="og:description" content="Prepara il firmware di un ESP32 con MiaConfig, collega pulsanti e LED e carica gli esempi sulla scheda vera.">
 <meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
 <meta property="og:url" content="https://www.miaplc.it/guida-hardware.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="MiaPLC">
+<meta property="og:site_name" content="MIAplc">
 <meta property="og:locale" content="it_IT">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="it" href="https://www.miaplc.it/guida-hardware.html">
@@ -37,7 +37,8 @@
     <p class="lead">Prendi un ESP32 da pochi euro, colleghi pulsanti e LED su una breadboard e ci carichi gli stessi esempi del simulatore.
       Una configurazione sola va bene per Marcia e arresto, Semaforo e la canzoncina dei relè.</p>
     <p>Il <b>firmware</b> è il software che gira sulla scheda e la trasforma in un PLC. <b>MiaConfig</b> è il programma per PC che lo prepara e lo carica.
-      È la strada avanzata, per chi parte da una scheda di sviluppo qualsiasi: nessuna scheda MiaPLC con il firmware già dentro è ancora in circolazione.</p>
+      È la strada avanzata, per chi parte da una scheda di sviluppo qualsiasi: nessuna scheda MIAplc con il firmware già dentro è ancora in circolazione.
+      Le schede di sviluppo vanno bene per imparare e provare; per un uso commerciale servono schede con marcatura CE: vedi <a href="conformita.html">Conformità</a>.</p>
   </div>
 </div></section>
 
@@ -123,7 +124,7 @@ con un errore grave il firmware non si compila, e <b>Controlli</b> dice cosa sis
 <ol>
   <li>Premi <kbd>↻ Cerca</kbd> e scegli la porta della scheda (su Windows <code>COMx</code>, su Linux <code>/dev/ttyUSB0</code>).</li>
   <li>Premi <kbd>Carica</kbd>: MiaConfig compila il firmware e lo scrive sulla scheda. La prima volta scarica ESP-IDF, i compilatori e il
-      firmware MiaPLC: ci vuole un po', le volte dopo solo pochi minuti.</li>
+      firmware MIAplc: ci vuole un po', le volte dopo solo pochi minuti.</li>
 </ol>
 <figure class="shot"><img src="assets/img/mc-genera-it.jpg" alt="MiaConfig, pagina Genera con Compila firmware, porta e Carica" loading="lazy"></figure>
 <p class="note">Il caricamento da USB cancella programma, impostazioni e file del PLC: va bene su una scheda nuova. Per aggiornare un PLC
@@ -149,7 +150,7 @@ In alternativa: <kbd>Compila firmware</kbd> crea il pacchetto <code>.miaplc.fw</
       come dice il suo foglio. Mai la bobina di un relè direttamente su un pin. Molti moduli si accendono con il pin a 0
       (comando «attivo basso»): in quel caso i relè fanno il contrario dei LED.</li>
   <li><b>Arresto negli impianti veri:</b> qui Stop è un pulsante normalmente aperto, come nel simulatore. Su una macchina vera l'arresto si cabla
-      <b>normalmente chiuso</b>, così un filo rotto ferma il motore, e nel ladder diventa un contatto NO. Ricorda anche che MiaPLC non è un
+      <b>normalmente chiuso</b>, così un filo rotto ferma il motore, e nel ladder diventa un contatto NO. Ricorda anche che MIAplc non è un
       dispositivo di sicurezza: l'emergenza vera passa da circuiti e componenti di sicurezza.</li>
 </ul>
 
@@ -203,8 +204,8 @@ In alternativa: <kbd>Compila firmware</kbd> crea il pacchetto <code>.miaplc.fw</
       <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
     </div>
     <div><h4>Progetto</h4><ul>
-      <li><a href="index.html#perche">Perché MiaPLC</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+      <li><a href="index.html#perche">Perché MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Marchio</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
     <div><h4>Contatti</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (codice pubblico a inizio 2027)</li>
@@ -213,9 +214,9 @@ In alternativa: <kbd>Compila firmware</kbd> crea il pacchetto <code>.miaplc.fw</
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 MiaPLC · Software libero GPL-3.0 ·
-    MiaPLC è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
-    MiaPLC non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ è un <a href="marchio.html">marchio depositato</a> · Software libero GPL-3.0 ·
+    MIAplc è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MIAplc non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
 </div></footer>
 <script src="assets/js/lightbox.js?v=ff57e3d0" defer></script>
 </body>
