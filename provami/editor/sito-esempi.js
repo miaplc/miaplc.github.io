@@ -1,8 +1,10 @@
 // ============================================================
-//  MiaPLC — sito-esempi.js  (SOLO per la copia dell'editor sul sito, provami/editor/)
+//  MIAplc — sito-esempi.js  (SOLO per la copia dell'editor sul sito, provami/editor/)
 //  «📂 Apri» mostra un menu: gli esempi del sito si aprono direttamente nell'editor,
 //  «Dal computer…» apre il file come sempre.
 //  ?esempio=<nome> nell'indirizzo apre subito quell'esempio (link dalla pagina Esempi).
+//  ?esempio=<nome>&avvia fa anche Download, Run, accende l'ingresso I0 e va Online (pulsante «Provami» del sito):
+//  solo se il PLC simulato è vuoto o ha già quell'esempio, così il programma di chi è già stato qui resta com'è.
 //  Il progetto passa dall'input #file-open dell'editor: stesso caricamento di un file scelto a mano.
 // ============================================================
 (function () {
@@ -29,7 +31,50 @@
       dt.items.add(new File([blob], name + ".miaplc", { type: "application/json" }));
       input.files = dt.files;
       input.dispatchEvent(new Event("change", { bubbles: true }));
-    } catch (e) { alertBox(T[lang()].err + name); }
+      try { const p = JSON.parse(await blob.text()).project; return { uid: p.uid, name: p.name }; } catch (e) { return null; }
+    } catch (e) { alertBox(T[lang()].err + name); return null; }
+  }
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  async function until(fn, ms) {
+    const t = Date.now();
+    while (Date.now() - t < ms) { try { if (await fn()) return true; } catch (e) {} await sleep(150); }
+    return false;
+  }
+  const el = id => document.getElementById(id);
+  const shown = id => !!el(id) && !el(id).classList.contains("hidden");
+  const click = id => { const e = el(id); if (e && !e.disabled) { e.click(); return true; } return false; };
+  const api = async url => (await fetch(url)).json();
+  async function autoStart(ex) {
+    if (!ex || !ex.uid) return;
+    // l'esempio è nell'editor? Se compare una domanda (progetto non salvato) decide la persona: qui ci si ferma
+    const loaded = await until(() => shown("confirm-modal") || (el("proj-name") && el("proj-name").textContent.trim() === ex.name), 6000);
+    if (!loaded || shown("confirm-modal")) return;
+    // PLC simulato non vuoto: si va avanti solo se dentro c'è questo esempio (il programma di chi è già stato qui non si tocca).
+    // Si riconosce dall'ID del progetto (/api/plc/ident) o, col simulatore che non lo dà, dal CRC ricordato all'ultimo avvio da qui.
+    const KEY = "miaplc.sito.avvia";
+    let st; try { st = await api("/api/plc/status"); } catch (e) { return; }
+    if (st.state !== "no_program") {
+      let same = false;
+      try { const id = await api("/api/plc/ident"); if (id.known) same = id.uid === ex.uid; else throw 0; }
+      catch (e) { try { same = st.crc32 !== undefined && localStorage.getItem(KEY) === ex.uid + ":" + st.crc32; } catch (e2) {} }
+      if (!same) return;
+    }
+    if (!click("btn-download")) return;
+    // Le finestre del Download si confermano da sole: la scelta «Download», l'avanzamento («Chiudi») e alla fine «RUN»
+    const running = async () => (await api("/api/plc/status")).state === "running";
+    const t0 = Date.now(); let quiet = 0;
+    while (Date.now() - t0 < 30000) {
+      if (shown("confirm-modal")) { click("confirm-ok"); quiet = 0; }
+      else if (shown("dl-modal")) { if (!el("dl-close").disabled) click("dl-close"); quiet = 0; }
+      else if (++quiet > 8) { try { if (await running()) break; } catch (e) {} if (quiet > 20) break; }
+      await sleep(200);
+    }
+    try { if (!(await running())) { click("btn-run"); await until(running, 5000); } } catch (e) {}
+    try { const s2 = await api("/api/plc/status"); if (s2.crc32 !== undefined) localStorage.setItem(KEY, ex.uid + ":" + s2.crc32); } catch (e) {}
+    if (window.__mockPlc) window.__mockPlc.setInput(0, true);
+    // Online: l'editor lo concede quando ha letto dal PLC il programma nuovo; si riprova per qualche secondo
+    await until(async () => { if (el("btn-online").classList.contains("online-active")) return true; click("btn-online"); await sleep(700); return false; }, 10000);
   }
 
   function alertBox(txt) {
@@ -77,8 +122,8 @@
     }, true);
     document.addEventListener("click", e => { if (menu && !menu.contains(e.target)) closeMenu(); });
     document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
-    const q = new URLSearchParams(location.search).get("esempio");
-    if (q && /^[a-z0-9-]+$/.test(q)) setTimeout(() => openExample(q), 1200);
+    const par = new URLSearchParams(location.search), q = par.get("esempio");
+    if (q && /^[a-z0-9-]+$/.test(q)) setTimeout(async () => { const ex = await openExample(q); if (par.has("avvia")) autoStart(ex); }, 1200);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", hook); else hook();
 })();
