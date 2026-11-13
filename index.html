@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=dc035142">
+<link rel="stylesheet" href="assets/css/style.css?v=5ecfdb43">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -29,7 +29,6 @@
   <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
   <nav class="nav"><a href="index.html" class="on">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="galleria.html">Galleria</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/index.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
 </div></header>
-<div class="banner" role="status">🚧 Sito in allestimento: alcune sezioni sono ancora incomplete. Ci scusiamo per il disagio.</div>
 <main>
 <section class="hero"><div class="wrap grid">
   <div>
@@ -46,7 +45,8 @@
     </div>
     <p class="mut" style="margin-top:14px;font-size:.92rem">Non hai una scheda? Il simulatore gira nel browser: niente da installare.</p>
   </div>
-  <img class="logo" src="assets/img/logo-512.png" alt="Logo MIAplc">
+  <figure class="shot hero-shot"><img src="assets/img/editor-online-it.jpg" alt="Editor MIAplc in Online con un programma ladder di marcia e arresto motore">
+    <figcaption>Editor MIAplc, vista Online: Start, Stop, termico, autoritenuta e timer «a regime».</figcaption></figure>
 </div></section>
 
 <section id="perche"><div class="wrap story">
@@ -97,21 +97,9 @@
         Le FC si scrivono anche in ST (Structured Text) e in C.</p></div>
     <div class="card art art-ton"><h3>Timer, contatori, numeri</h3>
       <p>TON, TOF, TP, CTU, CTD, CTUD; tipi da BOOL a REAL e TIME; scala lineare per gli analogici.</p></div>
-    <div class="card art art-cat"><h3>Comunicazione</h3>
+    <div class="card art art-com"><h3>Comunicazione</h3>
       <p>Ethernet e WiFi, Modbus TCP, moduli di ingressi e uscite a distanza (µLink), pannello operatore touch (HMI).</p></div>
   </div>
-</div></section>
-
-<section><div class="wrap">
-  <div class="sec-h"><span class="tag">L'editor</span><h2>Programmi in ladder, lo vedi lavorare dal vivo</h2>
-    <p class="mut">Marcia e arresto di un motore con autoritenuta, in Online: in verde i contatti chiusi e le bobine eccitate.</p></div>
-  <figure class="shot" style="margin:0"><img src="assets/img/editor-online-it.jpg" alt="Editor MIAplc in Online con un programma ladder di marcia e arresto motore" loading="lazy">
-    <figcaption>Editor MIAplc, vista Online: Start, Stop, termico, autoritenuta e timer «a regime».</figcaption></figure>
-  <ul class="feat">
-    <li>Tabella dei simboli e riferimenti incrociati</li><li>Bit di sistema: primo ciclo, clock 1/2/10 Hz</li>
-    <li>Interfaccia in più lingue</li><li>Aggiornamento firmware dall'editor o da USB</li>
-    <li>Analisi della RAM e del tempo di scansione</li><li>Backup e ripristino del PLC</li>
-  </ul>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -122,6 +110,12 @@
     <figure class="shot"><img src="assets/img/mc-ingressi-it.jpg" alt="MiaConfig" loading="lazy"><figcaption><b>MiaConfig</b> · Disegni la scheda pin per pin e lui compila e carica il firmware.</figcaption></figure>
     <figure class="shot"><img src="assets/img/hmi-editor-it.jpg" alt="Editor HMI" loading="lazy"><figcaption><b>Editor HMI</b> · Pagine del pannello operatore con lampade, pulsanti, valori, allarmi e grafici.</figcaption></figure>
   </div>
+  <h3 style="margin-top:34px">Nell'editor trovi anche</h3>
+  <ul class="feat">
+    <li>Tabella dei simboli e riferimenti incrociati</li><li>Bit di sistema: primo ciclo, clock 1/2/10 Hz</li>
+    <li>Interfaccia in più lingue</li><li>Aggiornamento firmware dall'editor o da USB</li>
+    <li>Analisi della RAM e del tempo di scansione</li><li>Backup e ripristino del PLC</li>
+  </ul>
   <p style="margin-top:22px"><a class="btn" href="guida-esempi.html">📘 Manuale: crea gli esempi</a> <a class="btn" href="guida-hardware.html">🔧 Manuale: hardware con MiaConfig</a></p>
 </div></section>
 
@@ -142,7 +136,7 @@
 <section><div class="wrap">
   <div class="sec-h"><span class="tag">La famiglia</span><h2>Quattro pezzi che lavorano insieme</h2></div>
   <div class="family">
-    <div class="card"><b>MiaPlc</b><h3 style="margin-top:8px">Firmware ed editor</h3>
+    <div class="card"><b>MIAplc</b><h3 style="margin-top:8px">Firmware ed editor</h3>
       <p>La macchina virtuale del PLC, il ciclo di scansione, i moduli (rete, orologio, I/O) e l'editor web.</p></div>
     <div class="card"><b>MiaConfig</b><h3 style="margin-top:8px">Configuratore</h3>
       <p>Per schede elettroniche custom e progetti avanzati: disegni la tua scheda (ingressi, uscite, Ethernet, orologio) e lui compila un firmware su misura. Con una scheda già pronta non serve. Windows, Linux, macOS.</p></div>
@@ -151,15 +145,7 @@
     <div class="card"><b>MiaHmi</b><h3 style="margin-top:8px">Pannello operatore</h3>
       <p>Il pannello operatore (HMI, interfaccia uomo-macchina): uno schermo touch da 10,1" su ESP32-P4 che mostra e cambia i dati del PLC.</p></div>
   </div>
-  <h3 style="margin-top:40px">Schede di riferimento</h3>
-  <p class="mut">Le schede di sviluppo su cui MIAplc è provato. Nessuna scheda MIAplc è ancora in circolazione: la prima è in progettazione.</p>
-  <table class="cmp">
-    <tr><th>Chip</th><th>Esempio</th><th>Note</th></tr>
-    <tr><td>ESP32</td><td>Olimex ESP32-EVB</td><td>Ethernet a bordo, relè, orologio DS3231 opzionale</td></tr>
-    <tr><td>ESP32-C3</td><td>moduli piccoli + W5100 / W5500</td><td>la soluzione più economica, anche come modulo I/O µLink</td></tr>
-    <tr><td>ESP32-S3</td><td>ESP32-S3-DevKitC-1</td><td>più memoria per programmi grandi</td></tr>
-    <tr><td>ESP32-P4</td><td>schede con Ethernet</td><td>la più potente; anche base del pannello HMI</td></tr>
-  </table>
+  <p class="mut" style="margin-top:28px">Schede provate: ESP32, ESP32-C3, ESP32-S3 ed ESP32-P4; l'elenco è nella <a href="wiki.html#schede">wiki</a>. Nessuna scheda MIAplc è ancora in circolazione: la prima è in progettazione.</p>
   <h3 style="margin-top:40px">Per chi lavora già con i PLC</h3>
   <ul class="feat">
     <li>Ladder per Main e StartUp; le funzioni (FC) anche in ST o in C</li>
@@ -170,6 +156,7 @@
     <li>Non è un PLC di sicurezza: niente funzioni di sicurezza delle macchine</li>
   </ul>
   <p class="small mut">Tutti i numeri e i limiti: <a href="prestazioni.html">Prestazioni</a> e <a href="wiki.html#limiti">Memoria e limiti</a> nella wiki.</p>
+  <p class="small mut" id="aggiornamenti">Versioni attuali: firmware 0.3.99, editor 4.9.47 (12/11/2026). <a href="versioni.html">Che cosa è cambiato</a>.</p>
 </div></section>
 
 <section id="prossimi-passi"><div class="wrap">
@@ -178,7 +165,7 @@
       quindi i tempi non sono promesse: questa è la strada, con gli ultimi punti che per ora sono sogni.</p></div>
   <ol class="road">
     <li class="now"><span class="st">in corso</span><h3>La prima scheda ufficiale</h3>
-      <p>Il primo PLC MIAplc progettato apposta, con moduli Espressif già certificati per la parte radio.</p></li>
+      <p>Il primo PLC MIAplc progettato apposta: ESP32-P4, alimentazione a 24 V, Ethernet e nessuna radio a bordo, pensato per la marcatura CE.</p></li>
     <li class="part"><span class="st">in parte fatto</span><h3>Provare tutti i chip del configuratore</h3>
       <p>MiaConfig ha già molti chip e schede. Una parte è provata perché ce l'ho sul banco; le altre sono da comprare e mettere alla prova una per una.</p></li>
     <li><span class="st">in programma</span><h3>Moduli µLink di base</h3>
@@ -190,8 +177,8 @@
       <p>Sto valutando i processori Allwinner T113 e T156. Per i chip più potenti il punto di domanda è sempre lo stesso:
         il costo e l'avvio della memoria DDR.</p></li>
     <li><span class="st">in programma</span><h3>Sicurezza informatica e regole europee</h3>
-      <p>Prima di certificare, il firmware deve rispettare le regole sulla sicurezza informatica: requisiti della direttiva RED
-        (norma EN 18031), Cyber Resilience Act, password obbligatorie e mai di fabbrica, comandi critici protetti (RUN/STOP, Download, forzature),
+      <p>Prima di vendere una scheda, il firmware deve rispettare le regole europee sulla sicurezza informatica (Cyber Resilience Act):
+        password obbligatorie e mai di fabbrica, comandi critici protetti (RUN/STOP, Download, forzature),
         aggiornamenti firmati e una procedura per segnalare e correggere le vulnerabilità.</p></li>
     <li class="dream"><span class="st">il sogno</span><h3>Schede certificate per l'industria</h3>
       <p>Far certificare le schede e renderle integrabili negli impianti industriali, sulle piattaforme più potenti (T156, Zynq e simili).</p></li>
@@ -230,20 +217,6 @@
   </div>
 </div></section>
 
-<section id="aggiornamenti" class="alt"><div class="wrap">
-  <div class="sec-h"><span class="tag">Versioni</span><h2>Ultimo aggiornamento</h2>
-    <p class="mut">Cosa è cambiato per ultimo in ogni parte di MIAplc: si aggiorna da solo a ogni pubblicazione.</p></div>
-  <div class="tblwrap"><table class="agg"><thead><tr><th>Componente</th><th>Versione</th><th>Data</th><th>Motivo</th></tr></thead><tbody>
-<tr><td><b>MIAplc editor</b><small>editor web del PLC (ladder, FC, Online, diagnostica)</small></td><td class="v">4.9.47</td><td class="d">12/11/2026</td><td>Giri del PBKDF2 dalla scheda con un minimo (revisione della sicurezza del 12-11, accesso.js, anche nel pannello): chi si fingeva la scheda…</td></tr>
-<tr><td><b>MIAplc firmware</b><small>firmware del PLC (ESP-IDF)</small></td><td class="v">0.3.99</td><td class="d">12/11/2026</td><td>Progetto leggibile senza sessione con /plc//project.mia.gz (revisione della sicurezza del 12-11): il controllo dei file privati guardava il…</td></tr>
-<tr><td><b>MiaHMI firmware</b><small>firmware del pannello HMI touch</small></td><td class="v">0.1.31.0</td><td class="d">12/11/2026</td><td>Pulsante Excel di un grafico: il pannello si riavviava: l&#x27;esportazione dallo schermo gira nel task hmi_veloce, che aveva 4 KB di stack</td></tr>
-<tr><td><b>MiaConfig</b><small>configuratore e compilatore del firmware</small></td><td class="v">0.1.145</td><td class="d">12/11/2026</td><td>Nome e id del progetto nel codice C filtrati (revisione della sicurezza del 12-11): in conf_plc_board.h (gen_board.py) e nei #define di…</td></tr>
-<tr><td><b>µLink</b><small>moduli I/O remoti</small></td><td class="v">0.4.4</td><td class="d">12/11/2026</td><td>Revisione della sicurezza del 12-11. CAT_REQ e i frame per la scheda (PP_LOAD, PP_READ) della sessione passano solo se più nuovi…</td></tr>
-<tr><td><b>MiaExamples</b><small>progetti di esempio (Belacqua…)</small></td><td class="v">0.3.3.5</td><td class="d">09/11/2026</td><td>tools/screens_mc.py: anche mc-belacqua (MiaConfig con la configurazione di Belacqua, i quattro dispositivi e il PLC con µLink), per la…</td></tr>
-<tr><td><b>MiaComponents</b><small>componenti comuni</small></td><td class="v">0.1.0.3</td><td class="d">05/11/2026</td><td>README: sezione «Disclaimer» in fondo (non è un controllore di sicurezza, schede da sviluppo, responsabilità di chi progetta e installa…</td></tr>
-</tbody></table></div>
-</div></section>
-
 <section id="contatti"><div class="wrap story">
   <div>
     <span class="tag-l">Contatti</span>
@@ -273,7 +246,9 @@
     </div>
     <div><h4>Progetto</h4><ul>
       <li><a href="index.html#perche">Perché MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
-      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="index.html#aggiornamenti">Ultimo aggiornamento</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Marchio</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="versioni.html">Versioni</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li></ul></div>
+    <div><h4>Informazioni</h4><ul>
+      <li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Marchio</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
     <div><h4>Contatti</h4><ul>
       <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
       <li>🚧 GitHub (codice pubblico a inizio 2027)</li>

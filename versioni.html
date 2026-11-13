@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Versioni — MIAplc</title>
+<meta name="description" content="L'ultima versione di ogni parte di MIAplc e che cosa è cambiato.">
+<meta property="og:title" content="Versioni — MIAplc">
+<meta property="og:description" content="L'ultima versione di ogni parte di MIAplc e che cosa è cambiato.">
+<meta property="og:image" content="https://www.miaplc.it/assets/img/og.jpg">
+<meta property="og:url" content="https://www.miaplc.it/versioni.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MIAplc">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="it" href="https://www.miaplc.it/versioni.html">
+<link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/versioni.html">
+<link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/versioni.html">
+<link rel="canonical" href="https://www.miaplc.it/versioni.html">
+<meta name="theme-color" content="#050c1c">
+<script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/versioni.html"+location.search+location.hash)}}catch(e){}})();</script>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=5ecfdb43">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="galleria.html">Galleria</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami.html">▶ Provami</a><a class="lang" href="en/versioni.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
+</div></header>
+<main>
+<section><div class="wrap" style="max-width:980px">
+  <div class="sec-h"><span class="tag">Versioni</span><h1>Ultimo aggiornamento</h1>
+    <p class="mut">Che cosa è cambiato per ultimo in ogni parte di MIAplc. La pagina si aggiorna a ogni pubblicazione del sito.</p></div>
+  <div class="tblwrap"><table class="agg"><thead><tr><th>Componente</th><th>Versione</th><th>Data</th><th>Motivo</th></tr></thead><tbody>
+<tr><td><b>MIAplc editor</b><small>editor web del PLC (ladder, FC, Online, diagnostica)</small></td><td class="v">4.9.47</td><td class="d">12/11/2026</td><td>Accesso più protetto: l&#x27;editor rifiuta parametri deboli dalla scheda; per cambiare la password di amministratore serve quella attuale.</td></tr>
+<tr><td><b>MIAplc firmware</b><small>firmware del PLC (ESP-IDF)</small></td><td class="v">0.3.99</td><td class="d">12/11/2026</td><td>Revisione della sicurezza: controlli più severi su accesso, file, Modbus, µLink e sul programma caricato.</td></tr>
+<tr><td><b>MiaHmi firmware</b><small>firmware del pannello HMI touch</small></td><td class="v">0.1.31.0</td><td class="d">12/11/2026</td><td>Corretto il riavvio del pannello quando si esporta un grafico in Excel; nuovo PIN per il menu di sistema; password WiFi cifrate.</td></tr>
+<tr><td><b>MiaConfig</b><small>configuratore e compilatore del firmware</small></td><td class="v">0.1.145</td><td class="d">12/11/2026</td><td>Prima messa in servizio di una scheda solo dalla USB; un firmware troppo grande per la scheda viene rifiutato già alla compilazione.</td></tr>
+<tr><td><b>µLink</b><small>moduli I/O remoti</small></td><td class="v">0.4.4</td><td class="d">12/11/2026</td><td>Revisione della sicurezza: i moduli rifiutano i comandi ripetuti e l&#x27;abbinamento col PLC resiste meglio ai disturbi.</td></tr>
+<tr><td><b>MiaExamples</b><small>progetti di esempio (Belacqua…)</small></td><td class="v">0.3.3.5</td><td class="d">09/11/2026</td><td>Nuova schermata di MiaConfig con la configurazione dell&#x27;esempio Belacqua.</td></tr>
+<tr><td><b>MiaComponents</b><small>componenti comuni</small></td><td class="v">0.1.0.3</td><td class="d">05/11/2026</td><td>Avvertenze d&#x27;uso aggiunte alla documentazione; il codice non cambia.</td></tr>
+</tbody></table></div>
+  <p class="small mut" style="margin-top:18px">L'elenco completo delle modifiche sarà nei repository, pubblici a inizio 2027.</p>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/img/logo-256.png" alt=""><span>MIA<b>plc</b></span></a>
+      <p style="margin-top:12px">Micro Integrated Automation Programmable Logic Controller.<br>Un PLC su ESP32 per imparare l'automazione vera spendendo poco.</p>
+    </div>
+    <div><h4>Progetto</h4><ul>
+      <li><a href="index.html#perche">Perché MIAplc</a></li><li><a href="wiki.html">Wiki</a></li>
+      <li><a href="esempi.html">Esempi</a></li><li><a href="belacqua.html">Belacqua</a></li><li><a href="guida-esempi.html">Manuale: crea gli esempi</a></li><li><a href="guida-hardware.html">Manuale: hardware</a></li><li><a href="prestazioni.html">Prestazioni</a></li><li><a href="provami.html">Simulatore</a></li><li><a href="index.html#prossimi-passi">Prossimi passi</a></li><li><a href="versioni.html">Versioni</a></li><li><a href="sostieni.html">Sostieni il progetto</a></li></ul></div>
+    <div><h4>Informazioni</h4><ul>
+      <li><a href="certified.html">MIAplc Certified</a></li><li><a href="partner.html">Partner</a></li><li><a href="marchio.html">Marchio</a></li><li><a href="conformita.html">Conformità</a></li><li><a href="privacy.html">Privacy e cookie</a></li></ul></div>
+    <div><h4>Contatti</h4><ul>
+      <li><a href="mailto:info@miaplc.it">info@miaplc.it</a></li>
+      <li>🚧 GitHub (codice pubblico a inizio 2027)</li>
+      <li><a href="https://www.instagram.com/miaplc" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/@MIAplc-eu" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
+    </ul></div>
+  </div>
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ è un <a href="marchio.html">marchio depositato</a> · Software libero GPL-3.0 ·
+    MIAplc è un progetto indipendente; i nomi di prodotti e marchi di terzi citati appartengono ai rispettivi proprietari.
+    MIAplc non è un dispositivo di sicurezza: non usarlo per funzioni di sicurezza di macchine o impianti.</div>
+</div></footer>
+<script src="assets/js/lightbox.js?v=ff57e3d0" defer></script>
+</body>
+</html>

@@ -55,6 +55,7 @@ code,kbd{font-family:var(--mono);font-size:.88em;background:#0b1a38;border:1px s
 .hero h1 span{color:var(--cy)}
 .hero .lead{font-size:1.2rem;color:#b9c9e6;max-width:36em;margin-bottom:28px}
 .hero .logo{width:min(420px,90%);margin:auto;filter:drop-shadow(0 0 40px rgba(34,211,238,.35))}
+.hero .hero-shot{margin:0}.hero .hero-shot img{display:block;width:100%;height:auto;cursor:zoom-in}
 @media(max-width:860px){.hero .grid{grid-template-columns:1fr}.hero .logo{width:240px;order:-1}}
 
 /* sections */
@@ -98,7 +99,7 @@ a.card:hover{border-color:var(--cy);transform:translateY(-2px)}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:44px 0 30px;color:var(--mut);font-size:.93rem}
-footer .grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
+footer .grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
 footer h4{color:#fff;margin:0 0 10px;font-size:.95rem}
 footer ul{list-style:none;padding:0;margin:0}
 footer li{margin:4px 0}
@@ -319,10 +320,10 @@ details.geek .needs{margin:0 0 8px;max-width:none}
 .card.art-ladder,.card.art-online{padding-bottom:124px}
 .card.art-ladder::before{left:20px;right:20px;bottom:18px;height:88px;background-image:url(../img/card-ladder.svg);background-position:left bottom}
 .card.art-online::before{left:20px;right:20px;bottom:14px;height:104px;background-image:url(../img/card-online.svg);background-position:left bottom}
-.card.art-fc::before,.card.art-ton::before{right:-18px;bottom:-14px;width:210px;height:160px;opacity:.3}
+.card.art-fc::before,.card.art-ton::before,.card.art-com::before{right:-18px;bottom:-14px;width:210px;height:160px;opacity:.3}
 .card.art-fc::before{background-image:url(../img/card-fc.svg)}
 .card.art-ton::before{background-image:url(../img/card-ton.svg)}
-.card.art-cat::before{right:-18px;bottom:-22px;width:240px;height:160px;opacity:.4;background-image:url(../img/card-comunicazione.webp)}
+.card.art-com::before{background-image:url(../img/card-comunicazione.svg)}
 .card.art h3,.card.art p{position:relative}
 /* «Editor nel browser»: la scheda è una finestra del browser */
 .card.win{padding:0;overflow:hidden;display:flex;flex-direction:column}
@@ -334,7 +335,7 @@ details.geek .needs{margin:0 0 8px;max-width:none}
 .win-bar span b{color:#22c55e;font-weight:600}
 .win-body{padding:20px 24px 24px}
 .card.art p{text-shadow:0 1px 3px rgba(5,12,28,.9)}
-@media (max-width:700px){.card.art-fc::before,.card.art-ton::before{width:150px;height:115px}.card.art-cat::before{width:185px;height:124px}}
+@media (max-width:700px){.card.art-fc::before,.card.art-ton::before,.card.art-com::before{width:150px;height:115px}}
 /* Ultimo aggiornamento dei componenti (home) */
 table.agg{width:100%;border-collapse:collapse;font-size:.95rem}
 table.agg th{text-align:left;font-weight:600;color:#fff;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(34,211,238,.06)}
