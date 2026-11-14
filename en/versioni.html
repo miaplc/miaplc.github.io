@@ -33,11 +33,11 @@
   <div class="sec-h"><span class="tag">Versions</span><h1>Latest updates</h1>
     <p class="mut">What changed last in each part of MIAplc. The page is updated every time the site is published.</p></div>
   <div class="tblwrap"><table class="agg"><thead><tr><th>Component</th><th>Version</th><th>Date</th><th>What changed</th></tr></thead><tbody>
-<tr><td><b>MIAplc editor</b><small>PLC web editor (ladder, FCs, Online, diagnostics)</small></td><td class="v">4.9.47</td><td class="d">12 Nov 2026</td><td>Safer login: the editor refuses weak parameters from the board; changing the administrator password needs the current one.</td></tr>
-<tr><td><b>MIAplc firmware</b><small>PLC firmware (ESP-IDF)</small></td><td class="v">0.3.99</td><td class="d">12 Nov 2026</td><td>Security review: stricter checks on login, files, Modbus, µLink and the loaded program.</td></tr>
+<tr><td><b>MIAplc editor</b><small>PLC web editor (ladder, FCs, Online, diagnostics)</small></td><td class="v">4.9.48</td><td class="d">13 Nov 2026</td><td>I/O tables of µLink modules up to 32 REAL (128 bytes); a module beyond the PLC limit gives an error at Compile.</td></tr>
+<tr><td><b>MIAplc firmware</b><small>PLC firmware (ESP-IDF)</small></td><td class="v">0.3.100</td><td class="d">13 Nov 2026</td><td>µLink modules up to 128 bytes of values (32 REAL): Belacqua reads all its probes; oversized I/O tables are no longer dropped silently.</td></tr>
+<tr><td><b>MiaConfig</b><small>configurator and firmware builder</small></td><td class="v">0.1.146</td><td class="d">13 Nov 2026</td><td>µLink modules up to 128 bytes of values per direction in the board map.</td></tr>
+<tr><td><b>µLink</b><small>remote I/O modules</small></td><td class="v">0.4.5</td><td class="d">13 Nov 2026</td><td>Variable frames: a module exchanges with the PLC only the bytes of its map, up to 128 bytes of values per direction.</td></tr>
 <tr><td><b>MiaHmi firmware</b><small>touch HMI panel firmware</small></td><td class="v">0.1.31.0</td><td class="d">12 Nov 2026</td><td>Fixed the panel restart when exporting a chart to Excel; new PIN for the system menu; encrypted WiFi passwords.</td></tr>
-<tr><td><b>MiaConfig</b><small>configurator and firmware builder</small></td><td class="v">0.1.145</td><td class="d">12 Nov 2026</td><td>First commissioning of a board only over USB; a firmware too large for the board is refused at build time.</td></tr>
-<tr><td><b>µLink</b><small>remote I/O modules</small></td><td class="v">0.4.4</td><td class="d">12 Nov 2026</td><td>Security review: modules reject replayed commands and pairing with the PLC is more robust.</td></tr>
 <tr><td><b>MiaExamples</b><small>example projects (Belacqua…)</small></td><td class="v">0.3.3.5</td><td class="d">9 Nov 2026</td><td>New MiaConfig screenshot with the configuration of the Belacqua example.</td></tr>
 <tr><td><b>MiaComponents</b><small>shared components</small></td><td class="v">0.1.0.3</td><td class="d">5 Nov 2026</td><td>Usage warnings added to the documentation; the code does not change.</td></tr>
 </tbody></table></div>
@@ -64,7 +64,7 @@
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 Denys Momotenko · MIAplc™ is a <a href="marchio.html">filed trademark</a> · Free software, GPL-3.0 ·
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ is a <a href="marchio.html">filed trademark</a> · Software licence under review ·
     MIAplc is an independent project; third-party product names and trademarks belong to their respective owners.
     MIAplc is not a safety device: do not use it for safety functions of machines or plants.</div>
 </div></footer>

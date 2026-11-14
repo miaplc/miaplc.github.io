@@ -17,7 +17,7 @@
 <link rel="alternate" hreflang="en" href="https://www.miaplc.it/en/">
 <link rel="alternate" hreflang="x-default" href="https://www.miaplc.it/">
 <link rel="canonical" href="https://www.miaplc.it/en/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://www.miaplc.it/#org", "name": "MIAplc", "url": "https://www.miaplc.it/", "logo": "https://www.miaplc.it/assets/img/logo-512.png", "email": "info@miaplc.it", "founder": {"@type": "Person", "name": "Denys Momotenko"}, "sameAs": ["https://www.instagram.com/miaplc", "https://www.youtube.com/@MIAplc-eu", "https://www.tiktok.com/@miaplc.eu", "https://github.com/miaplc"]}, {"@type": "WebSite", "@id": "https://www.miaplc.it/#web", "url": "https://www.miaplc.it/", "name": "MIAplc", "inLanguage": ["it", "en"], "publisher": {"@id": "https://www.miaplc.it/#org"}}, {"@type": "SoftwareApplication", "name": "MIAplc", "url": "https://www.miaplc.it/en/", "applicationCategory": "DeveloperApplication", "operatingSystem": "ESP32, web browser", "description": "PLC on ESP32 programmed in ladder from a web editor, with a simulator, diagnostics, DBs and functions. Free software (GPL-3.0) for schools, students and makers.", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "publisher": {"@id": "https://www.miaplc.it/#org"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://www.miaplc.it/#org", "name": "MIAplc", "url": "https://www.miaplc.it/", "logo": "https://www.miaplc.it/assets/img/logo-512.png", "email": "info@miaplc.it", "founder": {"@type": "Person", "name": "Denys Momotenko"}, "sameAs": ["https://www.instagram.com/miaplc", "https://www.youtube.com/@MIAplc-eu", "https://www.tiktok.com/@miaplc.eu", "https://github.com/miaplc"]}, {"@type": "WebSite", "@id": "https://www.miaplc.it/#web", "url": "https://www.miaplc.it/", "name": "MIAplc", "inLanguage": ["it", "en"], "publisher": {"@id": "https://www.miaplc.it/#org"}}, {"@type": "SoftwareApplication", "name": "MIAplc", "url": "https://www.miaplc.it/en/", "applicationCategory": "DeveloperApplication", "operatingSystem": "ESP32, web browser", "description": "PLC on ESP32 programmed in ladder from a web editor, with a simulator, diagnostics, DBs and functions. For schools, students and makers.", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "publisher": {"@id": "https://www.miaplc.it/#org"}}]}</script>
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
@@ -69,7 +69,7 @@
       <li>One board per student, not one per lab</li>
       <li>Programmed from the browser: no licences, nothing to install on school PCs</li>
       <li>The same ideas as industry: scan cycle, networks, functions (FC), data blocks (DB), Online</li>
-      <li>Free software (GPL-3.0): you can study how it works inside, too</li>
+      <li>Source code to be published: you will be able to study how it works inside, too (licence under review)</li>
     </ul>
   </div>
 </div></section>
@@ -155,7 +155,7 @@
     <li>Not a safety PLC: no machine safety functions</li>
   </ul>
   <p class="small mut">All figures and limits: <a href="prestazioni.html">Performance</a> and <a href="wiki.html#limiti">Memory and limits</a> in the wiki.</p>
-  <p class="small mut" id="aggiornamenti">Current versions: firmware 0.3.99, editor 4.9.47 (12 Nov 2026). <a href="versioni.html">What changed</a>.</p>
+  <p class="small mut" id="aggiornamenti">Current versions: firmware 0.3.100, editor 4.9.48 (13 Nov 2026). <a href="versioni.html">What changed</a>.</p>
 </div></section>
 
 <section id="prossimi-passi"><div class="wrap">
@@ -190,7 +190,7 @@
     <span class="tag-l" style="text-align:center">Support the project</span>
     <p style="text-align:center;margin:0 0 6px"><span class="st-wip">🚧 donations coming soon</span></p>
     <h2>Donations go to the MIAplc project</h2>
-    <p>MIAplc is an open source project by <b>Denys Momotenko</b>, developed in his spare time and unpaid.
+    <p>MIAplc is a project by <b>Denys Momotenko</b>, developed in his spare time and unpaid.
       Donations help it grow and reach schools. Or, if you prefer, you can buy me a coffee.</p>
     <div class="btns"><a class="btn pri" href="sostieni.html">♥ Support the project</a>
       <a class="btn" href="sostieni.html">☕ Buy me a coffee</a></div>
@@ -231,8 +231,8 @@
   <div class="cards" style="grid-template-columns:1fr">
     <div class="card"><h3>Schools</h3><p>Available for teaching pilots and to help prepare exercises that match the course syllabus.</p></div>
     <div class="card"><h3>Companies and installers</h3><p>Using it for work? The software is the same for everyone. A plant needs CE-marked boards, documentation and support: see <a href="certified.html">MIAplc Certified</a> <small>🚧 being prepared</small>.</p></div>
-    <div class="card"><h3>Source code</h3><p>Firmware, editor and configurator are free software (GPL-3.0), under the <a href="https://github.com/miaplc" rel="noopener">miaplc</a> organisation on GitHub.
-      Current status: <strong>private repositories</strong>. Code and downloads will be published in early 2027.</p></div>
+    <div class="card"><h3>Source code</h3><p>Firmware, editor and configurator are in the <a href="https://github.com/miaplc" rel="noopener">miaplc</a> organisation on GitHub.
+      Current status: <strong>private repositories</strong>, software licence <strong>under review</strong>. Code, licence and downloads will be published in early 2027.</p></div>
   </div>
 </div></section>
 
@@ -256,7 +256,7 @@
       <li><a href="https://www.tiktok.com/@miaplc.eu" rel="noopener">TikTok</a></li>
     </ul></div>
   </div>
-  <div class="legal">© 2026 Denys Momotenko · MIAplc™ is a <a href="marchio.html">filed trademark</a> · Free software, GPL-3.0 ·
+  <div class="legal">© 2026 Denys Momotenko · MIAplc™ is a <a href="marchio.html">filed trademark</a> · Software licence under review ·
     MIAplc is an independent project; third-party product names and trademarks belong to their respective owners.
     MIAplc is not a safety device: do not use it for safety functions of machines or plants.</div>
 </div></footer>
