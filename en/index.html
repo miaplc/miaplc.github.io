@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(first){location.replace("../"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css?v=5ecfdb43">
+<link rel="stylesheet" href="../assets/css/style.css?v=4d9138dd">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -30,23 +30,59 @@
   <nav class="nav"><a href="index.html" class="on">Home</a><a href="index.html#perche">Why</a><a href="wiki.html">Wiki</a><a href="esempi.html">Examples</a><a href="prestazioni.html">Performance</a><a href="index.html#contatti">Contact</a><a class="cta" href="../provami/editor/index.html?mock&amp;esempio=traffic-light&amp;avvia" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','en')}catch(e){}">▶ Try it</a><a class="lang" href="../index.html" hreflang="it" title="Italiano" onclick="try{localStorage.setItem('miaplc.lingua','it');localStorage.setItem('espplc.lang','it')}catch(e){}">IT</a></nav>
 </div></header>
 <main>
-<section class="hero"><div class="wrap grid">
+<section class="hero hero-x"><div class="wrap grid">
   <div>
-    <span class="kick">PLC · ESP32 · Web editor</span>
-    <h1>A real PLC,<br><span>within everyone's reach.</span></h1>
-    <p class="lead">A PLC is the small computer that, in factories, reads buttons and sensors and drives lights, motors and valves.
-      MIAplc is a PLC built on an ESP32 board that costs a few euros.
-      You draw the program in your browser in <b>ladder</b>: the contact diagram used in real plants.</p>
-    <p>Switch on a lamp, start a motor, automate a greenhouse.
-      And along the way you learn industrial automation, with the same steps used in a factory.</p>
+    <span class="kick">PLC · HMI · Remote I/O · Configurator</span>
+    <h1>Built like an industrial PLC.<br><span>Open to everyone.</span></h1>
+    <p class="lead">MIAplc is a complete automation ecosystem: PLC, operator panel, real-time remote I/O and hardware configurator. It runs on ESP32 boards that cost a few euros, you program it in <b>ladder</b> from your browser, and it asks for no licence at all.</p>
+    <p>A thousand networks in under a millisecond. Eight megabytes of program. Remote I/O in under half a millisecond. These are not promises: they are <a href="prestazioni.html">measurements, published one by one</a>.</p>
     <div class="btns">
       <a class="btn pri" href="provami.html">▶ Try it in your browser</a>
-      <a class="btn" href="#perche">Why it exists</a>
+      <a class="btn" href="prestazioni.html">See the numbers</a>
     </div>
-    <p class="mut" style="margin-top:14px;font-size:.92rem">No board? The simulator runs in your browser: nothing to install.</p>
+    <p class="mut" style="margin-top:14px;font-size:.92rem">Never seen a PLC? It is the computer that runs machines: <a href="#cosa-fa">start here</a>. No board? The simulator runs in your browser.</p>
   </div>
   <figure class="shot hero-shot"><img src="../assets/img/editor-online-en.jpg" alt="MIAplc editor in Online view with a motor start/stop ladder program">
-    <figcaption>MIAplc editor, Online view: Start, Stop, overload, self-holding and a “running” timer.</figcaption></figure>
+    <figcaption>MIAplc editor, Online view: served by the PLC itself. Green means it conducts, right now.</figcaption></figure>
+</div>
+<div class="wrap"><div class="stats hero-stats">
+    <div class="stat"><em class="m">measured</em><b>0.92 ms</b><span>1000 ladder networks in one scan, on an ESP32 that costs a few euros</span></div>
+    <div class="stat"><em class="m">measured</em><b>0.31–0.50 ms</b><span>round trip of a µLink module: 64 inputs and 64 outputs at every exchange</span></div>
+    <div class="stat"><em class="z">built in</em><b>8 MB</b><span>of program on ESP32-P4: room for a whole department, not just one machine</span></div>
+    <div class="stat"><em class="z">built in</em><b>€0</b><span>in licences. Nothing to install: the editor lives inside the PLC</span></div>
+</div></div></section>
+
+<section class="manifesto"><div class="wrap">
+  <div class="sec-h"><span class="tag">No half measures</span><h2>This is not a toy. It is a PLC.</h2>
+    <p class="mut">Every choice in MIAplc comes from ten years of commissioning real plants. Four things that are not up for negotiation.</p></div>
+  <div class="cards">
+    <div class="card pillar"><h3>Stability</h3><p>A supervised scan cycle: past the time limit the PLC goes to STOP, as a PLC must. Under stress, with Online and a Download running, 22,608 µLink exchanges per module: all valid.</p></div>
+    <div class="card pillar"><h3>Power</h3><p>The virtual machine runs a network in 0.79 µs. On the P4 ladder becomes machine code: 5.4 times faster on a 4.3 MB program, executed in 38.9 ms.</p></div>
+    <div class="card pillar"><h3>Completeness</h3><p>PLC, touch panel, remote I/O and configurator come from the same project and speak the same language. No parts from different brands to force together.</p></div>
+    <div class="card pillar"><h3>Security</h3><p>Signed updates, password access, protected commands, a software bill of materials (SBOM) at every build. Designed with the Cyber Resilience Act in mind, not patched afterwards.</p></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">The comparison</span><h2>What you buy in pieces elsewhere is one project here</h2></div>
+  <div class="cmp-wrap"><table class="cmp">
+    <thead><tr><th></th><th>Industrial PLC</th><th>ESP32 + hand-written code</th><th class="us">MIAplc</th></tr></thead>
+    <tbody>
+    <tr><th scope="row">Ladder with Online view</th><td>yes</td><td>no</td><td class="us">yes</td></tr>
+    <tr><th scope="row">Editor with nothing to install</th><td>no</td><td>no</td><td class="us">yes: it is in the PLC</td></tr>
+    <tr><th scope="row">Software licences</th><td>paid</td><td>none</td><td class="us">none</td></tr>
+    <tr><th scope="row">Operator panel</th><td>separate product</td><td>write it yourself</td><td class="us">built in</td></tr>
+    <tr><th scope="row">Real-time remote I/O</th><td>yes</td><td>write it yourself</td><td class="us">yes: µLink</td></tr>
+    <tr><th scope="row">CPU cost</th><td>hundreds of euros</td><td>a few euros</td><td class="us">a few euros</td></tr>
+    <tr><th scope="row">Machine safety functions</th><td>yes, with a safety CPU</td><td>no</td><td class="us">no</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small mut" style="margin-top:14px">That last row is there on purpose: MIAplc is not a safety PLC, and it says so. Emergency stops and guards stay with a certified device.</p>
+  <div class="cta-band call">
+    <h2>Do you build boards, teach automation or write firmware?</h2>
+    <p>MIAplc is developed by one person. Imagine how far it goes with you.</p>
+    <div class="btns"><a class="btn pri" href="partner.html">Become a partner</a><a class="btn" href="#contatti">Write to me</a></div>
+  </div>
 </div></section>
 
 <section id="perche"><div class="wrap story">
@@ -74,7 +110,7 @@
   </div>
 </div></section>
 
-<section class="alt"><div class="wrap">
+<section class="alt" id="cosa-fa"><div class="wrap">
   <div class="sec-h"><span class="tag">What it does</span>
     <h2>A complete PLC inside an ESP32</h2>
     <p class="mut">The board reads the inputs, runs your program and writes the outputs. Then it starts again, without ever stopping:
@@ -175,7 +211,7 @@
     <li class="dream"><span class="st">being evaluated</span><h3>Beyond the P4: more powerful chips</h3>
       <p>I'm evaluating the Allwinner T113 and T156 processors. For powerful chips the question mark is always the same:
         cost and bringing up the DDR memory.</p></li>
-    <li><span class="st">planned</span><h3>Cybersecurity and EU rules</h3>
+    <li class="part"><span class="st">partly done</span><h3>Cybersecurity and EU rules</h3>
       <p>Before a board is sold, the firmware has to meet the European cybersecurity rules (Cyber Resilience Act):
         mandatory passwords never left at factory defaults, protected critical commands (RUN/STOP, Download, forcing),
         signed updates and a process to report and fix vulnerabilities.</p></li>

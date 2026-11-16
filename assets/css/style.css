@@ -411,3 +411,28 @@ details.g1>summary::before{margin-right:0}
 mark.gq{background:rgba(250,204,21,.35);color:#fff;border-radius:3px;padding:0 1px}
 details.g1,details.g2,details.g3,.doc article h2{scroll-margin-top:90px}
 @media (max-width:600px){details.g1{padding:0 10px}details.g2{padding:0 10px}details.g3{padding-left:10px}.guide-tools button{padding:8px 10px}}
+
+/* prima pagina 17-11-2026: hero, pilastri, confronto */
+.hero-x h1{font-size:clamp(2.5rem,6vw,4.4rem);line-height:1.05;letter-spacing:-.03em;font-weight:800}
+.hero-x h1 span{background:linear-gradient(90deg,var(--cy),var(--ok));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-x .lead{color:#dbe7ff}
+.hero-stats{margin-top:44px}
+.hero-stats .stat{border-top:3px solid var(--cy)}
+.hero-stats .stat b{font-size:2.2rem}
+.stat em.z{background:rgba(34,211,238,.12);color:var(--cy)}
+.manifesto{background:linear-gradient(180deg,rgba(34,211,238,.05),transparent)}
+.manifesto h2{font-size:clamp(1.9rem,4vw,2.8rem);letter-spacing:-.02em}
+.card.pillar{border-left:3px solid var(--cy)}
+.card.pillar h3{font:700 .95rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cy);margin-bottom:14px}
+.card.pillar p{color:#dbe7ff;margin:0}
+.cmp-wrap{overflow-x:auto}
+table.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:.97rem}
+table.cmp th,table.cmp td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.cmp thead th{color:#fff;font-weight:600;background:rgba(34,211,238,.06)}
+table.cmp tbody th{color:#fff;font-weight:600}
+table.cmp td{color:var(--mut)}
+table.cmp .us{color:#fff;font-weight:700;background:rgba(34,211,238,.10);border-left:2px solid var(--cy);border-right:2px solid var(--cy)}
+table.cmp thead .us{color:var(--cy);border-top:2px solid var(--cy);border-radius:8px 8px 0 0}
+table.cmp tbody tr:last-child .us{border-bottom:2px solid var(--cy);color:var(--warn)}
+.cta-band.call{margin-top:44px;padding:48px 24px}
+@media(max-width:600px){.hero-stats .stat b{font-size:1.5rem}}

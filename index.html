@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#050c1c">
 <script>(function(){try{if(localStorage.getItem("miaplc.lingua")||/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent))return;var L=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]).map(function(x){return String(x).toLowerCase()});var it=L.some(function(x){return x.slice(0,2)==="it"}),first=L[0].slice(0,2)==="it";if(!it){location.replace("en/"+location.search+location.hash)}}catch(e){}})();</script>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=5ecfdb43">
+<link rel="stylesheet" href="assets/css/style.css?v=4d9138dd">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -30,23 +30,59 @@
   <nav class="nav"><a href="index.html" class="on">Home</a><a href="index.html#perche">Perché</a><a href="wiki.html">Wiki</a><a href="esempi.html">Esempi</a><a href="prestazioni.html">Prestazioni</a><a href="index.html#contatti">Contatti</a><a class="cta" href="provami/editor/index.html?mock&amp;esempio=semaforo&amp;avvia" target="_blank" rel="noopener" onclick="try{localStorage.setItem('espplc.lang','it')}catch(e){}">▶ Provami</a><a class="lang" href="en/index.html" hreflang="en" title="English" onclick="try{localStorage.setItem('miaplc.lingua','en');localStorage.setItem('espplc.lang','en')}catch(e){}">EN</a></nav>
 </div></header>
 <main>
-<section class="hero"><div class="wrap grid">
+<section class="hero hero-x"><div class="wrap grid">
   <div>
-    <span class="kick">PLC · ESP32 · Editor web</span>
-    <h1>Il PLC vero,<br><span>alla portata di tutti.</span></h1>
-    <p class="lead">Un PLC è il piccolo computer che nelle fabbriche legge pulsanti e sensori e comanda luci, motori e valvole.
-      MIAplc è un PLC costruito su una scheda ESP32 da pochi euro.
-      Il programma lo disegni nel browser in <b>ladder</b>: lo schema a contatti che si usa negli impianti.</p>
-    <p>Accendi una lampada, fai partire un motore, automatizzi una serra.
-      E intanto impari l'automazione industriale, con gli stessi passi che si fanno in fabbrica.</p>
+    <span class="kick">PLC · HMI · I/O remoti · Configuratore</span>
+    <h1>Costruito come un PLC industriale.<br><span>Aperto a tutti.</span></h1>
+    <p class="lead">MIAplc è un ecosistema di automazione completo: PLC, pannello operatore, I/O remoti in tempo reale e configuratore hardware. Gira su schede ESP32 da pochi euro, si programma in <b>ladder</b> dal browser e non chiede una sola licenza.</p>
+    <p>Mille network in meno di un millisecondo. Otto megabyte di programma. I/O remoti sotto il mezzo millisecondo. Non sono promesse: sono <a href="prestazioni.html">misure, pubblicate una per una</a>.</p>
     <div class="btns">
       <a class="btn pri" href="provami.html">▶ Provalo nel browser</a>
-      <a class="btn" href="#perche">Perché esiste</a>
+      <a class="btn" href="prestazioni.html">Guarda i numeri</a>
     </div>
-    <p class="mut" style="margin-top:14px;font-size:.92rem">Non hai una scheda? Il simulatore gira nel browser: niente da installare.</p>
+    <p class="mut" style="margin-top:14px;font-size:.92rem">Mai visto un PLC? È il computer che comanda le macchine: <a href="#cosa-fa">parti da qui</a>. Senza scheda, il simulatore gira nel browser.</p>
   </div>
   <figure class="shot hero-shot"><img src="assets/img/editor-online-it.jpg" alt="Editor MIAplc in Online con un programma ladder di marcia e arresto motore">
-    <figcaption>Editor MIAplc, vista Online: Start, Stop, termico, autoritenuta e timer «a regime».</figcaption></figure>
+    <figcaption>Editor MIAplc, vista Online: è servito dal PLC stesso. Verde vuol dire che conduce, adesso.</figcaption></figure>
+</div>
+<div class="wrap"><div class="stats hero-stats">
+    <div class="stat"><em class="m">misurato</em><b>0,92 ms</b><span>1000 network ladder in un ciclo, su un ESP32 da pochi euro</span></div>
+    <div class="stat"><em class="m">misurato</em><b>0,31–0,50 ms</b><span>andata e ritorno di un modulo µLink: 64 ingressi e 64 uscite a ogni scambio</span></div>
+    <div class="stat"><em class="z">di serie</em><b>8 MB</b><span>di programma su ESP32-P4: lo spazio di un reparto intero, non di una macchina</span></div>
+    <div class="stat"><em class="z">di serie</em><b>0 €</b><span>di licenze. Zero programmi da installare: l'editor vive dentro il PLC</span></div>
+</div></div></section>
+
+<section class="manifesto"><div class="wrap">
+  <div class="sec-h"><span class="tag">Senza mezze misure</span><h2>Non è un giocattolo. È un PLC.</h2>
+    <p class="mut">Ogni scelta di MIAplc viene da dieci anni di messa in servizio di impianti veri. Quattro cose su cui non si tratta.</p></div>
+  <div class="cards">
+    <div class="card pillar"><h3>Stabilità</h3><p>Ciclo di scansione sorvegliato: oltre il tempo limite il PLC va in STOP, come deve fare un PLC. Sotto stress, con Online e Download in corso, 22.608 scambi µLink per modulo: tutti validi.</p></div>
+    <div class="card pillar"><h3>Potenza</h3><p>La macchina virtuale esegue un network in 0,79 µs. Sul P4 il ladder diventa codice macchina: 5,4 volte più veloce su un programma da 4,3 MB, eseguito in 38,9 ms.</p></div>
+    <div class="card pillar"><h3>Completezza</h3><p>PLC, pannello touch, I/O remoti e configuratore nascono dallo stesso progetto e parlano la stessa lingua. Niente pezzi di marche diverse da far andare d'accordo.</p></div>
+    <div class="card pillar"><h3>Sicurezza</h3><p>Aggiornamenti firmati, accesso con password, comandi protetti, elenco dei componenti software (SBOM) a ogni compilazione. Progettato guardando al Cyber Resilience Act, non rattoppato dopo.</p></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><span class="tag">Il confronto</span><h2>Quello che altrove compri a pezzi, qui è un progetto solo</h2></div>
+  <div class="cmp-wrap"><table class="cmp">
+    <thead><tr><th></th><th>PLC industriale</th><th>ESP32 + codice scritto a mano</th><th class="us">MIAplc</th></tr></thead>
+    <tbody>
+    <tr><th scope="row">Ladder con vista Online</th><td>sì</td><td>no</td><td class="us">sì</td></tr>
+    <tr><th scope="row">Editor senza installazione</th><td>no</td><td>no</td><td class="us">sì: è nel PLC</td></tr>
+    <tr><th scope="row">Licenze software</th><td>a pagamento</td><td>nessuna</td><td class="us">nessuna</td></tr>
+    <tr><th scope="row">Pannello operatore</th><td>prodotto a parte</td><td>da scrivere</td><td class="us">integrato</td></tr>
+    <tr><th scope="row">I/O remoti in tempo reale</th><td>sì</td><td>da scrivere</td><td class="us">sì: µLink</td></tr>
+    <tr><th scope="row">Costo della CPU</th><td>centinaia di euro</td><td>pochi euro</td><td class="us">pochi euro</td></tr>
+    <tr><th scope="row">Funzioni di sicurezza delle macchine</th><td>sì, con CPU di sicurezza</td><td>no</td><td class="us">no</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small mut" style="margin-top:14px">L'ultima riga è lì apposta: MIAplc non è un PLC di sicurezza, e lo dice. Arresti di emergenza e protezioni restano a un dispositivo certificato.</p>
+  <div class="cta-band call">
+    <h2>Costruisci schede, insegni automazione o scrivi firmware?</h2>
+    <p>MIAplc è sviluppato da una persona sola. Immagina dove arriva con te.</p>
+    <div class="btns"><a class="btn pri" href="partner.html">Diventa partner</a><a class="btn" href="#contatti">Scrivimi</a></div>
+  </div>
 </div></section>
 
 <section id="perche"><div class="wrap story">
@@ -75,7 +111,7 @@
   </div>
 </div></section>
 
-<section class="alt"><div class="wrap">
+<section class="alt" id="cosa-fa"><div class="wrap">
   <div class="sec-h"><span class="tag">Cosa fa</span>
     <h2>Un PLC completo, dentro un ESP32</h2>
     <p class="mut">La scheda legge gli ingressi, esegue il tuo programma e scrive le uscite. Poi ricomincia, senza fermarsi mai:
@@ -176,7 +212,7 @@
     <li class="dream"><span class="st">in valutazione</span><h3>Oltre il P4: chip più potenti</h3>
       <p>Sto valutando i processori Allwinner T113 e T156. Per i chip più potenti il punto di domanda è sempre lo stesso:
         il costo e l'avvio della memoria DDR.</p></li>
-    <li><span class="st">in programma</span><h3>Sicurezza informatica e regole europee</h3>
+    <li class="part"><span class="st">in parte fatto</span><h3>Sicurezza informatica e regole europee</h3>
       <p>Prima di vendere una scheda, il firmware deve rispettare le regole europee sulla sicurezza informatica (Cyber Resilience Act):
         password obbligatorie e mai di fabbrica, comandi critici protetti (RUN/STOP, Download, forzature),
         aggiornamenti firmati e una procedura per segnalare e correggere le vulnerabilità.</p></li>
