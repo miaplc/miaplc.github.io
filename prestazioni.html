@@ -93,26 +93,28 @@
 
 <section class="alt"><div class="wrap">
   <div class="sec-h"><span class="tag">Comunicazione</span><h2>Un PLC e tre moduli I/O</h2>
-    <p class="mut">Prova vera: un PLC ESP32-P4 e tre moduli ESP32 su µLink, con l'editor Online e Download in corso per stressarlo.
-      A ogni giro il PLC manda a ogni modulo lo stato di tutte le uscite e riceve tutti gli ingressi.</p></div>
+    <p class="mut">Prova vera: un PLC ESP32-P4 e tre moduli ESP32 su µLink, ogni frame firmato, con l'editor Online (HTTP e HTTPS) e le
+      pagine dei tre moduli aperte. A ogni giro il PLC manda a ogni modulo lo stato di tutte le uscite e riceve tutti gli ingressi.</p></div>
   <div class="ulink">
     <div class="ul-io"><b>Modulo I/O 1</b><small>ESP32</small></div>
-    <div class="ul-arrow"><span>309 µs</span><i><em></em></i><small>andata e ritorno</small></div>
+    <div class="ul-arrow"><span>646 µs</span><i><em></em></i><small>andata e ritorno</small></div>
     <div class="ul-io"><b>Modulo I/O 2</b><small>ESP32</small></div>
-    <div class="ul-arrow"><span>495 µs</span><i><em></em></i><small>andata e ritorno</small></div>
+    <div class="ul-arrow"><span>651 µs</span><i><em></em></i><small>andata e ritorno</small></div>
     <div class="ul-io"><b>Modulo I/O 3</b><small>ESP32</small></div>
-    <div class="ul-arrow"><span>359 µs</span><i><em></em></i><small>andata e ritorno</small></div>
+    <div class="ul-arrow"><span>669 µs</span><i><em></em></i><small>andata e ritorno</small></div>
     <div class="ul-plc"><b>PLC</b><small>ESP32-P4</small></div>
   </div>
-  <p class="small mut" style="text-align:center;margin-top:6px">Andata e ritorno medio misurato per ogni modulo, scambio ogni 5 ms, con l'editor Online e un Download in corso.</p>
+  <p class="small mut" style="text-align:center;margin-top:6px">Andata e ritorno medio misurato per ogni modulo, frame firmato, scambio ogni 15 ms, con l'editor Online e le
+    pagine dei moduli aperte; senza nessuno collegato 548–571 µs.<br>Misurato il 16-11-2026 · µLink protocollo 2, firmato · PLC ESP32-P4 e moduli ESP32
+    con firmware 0.3.119 · 1 ingresso e 2 uscite per modulo · 5 prove da 10 minuti.</p>
   <div class="stats" style="margin-top:26px">
-    <div class="stat"><em class="m">misurato</em><b>0,31–0,50 ms</b><span>andata e ritorno medio, per modulo</span></div>
-    <div class="stat"><em class="m">misurato</em><b>200 al secondo</b><span>scambi per modulo: 64 uscite e 64 ingressi ogni volta</span></div>
-    <div class="stat"><em class="m">misurato</em><b>22.608</b><span>scambi per modulo durante la prova, tutti validi</span></div>
-    <div class="stat"><em class="m">misurato</em><b>&lt; 0,5 %</b><span>risposte arrivate in ritardo, sotto stress</span></div>
+    <div class="stat"><em class="m">misurato</em><b>0,55–0,67 ms</b><span>andata e ritorno medio, per modulo, con la firma</span></div>
+    <div class="stat"><em class="m">misurato</em><b>~67 al secondo</b><span>scambi per modulo, uno ogni 15 ms</span></div>
+    <div class="stat"><em class="m">misurato</em><b>199.691</b><span>scambi per modulo nelle cinque prove, nessuna firma sbagliata</span></div>
+    <div class="stat"><em class="m">misurato</em><b>≤ 0,025 %</b><span>risposte arrivate in ritardo, col carico più alto</span></div>
   </div>
   <p class="small mut" style="margin-top:14px">Un frame perso non fa danni: ogni frame porta lo stato completo, il giro dopo rimette tutto a posto.
-    Il punto peggiore misurato, durante un Download pesante, è stato di 12–15 ms.</p>
+    Il punto peggiore misurato è un giro del bus in ritardo di 23 ms.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -204,16 +206,16 @@
       <tr><td>µLink firmato, andata e ritorno medio (2 moduli ESP32)</td><td>1,05–1,11 ms</td><td>PLC ESP32, periodo 5 ms, 10 novembre 2026</td></tr>
       <tr><td>µLink firmato, risposte perse o in ritardo (moduli ESP32)</td><td>0,007–0,11 %</td><td>10 minuti per prova: da solo, con Online e Download, con HTTPS</td></tr>
       <tr><td>µLink firmato, modulo ESP32-C3 / S3 + W5100 (SPI)</td><td>3,1–3,8 ms</td><td>driver SPI veloce dalla 0.3.92; per il W5100 periodi da 10 ms in su</td></tr>
-      <tr><td>µLink prima della firma, andata e ritorno medio (3 moduli ESP32)</td><td>309–495 µs</td><td>PLC P4, periodo 5 ms</td></tr>
-      <tr><td>µLink prima della firma, risposte in ritardo sotto stress</td><td>0,06–0,42 %</td><td>PLC P4, 22.608 scambi per modulo</td></tr>
+      <tr><td>µLink firmato, andata e ritorno medio (3 moduli ESP32)</td><td>548–669 µs</td><td>PLC P4, periodo 15 ms, firmware 0.3.119, 16 novembre 2026</td></tr>
+      <tr><td>µLink firmato, risposte in ritardo (3 moduli ESP32)</td><td>0,003–0,025 %</td><td>PLC P4, 5 prove da 10 minuti: da solo, Online HTTP e HTTPS, con le pagine dei moduli</td></tr>
       <tr><td>µLink, 8 moduli</td><td>~1,3 ms di bus ogni 5 ms</td><td>documentazione µLink</td></tr>
       <tr><td>µLink, 192 moduli (prova)</td><td>16 ms per inviare tutto</td><td>ESP32-P4</td></tr>
       <tr><td>Download di 127 KB via USB (cavo seriale, compresi STOP e scrittura in flash)</td><td>~28 s</td><td>ESP32-P4, misura automatica di MiaConfig</td></tr>
       <tr><td>Editor via Ethernet / USB</td><td>0,7–1,3 s / 33,5 s</td><td>370 KB, 18 file</td></tr>
       <tr><td>Richiesta di stato via Ethernet, PLC in RUN</td><td>31–40 ms</td><td>ESP32 e P4</td></tr>
     </table>
-    <p class="small mut">µLink firmato (protocollo 2): misure del 10 novembre 2026 sul PLC ESP32 di Belacqua con quattro moduli; le misure col PLC P4 e
-      con 8 o 192 moduli sono di prima della firma.</p>
+    <p class="small mut">µLink firmato (protocollo 2): misure del 10 novembre 2026 sul PLC ESP32 di Belacqua con quattro moduli e del 16 novembre 2026
+      sul PLC P4 con tre moduli (firmware 0.3.119); le misure con 8 o 192 moduli sono di prima della firma.</p>
     <h3>Quanto costa la sicurezza (misure del 9 e 10 novembre 2026)</h3>
     <table>
       <tr><th>Cosa</th><th>Valore</th><th>Dove</th></tr>

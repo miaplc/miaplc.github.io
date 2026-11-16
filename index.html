@@ -47,7 +47,7 @@
 </div>
 <div class="wrap"><div class="stats hero-stats">
     <div class="stat"><em class="m">misurato</em><b>0,92 ms</b><span>1000 network ladder in un ciclo, su un ESP32 da pochi euro</span></div>
-    <div class="stat"><em class="m">misurato</em><b>0,31–0,50 ms</b><span>andata e ritorno di un modulo µLink: 64 ingressi e 64 uscite a ogni scambio</span></div>
+    <div class="stat"><em class="m">misurato</em><b>0,55–0,67 ms</b><span>andata e ritorno di un modulo µLink, con ogni frame firmato</span></div>
     <div class="stat"><em class="z">di serie</em><b>8 MB</b><span>di programma su ESP32-P4: lo spazio di un reparto intero, non di una macchina</span></div>
     <div class="stat"><em class="z">di serie</em><b>0 €</b><span>di licenze. Zero programmi da installare: l'editor vive dentro il PLC</span></div>
 </div></div></section>
@@ -56,7 +56,7 @@
   <div class="sec-h"><span class="tag">Senza mezze misure</span><h2>Non è un giocattolo. È un PLC.</h2>
     <p class="mut">Ogni scelta di MIAplc viene da dieci anni di messa in servizio di impianti veri. Quattro cose su cui non si tratta.</p></div>
   <div class="cards">
-    <div class="card pillar"><h3>Stabilità</h3><p>Ciclo di scansione sorvegliato: oltre il tempo limite il PLC va in STOP, come deve fare un PLC. Sotto stress, con Online e Download in corso, 22.608 scambi µLink per modulo: tutti validi.</p></div>
+    <div class="card pillar"><h3>Stabilità</h3><p>Ciclo di scansione sorvegliato: oltre il tempo limite il PLC va in STOP, come deve fare un PLC. Con l'editor Online e le pagine dei moduli aperte, 199.691 scambi µLink firmati per modulo: nessuna firma sbagliata.</p></div>
     <div class="card pillar"><h3>Potenza</h3><p>La macchina virtuale esegue un network in 0,79 µs. Sul P4 il ladder diventa codice macchina: 5,4 volte più veloce su un programma da 4,3 MB, eseguito in 38,9 ms.</p></div>
     <div class="card pillar"><h3>Completezza</h3><p>PLC, pannello touch, I/O remoti e configuratore nascono dallo stesso progetto e parlano la stessa lingua. Niente pezzi di marche diverse da far andare d'accordo.</p></div>
     <div class="card pillar"><h3>Sicurezza</h3><p>Aggiornamenti firmati, accesso con password, comandi protetti, elenco dei componenti software (SBOM) a ogni compilazione. Progettato guardando al Cyber Resilience Act, non rattoppato dopo.</p></div>

@@ -47,7 +47,7 @@
 </div>
 <div class="wrap"><div class="stats hero-stats">
     <div class="stat"><em class="m">measured</em><b>0.92 ms</b><span>1000 ladder networks in one scan, on an ESP32 that costs a few euros</span></div>
-    <div class="stat"><em class="m">measured</em><b>0.31–0.50 ms</b><span>round trip of a µLink module: 64 inputs and 64 outputs at every exchange</span></div>
+    <div class="stat"><em class="m">measured</em><b>0.55–0.67 ms</b><span>round trip of a µLink module, with every frame signed</span></div>
     <div class="stat"><em class="z">built in</em><b>8 MB</b><span>of program on ESP32-P4: room for a whole department, not just one machine</span></div>
     <div class="stat"><em class="z">built in</em><b>€0</b><span>in licences. Nothing to install: the editor lives inside the PLC</span></div>
 </div></div></section>
@@ -56,7 +56,7 @@
   <div class="sec-h"><span class="tag">No half measures</span><h2>This is not a toy. It is a PLC.</h2>
     <p class="mut">Every choice in MIAplc comes from ten years of commissioning real plants. Four things that are not up for negotiation.</p></div>
   <div class="cards">
-    <div class="card pillar"><h3>Stability</h3><p>A supervised scan cycle: past the time limit the PLC goes to STOP, as a PLC must. Under stress, with Online and a Download running, 22,608 µLink exchanges per module: all valid.</p></div>
+    <div class="card pillar"><h3>Stability</h3><p>A supervised scan cycle: past the time limit the PLC goes to STOP, as a PLC must. With the editor Online and the module pages open, 199,691 signed µLink exchanges per module: no wrong signature.</p></div>
     <div class="card pillar"><h3>Power</h3><p>The virtual machine runs a network in 0.79 µs. On the P4 ladder becomes machine code: 5.4 times faster on a 4.3 MB program, executed in 38.9 ms.</p></div>
     <div class="card pillar"><h3>Completeness</h3><p>PLC, touch panel, remote I/O and configurator come from the same project and speak the same language. No parts from different brands to force together.</p></div>
     <div class="card pillar"><h3>Security</h3><p>Signed updates, password access, protected commands, a software bill of materials (SBOM) at every build. Designed with the Cyber Resilience Act in mind, not patched afterwards.</p></div>

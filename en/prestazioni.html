@@ -93,26 +93,28 @@
 
 <section class="alt"><div class="wrap">
   <div class="sec-h"><span class="tag">Communication</span><h2>One PLC and three I/O modules</h2>
-    <p class="mut">A real test: an ESP32-P4 PLC and three ESP32 modules on µLink, with the editor Online and a Download running to stress it.
-      Every round the PLC sends each module the state of all its outputs and gets back all its inputs.</p></div>
+    <p class="mut">A real test: an ESP32-P4 PLC and three ESP32 modules on µLink, every frame signed, with the editor Online (HTTP and HTTPS)
+      and the pages of the three modules open. Every round the PLC sends each module the state of all its outputs and gets back all its inputs.</p></div>
   <div class="ulink">
     <div class="ul-io"><b>I/O module 1</b><small>ESP32</small></div>
-    <div class="ul-arrow"><span>309 µs</span><i><em></em></i><small>round trip</small></div>
+    <div class="ul-arrow"><span>646 µs</span><i><em></em></i><small>round trip</small></div>
     <div class="ul-io"><b>I/O module 2</b><small>ESP32</small></div>
-    <div class="ul-arrow"><span>495 µs</span><i><em></em></i><small>round trip</small></div>
+    <div class="ul-arrow"><span>651 µs</span><i><em></em></i><small>round trip</small></div>
     <div class="ul-io"><b>I/O module 3</b><small>ESP32</small></div>
-    <div class="ul-arrow"><span>359 µs</span><i><em></em></i><small>round trip</small></div>
+    <div class="ul-arrow"><span>669 µs</span><i><em></em></i><small>round trip</small></div>
     <div class="ul-plc"><b>PLC</b><small>ESP32-P4</small></div>
   </div>
-  <p class="small mut" style="text-align:center;margin-top:6px">Average round trip measured for each module, exchange every 5 ms, with the editor Online and a Download running.</p>
+  <p class="small mut" style="text-align:center;margin-top:6px">Average round trip measured for each module, signed frame, exchange every 15 ms, with the editor Online and the
+    module pages open; with nobody connected 548–571 µs.<br>Measured on 16-11-2026 · µLink protocol 2, signed · ESP32-P4 PLC and ESP32 modules with
+    firmware 0.3.119 · 1 input and 2 outputs per module · 5 tests of 10 minutes.</p>
   <div class="stats" style="margin-top:26px">
-    <div class="stat"><em class="m">measured</em><b>0.31–0.50 ms</b><span>average round trip, per module</span></div>
-    <div class="stat"><em class="m">measured</em><b>200 per second</b><span>exchanges per module: 64 outputs and 64 inputs each time</span></div>
-    <div class="stat"><em class="m">measured</em><b>22,608</b><span>exchanges per module during the test, all valid</span></div>
-    <div class="stat"><em class="m">measured</em><b>&lt; 0.5 %</b><span>replies arriving late, under stress</span></div>
+    <div class="stat"><em class="m">measured</em><b>0.55–0.67 ms</b><span>average round trip, per module, signed</span></div>
+    <div class="stat"><em class="m">measured</em><b>~67 per second</b><span>exchanges per module, one every 15 ms</span></div>
+    <div class="stat"><em class="m">measured</em><b>199,691</b><span>exchanges per module in the five tests, no wrong signature</span></div>
+    <div class="stat"><em class="m">measured</em><b>≤ 0.025 %</b><span>replies arriving late, at the highest load</span></div>
   </div>
   <p class="small mut" style="margin-top:14px">A lost frame does no harm: every frame carries the full state, and the next round puts everything right.
-    The worst point measured, during a heavy Download, was 12–15 ms.</p>
+    The worst point measured is a bus round 23 ms late.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -204,16 +206,16 @@
       <tr><td>Signed µLink, average round trip (2 ESP32 modules)</td><td>1.05–1.11 ms</td><td>ESP32 PLC, 5 ms period, 10 November 2026</td></tr>
       <tr><td>Signed µLink, lost or late replies (ESP32 modules)</td><td>0.007–0.11 %</td><td>10 minutes per test: alone, with Online and Download, with HTTPS</td></tr>
       <tr><td>Signed µLink, ESP32-C3 / S3 + W5100 (SPI) module</td><td>3.1–3.8 ms</td><td>fast SPI driver from 0.3.92; for the W5100 periods of 10 ms or more</td></tr>
-      <tr><td>µLink before signing, average round trip (3 ESP32 modules)</td><td>309–495 µs</td><td>P4 PLC, 5 ms period</td></tr>
-      <tr><td>µLink before signing, late replies under stress</td><td>0.06–0.42 %</td><td>P4 PLC, 22,608 exchanges per module</td></tr>
+      <tr><td>Signed µLink, average round trip (3 ESP32 modules)</td><td>548–669 µs</td><td>P4 PLC, 15 ms period, firmware 0.3.119, 16 November 2026</td></tr>
+      <tr><td>Signed µLink, late replies (3 ESP32 modules)</td><td>0.003–0.025 %</td><td>P4 PLC, 5 tests of 10 minutes: alone, Online HTTP and HTTPS, with the module pages</td></tr>
       <tr><td>µLink, 8 modules</td><td>~1.3 ms of bus every 5 ms</td><td>µLink documentation</td></tr>
       <tr><td>µLink, 192 modules (test)</td><td>16 ms to send everything</td><td>ESP32-P4</td></tr>
       <tr><td>Download of 127 KB over USB (serial cable, including STOP and flash write)</td><td>~28 s</td><td>ESP32-P4, MiaConfig automatic measurement</td></tr>
       <tr><td>Editor over Ethernet / USB</td><td>0.7–1.3 s / 33.5 s</td><td>370 KB, 18 files</td></tr>
       <tr><td>Status request over Ethernet, PLC in RUN</td><td>31–40 ms</td><td>ESP32 and P4</td></tr>
     </table>
-    <p class="small mut">Signed µLink (protocol 2): measured on 10 November 2026 on the Belacqua ESP32 PLC with four modules; the measurements with
-      the P4 PLC and with 8 or 192 modules are from before signing.</p>
+    <p class="small mut">Signed µLink (protocol 2): measured on 10 November 2026 on the Belacqua ESP32 PLC with four modules and on 16 November 2026
+      on the P4 PLC with three modules (firmware 0.3.119); the measurements with 8 or 192 modules are from before signing.</p>
     <h3>What security costs (measured on 9 and 10 November 2026)</h3>
     <table>
       <tr><th>What</th><th>Value</th><th>Where</th></tr>
