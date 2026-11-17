@@ -96,7 +96,7 @@ Around it are the other programs: <a href="#mc">MiaConfig</a> to prepare custom 
       <li><b>Log in.</b> The first time, you set the administrator password using the board's recovery password (valid for the first 10 minutes after power-on). After that you log in with your password.</li>
       <li><b>Write your first network</b>, then <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
     </ol>
-    <p class="small mut">You don't need MiaConfig. Firmware updates are done from the editor, with the <code>.miaplc.fw</code> package.</p>
+    <p class="small mut">You don't need MiaConfig. Firmware updates are done from the editor, with the <code>.miaplcfw</code> package.</p>
   </div>
   <div class="path adv">
     <span class="key-n">Advanced</span>
@@ -106,7 +106,7 @@ Around it are the other programs: <a href="#mc">MiaConfig</a> to prepare custom 
       <li><b>Choose the board.</b> One of the reference boards or your own (see <a href="#schede">Boards and MiaConfig</a>).</li>
       <li><b>Prepare the firmware with MiaConfig.</b> You describe the board (inputs, outputs, Ethernet, clock, µLink, panel), then <em>Genera → Compila firmware</em> (Generate → Compile firmware).
         The first time it downloads the build tools (you need internet and about 1 GB of disk); after that it just compiles.</li>
-      <li><b>Load the firmware.</b> The first time via USB, later from the editor with the <code>.miaplc.fw</code> package. MiaConfig also sets the board's passwords.</li>
+      <li><b>Load the firmware.</b> The first time via USB, later from the editor with the <code>.miaplcfw</code> package. MiaConfig also sets the board's passwords.</li>
       <li><b>Program</b> as on the basic path: editor in the browser, Compile, Download, Run, Online.</li>
     </ol>
     <p class="small"><a href="guida-hardware.html">Manual: hardware with MiaConfig, step by step</a> · <a href="#mc">Full MiaConfig guide</a></p>
@@ -347,9 +347,9 @@ It runs on Windows, Linux and macOS and installs nothing on the system: everythi
 
 <h2 id="aggiornare">Update, backup, restore</h2>
 <ul>
-  <li><b>Update the firmware</b>: from the editor with the <code>.miaplc.fw</code> package, with the PLC in STOP. The new firmware goes into the second half of the flash and becomes the boot firmware only if it is intact;
+  <li><b>Update the firmware</b>: from the editor with the <code>.miaplcfw</code> package, with the PLC in STOP. The new firmware goes into the second half of the flash and becomes the boot firmware only if it is intact;
     settings, symbols, log and program are kept. If a package changes the partitions, you need to load it via USB.</li>
-  <li><b>Backup</b> from Diagnostics: a <code>.miaplc.bkp</code> file (<code>.miaulink.bkp</code> for a µLink module) with firmware, editor files, settings, symbols, program and DB values.
+  <li><b>Backup</b> from Diagnostics: a <code>.miaplcbk</code> file (<code>.miaiobk</code> for a µLink module) with firmware, editor files, settings, symbols, program and DB values.
     WiFi passwords are not included: on a new board you must enter the router password again.</li>
   <li><b>Restore</b>: on the same PLC from the editor, on a new board with the USB recovery.</li>
   <li><b>First install and recovery</b>: via USB, with the <code>-completo.bin</code> file from MiaConfig or with the recovery in the editor opened on the PC.</li>
@@ -424,12 +424,12 @@ via USB or over the network. It also handles a whole installation: PLC, µLink I
 <details class="g3"><summary>Command line</summary>
 <table>
   <tr><th>Command</th><th>What it does</th></tr>
-  <tr><td><code>miaconfig controlla scheda.mia</code></td><td>Checks only. Exits with 0 if there are no errors, with 1 if there are.</td></tr>
-  <tr><td><code>miaconfig genera scheda.mia cartella</code></td><td>Writes the firmware configuration files.</td></tr>
-  <tr><td><code>miaconfig compila scheda.mia</code></td><td>Configuration, ESP-IDF, build and packages in <code>uscita/&lt;scheda&gt;/</code>.</td></tr>
+  <tr><td><code>miaconfig controlla scheda.miadev</code></td><td>Checks only. Exits with 0 if there are no errors, with 1 if there are.</td></tr>
+  <tr><td><code>miaconfig genera scheda.miadev cartella</code></td><td>Writes the firmware configuration files.</td></tr>
+  <tr><td><code>miaconfig compila scheda.miadev</code></td><td>Configuration, ESP-IDF, build and packages in <code>uscita/&lt;scheda&gt;/</code>.</td></tr>
   <tr><td><code>miaconfig --version</code></td><td>The version.</td></tr>
 </table>
-<p>On Windows from source: <code>avvia.bat compila esempi\plc-c3.mia</code>. Messages are prefixed with <code>ERRORE:</code> (error), <code>ATTENZIONE:</code> (warning), <code>nota:</code> (info).</p>
+<p>On Windows from source: <code>avvia.bat compila esempi\plc-c3.miadev</code>. Messages are prefixed with <code>ERRORE:</code> (error), <code>ATTENZIONE:</code> (warning), <code>nota:</code> (info).</p>
 </details>
 </div></details>
 
@@ -470,7 +470,7 @@ it warns that they will be stopped. If it is writing the flash of a board, stopp
   stazione_pompaggio.mia                      the configuration
   access.miapwd                               board credentials (encrypted)
   stazione_pompaggio_plc_001/
-    stazione_pompaggio_plc_001.mia            PLC hardware
+    stazione_pompaggio_plc_001.miadev         PLC hardware
     stazione_pompaggio_plc_001.miaplc         PLC program
   stazione_pompaggio_io_002/ …                I/O module
   stazione_pompaggio_hmi_003/ … .miahmi       panel</pre>
@@ -478,8 +478,8 @@ it warns that they will be stopped. If it is writing the flash of a board, stopp
 <details class="g3"><summary>New configuration and opening</summary>
 <ul>
   <li>From the start page: type the name (e.g. «Stazione di pompaggio») and press «Nuova configurazione…» (New configuration…), then choose where to create the folder.</li>
-  <li>«Apri configurazione…» (Open configuration…) opens a configuration <code>.mia</code>. If you open the <code>.mia</code> of a single board, MiaConfig creates <code>&lt;nome&gt;-configurazione.mia</code> next to it with that board and opens it.</li>
-  <li>Old <code>.hwplc</code> files and settings saved from a PLC (<code>.json</code>) can also be opened.</li>
+  <li>«Apri configurazione…» (Open configuration…) opens a configuration <code>.mia</code>. If you open the <code>.miadev</code> of a single board, MiaConfig creates <code>&lt;nome&gt;-configurazione.mia</code> next to it with that board and opens it.</li>
+  <li>Settings saved from a PLC (<code>.json</code>) can also be opened. Files of the earlier test versions (<code>.hwplc</code>, <code>espplc-…</code> formats) no longer open: they have to be made again.</li>
   <li>When you open a configuration without an administrator password, MiaConfig asks for one (see <a href="#mc-accesso">Board access</a>).</li>
 </ul></details>
 <details class="g3"><summary>The configuration page</summary>
@@ -566,7 +566,7 @@ it warns that they will be stopped. If it is writing the flash of a board, stopp
 </ul></details>
 <details class="g3" id="mc-progetto"><summary>Project: board settings</summary>
 <p>«Impostazioni» (Settings): «Base» (Basic) or «Avanzate» (Advanced). In Basic the advanced settings are visible but cannot be changed; going back to Basic resets them to their defaults.
-In Advanced the file is saved as <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code> and never overwrites a Basic project.</p>
+In Advanced the file is saved as <code>&lt;nome&gt;-&lt;CRC&gt;.miadev</code> and never overwrites a Basic project.</p>
 <table>
   <tr><th>Field</th><th>What it decides</th></tr>
   <tr><td>Nome (Name), Identificativo (Identifier), Famiglia (Family), Modulo (Module), Chip, Flash</td><td>The board. The identifier is turned into lowercase with hyphens.</td></tr>
@@ -735,11 +735,11 @@ Tested on a board: Ethernet (W5100, LAN8720), DS3231 clock, digital inputs and o
 <table>
   <tr><th>File</th><th>What it is for</th></tr>
   <tr><td><code>&lt;id&gt;-completo.bin</code></td><td>Everything in one file to upload at address 0x0: first installation with any Espressif tool.</td></tr>
-  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miaplc.fw</code></td><td>Package for updating from the editor or over the network: firmware and editor files.</td></tr>
+  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miaplcfw</code></td><td>Package for updating from the editor or over the network: firmware and editor files.</td></tr>
   <tr><td><code>bootloader.bin</code>, <code>partition-table.bin</code>, <code>ota_data_initial.bin</code>, <code>uplc.bin</code>, <code>file-editor.bin</code>, <code>flash_args</code></td><td>The separate parts for esptool (<code>write-flash @flash_args</code>).</td></tr>
   <tr><td><code>leggimi.txt</code></td><td>How to upload them.</td></tr>
   <tr><td><code>impronte/&lt;impronta&gt;.json</code></td><td>The hardware of this build: from the fingerprint you see in the Diagnostics you can find the configured modules.</td></tr>
-  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miahmi.fw</code>, <code>hmi-c6-wifi.bin</code></td><td>Panel: firmware and web pages; firmware of the C6 WiFi module.</td></tr>
+  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miahmifw</code>, <code>hmi-c6-wifi.bin</code></td><td>Panel: firmware and web pages; firmware of the C6 WiFi module.</td></tr>
 </table>
 <p>The first installation erases the board's program, settings and files.</p></details>
 <details class="g3"><summary>Uploading a board (Genera (Generate) → Carica (Upload))</summary>
@@ -811,11 +811,14 @@ Then it logs in, sets the administrator password and the project key, and immedi
 <table>
   <tr><th>File or folder</th><th>What it contains</th></tr>
   <tr><td><code>.mia</code> (configuration)</td><td>The devices of the installation, names, comments, PLCs, uLink names, board MACs.</td></tr>
-  <tr><td><code>.mia</code> (device)</td><td>The hardware of one board. In Advanced the name becomes <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code>. It used to be called <code>.hwplc</code>.</td></tr>
+  <tr><td><code>.miadev</code> (device)</td><td>The hardware of one board. In Advanced the name becomes <code>&lt;nome&gt;-&lt;CRC&gt;.miadev</code>.</td></tr>
+  <tr><td><code>.miaboard</code></td><td>A ready-made board to reuse («Salva come scheda», save as board).</td></tr>
+  <tr><td><code>.miaplcfw</code>, <code>.miaiofw</code>, <code>.miahmifw</code></td><td>Firmware package of a PLC, of an I/O module, of an HMI panel.</td></tr>
+  <tr><td><code>.miaplcbk</code>, <code>.miaiobk</code></td><td>Backup of a PLC, of an I/O module (from the editor).</td></tr>
   <tr><td><code>.miaplc</code></td><td>The PLC program (MIAplc editor), in the PLC folder.</td></tr>
   <tr><td><code>.miahmi</code>, <code>.miahmi.bozza</code></td><td>The panel project and the offline editor's draft.</td></tr>
   <tr><td><code>immagini/</code>, <code>immagini-sd/</code>, <code>aspetto-&lt;schermo&gt;.json</code></td><td>Panel images (flash and microSD) and control sizes for the screen.</td></tr>
-  <tr><td><code>.miaplc.fw</code>, <code>.miahmi.fw</code>, <code>-completo.bin</code></td><td>Firmware: update packages and full image.</td></tr>
+  <tr><td><code>.miaplcfw</code>, <code>.miahmifw</code>, <code>-completo.bin</code></td><td>Firmware: update packages and full image.</td></tr>
   <tr><td><code>access.miapwd</code> (+ <code>.bak</code>)</td><td>Board credentials, encrypted.</td></tr>
   <tr><td><code>miaconfig-ca.cer</code></td><td>Configuration certificate for other PCs.</td></tr>
   <tr><td><code>&lt;id&gt;-impostazioni.json</code>, <code>&lt;id&gt;-conf.zip</code></td><td>PLC settings and firmware configuration saved separately.</td></tr>
@@ -1213,9 +1216,9 @@ rejections and requests with a wrong signature.</p></details>
 </ul></details>
 <details class="g3"><summary>Firmware, backup and restore</summary>
 <ul>
-  <li>Connection → «Firmware» → «⭱ Update firmware…»: choose the <code>.miaplc.fw</code>; the editor compares version, board and size, puts the PLC in STOP, writes the firmware into the free slot and only the editor files that changed, restarts, and asks whether to go back to RUN.</li>
+  <li>Connection → «Firmware» → «⭱ Update firmware…»: choose the <code>.miaplcfw</code>; the editor compares version, board and size, puts the PLC in STOP, writes the firmware into the free slot and only the editor files that changed, restarts, and asks whether to go back to RUN.</li>
   <li>«🛠 Recovery / first installation…» (USB only, editor from the PC): writes everything from scratch; if the board does not enter on its own, hold BOOT, press and release RESET, release BOOT.</li>
-  <li>«PLC backup»: <code>backup-&lt;name&gt;-&lt;date&gt;.miaplc.bkp</code> with firmware, editor, settings, symbols, program and DB values. «Restore» loads it back like an update.</li>
+  <li>«PLC backup»: <code>backup-&lt;name&gt;-&lt;date&gt;.miaplcbk</code> with firmware, editor, settings, symbols, program and DB values. «Restore» loads it back like an update.</li>
   <li>«Delete program» (with the offer to save a copy first).</li>
 </ul></details>
 </div></details>
@@ -1514,9 +1517,9 @@ panel memory almost full, screen or touch not found, panel powered on or restart
 
 <details class="g2" id="hmi-firmware"><summary>Firmware, recovery and project from USB</summary><div class="g-body">
 <ul>
-  <li><b>Updating the firmware</b>: Settings → «Firmware» → «Importa firmware (.miahmi.fw)…» (Import firmware (.miahmi.fw)…) → «Aggiorna firmware e file web» (Update firmware and web files). Project, draft, images and settings are kept.
+  <li><b>Updating the firmware</b>: Settings → «Firmware» → «Importa firmware (.miahmifw)…» (Import firmware (.miahmifw)…) → «Aggiorna firmware e file web» (Update firmware and web files). Project, draft, images and settings are kept.
     The new firmware is on trial: if the panel stays on for 60 seconds it becomes permanent, otherwise it goes back to the previous one by itself. After 3 serious errors in a row it goes back to the previous firmware.</li>
-  <li><b>Recovery from a flash drive</b>: «Per la chiavetta USB» (For the USB flash drive) saves <code>hmi-recovery.miahmi.fw</code>; copy it to the root folder of a FAT32 flash drive, plug it in and power on the panel. The result is in <code>hmi-recovery.txt</code>.</li>
+  <li><b>Recovery from a flash drive</b>: «Per la chiavetta USB» (For the USB flash drive) saves <code>hmi-recovery.miahmifw</code>; copy it to the root folder of a FAT32 flash drive, plug it in and power on the panel. The result is in <code>hmi-recovery.txt</code>.</li>
   <li><b>Recovery over USB</b> (new panel or firmware that does not start): from the PC editor in Chrome or Edge, «Recupero via USB…» (Recovery over USB…). If it does not enter by itself: hold down BOOT, press and release RESET, release BOOT.</li>
   <li><b>Project from USB</b>: from the panel menu, it picks a project from the flash drive (the previous one is kept as a backup copy). The panel lists the <code>.json</code> files: an exported <code>.miahmi</code> must be renamed to <code>.json</code>.</li>
 </ul></div></details>

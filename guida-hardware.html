@@ -73,7 +73,7 @@
   <tr><td>Facoltativo: modulo relè a 2 canali, comando a 3,3 V</td><td>per sentire il clic della canzoncina</td></tr>
   <tr><td>PC Windows, Linux o macOS con Python 3.10 o più recente</td><td>la prima compilazione scarica circa 1 GB (ESP-IDF, gli strumenti di Espressif per compilare)</td></tr>
 </table>
-<p>Se vuoi saltare i passi da 2 a 6, scarica il progetto già pronto <a href="esempi/esp32-devkit-esempi.mia" download>esp32-devkit-esempi.mia</a>
+<p>Se vuoi saltare i passi da 2 a 6, scarica il progetto già pronto <a href="esempi/esp32-devkit-esempi.miadev" download>esp32-devkit-esempi.miadev</a>
 e aprilo in MiaConfig con <kbd>Apri progetto</kbd>.</p>
 
 <h2 id="h1">1 · Avvia MiaConfig</h2>
@@ -115,7 +115,7 @@ li ritrovi nel pinout e nella tabella dei punti dell'editor.</p>
 
 <h2 id="h6">6 · Controlla</h2>
 <p><b>Mappa I/O</b> riassume ingressi e uscite con i loro pin. In alto i contatori <b>gravi / avvisi / info</b> devono avere <b>0 gravi</b>:
-con un errore grave il firmware non si compila, e <b>Controlli</b> dice cosa sistemare. <kbd>Salva</kbd> per tenere il progetto (<code>.mia</code>).</p>
+con un errore grave il firmware non si compila, e <b>Controlli</b> dice cosa sistemare. <kbd>Salva</kbd> per tenere il progetto (<code>.miadev</code>).</p>
 <figure class="shot"><img src="assets/img/mc-mappa-it.jpg" alt="MiaConfig, mappa I/O con tre ingressi e tre uscite" loading="lazy"></figure>
 
 <h2 id="h7">7 · Compila e carica</h2>
@@ -128,7 +128,7 @@ con un errore grave il firmware non si compila, e <b>Controlli</b> dice cosa sis
 <figure class="shot"><img src="assets/img/mc-genera-it.jpg" alt="MiaConfig, pagina Genera con Compila firmware, porta e Carica" loading="lazy"></figure>
 <p class="note">Il caricamento da USB cancella programma, impostazioni e file del PLC: va bene su una scheda nuova. Per aggiornare un PLC
 già in uso scegli la sua voce «rete» nella lista delle porte: programma e impostazioni restano.<br>
-In alternativa: <kbd>Compila firmware</kbd> crea il pacchetto <code>.miaplc.fw</code> in <code>uscita/</code>, che si carica dall'editor
+In alternativa: <kbd>Compila firmware</kbd> crea il pacchetto <code>.miaplcfw</code> in <code>uscita/</code>, che si carica dall'editor
 (Collegamento → Firmware).</p>
 
 <h2 id="cablaggio">8 · Cablaggio</h2>

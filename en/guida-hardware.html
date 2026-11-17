@@ -75,7 +75,7 @@
   <tr><td>Optional: 2-channel relay module with 3.3 V input</td><td>to hear the relay song click</td></tr>
   <tr><td>Windows, Linux or macOS PC with Python 3.10 or newer</td><td>the first build downloads about 1 GB (ESP-IDF, Espressif's build tools)</td></tr>
 </table>
-<p>To skip steps 2 to 6, download the ready-made project <a href="../esempi/esp32-devkit-esempi.mia" download>esp32-devkit-esempi.mia</a>
+<p>To skip steps 2 to 6, download the ready-made project <a href="../esempi/esp32-devkit-esempi.miadev" download>esp32-devkit-esempi.miadev</a>
 and open it in MiaConfig with <kbd>Apri progetto</kbd> (open project).</p>
 
 <h2 id="h1">1 · Start MiaConfig</h2>
@@ -118,7 +118,7 @@ you will find them in the pinout and in the editor's point table.</p>
 <h2 id="h6">6 · Check</h2>
 <p><b>Mappa I/O</b> (I/O map) sums up inputs and outputs with their pins. At the top the counters <b>gravi / avvisi / info</b>
 (errors / warnings / info) must show <b>0 gravi</b>: with an error the firmware does not build, and <b>Controlli</b> (checks) says what to fix.
-<kbd>Salva</kbd> (save) to keep the project (<code>.mia</code>).</p>
+<kbd>Salva</kbd> (save) to keep the project (<code>.miadev</code>).</p>
 <figure class="shot"><img src="../assets/img/mc-mappa-en.jpg" alt="MiaConfig, I/O map with three inputs and three outputs" loading="lazy"></figure>
 
 <h2 id="h7">7 · Build and load</h2>
@@ -131,7 +131,7 @@ you will find them in the pinout and in the editor's point table.</p>
 <figure class="shot"><img src="../assets/img/mc-genera-en.jpg" alt="MiaConfig, Genera page with build firmware, port and load" loading="lazy"></figure>
 <p class="note">Loading over USB erases the PLC's program, settings and files: fine on a new board. To update a PLC already in use, pick its
 «rete» (network) entry in the port list: program and settings are kept.<br>
-Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.miaplc.fw</code> package in <code>uscita/</code>, which you load from the editor
+Alternatively: <kbd>Compila firmware</kbd> (build firmware) creates the <code>.miaplcfw</code> package in <code>uscita/</code>, which you load from the editor
 (Connection → Firmware).</p>
 
 <h2 id="cablaggio">8 · Wiring</h2>

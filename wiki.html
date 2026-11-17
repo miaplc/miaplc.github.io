@@ -96,7 +96,7 @@ Intorno ci sono gli altri programmi: <a href="#mc">MiaConfig</a> per preparare s
       <li><b>Entra.</b> La prima volta imposti la password di amministratore usando la password di recupero della scheda (vale nei primi 10 minuti dopo l'accensione). Poi entri con la tua password.</li>
       <li><b>Scrivi il primo network</b>, poi <kbd>Compile</kbd> → <kbd>Download to cpu</kbd> → <kbd>Run</kbd> → <kbd>Online</kbd>.</li>
     </ol>
-    <p class="small mut">Non serve MiaConfig. Gli aggiornamenti del firmware si fanno dall'editor, con il pacchetto <code>.miaplc.fw</code>.</p>
+    <p class="small mut">Non serve MiaConfig. Gli aggiornamenti del firmware si fanno dall'editor, con il pacchetto <code>.miaplcfw</code>.</p>
   </div>
   <div class="path adv">
     <span class="key-n">Avanzato</span>
@@ -106,7 +106,7 @@ Intorno ci sono gli altri programmi: <a href="#mc">MiaConfig</a> per preparare s
       <li><b>Scegli la scheda.</b> Una delle schede di riferimento o la tua (vedi <a href="#schede">Schede e MiaConfig</a>).</li>
       <li><b>Prepara il firmware con MiaConfig.</b> Disegni la scheda (ingressi, uscite, Ethernet, orologio, µLink, pannello), poi <em>Genera → Compila firmware</em>.
         La prima volta scarica gli strumenti di compilazione (serve internet e circa 1 GB di disco), poi compila e basta.</li>
-      <li><b>Carica il firmware.</b> La prima volta via USB, dopo dall'editor con il pacchetto <code>.miaplc.fw</code>. MiaConfig imposta anche le password della scheda.</li>
+      <li><b>Carica il firmware.</b> La prima volta via USB, dopo dall'editor con il pacchetto <code>.miaplcfw</code>. MiaConfig imposta anche le password della scheda.</li>
       <li><b>Programma</b> come nella strada base: editor nel browser, Compile, Download, Run, Online.</li>
     </ol>
     <p class="small"><a href="guida-hardware.html">Manuale: hardware con MiaConfig, passo per passo</a> · <a href="#mc">Guida completa di MiaConfig</a></p>
@@ -347,9 +347,9 @@ Funziona su Windows, Linux e macOS e non installa nulla nel sistema: tutto resta
 
 <h2 id="aggiornare">Aggiornare, backup, ripristino</h2>
 <ul>
-  <li><b>Aggiornare il firmware</b>: dall'editor con il pacchetto <code>.miaplc.fw</code>, con il PLC in STOP. Il firmware nuovo va nella seconda metà della flash e diventa quello d'avvio solo se è integro;
+  <li><b>Aggiornare il firmware</b>: dall'editor con il pacchetto <code>.miaplcfw</code>, con il PLC in STOP. Il firmware nuovo va nella seconda metà della flash e diventa quello d'avvio solo se è integro;
     impostazioni, simboli, log e programma restano. Se un pacchetto cambia le partizioni serve il caricamento via USB.</li>
-  <li><b>Backup</b> dalla Diagnostica: un file <code>.miaplc.bkp</code> (<code>.miaulink.bkp</code> per un modulo µLink) con firmware, file dell'editor, impostazioni, simboli, programma e valori dei DB.
+  <li><b>Backup</b> dalla Diagnostica: un file <code>.miaplcbk</code> (<code>.miaiobk</code> per un modulo µLink) con firmware, file dell'editor, impostazioni, simboli, programma e valori dei DB.
     Le password WiFi non ci sono: su una scheda nuova quella del router va riscritta.</li>
   <li><b>Ripristino</b>: sullo stesso PLC dall'editor, su una scheda nuova con il recupero via USB.</li>
   <li><b>Prima installazione e recupero</b>: via USB, con il file <code>-completo.bin</code> di MiaConfig o con il recupero dell'editor aperto dal PC.</li>
@@ -423,12 +423,12 @@ via USB o via rete. Gestisce anche un impianto intero: PLC, moduli I/O µLink e 
 <details class="g3"><summary>Riga di comando</summary>
 <table>
   <tr><th>Comando</th><th>Cosa fa</th></tr>
-  <tr><td><code>miaconfig controlla scheda.mia</code></td><td>Solo i controlli. Esce con 0 se non ci sono gravi, con 1 se ci sono.</td></tr>
-  <tr><td><code>miaconfig genera scheda.mia cartella</code></td><td>Scrive i file di configurazione del firmware.</td></tr>
-  <tr><td><code>miaconfig compila scheda.mia</code></td><td>Configurazione, ESP-IDF, compilazione e pacchetti in <code>uscita/&lt;scheda&gt;/</code>.</td></tr>
+  <tr><td><code>miaconfig controlla scheda.miadev</code></td><td>Solo i controlli. Esce con 0 se non ci sono gravi, con 1 se ci sono.</td></tr>
+  <tr><td><code>miaconfig genera scheda.miadev cartella</code></td><td>Scrive i file di configurazione del firmware.</td></tr>
+  <tr><td><code>miaconfig compila scheda.miadev</code></td><td>Configurazione, ESP-IDF, compilazione e pacchetti in <code>uscita/&lt;scheda&gt;/</code>.</td></tr>
   <tr><td><code>miaconfig --version</code></td><td>La versione.</td></tr>
 </table>
-<p>Su Windows dai sorgenti: <code>avvia.bat compila esempi\plc-c3.mia</code>. I messaggi escono con <code>ERRORE:</code> (grave), <code>ATTENZIONE:</code> (avviso), <code>nota:</code> (info).</p>
+<p>Su Windows dai sorgenti: <code>avvia.bat compila esempi\plc-c3.miadev</code>. I messaggi escono con <code>ERRORE:</code> (grave), <code>ATTENZIONE:</code> (avviso), <code>nota:</code> (info).</p>
 </details>
 </div></details>
 
@@ -469,7 +469,7 @@ avvisa che si interrompono. Se sta scrivendo la flash di una scheda, interromper
   stazione_pompaggio.mia                      la configurazione
   access.miapwd                               credenziali delle schede (cifrate)
   stazione_pompaggio_plc_001/
-    stazione_pompaggio_plc_001.mia            hardware del PLC
+    stazione_pompaggio_plc_001.miadev         hardware del PLC
     stazione_pompaggio_plc_001.miaplc         programma del PLC
   stazione_pompaggio_io_002/ …                modulo I/O
   stazione_pompaggio_hmi_003/ … .miahmi       pannello</pre>
@@ -477,8 +477,8 @@ avvisa che si interrompono. Se sta scrivendo la flash di una scheda, interromper
 <details class="g3"><summary>Nuova configurazione e apertura</summary>
 <ul>
   <li>Dalla pagina di apertura: scrivi il nome (es. «Stazione di pompaggio») e premi «Nuova configurazione…», poi scegli dove creare la cartella.</li>
-  <li>«Apri configurazione…» apre un <code>.mia</code> di configurazione. Se apri il <code>.mia</code> di una scheda sola, MiaConfig crea accanto <code>&lt;nome&gt;-configurazione.mia</code> con quella scheda e la apre.</li>
-  <li>Si aprono anche i vecchi <code>.hwplc</code> e le impostazioni salvate da un PLC (<code>.json</code>).</li>
+  <li>«Apri configurazione…» apre un <code>.mia</code> di configurazione. Se apri il <code>.miadev</code> di una scheda sola, MiaConfig crea accanto <code>&lt;nome&gt;-configurazione.mia</code> con quella scheda e la apre.</li>
+  <li>Si aprono anche le impostazioni salvate da un PLC (<code>.json</code>). I file delle versioni di prova di prima (<code>.hwplc</code>, formati <code>espplc-…</code>) non si aprono più: vanno rifatti.</li>
   <li>All'apertura di una configurazione senza password di amministratore MiaConfig la chiede (vedi <a href="#mc-accesso">Accesso alle schede</a>).</li>
 </ul></details>
 <details class="g3"><summary>La pagina della configurazione</summary>
@@ -565,7 +565,7 @@ avvisa che si interrompono. Se sta scrivendo la flash di una scheda, interromper
 </ul></details>
 <details class="g3" id="mc-progetto"><summary>Progetto: impostazioni della scheda</summary>
 <p>«Impostazioni»: «Base» o «Avanzate». In Base le impostazioni avanzate si vedono ma non si cambiano; tornando a Base tornano ai valori di default.
-In Avanzate il file si salva come <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code> e non si salva mai sopra un progetto Base.</p>
+In Avanzate il file si salva come <code>&lt;nome&gt;-&lt;CRC&gt;.miadev</code> e non si salva mai sopra un progetto Base.</p>
 <table>
   <tr><th>Campo</th><th>Cosa decide</th></tr>
   <tr><td>Nome, Identificativo, Famiglia, Modulo, Chip, Flash</td><td>La scheda. L'identificativo diventa minuscolo con i trattini.</td></tr>
@@ -734,11 +734,11 @@ Provati su scheda: Ethernet (W5100, LAN8720), Orologio DS3231, Ingressi e Uscite
 <table>
   <tr><th>File</th><th>A cosa serve</th></tr>
   <tr><td><code>&lt;id&gt;-completo.bin</code></td><td>Tutto in un file da caricare all'indirizzo 0x0: prima installazione con qualunque strumento Espressif.</td></tr>
-  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miaplc.fw</code></td><td>Pacchetto per aggiornare dall'editor o via rete: firmware e file dell'editor.</td></tr>
+  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miaplcfw</code></td><td>Pacchetto per aggiornare dall'editor o via rete: firmware e file dell'editor.</td></tr>
   <tr><td><code>bootloader.bin</code>, <code>partition-table.bin</code>, <code>ota_data_initial.bin</code>, <code>uplc.bin</code>, <code>file-editor.bin</code>, <code>flash_args</code></td><td>Le parti separate per esptool (<code>write-flash @flash_args</code>).</td></tr>
   <tr><td><code>leggimi.txt</code></td><td>Come caricarli.</td></tr>
   <tr><td><code>impronte/&lt;impronta&gt;.json</code></td><td>L'hardware di questa compilazione: dall'impronta che vedi nella Diagnostica si ritrovano i moduli configurati.</td></tr>
-  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miahmi.fw</code>, <code>hmi-c6-wifi.bin</code></td><td>Pannello: firmware e pagine web; firmware del modulo WiFi C6.</td></tr>
+  <tr><td><code>&lt;id&gt;-&lt;versione&gt;.miahmifw</code>, <code>hmi-c6-wifi.bin</code></td><td>Pannello: firmware e pagine web; firmware del modulo WiFi C6.</td></tr>
 </table>
 <p>La prima installazione cancella programma, impostazioni e file della scheda.</p></details>
 <details class="g3"><summary>Caricare una scheda (Genera → Carica)</summary>
@@ -810,11 +810,14 @@ Poi entra, imposta la password di amministratore e la chiave del progetto, e cam
 <table>
   <tr><th>File o cartella</th><th>Cosa contiene</th></tr>
   <tr><td><code>.mia</code> (configurazione)</td><td>I dispositivi dell'impianto, nomi, commenti, PLC, nomi uLink, MAC delle schede.</td></tr>
-  <tr><td><code>.mia</code> (dispositivo)</td><td>L'hardware di una scheda. In Avanzate il nome diventa <code>&lt;nome&gt;-&lt;CRC&gt;.mia</code>. Prima si chiamava <code>.hwplc</code>.</td></tr>
+  <tr><td><code>.miadev</code> (dispositivo)</td><td>L'hardware di una scheda. In Avanzate il nome diventa <code>&lt;nome&gt;-&lt;CRC&gt;.miadev</code>.</td></tr>
+  <tr><td><code>.miaboard</code></td><td>Una scheda pronta da riusare («Salva come scheda»).</td></tr>
+  <tr><td><code>.miaplcfw</code>, <code>.miaiofw</code>, <code>.miahmifw</code></td><td>Pacchetto del firmware di un PLC, di un modulo I/O, di un pannello HMI.</td></tr>
+  <tr><td><code>.miaplcbk</code>, <code>.miaiobk</code></td><td>Backup di un PLC, di un modulo I/O (dall'editor).</td></tr>
   <tr><td><code>.miaplc</code></td><td>Il programma del PLC (editor MIAplc), nella cartella del PLC.</td></tr>
   <tr><td><code>.miahmi</code>, <code>.miahmi.bozza</code></td><td>Il progetto del pannello e la bozza dell'editor offline.</td></tr>
   <tr><td><code>immagini/</code>, <code>immagini-sd/</code>, <code>aspetto-&lt;schermo&gt;.json</code></td><td>Immagini del pannello (flash e microSD) e misure dei comandi per lo schermo.</td></tr>
-  <tr><td><code>.miaplc.fw</code>, <code>.miahmi.fw</code>, <code>-completo.bin</code></td><td>Firmware: pacchetti per l'aggiornamento e immagine completa.</td></tr>
+  <tr><td><code>.miaplcfw</code>, <code>.miahmifw</code>, <code>-completo.bin</code></td><td>Firmware: pacchetti per l'aggiornamento e immagine completa.</td></tr>
   <tr><td><code>access.miapwd</code> (+ <code>.bak</code>)</td><td>Credenziali delle schede, cifrate.</td></tr>
   <tr><td><code>miaconfig-ca.cer</code></td><td>Certificato della configurazione per gli altri PC.</td></tr>
   <tr><td><code>&lt;id&gt;-impostazioni.json</code>, <code>&lt;id&gt;-conf.zip</code></td><td>Impostazioni del PLC e configurazione del firmware salvate a parte.</td></tr>
@@ -1212,9 +1215,9 @@ rifiuti e richieste con firma sbagliata.</p></details>
 </ul></details>
 <details class="g3"><summary>Firmware, backup e ripristino</summary>
 <ul>
-  <li>Collegamento → «Firmware» → «⭱ Aggiorna firmware…»: scegli il <code>.miaplc.fw</code>; l'editor confronta versione, scheda e dimensione, porta il PLC in STOP, scrive il firmware nello slot libero e solo i file dell'editor cambiati, riavvia, e chiede se tornare in RUN.</li>
+  <li>Collegamento → «Firmware» → «⭱ Aggiorna firmware…»: scegli il <code>.miaplcfw</code>; l'editor confronta versione, scheda e dimensione, porta il PLC in STOP, scrive il firmware nello slot libero e solo i file dell'editor cambiati, riavvia, e chiede se tornare in RUN.</li>
   <li>«🛠 Recupero / prima installazione…» (solo USB, editor dal PC): scrive tutto da zero; se la scheda non entra da sola, tieni premuto BOOT, premi e rilascia RESET, rilascia BOOT.</li>
-  <li>«Backup PLC»: <code>backup-&lt;nome&gt;-&lt;data&gt;.miaplc.bkp</code> con firmware, editor, impostazioni, simboli, programma e valori dei DB. «Restore» lo ricarica come un aggiornamento.</li>
+  <li>«Backup PLC»: <code>backup-&lt;nome&gt;-&lt;data&gt;.miaplcbk</code> con firmware, editor, impostazioni, simboli, programma e valori dei DB. «Restore» lo ricarica come un aggiornamento.</li>
   <li>«Cancella programma» (con la proposta di salvarne prima una copia).</li>
 </ul></details>
 </div></details>
@@ -1512,9 +1515,9 @@ memoria del pannello quasi piena, schermo o touch non trovati, pannello acceso o
 
 <details class="g2" id="hmi-firmware"><summary>Firmware, recupero e progetto da USB</summary><div class="g-body">
 <ul>
-  <li><b>Aggiornare il firmware</b>: Impostazioni → «Firmware» → «Importa firmware (.miahmi.fw)…» → «Aggiorna firmware e file web». Progetto, bozza, immagini e impostazioni restano.
+  <li><b>Aggiornare il firmware</b>: Impostazioni → «Firmware» → «Importa firmware (.miahmifw)…» → «Aggiorna firmware e file web». Progetto, bozza, immagini e impostazioni restano.
     Il firmware nuovo è in prova: se il pannello resta acceso 60 secondi diventa definitivo, altrimenti torna da solo al precedente. Dopo 3 errori gravi di fila torna al firmware precedente.</li>
-  <li><b>Recupero da chiavetta</b>: «Per la chiavetta USB» salva <code>hmi-recovery.miahmi.fw</code>; copialo nella cartella principale di una chiavetta FAT32, inseriscila e accendi il pannello. L'esito è in <code>hmi-recovery.txt</code>.</li>
+  <li><b>Recupero da chiavetta</b>: «Per la chiavetta USB» salva <code>hmi-recovery.miahmifw</code>; copialo nella cartella principale di una chiavetta FAT32, inseriscila e accendi il pannello. L'esito è in <code>hmi-recovery.txt</code>.</li>
   <li><b>Recupero via USB</b> (pannello nuovo o firmware che non parte): dall'editor per il PC in Chrome o Edge, «Recupero via USB…». Se non entra da solo: tieni premuto BOOT, premi e rilascia RESET, rilascia BOOT.</li>
   <li><b>Progetto da USB</b>: dal menu del pannello, sceglie un progetto dalla chiavetta (il precedente resta come copia di riserva). Il pannello elenca i file <code>.json</code>: un <code>.miahmi</code> esportato va rinominato in <code>.json</code>.</li>
 </ul></div></details>

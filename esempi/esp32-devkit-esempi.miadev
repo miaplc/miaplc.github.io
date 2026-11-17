@@ -1,5 +1,5 @@
 {
- "format": "espplc-hw",
+ "format": "mia-dev",
  "version": 1,
  "name": "Esempi MiaPLC",
  "id": "esempi-miaplc",
